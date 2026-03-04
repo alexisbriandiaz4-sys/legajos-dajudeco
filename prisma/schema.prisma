@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String   @id @default(cuid())
+  nombre    String
+  usuario   String   @unique
+  password  String
+  rol       String   @default("investigador")
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  legajos   Legajo[]
+  fiscales      Fiscal[]
+}
+
+model Legajo {
+  id            String   @id @default(cuid())
+  numero        String   @unique
+  caratula      String
+  cuij          String?
+  delito        String
+  fechaHecho    DateTime
+  estado        String   @default("Activo")
+  observaciones String?
+  fiscal         String?
+  emailRespuesta String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  usuarioId     String
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+  victimas      Victima[]
+  dispositivos  Dispositivo[]
+  oficios       Oficio[]
+}
+
+model Victima {
+  id        String  @id @default(cuid())
+  nombre    String
+  dni       String?
+  telefono  String?
+  email     String?
+  legajoId  String
+  legajo    Legajo  @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+}
+
+model Dispositivo {
+  id       String  @id @default(cuid())
+  tipo     String
+  marca    String?
+  modelo   String?
+  imei     String?
+  color    String?
+  legajoId String
+  legajo   Legajo  @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+}
+
+model Oficio {
+  id             String    @id @default(cuid())
+  numero         String?
+  operadora      String
+  tipo           String
+  fechaEnvio     DateTime?
+  fechaRespuesta DateTime?
+  estado         String    @default("Pendiente")
+  urgencia       String    @default("48 horas")
+  observaciones  String?
+  columnas      String?
+  createdAt      DateTime  @default(now())
+  legajoId       String
+  legajo         Legajo    @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  respuestas     Respuesta[]
+}
+
+model Respuesta {
+  id        String   @id @default(cuid())
+  oficioId  String
+  oficio    Oficio   @relation(fields: [oficioId], references: [id], onDelete: Cascade)
+  datos     String
+  createdAt DateTime @default(now())
+}
+
+model Fiscal {
+  id              String   @id @default(cuid())
+  nombre          String
+  cargo           String?
+  fiscalia        String?
+  secretario      String?
+  dniSecretario   String?
+  dni             String?
+  email           String?
+  emailSecretario String?
+  direccion       String?
+  telefono        String?
+  telefonoMovil   String?
+  activo          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  usuarioId       String
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+}

@@ -1,0 +1,75 @@
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/db'
+import { cookies } from 'next/headers'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+
+const SECRET = process.env.JWT_SECRET ?? 'legajos-secret-2024'
+
+async function getUsuario() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('auth')?.value
+  if (!token) return null
+  try {
+    const payload = jwt.verify(token, SECRET) as any
+    return payload
+  } catch { return null }
+}
+
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await context.params
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    // Solo admin puede editar otros usuarios; cualquiera puede editar su propio perfil
+    if (usuario.rol !== 'admin' && usuario.id !== id) {
+      return NextResponse.json({ error: 'Sin permisos' }, { status: 403 })
+    }
+
+    const body = await request.json()
+    const data: any = {}
+
+    if (body.nombre) data.nombre = body.nombre
+    if (body.usuario) {
+      const existe = await prisma.usuario.findFirst({
+        where: { usuario: body.usuario, NOT: { id } }
+      })
+      if (existe) return NextResponse.json({ error: 'El nombre de usuario ya existe' }, { status: 400 })
+      data.usuario = body.usuario
+    }
+    if (body.password) {
+      data.password = await bcrypt.hash(body.password, 10)
+    }
+    if (usuario.rol === 'admin') {
+      if (body.rol !== undefined) data.rol = body.rol
+      if (body.activo !== undefined) data.activo = body.activo
+    }
+
+    const actualizado = await prisma.usuario.update({
+      where: { id },
+      data,
+      select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true }
+    })
+    return NextResponse.json(actualizado)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Error al actualizar usuario' }, { status: 500 })
+  }
+}
+
+export async function DELETE(_: Request, context: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await context.params
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    if (usuario.rol !== 'admin') return NextResponse.json({ error: 'Sin permisos' }, { status: 403 })
+    if (usuario.id === id) return NextResponse.json({ error: 'No podés eliminarte a vos mismo' }, { status: 400 })
+
+    await prisma.usuario.delete({ where: { id } })
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Error al eliminar usuario' }, { status: 500 })
+  }
+}

@@ -1,0 +1,11966 @@
+
+/**
+ * Client
+**/
+
+import * as runtime from './runtime/library.js';
+import $Types = runtime.Types // general types
+import $Public = runtime.Types.Public
+import $Utils = runtime.Types.Utils
+import $Extensions = runtime.Types.Extensions
+import $Result = runtime.Types.Result
+
+export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+
+/**
+ * Model Usuario
+ * 
+ */
+export type Usuario = $Result.DefaultSelection<Prisma.$UsuarioPayload>
+/**
+ * Model Legajo
+ * 
+ */
+export type Legajo = $Result.DefaultSelection<Prisma.$LegajoPayload>
+/**
+ * Model Victima
+ * 
+ */
+export type Victima = $Result.DefaultSelection<Prisma.$VictimaPayload>
+/**
+ * Model Dispositivo
+ * 
+ */
+export type Dispositivo = $Result.DefaultSelection<Prisma.$DispositivoPayload>
+/**
+ * Model Oficio
+ * 
+ */
+export type Oficio = $Result.DefaultSelection<Prisma.$OficioPayload>
+/**
+ * Model Respuesta
+ * 
+ */
+export type Respuesta = $Result.DefaultSelection<Prisma.$RespuestaPayload>
+/**
+ * Model Fiscal
+ * 
+ */
+export type Fiscal = $Result.DefaultSelection<Prisma.$FiscalPayload>
+
+/**
+ * ##  Prisma Client ʲˢ
+ * 
+ * Type-safe database client for TypeScript & Node.js
+ * @example
+ * ```
+ * const prisma = new PrismaClient()
+ * // Fetch zero or more Usuarios
+ * const usuarios = await prisma.usuario.findMany()
+ * ```
+ *
+ * 
+ * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ */
+export class PrismaClient<
+  ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
+  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
+
+    /**
+   * ##  Prisma Client ʲˢ
+   * 
+   * Type-safe database client for TypeScript & Node.js
+   * @example
+   * ```
+   * const prisma = new PrismaClient()
+   * // Fetch zero or more Usuarios
+   * const usuarios = await prisma.usuario.findMany()
+   * ```
+   *
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   */
+
+  constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
+  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): void;
+
+  /**
+   * Connect with the database
+   */
+  $connect(): $Utils.JsPromise<void>;
+
+  /**
+   * Disconnect from the database
+   */
+  $disconnect(): $Utils.JsPromise<void>;
+
+  /**
+   * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
+   */
+  $use(cb: Prisma.Middleware): void
+
+/**
+   * Executes a prepared raw query and returns the number of affected rows.
+   * @example
+   * ```
+   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Executes a raw query and returns the number of affected rows.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Performs a prepared raw query and returns the `SELECT` data.
+   * @example
+   * ```
+   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
+
+  /**
+   * Performs a raw query and returns the `SELECT` data.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
+
+
+  /**
+   * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
+   * @example
+   * ```
+   * const [george, bob, alice] = await prisma.$transaction([
+   *   prisma.user.create({ data: { name: 'George' } }),
+   *   prisma.user.create({ data: { name: 'Bob' } }),
+   *   prisma.user.create({ data: { name: 'Alice' } }),
+   * ])
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   */
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
+
+
+  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>
+
+      /**
+   * `prisma.usuario`: Exposes CRUD operations for the **Usuario** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Usuarios
+    * const usuarios = await prisma.usuario.findMany()
+    * ```
+    */
+  get usuario(): Prisma.UsuarioDelegate<ExtArgs>;
+
+  /**
+   * `prisma.legajo`: Exposes CRUD operations for the **Legajo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Legajos
+    * const legajos = await prisma.legajo.findMany()
+    * ```
+    */
+  get legajo(): Prisma.LegajoDelegate<ExtArgs>;
+
+  /**
+   * `prisma.victima`: Exposes CRUD operations for the **Victima** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Victimas
+    * const victimas = await prisma.victima.findMany()
+    * ```
+    */
+  get victima(): Prisma.VictimaDelegate<ExtArgs>;
+
+  /**
+   * `prisma.dispositivo`: Exposes CRUD operations for the **Dispositivo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Dispositivos
+    * const dispositivos = await prisma.dispositivo.findMany()
+    * ```
+    */
+  get dispositivo(): Prisma.DispositivoDelegate<ExtArgs>;
+
+  /**
+   * `prisma.oficio`: Exposes CRUD operations for the **Oficio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Oficios
+    * const oficios = await prisma.oficio.findMany()
+    * ```
+    */
+  get oficio(): Prisma.OficioDelegate<ExtArgs>;
+
+  /**
+   * `prisma.respuesta`: Exposes CRUD operations for the **Respuesta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Respuestas
+    * const respuestas = await prisma.respuesta.findMany()
+    * ```
+    */
+  get respuesta(): Prisma.RespuestaDelegate<ExtArgs>;
+
+  /**
+   * `prisma.fiscal`: Exposes CRUD operations for the **Fiscal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Fiscals
+    * const fiscals = await prisma.fiscal.findMany()
+    * ```
+    */
+  get fiscal(): Prisma.FiscalDelegate<ExtArgs>;
+}
+
+export namespace Prisma {
+  export import DMMF = runtime.DMMF
+
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+  /**
+   * Validator
+   */
+  export import validator = runtime.Public.validator
+
+  /**
+   * Prisma Errors
+   */
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError
+  export import NotFoundError = runtime.NotFoundError
+
+  /**
+   * Re-export of sql-template-tag
+   */
+  export import sql = runtime.sqltag
+  export import empty = runtime.empty
+  export import join = runtime.join
+  export import raw = runtime.raw
+  export import Sql = runtime.Sql
+
+
+
+  /**
+   * Decimal.js
+   */
+  export import Decimal = runtime.Decimal
+
+  export type DecimalJsLike = runtime.DecimalJsLike
+
+  /**
+   * Metrics 
+   */
+  export type Metrics = runtime.Metrics
+  export type Metric<T> = runtime.Metric<T>
+  export type MetricHistogram = runtime.MetricHistogram
+  export type MetricHistogramBucket = runtime.MetricHistogramBucket
+
+  /**
+  * Extensions
+  */
+  export import Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export import Args = $Public.Args
+  export import Payload = $Public.Payload
+  export import Result = $Public.Result
+  export import Exact = $Public.Exact
+
+  /**
+   * Prisma Client JS version: 5.22.0
+   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
+   */
+  export type PrismaVersion = {
+    client: string
+  }
+
+  export const prismaVersion: PrismaVersion 
+
+  /**
+   * Utility Types
+   */
+
+
+  export import JsonObject = runtime.JsonObject
+  export import JsonArray = runtime.JsonArray
+  export import JsonValue = runtime.JsonValue
+  export import InputJsonObject = runtime.InputJsonObject
+  export import InputJsonArray = runtime.InputJsonArray
+  export import InputJsonValue = runtime.InputJsonValue
+
+  /**
+   * Types of the values used to represent different kinds of `null` values when working with JSON fields.
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  namespace NullTypes {
+    /**
+    * Type of `Prisma.DbNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class DbNull {
+      private DbNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.JsonNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class JsonNull {
+      private JsonNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.AnyNull`.
+    * 
+    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    * 
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class AnyNull {
+      private AnyNull: never
+      private constructor()
+    }
+  }
+
+  /**
+   * Helper for filtering JSON entries that have `null` on the database (empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const DbNull: NullTypes.DbNull
+
+  /**
+   * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const JsonNull: NullTypes.JsonNull
+
+  /**
+   * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const AnyNull: NullTypes.AnyNull
+
+  type SelectAndInclude = {
+    select: any
+    include: any
+  }
+
+  type SelectAndOmit = {
+    select: any
+    omit: any
+  }
+
+  /**
+   * Get the type of the value, that the Promise holds.
+   */
+  export type PromiseType<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U : T;
+
+  /**
+   * Get the return type of a function which returns a Promise.
+   */
+  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>
+
+  /**
+   * From T, pick a set of properties whose keys are in the union K
+   */
+  type Prisma__Pick<T, K extends keyof T> = {
+      [P in K]: T[P];
+  };
+
+
+  export type Enumerable<T> = T | Array<T>;
+
+  export type RequiredKeys<T> = {
+    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
+  }[keyof T]
+
+  export type TruthyKeys<T> = keyof {
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
+  }
+
+  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
+
+  /**
+   * Subset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection
+   */
+  export type Subset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never;
+  };
+
+  /**
+   * SelectSubset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection.
+   * Additionally, it validates, if both select and include are present. If the case, it errors.
+   */
+  export type SelectSubset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    (T extends SelectAndInclude
+      ? 'Please either choose `select` or `include`.'
+      : T extends SelectAndOmit
+        ? 'Please either choose `select` or `omit`.'
+        : {})
+
+  /**
+   * Subset + Intersection
+   * @desc From `T` pick properties that exist in `U` and intersect `K`
+   */
+  export type SubsetIntersection<T, U, K> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    K
+
+  type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+
+  /**
+   * XOR is needed to have a real mutually exclusive union type
+   * https://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types
+   */
+  type XOR<T, U> =
+    T extends object ?
+    U extends object ?
+      (Without<T, U> & U) | (Without<U, T> & T)
+    : U : T
+
+
+  /**
+   * Is T a Record?
+   */
+  type IsObject<T extends any> = T extends Array<any>
+  ? False
+  : T extends Date
+  ? False
+  : T extends Uint8Array
+  ? False
+  : T extends BigInt
+  ? False
+  : T extends object
+  ? True
+  : False
+
+
+  /**
+   * If it's T[], return T
+   */
+  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
+
+  /**
+   * From ts-toolbelt
+   */
+
+  type __Either<O extends object, K extends Key> = Omit<O, K> &
+    {
+      // Merge all but K
+      [P in K]: Prisma__Pick<O, P & keyof O> // With K possibilities
+    }[K]
+
+  type EitherStrict<O extends object, K extends Key> = Strict<__Either<O, K>>
+
+  type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>
+
+  type _Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean
+  > = {
+    1: EitherStrict<O, K>
+    0: EitherLoose<O, K>
+  }[strict]
+
+  type Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean = 1
+  > = O extends unknown ? _Either<O, K, strict> : never
+
+  export type Union = any
+
+  type PatchUndefined<O extends object, O1 extends object> = {
+    [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K]
+  } & {}
+
+  /** Helper Types for "Merge" **/
+  export type IntersectOf<U extends Union> = (
+    U extends unknown ? (k: U) => void : never
+  ) extends (k: infer I) => void
+    ? I
+    : never
+
+  export type Overwrite<O extends object, O1 extends object> = {
+      [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+  } & {};
+
+  type _Merge<U extends object> = IntersectOf<Overwrite<U, {
+      [K in keyof U]-?: At<U, K>;
+  }>>;
+
+  type Key = string | number | symbol;
+  type AtBasic<O extends object, K extends Key> = K extends keyof O ? O[K] : never;
+  type AtStrict<O extends object, K extends Key> = O[K & keyof O];
+  type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
+  export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
+      1: AtStrict<O, K>;
+      0: AtLoose<O, K>;
+  }[strict];
+
+  export type ComputeRaw<A extends any> = A extends Function ? A : {
+    [K in keyof A]: A[K];
+  } & {};
+
+  export type OptionalFlat<O> = {
+    [K in keyof O]?: O[K];
+  } & {};
+
+  type _Record<K extends keyof any, T> = {
+    [P in K]: T;
+  };
+
+  // cause typescript not to expand types and preserve names
+  type NoExpand<T> = T extends unknown ? T : never;
+
+  // this type assumes the passed object is entirely optional
+  type AtLeast<O extends object, K extends string> = NoExpand<
+    O extends unknown
+    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
+      | {[P in keyof O as P extends K ? K : never]-?: O[P]} & O
+    : never>;
+
+  type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
+
+  export type Strict<U extends object> = ComputeRaw<_Strict<U>>;
+  /** End Helper Types for "Merge" **/
+
+  export type Merge<U extends object> = ComputeRaw<_Merge<Strict<U>>>;
+
+  /**
+  A [[Boolean]]
+  */
+  export type Boolean = True | False
+
+  // /**
+  // 1
+  // */
+  export type True = 1
+
+  /**
+  0
+  */
+  export type False = 0
+
+  export type Not<B extends Boolean> = {
+    0: 1
+    1: 0
+  }[B]
+
+  export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
+    ? 0 // anything `never` is false
+    : A1 extends A2
+    ? 1
+    : 0
+
+  export type Has<U extends Union, U1 extends Union> = Not<
+    Extends<Exclude<U1, U>, U1>
+  >
+
+  export type Or<B1 extends Boolean, B2 extends Boolean> = {
+    0: {
+      0: 0
+      1: 1
+    }
+    1: {
+      0: 1
+      1: 1
+    }
+  }[B1][B2]
+
+  export type Keys<U extends Union> = U extends unknown ? keyof U : never
+
+  type Cast<A, B> = A extends B ? A : B;
+
+  export const type: unique symbol;
+
+
+
+  /**
+   * Used by group by
+   */
+
+  export type GetScalarType<T, O> = O extends object ? {
+    [P in keyof T]: P extends keyof O
+      ? O[P]
+      : never
+  } : never
+
+  type FieldPaths<
+    T,
+    U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>
+  > = IsObject<T> extends True ? U : T
+
+  type GetHavingFields<T> = {
+    [K in keyof T]: Or<
+      Or<Extends<'OR', K>, Extends<'AND', K>>,
+      Extends<'NOT', K>
+    > extends True
+      ? // infer is only needed to not hit TS limit
+        // based on the brilliant idea of Pierre-Antoine Mills
+        // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
+        T[K] extends infer TK
+        ? GetHavingFields<UnEnumerate<TK> extends object ? Merge<UnEnumerate<TK>> : never>
+        : never
+      : {} extends FieldPaths<T[K]>
+      ? never
+      : K
+  }[keyof T]
+
+  /**
+   * Convert tuple to union
+   */
+  type _TupleToUnion<T> = T extends (infer E)[] ? E : never
+  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>
+  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T
+
+  /**
+   * Like `Pick`, but additionally can also accept an array of keys
+   */
+  type PickEnumerable<T, K extends Enumerable<keyof T> | keyof T> = Prisma__Pick<T, MaybeTupleToUnion<K>>
+
+  /**
+   * Exclude all keys with underscores
+   */
+  type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
+
+
+  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
+
+  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
+
+
+  export const ModelName: {
+    Usuario: 'Usuario',
+    Legajo: 'Legajo',
+    Victima: 'Victima',
+    Dispositivo: 'Dispositivo',
+    Oficio: 'Oficio',
+    Respuesta: 'Respuesta',
+    Fiscal: 'Fiscal'
+  };
+
+  export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+
+
+  export type Datasources = {
+    db?: Datasource
+  }
+
+  interface TypeMapCb extends $Utils.Fn<{extArgs: $Extensions.InternalArgs, clientOptions: PrismaClientOptions }, $Utils.Record<string, any>> {
+    returns: Prisma.TypeMap<this['params']['extArgs'], this['params']['clientOptions']>
+  }
+
+  export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
+    meta: {
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal"
+      txIsolationLevel: Prisma.TransactionIsolationLevel
+    }
+    model: {
+      Usuario: {
+        payload: Prisma.$UsuarioPayload<ExtArgs>
+        fields: Prisma.UsuarioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UsuarioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UsuarioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          findFirst: {
+            args: Prisma.UsuarioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UsuarioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          findMany: {
+            args: Prisma.UsuarioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>[]
+          }
+          create: {
+            args: Prisma.UsuarioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          createMany: {
+            args: Prisma.UsuarioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UsuarioCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>[]
+          }
+          delete: {
+            args: Prisma.UsuarioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          update: {
+            args: Prisma.UsuarioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          deleteMany: {
+            args: Prisma.UsuarioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UsuarioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UsuarioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UsuarioPayload>
+          }
+          aggregate: {
+            args: Prisma.UsuarioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUsuario>
+          }
+          groupBy: {
+            args: Prisma.UsuarioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UsuarioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UsuarioCountArgs<ExtArgs>
+            result: $Utils.Optional<UsuarioCountAggregateOutputType> | number
+          }
+        }
+      }
+      Legajo: {
+        payload: Prisma.$LegajoPayload<ExtArgs>
+        fields: Prisma.LegajoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LegajoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LegajoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          findFirst: {
+            args: Prisma.LegajoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LegajoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          findMany: {
+            args: Prisma.LegajoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>[]
+          }
+          create: {
+            args: Prisma.LegajoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          createMany: {
+            args: Prisma.LegajoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LegajoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>[]
+          }
+          delete: {
+            args: Prisma.LegajoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          update: {
+            args: Prisma.LegajoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          deleteMany: {
+            args: Prisma.LegajoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LegajoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LegajoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LegajoPayload>
+          }
+          aggregate: {
+            args: Prisma.LegajoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLegajo>
+          }
+          groupBy: {
+            args: Prisma.LegajoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LegajoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LegajoCountArgs<ExtArgs>
+            result: $Utils.Optional<LegajoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Victima: {
+        payload: Prisma.$VictimaPayload<ExtArgs>
+        fields: Prisma.VictimaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VictimaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VictimaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          findFirst: {
+            args: Prisma.VictimaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VictimaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          findMany: {
+            args: Prisma.VictimaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>[]
+          }
+          create: {
+            args: Prisma.VictimaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          createMany: {
+            args: Prisma.VictimaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VictimaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>[]
+          }
+          delete: {
+            args: Prisma.VictimaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          update: {
+            args: Prisma.VictimaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          deleteMany: {
+            args: Prisma.VictimaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VictimaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VictimaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VictimaPayload>
+          }
+          aggregate: {
+            args: Prisma.VictimaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVictima>
+          }
+          groupBy: {
+            args: Prisma.VictimaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VictimaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VictimaCountArgs<ExtArgs>
+            result: $Utils.Optional<VictimaCountAggregateOutputType> | number
+          }
+        }
+      }
+      Dispositivo: {
+        payload: Prisma.$DispositivoPayload<ExtArgs>
+        fields: Prisma.DispositivoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DispositivoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DispositivoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          findFirst: {
+            args: Prisma.DispositivoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DispositivoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          findMany: {
+            args: Prisma.DispositivoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>[]
+          }
+          create: {
+            args: Prisma.DispositivoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          createMany: {
+            args: Prisma.DispositivoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DispositivoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>[]
+          }
+          delete: {
+            args: Prisma.DispositivoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          update: {
+            args: Prisma.DispositivoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          deleteMany: {
+            args: Prisma.DispositivoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DispositivoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DispositivoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DispositivoPayload>
+          }
+          aggregate: {
+            args: Prisma.DispositivoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDispositivo>
+          }
+          groupBy: {
+            args: Prisma.DispositivoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DispositivoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DispositivoCountArgs<ExtArgs>
+            result: $Utils.Optional<DispositivoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Oficio: {
+        payload: Prisma.$OficioPayload<ExtArgs>
+        fields: Prisma.OficioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OficioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OficioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          findFirst: {
+            args: Prisma.OficioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OficioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          findMany: {
+            args: Prisma.OficioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>[]
+          }
+          create: {
+            args: Prisma.OficioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          createMany: {
+            args: Prisma.OficioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OficioCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>[]
+          }
+          delete: {
+            args: Prisma.OficioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          update: {
+            args: Prisma.OficioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          deleteMany: {
+            args: Prisma.OficioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OficioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.OficioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OficioPayload>
+          }
+          aggregate: {
+            args: Prisma.OficioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOficio>
+          }
+          groupBy: {
+            args: Prisma.OficioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OficioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OficioCountArgs<ExtArgs>
+            result: $Utils.Optional<OficioCountAggregateOutputType> | number
+          }
+        }
+      }
+      Respuesta: {
+        payload: Prisma.$RespuestaPayload<ExtArgs>
+        fields: Prisma.RespuestaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RespuestaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RespuestaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          findFirst: {
+            args: Prisma.RespuestaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RespuestaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          findMany: {
+            args: Prisma.RespuestaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>[]
+          }
+          create: {
+            args: Prisma.RespuestaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          createMany: {
+            args: Prisma.RespuestaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RespuestaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>[]
+          }
+          delete: {
+            args: Prisma.RespuestaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          update: {
+            args: Prisma.RespuestaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          deleteMany: {
+            args: Prisma.RespuestaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RespuestaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RespuestaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RespuestaPayload>
+          }
+          aggregate: {
+            args: Prisma.RespuestaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRespuesta>
+          }
+          groupBy: {
+            args: Prisma.RespuestaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RespuestaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RespuestaCountArgs<ExtArgs>
+            result: $Utils.Optional<RespuestaCountAggregateOutputType> | number
+          }
+        }
+      }
+      Fiscal: {
+        payload: Prisma.$FiscalPayload<ExtArgs>
+        fields: Prisma.FiscalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FiscalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FiscalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          findFirst: {
+            args: Prisma.FiscalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FiscalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          findMany: {
+            args: Prisma.FiscalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>[]
+          }
+          create: {
+            args: Prisma.FiscalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          createMany: {
+            args: Prisma.FiscalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FiscalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>[]
+          }
+          delete: {
+            args: Prisma.FiscalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          update: {
+            args: Prisma.FiscalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          deleteMany: {
+            args: Prisma.FiscalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FiscalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FiscalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FiscalPayload>
+          }
+          aggregate: {
+            args: Prisma.FiscalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFiscal>
+          }
+          groupBy: {
+            args: Prisma.FiscalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FiscalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FiscalCountArgs<ExtArgs>
+            result: $Utils.Optional<FiscalCountAggregateOutputType> | number
+          }
+        }
+      }
+    }
+  } & {
+    other: {
+      payload: any
+      operations: {
+        $executeRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+        $executeRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+        $queryRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+        $queryRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+      }
+    }
+  }
+  export const defineExtension: $Extensions.ExtendsHook<"define", Prisma.TypeMapCb, $Extensions.DefaultArgs>
+  export type DefaultPrismaClient = PrismaClient
+  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
+  export interface PrismaClientOptions {
+    /**
+     * Overwrites the datasource url from your schema.prisma file
+     */
+    datasources?: Datasources
+    /**
+     * Overwrites the datasource url from your schema.prisma file
+     */
+    datasourceUrl?: string
+    /**
+     * @default "colorless"
+     */
+    errorFormat?: ErrorFormat
+    /**
+     * @example
+     * ```
+     * // Defaults to stdout
+     * log: ['query', 'info', 'warn', 'error']
+     * 
+     * // Emit as events
+     * log: [
+     *   { emit: 'stdout', level: 'query' },
+     *   { emit: 'stdout', level: 'info' },
+     *   { emit: 'stdout', level: 'warn' }
+     *   { emit: 'stdout', level: 'error' }
+     * ]
+     * ```
+     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     */
+    log?: (LogLevel | LogDefinition)[]
+    /**
+     * The default values for transactionOptions
+     * maxWait ?= 2000
+     * timeout ?= 5000
+     */
+    transactionOptions?: {
+      maxWait?: number
+      timeout?: number
+      isolationLevel?: Prisma.TransactionIsolationLevel
+    }
+  }
+
+
+  /* Types for Logging */
+  export type LogLevel = 'info' | 'query' | 'warn' | 'error'
+  export type LogDefinition = {
+    level: LogLevel
+    emit: 'stdout' | 'event'
+  }
+
+  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never
+
+  export type QueryEvent = {
+    timestamp: Date
+    query: string
+    params: string
+    duration: number
+    target: string
+  }
+
+  export type LogEvent = {
+    timestamp: Date
+    message: string
+    target: string
+  }
+  /* End Types for Logging */
+
+
+  export type PrismaAction =
+    | 'findUnique'
+    | 'findUniqueOrThrow'
+    | 'findMany'
+    | 'findFirst'
+    | 'findFirstOrThrow'
+    | 'create'
+    | 'createMany'
+    | 'createManyAndReturn'
+    | 'update'
+    | 'updateMany'
+    | 'upsert'
+    | 'delete'
+    | 'deleteMany'
+    | 'executeRaw'
+    | 'queryRaw'
+    | 'aggregate'
+    | 'count'
+    | 'runCommandRaw'
+    | 'findRaw'
+    | 'groupBy'
+
+  /**
+   * These options are being passed into the middleware as "params"
+   */
+  export type MiddlewareParams = {
+    model?: ModelName
+    action: PrismaAction
+    args: any
+    dataPath: string[]
+    runInTransaction: boolean
+  }
+
+  /**
+   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+   */
+  export type Middleware<T = any> = (
+    params: MiddlewareParams,
+    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
+  ) => $Utils.JsPromise<T>
+
+  // tested in getLogLevel.test.ts
+  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+
+  /**
+   * `PrismaClient` proxy available in interactive transactions.
+   */
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>
+
+  export type Datasource = {
+    url?: string
+  }
+
+  /**
+   * Count Types
+   */
+
+
+  /**
+   * Count Type UsuarioCountOutputType
+   */
+
+  export type UsuarioCountOutputType = {
+    legajos: number
+    fiscales: number
+  }
+
+  export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajos?: boolean | UsuarioCountOutputTypeCountLegajosArgs
+    fiscales?: boolean | UsuarioCountOutputTypeCountFiscalesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsuarioCountOutputType
+     */
+    select?: UsuarioCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountLegajosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LegajoWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountFiscalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FiscalWhereInput
+  }
+
+
+  /**
+   * Count Type LegajoCountOutputType
+   */
+
+  export type LegajoCountOutputType = {
+    victimas: number
+    dispositivos: number
+    oficios: number
+  }
+
+  export type LegajoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    victimas?: boolean | LegajoCountOutputTypeCountVictimasArgs
+    dispositivos?: boolean | LegajoCountOutputTypeCountDispositivosArgs
+    oficios?: boolean | LegajoCountOutputTypeCountOficiosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LegajoCountOutputType
+     */
+    select?: LegajoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountVictimasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VictimaWhereInput
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountDispositivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DispositivoWhereInput
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountOficiosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OficioWhereInput
+  }
+
+
+  /**
+   * Count Type OficioCountOutputType
+   */
+
+  export type OficioCountOutputType = {
+    respuestas: number
+  }
+
+  export type OficioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    respuestas?: boolean | OficioCountOutputTypeCountRespuestasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OficioCountOutputType without action
+   */
+  export type OficioCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OficioCountOutputType
+     */
+    select?: OficioCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OficioCountOutputType without action
+   */
+  export type OficioCountOutputTypeCountRespuestasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RespuestaWhereInput
+  }
+
+
+  /**
+   * Models
+   */
+
+  /**
+   * Model Usuario
+   */
+
+  export type AggregateUsuario = {
+    _count: UsuarioCountAggregateOutputType | null
+    _min: UsuarioMinAggregateOutputType | null
+    _max: UsuarioMaxAggregateOutputType | null
+  }
+
+  export type UsuarioMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    usuario: string | null
+    password: string | null
+    rol: string | null
+    activo: boolean | null
+    createdAt: Date | null
+  }
+
+  export type UsuarioMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    usuario: string | null
+    password: string | null
+    rol: string | null
+    activo: boolean | null
+    createdAt: Date | null
+  }
+
+  export type UsuarioCountAggregateOutputType = {
+    id: number
+    nombre: number
+    usuario: number
+    password: number
+    rol: number
+    activo: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UsuarioMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    usuario?: true
+    password?: true
+    rol?: true
+    activo?: true
+    createdAt?: true
+  }
+
+  export type UsuarioMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    usuario?: true
+    password?: true
+    rol?: true
+    activo?: true
+    createdAt?: true
+  }
+
+  export type UsuarioCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    usuario?: true
+    password?: true
+    rol?: true
+    activo?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UsuarioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Usuario to aggregate.
+     */
+    where?: UsuarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Usuarios to fetch.
+     */
+    orderBy?: UsuarioOrderByWithRelationInput | UsuarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UsuarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Usuarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Usuarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Usuarios
+    **/
+    _count?: true | UsuarioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UsuarioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UsuarioMaxAggregateInputType
+  }
+
+  export type GetUsuarioAggregateType<T extends UsuarioAggregateArgs> = {
+        [P in keyof T & keyof AggregateUsuario]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUsuario[P]>
+      : GetScalarType<T[P], AggregateUsuario[P]>
+  }
+
+
+
+
+  export type UsuarioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsuarioWhereInput
+    orderBy?: UsuarioOrderByWithAggregationInput | UsuarioOrderByWithAggregationInput[]
+    by: UsuarioScalarFieldEnum[] | UsuarioScalarFieldEnum
+    having?: UsuarioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UsuarioCountAggregateInputType | true
+    _min?: UsuarioMinAggregateInputType
+    _max?: UsuarioMaxAggregateInputType
+  }
+
+  export type UsuarioGroupByOutputType = {
+    id: string
+    nombre: string
+    usuario: string
+    password: string
+    rol: string
+    activo: boolean
+    createdAt: Date
+    _count: UsuarioCountAggregateOutputType | null
+    _min: UsuarioMinAggregateOutputType | null
+    _max: UsuarioMaxAggregateOutputType | null
+  }
+
+  type GetUsuarioGroupByPayload<T extends UsuarioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UsuarioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UsuarioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UsuarioGroupByOutputType[P]>
+            : GetScalarType<T[P], UsuarioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UsuarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    usuario?: boolean
+    password?: boolean
+    rol?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    legajos?: boolean | Usuario$legajosArgs<ExtArgs>
+    fiscales?: boolean | Usuario$fiscalesArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["usuario"]>
+
+  export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    usuario?: boolean
+    password?: boolean
+    rol?: boolean
+    activo?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["usuario"]>
+
+  export type UsuarioSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    usuario?: boolean
+    password?: boolean
+    rol?: boolean
+    activo?: boolean
+    createdAt?: boolean
+  }
+
+  export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajos?: boolean | Usuario$legajosArgs<ExtArgs>
+    fiscales?: boolean | Usuario$fiscalesArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Usuario"
+    objects: {
+      legajos: Prisma.$LegajoPayload<ExtArgs>[]
+      fiscales: Prisma.$FiscalPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      usuario: string
+      password: string
+      rol: string
+      activo: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["usuario"]>
+    composites: {}
+  }
+
+  type UsuarioGetPayload<S extends boolean | null | undefined | UsuarioDefaultArgs> = $Result.GetResult<Prisma.$UsuarioPayload, S>
+
+  type UsuarioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UsuarioFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UsuarioCountAggregateInputType | true
+    }
+
+  export interface UsuarioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Usuario'], meta: { name: 'Usuario' } }
+    /**
+     * Find zero or one Usuario that matches the filter.
+     * @param {UsuarioFindUniqueArgs} args - Arguments to find a Usuario
+     * @example
+     * // Get one Usuario
+     * const usuario = await prisma.usuario.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UsuarioFindUniqueArgs>(args: SelectSubset<T, UsuarioFindUniqueArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Usuario that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UsuarioFindUniqueOrThrowArgs} args - Arguments to find a Usuario
+     * @example
+     * // Get one Usuario
+     * const usuario = await prisma.usuario.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UsuarioFindUniqueOrThrowArgs>(args: SelectSubset<T, UsuarioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Usuario that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioFindFirstArgs} args - Arguments to find a Usuario
+     * @example
+     * // Get one Usuario
+     * const usuario = await prisma.usuario.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UsuarioFindFirstArgs>(args?: SelectSubset<T, UsuarioFindFirstArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Usuario that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioFindFirstOrThrowArgs} args - Arguments to find a Usuario
+     * @example
+     * // Get one Usuario
+     * const usuario = await prisma.usuario.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UsuarioFindFirstOrThrowArgs>(args?: SelectSubset<T, UsuarioFindFirstOrThrowArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Usuarios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Usuarios
+     * const usuarios = await prisma.usuario.findMany()
+     * 
+     * // Get first 10 Usuarios
+     * const usuarios = await prisma.usuario.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const usuarioWithIdOnly = await prisma.usuario.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UsuarioFindManyArgs>(args?: SelectSubset<T, UsuarioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Usuario.
+     * @param {UsuarioCreateArgs} args - Arguments to create a Usuario.
+     * @example
+     * // Create one Usuario
+     * const Usuario = await prisma.usuario.create({
+     *   data: {
+     *     // ... data to create a Usuario
+     *   }
+     * })
+     * 
+     */
+    create<T extends UsuarioCreateArgs>(args: SelectSubset<T, UsuarioCreateArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Usuarios.
+     * @param {UsuarioCreateManyArgs} args - Arguments to create many Usuarios.
+     * @example
+     * // Create many Usuarios
+     * const usuario = await prisma.usuario.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UsuarioCreateManyArgs>(args?: SelectSubset<T, UsuarioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Usuarios and returns the data saved in the database.
+     * @param {UsuarioCreateManyAndReturnArgs} args - Arguments to create many Usuarios.
+     * @example
+     * // Create many Usuarios
+     * const usuario = await prisma.usuario.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Usuarios and only return the `id`
+     * const usuarioWithIdOnly = await prisma.usuario.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UsuarioCreateManyAndReturnArgs>(args?: SelectSubset<T, UsuarioCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Usuario.
+     * @param {UsuarioDeleteArgs} args - Arguments to delete one Usuario.
+     * @example
+     * // Delete one Usuario
+     * const Usuario = await prisma.usuario.delete({
+     *   where: {
+     *     // ... filter to delete one Usuario
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UsuarioDeleteArgs>(args: SelectSubset<T, UsuarioDeleteArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Usuario.
+     * @param {UsuarioUpdateArgs} args - Arguments to update one Usuario.
+     * @example
+     * // Update one Usuario
+     * const usuario = await prisma.usuario.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UsuarioUpdateArgs>(args: SelectSubset<T, UsuarioUpdateArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Usuarios.
+     * @param {UsuarioDeleteManyArgs} args - Arguments to filter Usuarios to delete.
+     * @example
+     * // Delete a few Usuarios
+     * const { count } = await prisma.usuario.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UsuarioDeleteManyArgs>(args?: SelectSubset<T, UsuarioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Usuarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Usuarios
+     * const usuario = await prisma.usuario.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UsuarioUpdateManyArgs>(args: SelectSubset<T, UsuarioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Usuario.
+     * @param {UsuarioUpsertArgs} args - Arguments to update or create a Usuario.
+     * @example
+     * // Update or create a Usuario
+     * const usuario = await prisma.usuario.upsert({
+     *   create: {
+     *     // ... data to create a Usuario
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Usuario we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UsuarioUpsertArgs>(args: SelectSubset<T, UsuarioUpsertArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Usuarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioCountArgs} args - Arguments to filter Usuarios to count.
+     * @example
+     * // Count the number of Usuarios
+     * const count = await prisma.usuario.count({
+     *   where: {
+     *     // ... the filter for the Usuarios we want to count
+     *   }
+     * })
+    **/
+    count<T extends UsuarioCountArgs>(
+      args?: Subset<T, UsuarioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UsuarioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Usuario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UsuarioAggregateArgs>(args: Subset<T, UsuarioAggregateArgs>): Prisma.PrismaPromise<GetUsuarioAggregateType<T>>
+
+    /**
+     * Group by Usuario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsuarioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UsuarioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UsuarioGroupByArgs['orderBy'] }
+        : { orderBy?: UsuarioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UsuarioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUsuarioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Usuario model
+   */
+  readonly fields: UsuarioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Usuario.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajos<T extends Usuario$legajosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$legajosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findMany"> | Null>
+    fiscales<T extends Usuario$fiscalesArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$fiscalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Usuario model
+   */ 
+  interface UsuarioFieldRefs {
+    readonly id: FieldRef<"Usuario", 'String'>
+    readonly nombre: FieldRef<"Usuario", 'String'>
+    readonly usuario: FieldRef<"Usuario", 'String'>
+    readonly password: FieldRef<"Usuario", 'String'>
+    readonly rol: FieldRef<"Usuario", 'String'>
+    readonly activo: FieldRef<"Usuario", 'Boolean'>
+    readonly createdAt: FieldRef<"Usuario", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Usuario findUnique
+   */
+  export type UsuarioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Usuario to fetch.
+     */
+    where: UsuarioWhereUniqueInput
+  }
+
+  /**
+   * Usuario findUniqueOrThrow
+   */
+  export type UsuarioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Usuario to fetch.
+     */
+    where: UsuarioWhereUniqueInput
+  }
+
+  /**
+   * Usuario findFirst
+   */
+  export type UsuarioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Usuario to fetch.
+     */
+    where?: UsuarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Usuarios to fetch.
+     */
+    orderBy?: UsuarioOrderByWithRelationInput | UsuarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Usuarios.
+     */
+    cursor?: UsuarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Usuarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Usuarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Usuarios.
+     */
+    distinct?: UsuarioScalarFieldEnum | UsuarioScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario findFirstOrThrow
+   */
+  export type UsuarioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Usuario to fetch.
+     */
+    where?: UsuarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Usuarios to fetch.
+     */
+    orderBy?: UsuarioOrderByWithRelationInput | UsuarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Usuarios.
+     */
+    cursor?: UsuarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Usuarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Usuarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Usuarios.
+     */
+    distinct?: UsuarioScalarFieldEnum | UsuarioScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario findMany
+   */
+  export type UsuarioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Usuarios to fetch.
+     */
+    where?: UsuarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Usuarios to fetch.
+     */
+    orderBy?: UsuarioOrderByWithRelationInput | UsuarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Usuarios.
+     */
+    cursor?: UsuarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Usuarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Usuarios.
+     */
+    skip?: number
+    distinct?: UsuarioScalarFieldEnum | UsuarioScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario create
+   */
+  export type UsuarioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Usuario.
+     */
+    data: XOR<UsuarioCreateInput, UsuarioUncheckedCreateInput>
+  }
+
+  /**
+   * Usuario createMany
+   */
+  export type UsuarioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Usuarios.
+     */
+    data: UsuarioCreateManyInput | UsuarioCreateManyInput[]
+  }
+
+  /**
+   * Usuario createManyAndReturn
+   */
+  export type UsuarioCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Usuarios.
+     */
+    data: UsuarioCreateManyInput | UsuarioCreateManyInput[]
+  }
+
+  /**
+   * Usuario update
+   */
+  export type UsuarioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Usuario.
+     */
+    data: XOR<UsuarioUpdateInput, UsuarioUncheckedUpdateInput>
+    /**
+     * Choose, which Usuario to update.
+     */
+    where: UsuarioWhereUniqueInput
+  }
+
+  /**
+   * Usuario updateMany
+   */
+  export type UsuarioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Usuarios.
+     */
+    data: XOR<UsuarioUpdateManyMutationInput, UsuarioUncheckedUpdateManyInput>
+    /**
+     * Filter which Usuarios to update
+     */
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * Usuario upsert
+   */
+  export type UsuarioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Usuario to update in case it exists.
+     */
+    where: UsuarioWhereUniqueInput
+    /**
+     * In case the Usuario found by the `where` argument doesn't exist, create a new Usuario with this data.
+     */
+    create: XOR<UsuarioCreateInput, UsuarioUncheckedCreateInput>
+    /**
+     * In case the Usuario was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UsuarioUpdateInput, UsuarioUncheckedUpdateInput>
+  }
+
+  /**
+   * Usuario delete
+   */
+  export type UsuarioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
+     * Filter which Usuario to delete.
+     */
+    where: UsuarioWhereUniqueInput
+  }
+
+  /**
+   * Usuario deleteMany
+   */
+  export type UsuarioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Usuarios to delete
+     */
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * Usuario.legajos
+   */
+  export type Usuario$legajosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    where?: LegajoWhereInput
+    orderBy?: LegajoOrderByWithRelationInput | LegajoOrderByWithRelationInput[]
+    cursor?: LegajoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LegajoScalarFieldEnum | LegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.fiscales
+   */
+  export type Usuario$fiscalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    where?: FiscalWhereInput
+    orderBy?: FiscalOrderByWithRelationInput | FiscalOrderByWithRelationInput[]
+    cursor?: FiscalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FiscalScalarFieldEnum | FiscalScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario without action
+   */
+  export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Legajo
+   */
+
+  export type AggregateLegajo = {
+    _count: LegajoCountAggregateOutputType | null
+    _min: LegajoMinAggregateOutputType | null
+    _max: LegajoMaxAggregateOutputType | null
+  }
+
+  export type LegajoMinAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    caratula: string | null
+    cuij: string | null
+    delito: string | null
+    fechaHecho: Date | null
+    estado: string | null
+    observaciones: string | null
+    fiscal: string | null
+    emailRespuesta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    usuarioId: string | null
+  }
+
+  export type LegajoMaxAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    caratula: string | null
+    cuij: string | null
+    delito: string | null
+    fechaHecho: Date | null
+    estado: string | null
+    observaciones: string | null
+    fiscal: string | null
+    emailRespuesta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    usuarioId: string | null
+  }
+
+  export type LegajoCountAggregateOutputType = {
+    id: number
+    numero: number
+    caratula: number
+    cuij: number
+    delito: number
+    fechaHecho: number
+    estado: number
+    observaciones: number
+    fiscal: number
+    emailRespuesta: number
+    createdAt: number
+    updatedAt: number
+    usuarioId: number
+    _all: number
+  }
+
+
+  export type LegajoMinAggregateInputType = {
+    id?: true
+    numero?: true
+    caratula?: true
+    cuij?: true
+    delito?: true
+    fechaHecho?: true
+    estado?: true
+    observaciones?: true
+    fiscal?: true
+    emailRespuesta?: true
+    createdAt?: true
+    updatedAt?: true
+    usuarioId?: true
+  }
+
+  export type LegajoMaxAggregateInputType = {
+    id?: true
+    numero?: true
+    caratula?: true
+    cuij?: true
+    delito?: true
+    fechaHecho?: true
+    estado?: true
+    observaciones?: true
+    fiscal?: true
+    emailRespuesta?: true
+    createdAt?: true
+    updatedAt?: true
+    usuarioId?: true
+  }
+
+  export type LegajoCountAggregateInputType = {
+    id?: true
+    numero?: true
+    caratula?: true
+    cuij?: true
+    delito?: true
+    fechaHecho?: true
+    estado?: true
+    observaciones?: true
+    fiscal?: true
+    emailRespuesta?: true
+    createdAt?: true
+    updatedAt?: true
+    usuarioId?: true
+    _all?: true
+  }
+
+  export type LegajoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Legajo to aggregate.
+     */
+    where?: LegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Legajos to fetch.
+     */
+    orderBy?: LegajoOrderByWithRelationInput | LegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Legajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Legajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Legajos
+    **/
+    _count?: true | LegajoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LegajoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LegajoMaxAggregateInputType
+  }
+
+  export type GetLegajoAggregateType<T extends LegajoAggregateArgs> = {
+        [P in keyof T & keyof AggregateLegajo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLegajo[P]>
+      : GetScalarType<T[P], AggregateLegajo[P]>
+  }
+
+
+
+
+  export type LegajoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LegajoWhereInput
+    orderBy?: LegajoOrderByWithAggregationInput | LegajoOrderByWithAggregationInput[]
+    by: LegajoScalarFieldEnum[] | LegajoScalarFieldEnum
+    having?: LegajoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LegajoCountAggregateInputType | true
+    _min?: LegajoMinAggregateInputType
+    _max?: LegajoMaxAggregateInputType
+  }
+
+  export type LegajoGroupByOutputType = {
+    id: string
+    numero: string
+    caratula: string
+    cuij: string | null
+    delito: string
+    fechaHecho: Date
+    estado: string
+    observaciones: string | null
+    fiscal: string | null
+    emailRespuesta: string | null
+    createdAt: Date
+    updatedAt: Date
+    usuarioId: string
+    _count: LegajoCountAggregateOutputType | null
+    _min: LegajoMinAggregateOutputType | null
+    _max: LegajoMaxAggregateOutputType | null
+  }
+
+  type GetLegajoGroupByPayload<T extends LegajoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LegajoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LegajoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LegajoGroupByOutputType[P]>
+            : GetScalarType<T[P], LegajoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LegajoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    caratula?: boolean
+    cuij?: boolean
+    delito?: boolean
+    fechaHecho?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    fiscal?: boolean
+    emailRespuesta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    usuarioId?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    victimas?: boolean | Legajo$victimasArgs<ExtArgs>
+    dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
+    oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
+    _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["legajo"]>
+
+  export type LegajoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    caratula?: boolean
+    cuij?: boolean
+    delito?: boolean
+    fechaHecho?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    fiscal?: boolean
+    emailRespuesta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    usuarioId?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["legajo"]>
+
+  export type LegajoSelectScalar = {
+    id?: boolean
+    numero?: boolean
+    caratula?: boolean
+    cuij?: boolean
+    delito?: boolean
+    fechaHecho?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    fiscal?: boolean
+    emailRespuesta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    usuarioId?: boolean
+  }
+
+  export type LegajoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    victimas?: boolean | Legajo$victimasArgs<ExtArgs>
+    dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
+    oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
+    _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $LegajoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Legajo"
+    objects: {
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+      victimas: Prisma.$VictimaPayload<ExtArgs>[]
+      dispositivos: Prisma.$DispositivoPayload<ExtArgs>[]
+      oficios: Prisma.$OficioPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numero: string
+      caratula: string
+      cuij: string | null
+      delito: string
+      fechaHecho: Date
+      estado: string
+      observaciones: string | null
+      fiscal: string | null
+      emailRespuesta: string | null
+      createdAt: Date
+      updatedAt: Date
+      usuarioId: string
+    }, ExtArgs["result"]["legajo"]>
+    composites: {}
+  }
+
+  type LegajoGetPayload<S extends boolean | null | undefined | LegajoDefaultArgs> = $Result.GetResult<Prisma.$LegajoPayload, S>
+
+  type LegajoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LegajoFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LegajoCountAggregateInputType | true
+    }
+
+  export interface LegajoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Legajo'], meta: { name: 'Legajo' } }
+    /**
+     * Find zero or one Legajo that matches the filter.
+     * @param {LegajoFindUniqueArgs} args - Arguments to find a Legajo
+     * @example
+     * // Get one Legajo
+     * const legajo = await prisma.legajo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LegajoFindUniqueArgs>(args: SelectSubset<T, LegajoFindUniqueArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Legajo that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LegajoFindUniqueOrThrowArgs} args - Arguments to find a Legajo
+     * @example
+     * // Get one Legajo
+     * const legajo = await prisma.legajo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LegajoFindUniqueOrThrowArgs>(args: SelectSubset<T, LegajoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Legajo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoFindFirstArgs} args - Arguments to find a Legajo
+     * @example
+     * // Get one Legajo
+     * const legajo = await prisma.legajo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LegajoFindFirstArgs>(args?: SelectSubset<T, LegajoFindFirstArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Legajo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoFindFirstOrThrowArgs} args - Arguments to find a Legajo
+     * @example
+     * // Get one Legajo
+     * const legajo = await prisma.legajo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LegajoFindFirstOrThrowArgs>(args?: SelectSubset<T, LegajoFindFirstOrThrowArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Legajos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Legajos
+     * const legajos = await prisma.legajo.findMany()
+     * 
+     * // Get first 10 Legajos
+     * const legajos = await prisma.legajo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const legajoWithIdOnly = await prisma.legajo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LegajoFindManyArgs>(args?: SelectSubset<T, LegajoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Legajo.
+     * @param {LegajoCreateArgs} args - Arguments to create a Legajo.
+     * @example
+     * // Create one Legajo
+     * const Legajo = await prisma.legajo.create({
+     *   data: {
+     *     // ... data to create a Legajo
+     *   }
+     * })
+     * 
+     */
+    create<T extends LegajoCreateArgs>(args: SelectSubset<T, LegajoCreateArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Legajos.
+     * @param {LegajoCreateManyArgs} args - Arguments to create many Legajos.
+     * @example
+     * // Create many Legajos
+     * const legajo = await prisma.legajo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LegajoCreateManyArgs>(args?: SelectSubset<T, LegajoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Legajos and returns the data saved in the database.
+     * @param {LegajoCreateManyAndReturnArgs} args - Arguments to create many Legajos.
+     * @example
+     * // Create many Legajos
+     * const legajo = await prisma.legajo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Legajos and only return the `id`
+     * const legajoWithIdOnly = await prisma.legajo.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LegajoCreateManyAndReturnArgs>(args?: SelectSubset<T, LegajoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Legajo.
+     * @param {LegajoDeleteArgs} args - Arguments to delete one Legajo.
+     * @example
+     * // Delete one Legajo
+     * const Legajo = await prisma.legajo.delete({
+     *   where: {
+     *     // ... filter to delete one Legajo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LegajoDeleteArgs>(args: SelectSubset<T, LegajoDeleteArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Legajo.
+     * @param {LegajoUpdateArgs} args - Arguments to update one Legajo.
+     * @example
+     * // Update one Legajo
+     * const legajo = await prisma.legajo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LegajoUpdateArgs>(args: SelectSubset<T, LegajoUpdateArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Legajos.
+     * @param {LegajoDeleteManyArgs} args - Arguments to filter Legajos to delete.
+     * @example
+     * // Delete a few Legajos
+     * const { count } = await prisma.legajo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LegajoDeleteManyArgs>(args?: SelectSubset<T, LegajoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Legajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Legajos
+     * const legajo = await prisma.legajo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LegajoUpdateManyArgs>(args: SelectSubset<T, LegajoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Legajo.
+     * @param {LegajoUpsertArgs} args - Arguments to update or create a Legajo.
+     * @example
+     * // Update or create a Legajo
+     * const legajo = await prisma.legajo.upsert({
+     *   create: {
+     *     // ... data to create a Legajo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Legajo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LegajoUpsertArgs>(args: SelectSubset<T, LegajoUpsertArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Legajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoCountArgs} args - Arguments to filter Legajos to count.
+     * @example
+     * // Count the number of Legajos
+     * const count = await prisma.legajo.count({
+     *   where: {
+     *     // ... the filter for the Legajos we want to count
+     *   }
+     * })
+    **/
+    count<T extends LegajoCountArgs>(
+      args?: Subset<T, LegajoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LegajoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Legajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LegajoAggregateArgs>(args: Subset<T, LegajoAggregateArgs>): Prisma.PrismaPromise<GetLegajoAggregateType<T>>
+
+    /**
+     * Group by Legajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LegajoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LegajoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LegajoGroupByArgs['orderBy'] }
+        : { orderBy?: LegajoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LegajoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLegajoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Legajo model
+   */
+  readonly fields: LegajoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Legajo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LegajoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    victimas<T extends Legajo$victimasArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$victimasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findMany"> | Null>
+    dispositivos<T extends Legajo$dispositivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$dispositivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findMany"> | Null>
+    oficios<T extends Legajo$oficiosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$oficiosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Legajo model
+   */ 
+  interface LegajoFieldRefs {
+    readonly id: FieldRef<"Legajo", 'String'>
+    readonly numero: FieldRef<"Legajo", 'String'>
+    readonly caratula: FieldRef<"Legajo", 'String'>
+    readonly cuij: FieldRef<"Legajo", 'String'>
+    readonly delito: FieldRef<"Legajo", 'String'>
+    readonly fechaHecho: FieldRef<"Legajo", 'DateTime'>
+    readonly estado: FieldRef<"Legajo", 'String'>
+    readonly observaciones: FieldRef<"Legajo", 'String'>
+    readonly fiscal: FieldRef<"Legajo", 'String'>
+    readonly emailRespuesta: FieldRef<"Legajo", 'String'>
+    readonly createdAt: FieldRef<"Legajo", 'DateTime'>
+    readonly updatedAt: FieldRef<"Legajo", 'DateTime'>
+    readonly usuarioId: FieldRef<"Legajo", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Legajo findUnique
+   */
+  export type LegajoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which Legajo to fetch.
+     */
+    where: LegajoWhereUniqueInput
+  }
+
+  /**
+   * Legajo findUniqueOrThrow
+   */
+  export type LegajoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which Legajo to fetch.
+     */
+    where: LegajoWhereUniqueInput
+  }
+
+  /**
+   * Legajo findFirst
+   */
+  export type LegajoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which Legajo to fetch.
+     */
+    where?: LegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Legajos to fetch.
+     */
+    orderBy?: LegajoOrderByWithRelationInput | LegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Legajos.
+     */
+    cursor?: LegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Legajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Legajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Legajos.
+     */
+    distinct?: LegajoScalarFieldEnum | LegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo findFirstOrThrow
+   */
+  export type LegajoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which Legajo to fetch.
+     */
+    where?: LegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Legajos to fetch.
+     */
+    orderBy?: LegajoOrderByWithRelationInput | LegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Legajos.
+     */
+    cursor?: LegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Legajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Legajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Legajos.
+     */
+    distinct?: LegajoScalarFieldEnum | LegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo findMany
+   */
+  export type LegajoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which Legajos to fetch.
+     */
+    where?: LegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Legajos to fetch.
+     */
+    orderBy?: LegajoOrderByWithRelationInput | LegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Legajos.
+     */
+    cursor?: LegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Legajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Legajos.
+     */
+    skip?: number
+    distinct?: LegajoScalarFieldEnum | LegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo create
+   */
+  export type LegajoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Legajo.
+     */
+    data: XOR<LegajoCreateInput, LegajoUncheckedCreateInput>
+  }
+
+  /**
+   * Legajo createMany
+   */
+  export type LegajoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Legajos.
+     */
+    data: LegajoCreateManyInput | LegajoCreateManyInput[]
+  }
+
+  /**
+   * Legajo createManyAndReturn
+   */
+  export type LegajoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Legajos.
+     */
+    data: LegajoCreateManyInput | LegajoCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Legajo update
+   */
+  export type LegajoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Legajo.
+     */
+    data: XOR<LegajoUpdateInput, LegajoUncheckedUpdateInput>
+    /**
+     * Choose, which Legajo to update.
+     */
+    where: LegajoWhereUniqueInput
+  }
+
+  /**
+   * Legajo updateMany
+   */
+  export type LegajoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Legajos.
+     */
+    data: XOR<LegajoUpdateManyMutationInput, LegajoUncheckedUpdateManyInput>
+    /**
+     * Filter which Legajos to update
+     */
+    where?: LegajoWhereInput
+  }
+
+  /**
+   * Legajo upsert
+   */
+  export type LegajoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Legajo to update in case it exists.
+     */
+    where: LegajoWhereUniqueInput
+    /**
+     * In case the Legajo found by the `where` argument doesn't exist, create a new Legajo with this data.
+     */
+    create: XOR<LegajoCreateInput, LegajoUncheckedCreateInput>
+    /**
+     * In case the Legajo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LegajoUpdateInput, LegajoUncheckedUpdateInput>
+  }
+
+  /**
+   * Legajo delete
+   */
+  export type LegajoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+    /**
+     * Filter which Legajo to delete.
+     */
+    where: LegajoWhereUniqueInput
+  }
+
+  /**
+   * Legajo deleteMany
+   */
+  export type LegajoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Legajos to delete
+     */
+    where?: LegajoWhereInput
+  }
+
+  /**
+   * Legajo.victimas
+   */
+  export type Legajo$victimasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    where?: VictimaWhereInput
+    orderBy?: VictimaOrderByWithRelationInput | VictimaOrderByWithRelationInput[]
+    cursor?: VictimaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VictimaScalarFieldEnum | VictimaScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo.dispositivos
+   */
+  export type Legajo$dispositivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    where?: DispositivoWhereInput
+    orderBy?: DispositivoOrderByWithRelationInput | DispositivoOrderByWithRelationInput[]
+    cursor?: DispositivoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DispositivoScalarFieldEnum | DispositivoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo.oficios
+   */
+  export type Legajo$oficiosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    where?: OficioWhereInput
+    orderBy?: OficioOrderByWithRelationInput | OficioOrderByWithRelationInput[]
+    cursor?: OficioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OficioScalarFieldEnum | OficioScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo without action
+   */
+  export type LegajoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Legajo
+     */
+    select?: LegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LegajoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Victima
+   */
+
+  export type AggregateVictima = {
+    _count: VictimaCountAggregateOutputType | null
+    _min: VictimaMinAggregateOutputType | null
+    _max: VictimaMaxAggregateOutputType | null
+  }
+
+  export type VictimaMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    dni: string | null
+    telefono: string | null
+    email: string | null
+    legajoId: string | null
+  }
+
+  export type VictimaMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    dni: string | null
+    telefono: string | null
+    email: string | null
+    legajoId: string | null
+  }
+
+  export type VictimaCountAggregateOutputType = {
+    id: number
+    nombre: number
+    dni: number
+    telefono: number
+    email: number
+    legajoId: number
+    _all: number
+  }
+
+
+  export type VictimaMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    dni?: true
+    telefono?: true
+    email?: true
+    legajoId?: true
+  }
+
+  export type VictimaMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    dni?: true
+    telefono?: true
+    email?: true
+    legajoId?: true
+  }
+
+  export type VictimaCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    dni?: true
+    telefono?: true
+    email?: true
+    legajoId?: true
+    _all?: true
+  }
+
+  export type VictimaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Victima to aggregate.
+     */
+    where?: VictimaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Victimas to fetch.
+     */
+    orderBy?: VictimaOrderByWithRelationInput | VictimaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VictimaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Victimas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Victimas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Victimas
+    **/
+    _count?: true | VictimaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VictimaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VictimaMaxAggregateInputType
+  }
+
+  export type GetVictimaAggregateType<T extends VictimaAggregateArgs> = {
+        [P in keyof T & keyof AggregateVictima]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVictima[P]>
+      : GetScalarType<T[P], AggregateVictima[P]>
+  }
+
+
+
+
+  export type VictimaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VictimaWhereInput
+    orderBy?: VictimaOrderByWithAggregationInput | VictimaOrderByWithAggregationInput[]
+    by: VictimaScalarFieldEnum[] | VictimaScalarFieldEnum
+    having?: VictimaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VictimaCountAggregateInputType | true
+    _min?: VictimaMinAggregateInputType
+    _max?: VictimaMaxAggregateInputType
+  }
+
+  export type VictimaGroupByOutputType = {
+    id: string
+    nombre: string
+    dni: string | null
+    telefono: string | null
+    email: string | null
+    legajoId: string
+    _count: VictimaCountAggregateOutputType | null
+    _min: VictimaMinAggregateOutputType | null
+    _max: VictimaMaxAggregateOutputType | null
+  }
+
+  type GetVictimaGroupByPayload<T extends VictimaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VictimaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VictimaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VictimaGroupByOutputType[P]>
+            : GetScalarType<T[P], VictimaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VictimaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    dni?: boolean
+    telefono?: boolean
+    email?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["victima"]>
+
+  export type VictimaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    dni?: boolean
+    telefono?: boolean
+    email?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["victima"]>
+
+  export type VictimaSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    dni?: boolean
+    telefono?: boolean
+    email?: boolean
+    legajoId?: boolean
+  }
+
+  export type VictimaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+  export type VictimaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+
+  export type $VictimaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Victima"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      dni: string | null
+      telefono: string | null
+      email: string | null
+      legajoId: string
+    }, ExtArgs["result"]["victima"]>
+    composites: {}
+  }
+
+  type VictimaGetPayload<S extends boolean | null | undefined | VictimaDefaultArgs> = $Result.GetResult<Prisma.$VictimaPayload, S>
+
+  type VictimaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VictimaFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VictimaCountAggregateInputType | true
+    }
+
+  export interface VictimaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Victima'], meta: { name: 'Victima' } }
+    /**
+     * Find zero or one Victima that matches the filter.
+     * @param {VictimaFindUniqueArgs} args - Arguments to find a Victima
+     * @example
+     * // Get one Victima
+     * const victima = await prisma.victima.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VictimaFindUniqueArgs>(args: SelectSubset<T, VictimaFindUniqueArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Victima that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VictimaFindUniqueOrThrowArgs} args - Arguments to find a Victima
+     * @example
+     * // Get one Victima
+     * const victima = await prisma.victima.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VictimaFindUniqueOrThrowArgs>(args: SelectSubset<T, VictimaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Victima that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaFindFirstArgs} args - Arguments to find a Victima
+     * @example
+     * // Get one Victima
+     * const victima = await prisma.victima.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VictimaFindFirstArgs>(args?: SelectSubset<T, VictimaFindFirstArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Victima that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaFindFirstOrThrowArgs} args - Arguments to find a Victima
+     * @example
+     * // Get one Victima
+     * const victima = await prisma.victima.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VictimaFindFirstOrThrowArgs>(args?: SelectSubset<T, VictimaFindFirstOrThrowArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Victimas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Victimas
+     * const victimas = await prisma.victima.findMany()
+     * 
+     * // Get first 10 Victimas
+     * const victimas = await prisma.victima.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const victimaWithIdOnly = await prisma.victima.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VictimaFindManyArgs>(args?: SelectSubset<T, VictimaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Victima.
+     * @param {VictimaCreateArgs} args - Arguments to create a Victima.
+     * @example
+     * // Create one Victima
+     * const Victima = await prisma.victima.create({
+     *   data: {
+     *     // ... data to create a Victima
+     *   }
+     * })
+     * 
+     */
+    create<T extends VictimaCreateArgs>(args: SelectSubset<T, VictimaCreateArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Victimas.
+     * @param {VictimaCreateManyArgs} args - Arguments to create many Victimas.
+     * @example
+     * // Create many Victimas
+     * const victima = await prisma.victima.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VictimaCreateManyArgs>(args?: SelectSubset<T, VictimaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Victimas and returns the data saved in the database.
+     * @param {VictimaCreateManyAndReturnArgs} args - Arguments to create many Victimas.
+     * @example
+     * // Create many Victimas
+     * const victima = await prisma.victima.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Victimas and only return the `id`
+     * const victimaWithIdOnly = await prisma.victima.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VictimaCreateManyAndReturnArgs>(args?: SelectSubset<T, VictimaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Victima.
+     * @param {VictimaDeleteArgs} args - Arguments to delete one Victima.
+     * @example
+     * // Delete one Victima
+     * const Victima = await prisma.victima.delete({
+     *   where: {
+     *     // ... filter to delete one Victima
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VictimaDeleteArgs>(args: SelectSubset<T, VictimaDeleteArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Victima.
+     * @param {VictimaUpdateArgs} args - Arguments to update one Victima.
+     * @example
+     * // Update one Victima
+     * const victima = await prisma.victima.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VictimaUpdateArgs>(args: SelectSubset<T, VictimaUpdateArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Victimas.
+     * @param {VictimaDeleteManyArgs} args - Arguments to filter Victimas to delete.
+     * @example
+     * // Delete a few Victimas
+     * const { count } = await prisma.victima.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VictimaDeleteManyArgs>(args?: SelectSubset<T, VictimaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Victimas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Victimas
+     * const victima = await prisma.victima.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VictimaUpdateManyArgs>(args: SelectSubset<T, VictimaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Victima.
+     * @param {VictimaUpsertArgs} args - Arguments to update or create a Victima.
+     * @example
+     * // Update or create a Victima
+     * const victima = await prisma.victima.upsert({
+     *   create: {
+     *     // ... data to create a Victima
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Victima we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VictimaUpsertArgs>(args: SelectSubset<T, VictimaUpsertArgs<ExtArgs>>): Prisma__VictimaClient<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Victimas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaCountArgs} args - Arguments to filter Victimas to count.
+     * @example
+     * // Count the number of Victimas
+     * const count = await prisma.victima.count({
+     *   where: {
+     *     // ... the filter for the Victimas we want to count
+     *   }
+     * })
+    **/
+    count<T extends VictimaCountArgs>(
+      args?: Subset<T, VictimaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VictimaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Victima.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VictimaAggregateArgs>(args: Subset<T, VictimaAggregateArgs>): Prisma.PrismaPromise<GetVictimaAggregateType<T>>
+
+    /**
+     * Group by Victima.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VictimaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VictimaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VictimaGroupByArgs['orderBy'] }
+        : { orderBy?: VictimaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VictimaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVictimaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Victima model
+   */
+  readonly fields: VictimaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Victima.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VictimaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Victima model
+   */ 
+  interface VictimaFieldRefs {
+    readonly id: FieldRef<"Victima", 'String'>
+    readonly nombre: FieldRef<"Victima", 'String'>
+    readonly dni: FieldRef<"Victima", 'String'>
+    readonly telefono: FieldRef<"Victima", 'String'>
+    readonly email: FieldRef<"Victima", 'String'>
+    readonly legajoId: FieldRef<"Victima", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Victima findUnique
+   */
+  export type VictimaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter, which Victima to fetch.
+     */
+    where: VictimaWhereUniqueInput
+  }
+
+  /**
+   * Victima findUniqueOrThrow
+   */
+  export type VictimaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter, which Victima to fetch.
+     */
+    where: VictimaWhereUniqueInput
+  }
+
+  /**
+   * Victima findFirst
+   */
+  export type VictimaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter, which Victima to fetch.
+     */
+    where?: VictimaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Victimas to fetch.
+     */
+    orderBy?: VictimaOrderByWithRelationInput | VictimaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Victimas.
+     */
+    cursor?: VictimaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Victimas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Victimas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Victimas.
+     */
+    distinct?: VictimaScalarFieldEnum | VictimaScalarFieldEnum[]
+  }
+
+  /**
+   * Victima findFirstOrThrow
+   */
+  export type VictimaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter, which Victima to fetch.
+     */
+    where?: VictimaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Victimas to fetch.
+     */
+    orderBy?: VictimaOrderByWithRelationInput | VictimaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Victimas.
+     */
+    cursor?: VictimaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Victimas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Victimas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Victimas.
+     */
+    distinct?: VictimaScalarFieldEnum | VictimaScalarFieldEnum[]
+  }
+
+  /**
+   * Victima findMany
+   */
+  export type VictimaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter, which Victimas to fetch.
+     */
+    where?: VictimaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Victimas to fetch.
+     */
+    orderBy?: VictimaOrderByWithRelationInput | VictimaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Victimas.
+     */
+    cursor?: VictimaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Victimas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Victimas.
+     */
+    skip?: number
+    distinct?: VictimaScalarFieldEnum | VictimaScalarFieldEnum[]
+  }
+
+  /**
+   * Victima create
+   */
+  export type VictimaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Victima.
+     */
+    data: XOR<VictimaCreateInput, VictimaUncheckedCreateInput>
+  }
+
+  /**
+   * Victima createMany
+   */
+  export type VictimaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Victimas.
+     */
+    data: VictimaCreateManyInput | VictimaCreateManyInput[]
+  }
+
+  /**
+   * Victima createManyAndReturn
+   */
+  export type VictimaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Victimas.
+     */
+    data: VictimaCreateManyInput | VictimaCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Victima update
+   */
+  export type VictimaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Victima.
+     */
+    data: XOR<VictimaUpdateInput, VictimaUncheckedUpdateInput>
+    /**
+     * Choose, which Victima to update.
+     */
+    where: VictimaWhereUniqueInput
+  }
+
+  /**
+   * Victima updateMany
+   */
+  export type VictimaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Victimas.
+     */
+    data: XOR<VictimaUpdateManyMutationInput, VictimaUncheckedUpdateManyInput>
+    /**
+     * Filter which Victimas to update
+     */
+    where?: VictimaWhereInput
+  }
+
+  /**
+   * Victima upsert
+   */
+  export type VictimaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Victima to update in case it exists.
+     */
+    where: VictimaWhereUniqueInput
+    /**
+     * In case the Victima found by the `where` argument doesn't exist, create a new Victima with this data.
+     */
+    create: XOR<VictimaCreateInput, VictimaUncheckedCreateInput>
+    /**
+     * In case the Victima was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VictimaUpdateInput, VictimaUncheckedUpdateInput>
+  }
+
+  /**
+   * Victima delete
+   */
+  export type VictimaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+    /**
+     * Filter which Victima to delete.
+     */
+    where: VictimaWhereUniqueInput
+  }
+
+  /**
+   * Victima deleteMany
+   */
+  export type VictimaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Victimas to delete
+     */
+    where?: VictimaWhereInput
+  }
+
+  /**
+   * Victima without action
+   */
+  export type VictimaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Victima
+     */
+    select?: VictimaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VictimaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Dispositivo
+   */
+
+  export type AggregateDispositivo = {
+    _count: DispositivoCountAggregateOutputType | null
+    _min: DispositivoMinAggregateOutputType | null
+    _max: DispositivoMaxAggregateOutputType | null
+  }
+
+  export type DispositivoMinAggregateOutputType = {
+    id: string | null
+    tipo: string | null
+    marca: string | null
+    modelo: string | null
+    imei: string | null
+    color: string | null
+    legajoId: string | null
+  }
+
+  export type DispositivoMaxAggregateOutputType = {
+    id: string | null
+    tipo: string | null
+    marca: string | null
+    modelo: string | null
+    imei: string | null
+    color: string | null
+    legajoId: string | null
+  }
+
+  export type DispositivoCountAggregateOutputType = {
+    id: number
+    tipo: number
+    marca: number
+    modelo: number
+    imei: number
+    color: number
+    legajoId: number
+    _all: number
+  }
+
+
+  export type DispositivoMinAggregateInputType = {
+    id?: true
+    tipo?: true
+    marca?: true
+    modelo?: true
+    imei?: true
+    color?: true
+    legajoId?: true
+  }
+
+  export type DispositivoMaxAggregateInputType = {
+    id?: true
+    tipo?: true
+    marca?: true
+    modelo?: true
+    imei?: true
+    color?: true
+    legajoId?: true
+  }
+
+  export type DispositivoCountAggregateInputType = {
+    id?: true
+    tipo?: true
+    marca?: true
+    modelo?: true
+    imei?: true
+    color?: true
+    legajoId?: true
+    _all?: true
+  }
+
+  export type DispositivoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Dispositivo to aggregate.
+     */
+    where?: DispositivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Dispositivos to fetch.
+     */
+    orderBy?: DispositivoOrderByWithRelationInput | DispositivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DispositivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Dispositivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Dispositivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Dispositivos
+    **/
+    _count?: true | DispositivoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DispositivoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DispositivoMaxAggregateInputType
+  }
+
+  export type GetDispositivoAggregateType<T extends DispositivoAggregateArgs> = {
+        [P in keyof T & keyof AggregateDispositivo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDispositivo[P]>
+      : GetScalarType<T[P], AggregateDispositivo[P]>
+  }
+
+
+
+
+  export type DispositivoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DispositivoWhereInput
+    orderBy?: DispositivoOrderByWithAggregationInput | DispositivoOrderByWithAggregationInput[]
+    by: DispositivoScalarFieldEnum[] | DispositivoScalarFieldEnum
+    having?: DispositivoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DispositivoCountAggregateInputType | true
+    _min?: DispositivoMinAggregateInputType
+    _max?: DispositivoMaxAggregateInputType
+  }
+
+  export type DispositivoGroupByOutputType = {
+    id: string
+    tipo: string
+    marca: string | null
+    modelo: string | null
+    imei: string | null
+    color: string | null
+    legajoId: string
+    _count: DispositivoCountAggregateOutputType | null
+    _min: DispositivoMinAggregateOutputType | null
+    _max: DispositivoMaxAggregateOutputType | null
+  }
+
+  type GetDispositivoGroupByPayload<T extends DispositivoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DispositivoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DispositivoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DispositivoGroupByOutputType[P]>
+            : GetScalarType<T[P], DispositivoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DispositivoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tipo?: boolean
+    marca?: boolean
+    modelo?: boolean
+    imei?: boolean
+    color?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dispositivo"]>
+
+  export type DispositivoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tipo?: boolean
+    marca?: boolean
+    modelo?: boolean
+    imei?: boolean
+    color?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dispositivo"]>
+
+  export type DispositivoSelectScalar = {
+    id?: boolean
+    tipo?: boolean
+    marca?: boolean
+    modelo?: boolean
+    imei?: boolean
+    color?: boolean
+    legajoId?: boolean
+  }
+
+  export type DispositivoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+  export type DispositivoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+
+  export type $DispositivoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Dispositivo"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tipo: string
+      marca: string | null
+      modelo: string | null
+      imei: string | null
+      color: string | null
+      legajoId: string
+    }, ExtArgs["result"]["dispositivo"]>
+    composites: {}
+  }
+
+  type DispositivoGetPayload<S extends boolean | null | undefined | DispositivoDefaultArgs> = $Result.GetResult<Prisma.$DispositivoPayload, S>
+
+  type DispositivoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DispositivoFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DispositivoCountAggregateInputType | true
+    }
+
+  export interface DispositivoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Dispositivo'], meta: { name: 'Dispositivo' } }
+    /**
+     * Find zero or one Dispositivo that matches the filter.
+     * @param {DispositivoFindUniqueArgs} args - Arguments to find a Dispositivo
+     * @example
+     * // Get one Dispositivo
+     * const dispositivo = await prisma.dispositivo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DispositivoFindUniqueArgs>(args: SelectSubset<T, DispositivoFindUniqueArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Dispositivo that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {DispositivoFindUniqueOrThrowArgs} args - Arguments to find a Dispositivo
+     * @example
+     * // Get one Dispositivo
+     * const dispositivo = await prisma.dispositivo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DispositivoFindUniqueOrThrowArgs>(args: SelectSubset<T, DispositivoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Dispositivo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoFindFirstArgs} args - Arguments to find a Dispositivo
+     * @example
+     * // Get one Dispositivo
+     * const dispositivo = await prisma.dispositivo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DispositivoFindFirstArgs>(args?: SelectSubset<T, DispositivoFindFirstArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Dispositivo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoFindFirstOrThrowArgs} args - Arguments to find a Dispositivo
+     * @example
+     * // Get one Dispositivo
+     * const dispositivo = await prisma.dispositivo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DispositivoFindFirstOrThrowArgs>(args?: SelectSubset<T, DispositivoFindFirstOrThrowArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Dispositivos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Dispositivos
+     * const dispositivos = await prisma.dispositivo.findMany()
+     * 
+     * // Get first 10 Dispositivos
+     * const dispositivos = await prisma.dispositivo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dispositivoWithIdOnly = await prisma.dispositivo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DispositivoFindManyArgs>(args?: SelectSubset<T, DispositivoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Dispositivo.
+     * @param {DispositivoCreateArgs} args - Arguments to create a Dispositivo.
+     * @example
+     * // Create one Dispositivo
+     * const Dispositivo = await prisma.dispositivo.create({
+     *   data: {
+     *     // ... data to create a Dispositivo
+     *   }
+     * })
+     * 
+     */
+    create<T extends DispositivoCreateArgs>(args: SelectSubset<T, DispositivoCreateArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Dispositivos.
+     * @param {DispositivoCreateManyArgs} args - Arguments to create many Dispositivos.
+     * @example
+     * // Create many Dispositivos
+     * const dispositivo = await prisma.dispositivo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DispositivoCreateManyArgs>(args?: SelectSubset<T, DispositivoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Dispositivos and returns the data saved in the database.
+     * @param {DispositivoCreateManyAndReturnArgs} args - Arguments to create many Dispositivos.
+     * @example
+     * // Create many Dispositivos
+     * const dispositivo = await prisma.dispositivo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Dispositivos and only return the `id`
+     * const dispositivoWithIdOnly = await prisma.dispositivo.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DispositivoCreateManyAndReturnArgs>(args?: SelectSubset<T, DispositivoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Dispositivo.
+     * @param {DispositivoDeleteArgs} args - Arguments to delete one Dispositivo.
+     * @example
+     * // Delete one Dispositivo
+     * const Dispositivo = await prisma.dispositivo.delete({
+     *   where: {
+     *     // ... filter to delete one Dispositivo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DispositivoDeleteArgs>(args: SelectSubset<T, DispositivoDeleteArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Dispositivo.
+     * @param {DispositivoUpdateArgs} args - Arguments to update one Dispositivo.
+     * @example
+     * // Update one Dispositivo
+     * const dispositivo = await prisma.dispositivo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DispositivoUpdateArgs>(args: SelectSubset<T, DispositivoUpdateArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Dispositivos.
+     * @param {DispositivoDeleteManyArgs} args - Arguments to filter Dispositivos to delete.
+     * @example
+     * // Delete a few Dispositivos
+     * const { count } = await prisma.dispositivo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DispositivoDeleteManyArgs>(args?: SelectSubset<T, DispositivoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Dispositivos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Dispositivos
+     * const dispositivo = await prisma.dispositivo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DispositivoUpdateManyArgs>(args: SelectSubset<T, DispositivoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Dispositivo.
+     * @param {DispositivoUpsertArgs} args - Arguments to update or create a Dispositivo.
+     * @example
+     * // Update or create a Dispositivo
+     * const dispositivo = await prisma.dispositivo.upsert({
+     *   create: {
+     *     // ... data to create a Dispositivo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Dispositivo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DispositivoUpsertArgs>(args: SelectSubset<T, DispositivoUpsertArgs<ExtArgs>>): Prisma__DispositivoClient<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Dispositivos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoCountArgs} args - Arguments to filter Dispositivos to count.
+     * @example
+     * // Count the number of Dispositivos
+     * const count = await prisma.dispositivo.count({
+     *   where: {
+     *     // ... the filter for the Dispositivos we want to count
+     *   }
+     * })
+    **/
+    count<T extends DispositivoCountArgs>(
+      args?: Subset<T, DispositivoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DispositivoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Dispositivo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DispositivoAggregateArgs>(args: Subset<T, DispositivoAggregateArgs>): Prisma.PrismaPromise<GetDispositivoAggregateType<T>>
+
+    /**
+     * Group by Dispositivo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DispositivoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DispositivoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DispositivoGroupByArgs['orderBy'] }
+        : { orderBy?: DispositivoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DispositivoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDispositivoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Dispositivo model
+   */
+  readonly fields: DispositivoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Dispositivo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DispositivoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Dispositivo model
+   */ 
+  interface DispositivoFieldRefs {
+    readonly id: FieldRef<"Dispositivo", 'String'>
+    readonly tipo: FieldRef<"Dispositivo", 'String'>
+    readonly marca: FieldRef<"Dispositivo", 'String'>
+    readonly modelo: FieldRef<"Dispositivo", 'String'>
+    readonly imei: FieldRef<"Dispositivo", 'String'>
+    readonly color: FieldRef<"Dispositivo", 'String'>
+    readonly legajoId: FieldRef<"Dispositivo", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Dispositivo findUnique
+   */
+  export type DispositivoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter, which Dispositivo to fetch.
+     */
+    where: DispositivoWhereUniqueInput
+  }
+
+  /**
+   * Dispositivo findUniqueOrThrow
+   */
+  export type DispositivoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter, which Dispositivo to fetch.
+     */
+    where: DispositivoWhereUniqueInput
+  }
+
+  /**
+   * Dispositivo findFirst
+   */
+  export type DispositivoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter, which Dispositivo to fetch.
+     */
+    where?: DispositivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Dispositivos to fetch.
+     */
+    orderBy?: DispositivoOrderByWithRelationInput | DispositivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Dispositivos.
+     */
+    cursor?: DispositivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Dispositivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Dispositivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Dispositivos.
+     */
+    distinct?: DispositivoScalarFieldEnum | DispositivoScalarFieldEnum[]
+  }
+
+  /**
+   * Dispositivo findFirstOrThrow
+   */
+  export type DispositivoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter, which Dispositivo to fetch.
+     */
+    where?: DispositivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Dispositivos to fetch.
+     */
+    orderBy?: DispositivoOrderByWithRelationInput | DispositivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Dispositivos.
+     */
+    cursor?: DispositivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Dispositivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Dispositivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Dispositivos.
+     */
+    distinct?: DispositivoScalarFieldEnum | DispositivoScalarFieldEnum[]
+  }
+
+  /**
+   * Dispositivo findMany
+   */
+  export type DispositivoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter, which Dispositivos to fetch.
+     */
+    where?: DispositivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Dispositivos to fetch.
+     */
+    orderBy?: DispositivoOrderByWithRelationInput | DispositivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Dispositivos.
+     */
+    cursor?: DispositivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Dispositivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Dispositivos.
+     */
+    skip?: number
+    distinct?: DispositivoScalarFieldEnum | DispositivoScalarFieldEnum[]
+  }
+
+  /**
+   * Dispositivo create
+   */
+  export type DispositivoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Dispositivo.
+     */
+    data: XOR<DispositivoCreateInput, DispositivoUncheckedCreateInput>
+  }
+
+  /**
+   * Dispositivo createMany
+   */
+  export type DispositivoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Dispositivos.
+     */
+    data: DispositivoCreateManyInput | DispositivoCreateManyInput[]
+  }
+
+  /**
+   * Dispositivo createManyAndReturn
+   */
+  export type DispositivoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Dispositivos.
+     */
+    data: DispositivoCreateManyInput | DispositivoCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Dispositivo update
+   */
+  export type DispositivoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Dispositivo.
+     */
+    data: XOR<DispositivoUpdateInput, DispositivoUncheckedUpdateInput>
+    /**
+     * Choose, which Dispositivo to update.
+     */
+    where: DispositivoWhereUniqueInput
+  }
+
+  /**
+   * Dispositivo updateMany
+   */
+  export type DispositivoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Dispositivos.
+     */
+    data: XOR<DispositivoUpdateManyMutationInput, DispositivoUncheckedUpdateManyInput>
+    /**
+     * Filter which Dispositivos to update
+     */
+    where?: DispositivoWhereInput
+  }
+
+  /**
+   * Dispositivo upsert
+   */
+  export type DispositivoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Dispositivo to update in case it exists.
+     */
+    where: DispositivoWhereUniqueInput
+    /**
+     * In case the Dispositivo found by the `where` argument doesn't exist, create a new Dispositivo with this data.
+     */
+    create: XOR<DispositivoCreateInput, DispositivoUncheckedCreateInput>
+    /**
+     * In case the Dispositivo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DispositivoUpdateInput, DispositivoUncheckedUpdateInput>
+  }
+
+  /**
+   * Dispositivo delete
+   */
+  export type DispositivoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+    /**
+     * Filter which Dispositivo to delete.
+     */
+    where: DispositivoWhereUniqueInput
+  }
+
+  /**
+   * Dispositivo deleteMany
+   */
+  export type DispositivoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Dispositivos to delete
+     */
+    where?: DispositivoWhereInput
+  }
+
+  /**
+   * Dispositivo without action
+   */
+  export type DispositivoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Dispositivo
+     */
+    select?: DispositivoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DispositivoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Oficio
+   */
+
+  export type AggregateOficio = {
+    _count: OficioCountAggregateOutputType | null
+    _min: OficioMinAggregateOutputType | null
+    _max: OficioMaxAggregateOutputType | null
+  }
+
+  export type OficioMinAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    operadora: string | null
+    tipo: string | null
+    fechaEnvio: Date | null
+    fechaRespuesta: Date | null
+    estado: string | null
+    urgencia: string | null
+    observaciones: string | null
+    columnas: string | null
+    createdAt: Date | null
+    legajoId: string | null
+  }
+
+  export type OficioMaxAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    operadora: string | null
+    tipo: string | null
+    fechaEnvio: Date | null
+    fechaRespuesta: Date | null
+    estado: string | null
+    urgencia: string | null
+    observaciones: string | null
+    columnas: string | null
+    createdAt: Date | null
+    legajoId: string | null
+  }
+
+  export type OficioCountAggregateOutputType = {
+    id: number
+    numero: number
+    operadora: number
+    tipo: number
+    fechaEnvio: number
+    fechaRespuesta: number
+    estado: number
+    urgencia: number
+    observaciones: number
+    columnas: number
+    createdAt: number
+    legajoId: number
+    _all: number
+  }
+
+
+  export type OficioMinAggregateInputType = {
+    id?: true
+    numero?: true
+    operadora?: true
+    tipo?: true
+    fechaEnvio?: true
+    fechaRespuesta?: true
+    estado?: true
+    urgencia?: true
+    observaciones?: true
+    columnas?: true
+    createdAt?: true
+    legajoId?: true
+  }
+
+  export type OficioMaxAggregateInputType = {
+    id?: true
+    numero?: true
+    operadora?: true
+    tipo?: true
+    fechaEnvio?: true
+    fechaRespuesta?: true
+    estado?: true
+    urgencia?: true
+    observaciones?: true
+    columnas?: true
+    createdAt?: true
+    legajoId?: true
+  }
+
+  export type OficioCountAggregateInputType = {
+    id?: true
+    numero?: true
+    operadora?: true
+    tipo?: true
+    fechaEnvio?: true
+    fechaRespuesta?: true
+    estado?: true
+    urgencia?: true
+    observaciones?: true
+    columnas?: true
+    createdAt?: true
+    legajoId?: true
+    _all?: true
+  }
+
+  export type OficioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Oficio to aggregate.
+     */
+    where?: OficioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oficios to fetch.
+     */
+    orderBy?: OficioOrderByWithRelationInput | OficioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OficioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oficios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oficios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Oficios
+    **/
+    _count?: true | OficioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OficioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OficioMaxAggregateInputType
+  }
+
+  export type GetOficioAggregateType<T extends OficioAggregateArgs> = {
+        [P in keyof T & keyof AggregateOficio]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOficio[P]>
+      : GetScalarType<T[P], AggregateOficio[P]>
+  }
+
+
+
+
+  export type OficioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OficioWhereInput
+    orderBy?: OficioOrderByWithAggregationInput | OficioOrderByWithAggregationInput[]
+    by: OficioScalarFieldEnum[] | OficioScalarFieldEnum
+    having?: OficioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OficioCountAggregateInputType | true
+    _min?: OficioMinAggregateInputType
+    _max?: OficioMaxAggregateInputType
+  }
+
+  export type OficioGroupByOutputType = {
+    id: string
+    numero: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio: Date | null
+    fechaRespuesta: Date | null
+    estado: string
+    urgencia: string
+    observaciones: string | null
+    columnas: string | null
+    createdAt: Date
+    legajoId: string
+    _count: OficioCountAggregateOutputType | null
+    _min: OficioMinAggregateOutputType | null
+    _max: OficioMaxAggregateOutputType | null
+  }
+
+  type GetOficioGroupByPayload<T extends OficioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OficioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OficioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OficioGroupByOutputType[P]>
+            : GetScalarType<T[P], OficioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OficioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    operadora?: boolean
+    tipo?: boolean
+    fechaEnvio?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+    urgencia?: boolean
+    observaciones?: boolean
+    columnas?: boolean
+    createdAt?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    respuestas?: boolean | Oficio$respuestasArgs<ExtArgs>
+    _count?: boolean | OficioCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["oficio"]>
+
+  export type OficioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    operadora?: boolean
+    tipo?: boolean
+    fechaEnvio?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+    urgencia?: boolean
+    observaciones?: boolean
+    columnas?: boolean
+    createdAt?: boolean
+    legajoId?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["oficio"]>
+
+  export type OficioSelectScalar = {
+    id?: boolean
+    numero?: boolean
+    operadora?: boolean
+    tipo?: boolean
+    fechaEnvio?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+    urgencia?: boolean
+    observaciones?: boolean
+    columnas?: boolean
+    createdAt?: boolean
+    legajoId?: boolean
+  }
+
+  export type OficioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    respuestas?: boolean | Oficio$respuestasArgs<ExtArgs>
+    _count?: boolean | OficioCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OficioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+
+  export type $OficioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Oficio"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+      respuestas: Prisma.$RespuestaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numero: string | null
+      operadora: string
+      tipo: string
+      fechaEnvio: Date | null
+      fechaRespuesta: Date | null
+      estado: string
+      urgencia: string
+      observaciones: string | null
+      columnas: string | null
+      createdAt: Date
+      legajoId: string
+    }, ExtArgs["result"]["oficio"]>
+    composites: {}
+  }
+
+  type OficioGetPayload<S extends boolean | null | undefined | OficioDefaultArgs> = $Result.GetResult<Prisma.$OficioPayload, S>
+
+  type OficioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OficioFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OficioCountAggregateInputType | true
+    }
+
+  export interface OficioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Oficio'], meta: { name: 'Oficio' } }
+    /**
+     * Find zero or one Oficio that matches the filter.
+     * @param {OficioFindUniqueArgs} args - Arguments to find a Oficio
+     * @example
+     * // Get one Oficio
+     * const oficio = await prisma.oficio.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OficioFindUniqueArgs>(args: SelectSubset<T, OficioFindUniqueArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Oficio that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {OficioFindUniqueOrThrowArgs} args - Arguments to find a Oficio
+     * @example
+     * // Get one Oficio
+     * const oficio = await prisma.oficio.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OficioFindUniqueOrThrowArgs>(args: SelectSubset<T, OficioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Oficio that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioFindFirstArgs} args - Arguments to find a Oficio
+     * @example
+     * // Get one Oficio
+     * const oficio = await prisma.oficio.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OficioFindFirstArgs>(args?: SelectSubset<T, OficioFindFirstArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Oficio that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioFindFirstOrThrowArgs} args - Arguments to find a Oficio
+     * @example
+     * // Get one Oficio
+     * const oficio = await prisma.oficio.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OficioFindFirstOrThrowArgs>(args?: SelectSubset<T, OficioFindFirstOrThrowArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Oficios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Oficios
+     * const oficios = await prisma.oficio.findMany()
+     * 
+     * // Get first 10 Oficios
+     * const oficios = await prisma.oficio.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const oficioWithIdOnly = await prisma.oficio.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OficioFindManyArgs>(args?: SelectSubset<T, OficioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Oficio.
+     * @param {OficioCreateArgs} args - Arguments to create a Oficio.
+     * @example
+     * // Create one Oficio
+     * const Oficio = await prisma.oficio.create({
+     *   data: {
+     *     // ... data to create a Oficio
+     *   }
+     * })
+     * 
+     */
+    create<T extends OficioCreateArgs>(args: SelectSubset<T, OficioCreateArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Oficios.
+     * @param {OficioCreateManyArgs} args - Arguments to create many Oficios.
+     * @example
+     * // Create many Oficios
+     * const oficio = await prisma.oficio.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OficioCreateManyArgs>(args?: SelectSubset<T, OficioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Oficios and returns the data saved in the database.
+     * @param {OficioCreateManyAndReturnArgs} args - Arguments to create many Oficios.
+     * @example
+     * // Create many Oficios
+     * const oficio = await prisma.oficio.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Oficios and only return the `id`
+     * const oficioWithIdOnly = await prisma.oficio.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OficioCreateManyAndReturnArgs>(args?: SelectSubset<T, OficioCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Oficio.
+     * @param {OficioDeleteArgs} args - Arguments to delete one Oficio.
+     * @example
+     * // Delete one Oficio
+     * const Oficio = await prisma.oficio.delete({
+     *   where: {
+     *     // ... filter to delete one Oficio
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OficioDeleteArgs>(args: SelectSubset<T, OficioDeleteArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Oficio.
+     * @param {OficioUpdateArgs} args - Arguments to update one Oficio.
+     * @example
+     * // Update one Oficio
+     * const oficio = await prisma.oficio.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OficioUpdateArgs>(args: SelectSubset<T, OficioUpdateArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Oficios.
+     * @param {OficioDeleteManyArgs} args - Arguments to filter Oficios to delete.
+     * @example
+     * // Delete a few Oficios
+     * const { count } = await prisma.oficio.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OficioDeleteManyArgs>(args?: SelectSubset<T, OficioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Oficios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Oficios
+     * const oficio = await prisma.oficio.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OficioUpdateManyArgs>(args: SelectSubset<T, OficioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Oficio.
+     * @param {OficioUpsertArgs} args - Arguments to update or create a Oficio.
+     * @example
+     * // Update or create a Oficio
+     * const oficio = await prisma.oficio.upsert({
+     *   create: {
+     *     // ... data to create a Oficio
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Oficio we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OficioUpsertArgs>(args: SelectSubset<T, OficioUpsertArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Oficios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioCountArgs} args - Arguments to filter Oficios to count.
+     * @example
+     * // Count the number of Oficios
+     * const count = await prisma.oficio.count({
+     *   where: {
+     *     // ... the filter for the Oficios we want to count
+     *   }
+     * })
+    **/
+    count<T extends OficioCountArgs>(
+      args?: Subset<T, OficioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OficioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Oficio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OficioAggregateArgs>(args: Subset<T, OficioAggregateArgs>): Prisma.PrismaPromise<GetOficioAggregateType<T>>
+
+    /**
+     * Group by Oficio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OficioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OficioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OficioGroupByArgs['orderBy'] }
+        : { orderBy?: OficioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OficioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOficioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Oficio model
+   */
+  readonly fields: OficioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Oficio.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OficioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    respuestas<T extends Oficio$respuestasArgs<ExtArgs> = {}>(args?: Subset<T, Oficio$respuestasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Oficio model
+   */ 
+  interface OficioFieldRefs {
+    readonly id: FieldRef<"Oficio", 'String'>
+    readonly numero: FieldRef<"Oficio", 'String'>
+    readonly operadora: FieldRef<"Oficio", 'String'>
+    readonly tipo: FieldRef<"Oficio", 'String'>
+    readonly fechaEnvio: FieldRef<"Oficio", 'DateTime'>
+    readonly fechaRespuesta: FieldRef<"Oficio", 'DateTime'>
+    readonly estado: FieldRef<"Oficio", 'String'>
+    readonly urgencia: FieldRef<"Oficio", 'String'>
+    readonly observaciones: FieldRef<"Oficio", 'String'>
+    readonly columnas: FieldRef<"Oficio", 'String'>
+    readonly createdAt: FieldRef<"Oficio", 'DateTime'>
+    readonly legajoId: FieldRef<"Oficio", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Oficio findUnique
+   */
+  export type OficioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter, which Oficio to fetch.
+     */
+    where: OficioWhereUniqueInput
+  }
+
+  /**
+   * Oficio findUniqueOrThrow
+   */
+  export type OficioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter, which Oficio to fetch.
+     */
+    where: OficioWhereUniqueInput
+  }
+
+  /**
+   * Oficio findFirst
+   */
+  export type OficioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter, which Oficio to fetch.
+     */
+    where?: OficioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oficios to fetch.
+     */
+    orderBy?: OficioOrderByWithRelationInput | OficioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Oficios.
+     */
+    cursor?: OficioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oficios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oficios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Oficios.
+     */
+    distinct?: OficioScalarFieldEnum | OficioScalarFieldEnum[]
+  }
+
+  /**
+   * Oficio findFirstOrThrow
+   */
+  export type OficioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter, which Oficio to fetch.
+     */
+    where?: OficioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oficios to fetch.
+     */
+    orderBy?: OficioOrderByWithRelationInput | OficioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Oficios.
+     */
+    cursor?: OficioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oficios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oficios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Oficios.
+     */
+    distinct?: OficioScalarFieldEnum | OficioScalarFieldEnum[]
+  }
+
+  /**
+   * Oficio findMany
+   */
+  export type OficioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter, which Oficios to fetch.
+     */
+    where?: OficioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oficios to fetch.
+     */
+    orderBy?: OficioOrderByWithRelationInput | OficioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Oficios.
+     */
+    cursor?: OficioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oficios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oficios.
+     */
+    skip?: number
+    distinct?: OficioScalarFieldEnum | OficioScalarFieldEnum[]
+  }
+
+  /**
+   * Oficio create
+   */
+  export type OficioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Oficio.
+     */
+    data: XOR<OficioCreateInput, OficioUncheckedCreateInput>
+  }
+
+  /**
+   * Oficio createMany
+   */
+  export type OficioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Oficios.
+     */
+    data: OficioCreateManyInput | OficioCreateManyInput[]
+  }
+
+  /**
+   * Oficio createManyAndReturn
+   */
+  export type OficioCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Oficios.
+     */
+    data: OficioCreateManyInput | OficioCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Oficio update
+   */
+  export type OficioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Oficio.
+     */
+    data: XOR<OficioUpdateInput, OficioUncheckedUpdateInput>
+    /**
+     * Choose, which Oficio to update.
+     */
+    where: OficioWhereUniqueInput
+  }
+
+  /**
+   * Oficio updateMany
+   */
+  export type OficioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Oficios.
+     */
+    data: XOR<OficioUpdateManyMutationInput, OficioUncheckedUpdateManyInput>
+    /**
+     * Filter which Oficios to update
+     */
+    where?: OficioWhereInput
+  }
+
+  /**
+   * Oficio upsert
+   */
+  export type OficioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Oficio to update in case it exists.
+     */
+    where: OficioWhereUniqueInput
+    /**
+     * In case the Oficio found by the `where` argument doesn't exist, create a new Oficio with this data.
+     */
+    create: XOR<OficioCreateInput, OficioUncheckedCreateInput>
+    /**
+     * In case the Oficio was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OficioUpdateInput, OficioUncheckedUpdateInput>
+  }
+
+  /**
+   * Oficio delete
+   */
+  export type OficioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+    /**
+     * Filter which Oficio to delete.
+     */
+    where: OficioWhereUniqueInput
+  }
+
+  /**
+   * Oficio deleteMany
+   */
+  export type OficioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Oficios to delete
+     */
+    where?: OficioWhereInput
+  }
+
+  /**
+   * Oficio.respuestas
+   */
+  export type Oficio$respuestasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    where?: RespuestaWhereInput
+    orderBy?: RespuestaOrderByWithRelationInput | RespuestaOrderByWithRelationInput[]
+    cursor?: RespuestaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RespuestaScalarFieldEnum | RespuestaScalarFieldEnum[]
+  }
+
+  /**
+   * Oficio without action
+   */
+  export type OficioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oficio
+     */
+    select?: OficioSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OficioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Respuesta
+   */
+
+  export type AggregateRespuesta = {
+    _count: RespuestaCountAggregateOutputType | null
+    _min: RespuestaMinAggregateOutputType | null
+    _max: RespuestaMaxAggregateOutputType | null
+  }
+
+  export type RespuestaMinAggregateOutputType = {
+    id: string | null
+    oficioId: string | null
+    datos: string | null
+    createdAt: Date | null
+  }
+
+  export type RespuestaMaxAggregateOutputType = {
+    id: string | null
+    oficioId: string | null
+    datos: string | null
+    createdAt: Date | null
+  }
+
+  export type RespuestaCountAggregateOutputType = {
+    id: number
+    oficioId: number
+    datos: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RespuestaMinAggregateInputType = {
+    id?: true
+    oficioId?: true
+    datos?: true
+    createdAt?: true
+  }
+
+  export type RespuestaMaxAggregateInputType = {
+    id?: true
+    oficioId?: true
+    datos?: true
+    createdAt?: true
+  }
+
+  export type RespuestaCountAggregateInputType = {
+    id?: true
+    oficioId?: true
+    datos?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RespuestaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Respuesta to aggregate.
+     */
+    where?: RespuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Respuestas to fetch.
+     */
+    orderBy?: RespuestaOrderByWithRelationInput | RespuestaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RespuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Respuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Respuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Respuestas
+    **/
+    _count?: true | RespuestaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RespuestaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RespuestaMaxAggregateInputType
+  }
+
+  export type GetRespuestaAggregateType<T extends RespuestaAggregateArgs> = {
+        [P in keyof T & keyof AggregateRespuesta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRespuesta[P]>
+      : GetScalarType<T[P], AggregateRespuesta[P]>
+  }
+
+
+
+
+  export type RespuestaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RespuestaWhereInput
+    orderBy?: RespuestaOrderByWithAggregationInput | RespuestaOrderByWithAggregationInput[]
+    by: RespuestaScalarFieldEnum[] | RespuestaScalarFieldEnum
+    having?: RespuestaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RespuestaCountAggregateInputType | true
+    _min?: RespuestaMinAggregateInputType
+    _max?: RespuestaMaxAggregateInputType
+  }
+
+  export type RespuestaGroupByOutputType = {
+    id: string
+    oficioId: string
+    datos: string
+    createdAt: Date
+    _count: RespuestaCountAggregateOutputType | null
+    _min: RespuestaMinAggregateOutputType | null
+    _max: RespuestaMaxAggregateOutputType | null
+  }
+
+  type GetRespuestaGroupByPayload<T extends RespuestaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RespuestaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RespuestaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RespuestaGroupByOutputType[P]>
+            : GetScalarType<T[P], RespuestaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RespuestaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    oficioId?: boolean
+    datos?: boolean
+    createdAt?: boolean
+    oficio?: boolean | OficioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["respuesta"]>
+
+  export type RespuestaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    oficioId?: boolean
+    datos?: boolean
+    createdAt?: boolean
+    oficio?: boolean | OficioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["respuesta"]>
+
+  export type RespuestaSelectScalar = {
+    id?: boolean
+    oficioId?: boolean
+    datos?: boolean
+    createdAt?: boolean
+  }
+
+  export type RespuestaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    oficio?: boolean | OficioDefaultArgs<ExtArgs>
+  }
+  export type RespuestaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    oficio?: boolean | OficioDefaultArgs<ExtArgs>
+  }
+
+  export type $RespuestaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Respuesta"
+    objects: {
+      oficio: Prisma.$OficioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      oficioId: string
+      datos: string
+      createdAt: Date
+    }, ExtArgs["result"]["respuesta"]>
+    composites: {}
+  }
+
+  type RespuestaGetPayload<S extends boolean | null | undefined | RespuestaDefaultArgs> = $Result.GetResult<Prisma.$RespuestaPayload, S>
+
+  type RespuestaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RespuestaFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RespuestaCountAggregateInputType | true
+    }
+
+  export interface RespuestaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Respuesta'], meta: { name: 'Respuesta' } }
+    /**
+     * Find zero or one Respuesta that matches the filter.
+     * @param {RespuestaFindUniqueArgs} args - Arguments to find a Respuesta
+     * @example
+     * // Get one Respuesta
+     * const respuesta = await prisma.respuesta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RespuestaFindUniqueArgs>(args: SelectSubset<T, RespuestaFindUniqueArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Respuesta that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RespuestaFindUniqueOrThrowArgs} args - Arguments to find a Respuesta
+     * @example
+     * // Get one Respuesta
+     * const respuesta = await prisma.respuesta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RespuestaFindUniqueOrThrowArgs>(args: SelectSubset<T, RespuestaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Respuesta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaFindFirstArgs} args - Arguments to find a Respuesta
+     * @example
+     * // Get one Respuesta
+     * const respuesta = await prisma.respuesta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RespuestaFindFirstArgs>(args?: SelectSubset<T, RespuestaFindFirstArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Respuesta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaFindFirstOrThrowArgs} args - Arguments to find a Respuesta
+     * @example
+     * // Get one Respuesta
+     * const respuesta = await prisma.respuesta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RespuestaFindFirstOrThrowArgs>(args?: SelectSubset<T, RespuestaFindFirstOrThrowArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Respuestas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Respuestas
+     * const respuestas = await prisma.respuesta.findMany()
+     * 
+     * // Get first 10 Respuestas
+     * const respuestas = await prisma.respuesta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const respuestaWithIdOnly = await prisma.respuesta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RespuestaFindManyArgs>(args?: SelectSubset<T, RespuestaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Respuesta.
+     * @param {RespuestaCreateArgs} args - Arguments to create a Respuesta.
+     * @example
+     * // Create one Respuesta
+     * const Respuesta = await prisma.respuesta.create({
+     *   data: {
+     *     // ... data to create a Respuesta
+     *   }
+     * })
+     * 
+     */
+    create<T extends RespuestaCreateArgs>(args: SelectSubset<T, RespuestaCreateArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Respuestas.
+     * @param {RespuestaCreateManyArgs} args - Arguments to create many Respuestas.
+     * @example
+     * // Create many Respuestas
+     * const respuesta = await prisma.respuesta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RespuestaCreateManyArgs>(args?: SelectSubset<T, RespuestaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Respuestas and returns the data saved in the database.
+     * @param {RespuestaCreateManyAndReturnArgs} args - Arguments to create many Respuestas.
+     * @example
+     * // Create many Respuestas
+     * const respuesta = await prisma.respuesta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Respuestas and only return the `id`
+     * const respuestaWithIdOnly = await prisma.respuesta.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RespuestaCreateManyAndReturnArgs>(args?: SelectSubset<T, RespuestaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Respuesta.
+     * @param {RespuestaDeleteArgs} args - Arguments to delete one Respuesta.
+     * @example
+     * // Delete one Respuesta
+     * const Respuesta = await prisma.respuesta.delete({
+     *   where: {
+     *     // ... filter to delete one Respuesta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RespuestaDeleteArgs>(args: SelectSubset<T, RespuestaDeleteArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Respuesta.
+     * @param {RespuestaUpdateArgs} args - Arguments to update one Respuesta.
+     * @example
+     * // Update one Respuesta
+     * const respuesta = await prisma.respuesta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RespuestaUpdateArgs>(args: SelectSubset<T, RespuestaUpdateArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Respuestas.
+     * @param {RespuestaDeleteManyArgs} args - Arguments to filter Respuestas to delete.
+     * @example
+     * // Delete a few Respuestas
+     * const { count } = await prisma.respuesta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RespuestaDeleteManyArgs>(args?: SelectSubset<T, RespuestaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Respuestas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Respuestas
+     * const respuesta = await prisma.respuesta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RespuestaUpdateManyArgs>(args: SelectSubset<T, RespuestaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Respuesta.
+     * @param {RespuestaUpsertArgs} args - Arguments to update or create a Respuesta.
+     * @example
+     * // Update or create a Respuesta
+     * const respuesta = await prisma.respuesta.upsert({
+     *   create: {
+     *     // ... data to create a Respuesta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Respuesta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RespuestaUpsertArgs>(args: SelectSubset<T, RespuestaUpsertArgs<ExtArgs>>): Prisma__RespuestaClient<$Result.GetResult<Prisma.$RespuestaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Respuestas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaCountArgs} args - Arguments to filter Respuestas to count.
+     * @example
+     * // Count the number of Respuestas
+     * const count = await prisma.respuesta.count({
+     *   where: {
+     *     // ... the filter for the Respuestas we want to count
+     *   }
+     * })
+    **/
+    count<T extends RespuestaCountArgs>(
+      args?: Subset<T, RespuestaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RespuestaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Respuesta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RespuestaAggregateArgs>(args: Subset<T, RespuestaAggregateArgs>): Prisma.PrismaPromise<GetRespuestaAggregateType<T>>
+
+    /**
+     * Group by Respuesta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RespuestaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RespuestaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RespuestaGroupByArgs['orderBy'] }
+        : { orderBy?: RespuestaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RespuestaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRespuestaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Respuesta model
+   */
+  readonly fields: RespuestaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Respuesta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RespuestaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    oficio<T extends OficioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OficioDefaultArgs<ExtArgs>>): Prisma__OficioClient<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Respuesta model
+   */ 
+  interface RespuestaFieldRefs {
+    readonly id: FieldRef<"Respuesta", 'String'>
+    readonly oficioId: FieldRef<"Respuesta", 'String'>
+    readonly datos: FieldRef<"Respuesta", 'String'>
+    readonly createdAt: FieldRef<"Respuesta", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Respuesta findUnique
+   */
+  export type RespuestaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter, which Respuesta to fetch.
+     */
+    where: RespuestaWhereUniqueInput
+  }
+
+  /**
+   * Respuesta findUniqueOrThrow
+   */
+  export type RespuestaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter, which Respuesta to fetch.
+     */
+    where: RespuestaWhereUniqueInput
+  }
+
+  /**
+   * Respuesta findFirst
+   */
+  export type RespuestaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter, which Respuesta to fetch.
+     */
+    where?: RespuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Respuestas to fetch.
+     */
+    orderBy?: RespuestaOrderByWithRelationInput | RespuestaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Respuestas.
+     */
+    cursor?: RespuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Respuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Respuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Respuestas.
+     */
+    distinct?: RespuestaScalarFieldEnum | RespuestaScalarFieldEnum[]
+  }
+
+  /**
+   * Respuesta findFirstOrThrow
+   */
+  export type RespuestaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter, which Respuesta to fetch.
+     */
+    where?: RespuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Respuestas to fetch.
+     */
+    orderBy?: RespuestaOrderByWithRelationInput | RespuestaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Respuestas.
+     */
+    cursor?: RespuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Respuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Respuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Respuestas.
+     */
+    distinct?: RespuestaScalarFieldEnum | RespuestaScalarFieldEnum[]
+  }
+
+  /**
+   * Respuesta findMany
+   */
+  export type RespuestaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter, which Respuestas to fetch.
+     */
+    where?: RespuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Respuestas to fetch.
+     */
+    orderBy?: RespuestaOrderByWithRelationInput | RespuestaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Respuestas.
+     */
+    cursor?: RespuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Respuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Respuestas.
+     */
+    skip?: number
+    distinct?: RespuestaScalarFieldEnum | RespuestaScalarFieldEnum[]
+  }
+
+  /**
+   * Respuesta create
+   */
+  export type RespuestaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Respuesta.
+     */
+    data: XOR<RespuestaCreateInput, RespuestaUncheckedCreateInput>
+  }
+
+  /**
+   * Respuesta createMany
+   */
+  export type RespuestaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Respuestas.
+     */
+    data: RespuestaCreateManyInput | RespuestaCreateManyInput[]
+  }
+
+  /**
+   * Respuesta createManyAndReturn
+   */
+  export type RespuestaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Respuestas.
+     */
+    data: RespuestaCreateManyInput | RespuestaCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Respuesta update
+   */
+  export type RespuestaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Respuesta.
+     */
+    data: XOR<RespuestaUpdateInput, RespuestaUncheckedUpdateInput>
+    /**
+     * Choose, which Respuesta to update.
+     */
+    where: RespuestaWhereUniqueInput
+  }
+
+  /**
+   * Respuesta updateMany
+   */
+  export type RespuestaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Respuestas.
+     */
+    data: XOR<RespuestaUpdateManyMutationInput, RespuestaUncheckedUpdateManyInput>
+    /**
+     * Filter which Respuestas to update
+     */
+    where?: RespuestaWhereInput
+  }
+
+  /**
+   * Respuesta upsert
+   */
+  export type RespuestaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Respuesta to update in case it exists.
+     */
+    where: RespuestaWhereUniqueInput
+    /**
+     * In case the Respuesta found by the `where` argument doesn't exist, create a new Respuesta with this data.
+     */
+    create: XOR<RespuestaCreateInput, RespuestaUncheckedCreateInput>
+    /**
+     * In case the Respuesta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RespuestaUpdateInput, RespuestaUncheckedUpdateInput>
+  }
+
+  /**
+   * Respuesta delete
+   */
+  export type RespuestaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+    /**
+     * Filter which Respuesta to delete.
+     */
+    where: RespuestaWhereUniqueInput
+  }
+
+  /**
+   * Respuesta deleteMany
+   */
+  export type RespuestaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Respuestas to delete
+     */
+    where?: RespuestaWhereInput
+  }
+
+  /**
+   * Respuesta without action
+   */
+  export type RespuestaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Respuesta
+     */
+    select?: RespuestaSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RespuestaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Fiscal
+   */
+
+  export type AggregateFiscal = {
+    _count: FiscalCountAggregateOutputType | null
+    _min: FiscalMinAggregateOutputType | null
+    _max: FiscalMaxAggregateOutputType | null
+  }
+
+  export type FiscalMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    cargo: string | null
+    fiscalia: string | null
+    secretario: string | null
+    dniSecretario: string | null
+    dni: string | null
+    email: string | null
+    emailSecretario: string | null
+    direccion: string | null
+    telefono: string | null
+    telefonoMovil: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    usuarioId: string | null
+  }
+
+  export type FiscalMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    cargo: string | null
+    fiscalia: string | null
+    secretario: string | null
+    dniSecretario: string | null
+    dni: string | null
+    email: string | null
+    emailSecretario: string | null
+    direccion: string | null
+    telefono: string | null
+    telefonoMovil: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    usuarioId: string | null
+  }
+
+  export type FiscalCountAggregateOutputType = {
+    id: number
+    nombre: number
+    cargo: number
+    fiscalia: number
+    secretario: number
+    dniSecretario: number
+    dni: number
+    email: number
+    emailSecretario: number
+    direccion: number
+    telefono: number
+    telefonoMovil: number
+    activo: number
+    createdAt: number
+    usuarioId: number
+    _all: number
+  }
+
+
+  export type FiscalMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    cargo?: true
+    fiscalia?: true
+    secretario?: true
+    dniSecretario?: true
+    dni?: true
+    email?: true
+    emailSecretario?: true
+    direccion?: true
+    telefono?: true
+    telefonoMovil?: true
+    activo?: true
+    createdAt?: true
+    usuarioId?: true
+  }
+
+  export type FiscalMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    cargo?: true
+    fiscalia?: true
+    secretario?: true
+    dniSecretario?: true
+    dni?: true
+    email?: true
+    emailSecretario?: true
+    direccion?: true
+    telefono?: true
+    telefonoMovil?: true
+    activo?: true
+    createdAt?: true
+    usuarioId?: true
+  }
+
+  export type FiscalCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    cargo?: true
+    fiscalia?: true
+    secretario?: true
+    dniSecretario?: true
+    dni?: true
+    email?: true
+    emailSecretario?: true
+    direccion?: true
+    telefono?: true
+    telefonoMovil?: true
+    activo?: true
+    createdAt?: true
+    usuarioId?: true
+    _all?: true
+  }
+
+  export type FiscalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Fiscal to aggregate.
+     */
+    where?: FiscalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fiscals to fetch.
+     */
+    orderBy?: FiscalOrderByWithRelationInput | FiscalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FiscalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fiscals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fiscals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Fiscals
+    **/
+    _count?: true | FiscalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FiscalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FiscalMaxAggregateInputType
+  }
+
+  export type GetFiscalAggregateType<T extends FiscalAggregateArgs> = {
+        [P in keyof T & keyof AggregateFiscal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFiscal[P]>
+      : GetScalarType<T[P], AggregateFiscal[P]>
+  }
+
+
+
+
+  export type FiscalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FiscalWhereInput
+    orderBy?: FiscalOrderByWithAggregationInput | FiscalOrderByWithAggregationInput[]
+    by: FiscalScalarFieldEnum[] | FiscalScalarFieldEnum
+    having?: FiscalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FiscalCountAggregateInputType | true
+    _min?: FiscalMinAggregateInputType
+    _max?: FiscalMaxAggregateInputType
+  }
+
+  export type FiscalGroupByOutputType = {
+    id: string
+    nombre: string
+    cargo: string | null
+    fiscalia: string | null
+    secretario: string | null
+    dniSecretario: string | null
+    dni: string | null
+    email: string | null
+    emailSecretario: string | null
+    direccion: string | null
+    telefono: string | null
+    telefonoMovil: string | null
+    activo: boolean
+    createdAt: Date
+    usuarioId: string
+    _count: FiscalCountAggregateOutputType | null
+    _min: FiscalMinAggregateOutputType | null
+    _max: FiscalMaxAggregateOutputType | null
+  }
+
+  type GetFiscalGroupByPayload<T extends FiscalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FiscalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FiscalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FiscalGroupByOutputType[P]>
+            : GetScalarType<T[P], FiscalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FiscalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    cargo?: boolean
+    fiscalia?: boolean
+    secretario?: boolean
+    dniSecretario?: boolean
+    dni?: boolean
+    email?: boolean
+    emailSecretario?: boolean
+    direccion?: boolean
+    telefono?: boolean
+    telefonoMovil?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    usuarioId?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fiscal"]>
+
+  export type FiscalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    cargo?: boolean
+    fiscalia?: boolean
+    secretario?: boolean
+    dniSecretario?: boolean
+    dni?: boolean
+    email?: boolean
+    emailSecretario?: boolean
+    direccion?: boolean
+    telefono?: boolean
+    telefonoMovil?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    usuarioId?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fiscal"]>
+
+  export type FiscalSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    cargo?: boolean
+    fiscalia?: boolean
+    secretario?: boolean
+    dniSecretario?: boolean
+    dni?: boolean
+    email?: boolean
+    emailSecretario?: boolean
+    direccion?: boolean
+    telefono?: boolean
+    telefonoMovil?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    usuarioId?: boolean
+  }
+
+  export type FiscalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type FiscalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $FiscalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Fiscal"
+    objects: {
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      cargo: string | null
+      fiscalia: string | null
+      secretario: string | null
+      dniSecretario: string | null
+      dni: string | null
+      email: string | null
+      emailSecretario: string | null
+      direccion: string | null
+      telefono: string | null
+      telefonoMovil: string | null
+      activo: boolean
+      createdAt: Date
+      usuarioId: string
+    }, ExtArgs["result"]["fiscal"]>
+    composites: {}
+  }
+
+  type FiscalGetPayload<S extends boolean | null | undefined | FiscalDefaultArgs> = $Result.GetResult<Prisma.$FiscalPayload, S>
+
+  type FiscalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<FiscalFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: FiscalCountAggregateInputType | true
+    }
+
+  export interface FiscalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Fiscal'], meta: { name: 'Fiscal' } }
+    /**
+     * Find zero or one Fiscal that matches the filter.
+     * @param {FiscalFindUniqueArgs} args - Arguments to find a Fiscal
+     * @example
+     * // Get one Fiscal
+     * const fiscal = await prisma.fiscal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FiscalFindUniqueArgs>(args: SelectSubset<T, FiscalFindUniqueArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Fiscal that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {FiscalFindUniqueOrThrowArgs} args - Arguments to find a Fiscal
+     * @example
+     * // Get one Fiscal
+     * const fiscal = await prisma.fiscal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FiscalFindUniqueOrThrowArgs>(args: SelectSubset<T, FiscalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Fiscal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalFindFirstArgs} args - Arguments to find a Fiscal
+     * @example
+     * // Get one Fiscal
+     * const fiscal = await prisma.fiscal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FiscalFindFirstArgs>(args?: SelectSubset<T, FiscalFindFirstArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Fiscal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalFindFirstOrThrowArgs} args - Arguments to find a Fiscal
+     * @example
+     * // Get one Fiscal
+     * const fiscal = await prisma.fiscal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FiscalFindFirstOrThrowArgs>(args?: SelectSubset<T, FiscalFindFirstOrThrowArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Fiscals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Fiscals
+     * const fiscals = await prisma.fiscal.findMany()
+     * 
+     * // Get first 10 Fiscals
+     * const fiscals = await prisma.fiscal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fiscalWithIdOnly = await prisma.fiscal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FiscalFindManyArgs>(args?: SelectSubset<T, FiscalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Fiscal.
+     * @param {FiscalCreateArgs} args - Arguments to create a Fiscal.
+     * @example
+     * // Create one Fiscal
+     * const Fiscal = await prisma.fiscal.create({
+     *   data: {
+     *     // ... data to create a Fiscal
+     *   }
+     * })
+     * 
+     */
+    create<T extends FiscalCreateArgs>(args: SelectSubset<T, FiscalCreateArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Fiscals.
+     * @param {FiscalCreateManyArgs} args - Arguments to create many Fiscals.
+     * @example
+     * // Create many Fiscals
+     * const fiscal = await prisma.fiscal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FiscalCreateManyArgs>(args?: SelectSubset<T, FiscalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Fiscals and returns the data saved in the database.
+     * @param {FiscalCreateManyAndReturnArgs} args - Arguments to create many Fiscals.
+     * @example
+     * // Create many Fiscals
+     * const fiscal = await prisma.fiscal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Fiscals and only return the `id`
+     * const fiscalWithIdOnly = await prisma.fiscal.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FiscalCreateManyAndReturnArgs>(args?: SelectSubset<T, FiscalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Fiscal.
+     * @param {FiscalDeleteArgs} args - Arguments to delete one Fiscal.
+     * @example
+     * // Delete one Fiscal
+     * const Fiscal = await prisma.fiscal.delete({
+     *   where: {
+     *     // ... filter to delete one Fiscal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FiscalDeleteArgs>(args: SelectSubset<T, FiscalDeleteArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Fiscal.
+     * @param {FiscalUpdateArgs} args - Arguments to update one Fiscal.
+     * @example
+     * // Update one Fiscal
+     * const fiscal = await prisma.fiscal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FiscalUpdateArgs>(args: SelectSubset<T, FiscalUpdateArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Fiscals.
+     * @param {FiscalDeleteManyArgs} args - Arguments to filter Fiscals to delete.
+     * @example
+     * // Delete a few Fiscals
+     * const { count } = await prisma.fiscal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FiscalDeleteManyArgs>(args?: SelectSubset<T, FiscalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Fiscals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Fiscals
+     * const fiscal = await prisma.fiscal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FiscalUpdateManyArgs>(args: SelectSubset<T, FiscalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Fiscal.
+     * @param {FiscalUpsertArgs} args - Arguments to update or create a Fiscal.
+     * @example
+     * // Update or create a Fiscal
+     * const fiscal = await prisma.fiscal.upsert({
+     *   create: {
+     *     // ... data to create a Fiscal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Fiscal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FiscalUpsertArgs>(args: SelectSubset<T, FiscalUpsertArgs<ExtArgs>>): Prisma__FiscalClient<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Fiscals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalCountArgs} args - Arguments to filter Fiscals to count.
+     * @example
+     * // Count the number of Fiscals
+     * const count = await prisma.fiscal.count({
+     *   where: {
+     *     // ... the filter for the Fiscals we want to count
+     *   }
+     * })
+    **/
+    count<T extends FiscalCountArgs>(
+      args?: Subset<T, FiscalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FiscalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Fiscal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FiscalAggregateArgs>(args: Subset<T, FiscalAggregateArgs>): Prisma.PrismaPromise<GetFiscalAggregateType<T>>
+
+    /**
+     * Group by Fiscal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FiscalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FiscalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FiscalGroupByArgs['orderBy'] }
+        : { orderBy?: FiscalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FiscalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFiscalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Fiscal model
+   */
+  readonly fields: FiscalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Fiscal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FiscalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Fiscal model
+   */ 
+  interface FiscalFieldRefs {
+    readonly id: FieldRef<"Fiscal", 'String'>
+    readonly nombre: FieldRef<"Fiscal", 'String'>
+    readonly cargo: FieldRef<"Fiscal", 'String'>
+    readonly fiscalia: FieldRef<"Fiscal", 'String'>
+    readonly secretario: FieldRef<"Fiscal", 'String'>
+    readonly dniSecretario: FieldRef<"Fiscal", 'String'>
+    readonly dni: FieldRef<"Fiscal", 'String'>
+    readonly email: FieldRef<"Fiscal", 'String'>
+    readonly emailSecretario: FieldRef<"Fiscal", 'String'>
+    readonly direccion: FieldRef<"Fiscal", 'String'>
+    readonly telefono: FieldRef<"Fiscal", 'String'>
+    readonly telefonoMovil: FieldRef<"Fiscal", 'String'>
+    readonly activo: FieldRef<"Fiscal", 'Boolean'>
+    readonly createdAt: FieldRef<"Fiscal", 'DateTime'>
+    readonly usuarioId: FieldRef<"Fiscal", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Fiscal findUnique
+   */
+  export type FiscalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter, which Fiscal to fetch.
+     */
+    where: FiscalWhereUniqueInput
+  }
+
+  /**
+   * Fiscal findUniqueOrThrow
+   */
+  export type FiscalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter, which Fiscal to fetch.
+     */
+    where: FiscalWhereUniqueInput
+  }
+
+  /**
+   * Fiscal findFirst
+   */
+  export type FiscalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter, which Fiscal to fetch.
+     */
+    where?: FiscalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fiscals to fetch.
+     */
+    orderBy?: FiscalOrderByWithRelationInput | FiscalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Fiscals.
+     */
+    cursor?: FiscalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fiscals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fiscals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Fiscals.
+     */
+    distinct?: FiscalScalarFieldEnum | FiscalScalarFieldEnum[]
+  }
+
+  /**
+   * Fiscal findFirstOrThrow
+   */
+  export type FiscalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter, which Fiscal to fetch.
+     */
+    where?: FiscalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fiscals to fetch.
+     */
+    orderBy?: FiscalOrderByWithRelationInput | FiscalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Fiscals.
+     */
+    cursor?: FiscalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fiscals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fiscals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Fiscals.
+     */
+    distinct?: FiscalScalarFieldEnum | FiscalScalarFieldEnum[]
+  }
+
+  /**
+   * Fiscal findMany
+   */
+  export type FiscalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter, which Fiscals to fetch.
+     */
+    where?: FiscalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fiscals to fetch.
+     */
+    orderBy?: FiscalOrderByWithRelationInput | FiscalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Fiscals.
+     */
+    cursor?: FiscalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fiscals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fiscals.
+     */
+    skip?: number
+    distinct?: FiscalScalarFieldEnum | FiscalScalarFieldEnum[]
+  }
+
+  /**
+   * Fiscal create
+   */
+  export type FiscalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Fiscal.
+     */
+    data: XOR<FiscalCreateInput, FiscalUncheckedCreateInput>
+  }
+
+  /**
+   * Fiscal createMany
+   */
+  export type FiscalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Fiscals.
+     */
+    data: FiscalCreateManyInput | FiscalCreateManyInput[]
+  }
+
+  /**
+   * Fiscal createManyAndReturn
+   */
+  export type FiscalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Fiscals.
+     */
+    data: FiscalCreateManyInput | FiscalCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Fiscal update
+   */
+  export type FiscalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Fiscal.
+     */
+    data: XOR<FiscalUpdateInput, FiscalUncheckedUpdateInput>
+    /**
+     * Choose, which Fiscal to update.
+     */
+    where: FiscalWhereUniqueInput
+  }
+
+  /**
+   * Fiscal updateMany
+   */
+  export type FiscalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Fiscals.
+     */
+    data: XOR<FiscalUpdateManyMutationInput, FiscalUncheckedUpdateManyInput>
+    /**
+     * Filter which Fiscals to update
+     */
+    where?: FiscalWhereInput
+  }
+
+  /**
+   * Fiscal upsert
+   */
+  export type FiscalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Fiscal to update in case it exists.
+     */
+    where: FiscalWhereUniqueInput
+    /**
+     * In case the Fiscal found by the `where` argument doesn't exist, create a new Fiscal with this data.
+     */
+    create: XOR<FiscalCreateInput, FiscalUncheckedCreateInput>
+    /**
+     * In case the Fiscal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FiscalUpdateInput, FiscalUncheckedUpdateInput>
+  }
+
+  /**
+   * Fiscal delete
+   */
+  export type FiscalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+    /**
+     * Filter which Fiscal to delete.
+     */
+    where: FiscalWhereUniqueInput
+  }
+
+  /**
+   * Fiscal deleteMany
+   */
+  export type FiscalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Fiscals to delete
+     */
+    where?: FiscalWhereInput
+  }
+
+  /**
+   * Fiscal without action
+   */
+  export type FiscalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Fiscal
+     */
+    select?: FiscalSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FiscalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Enums
+   */
+
+  export const TransactionIsolationLevel: {
+    Serializable: 'Serializable'
+  };
+
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const UsuarioScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    usuario: 'usuario',
+    password: 'password',
+    rol: 'rol',
+    activo: 'activo',
+    createdAt: 'createdAt'
+  };
+
+  export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+  export const LegajoScalarFieldEnum: {
+    id: 'id',
+    numero: 'numero',
+    caratula: 'caratula',
+    cuij: 'cuij',
+    delito: 'delito',
+    fechaHecho: 'fechaHecho',
+    estado: 'estado',
+    observaciones: 'observaciones',
+    fiscal: 'fiscal',
+    emailRespuesta: 'emailRespuesta',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    usuarioId: 'usuarioId'
+  };
+
+  export type LegajoScalarFieldEnum = (typeof LegajoScalarFieldEnum)[keyof typeof LegajoScalarFieldEnum]
+
+
+  export const VictimaScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    dni: 'dni',
+    telefono: 'telefono',
+    email: 'email',
+    legajoId: 'legajoId'
+  };
+
+  export type VictimaScalarFieldEnum = (typeof VictimaScalarFieldEnum)[keyof typeof VictimaScalarFieldEnum]
+
+
+  export const DispositivoScalarFieldEnum: {
+    id: 'id',
+    tipo: 'tipo',
+    marca: 'marca',
+    modelo: 'modelo',
+    imei: 'imei',
+    color: 'color',
+    legajoId: 'legajoId'
+  };
+
+  export type DispositivoScalarFieldEnum = (typeof DispositivoScalarFieldEnum)[keyof typeof DispositivoScalarFieldEnum]
+
+
+  export const OficioScalarFieldEnum: {
+    id: 'id',
+    numero: 'numero',
+    operadora: 'operadora',
+    tipo: 'tipo',
+    fechaEnvio: 'fechaEnvio',
+    fechaRespuesta: 'fechaRespuesta',
+    estado: 'estado',
+    urgencia: 'urgencia',
+    observaciones: 'observaciones',
+    columnas: 'columnas',
+    createdAt: 'createdAt',
+    legajoId: 'legajoId'
+  };
+
+  export type OficioScalarFieldEnum = (typeof OficioScalarFieldEnum)[keyof typeof OficioScalarFieldEnum]
+
+
+  export const RespuestaScalarFieldEnum: {
+    id: 'id',
+    oficioId: 'oficioId',
+    datos: 'datos',
+    createdAt: 'createdAt'
+  };
+
+  export type RespuestaScalarFieldEnum = (typeof RespuestaScalarFieldEnum)[keyof typeof RespuestaScalarFieldEnum]
+
+
+  export const FiscalScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    cargo: 'cargo',
+    fiscalia: 'fiscalia',
+    secretario: 'secretario',
+    dniSecretario: 'dniSecretario',
+    dni: 'dni',
+    email: 'email',
+    emailSecretario: 'emailSecretario',
+    direccion: 'direccion',
+    telefono: 'telefono',
+    telefonoMovil: 'telefonoMovil',
+    activo: 'activo',
+    createdAt: 'createdAt',
+    usuarioId: 'usuarioId'
+  };
+
+  export type FiscalScalarFieldEnum = (typeof FiscalScalarFieldEnum)[keyof typeof FiscalScalarFieldEnum]
+
+
+  export const SortOrder: {
+    asc: 'asc',
+    desc: 'desc'
+  };
+
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  /**
+   * Field references 
+   */
+
+
+  /**
+   * Reference to a field of type 'String'
+   */
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+  /**
+   * Deep Input Types
+   */
+
+
+  export type UsuarioWhereInput = {
+    AND?: UsuarioWhereInput | UsuarioWhereInput[]
+    OR?: UsuarioWhereInput[]
+    NOT?: UsuarioWhereInput | UsuarioWhereInput[]
+    id?: StringFilter<"Usuario"> | string
+    nombre?: StringFilter<"Usuario"> | string
+    usuario?: StringFilter<"Usuario"> | string
+    password?: StringFilter<"Usuario"> | string
+    rol?: StringFilter<"Usuario"> | string
+    activo?: BoolFilter<"Usuario"> | boolean
+    createdAt?: DateTimeFilter<"Usuario"> | Date | string
+    legajos?: LegajoListRelationFilter
+    fiscales?: FiscalListRelationFilter
+  }
+
+  export type UsuarioOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    usuario?: SortOrder
+    password?: SortOrder
+    rol?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    legajos?: LegajoOrderByRelationAggregateInput
+    fiscales?: FiscalOrderByRelationAggregateInput
+  }
+
+  export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    usuario?: string
+    AND?: UsuarioWhereInput | UsuarioWhereInput[]
+    OR?: UsuarioWhereInput[]
+    NOT?: UsuarioWhereInput | UsuarioWhereInput[]
+    nombre?: StringFilter<"Usuario"> | string
+    password?: StringFilter<"Usuario"> | string
+    rol?: StringFilter<"Usuario"> | string
+    activo?: BoolFilter<"Usuario"> | boolean
+    createdAt?: DateTimeFilter<"Usuario"> | Date | string
+    legajos?: LegajoListRelationFilter
+    fiscales?: FiscalListRelationFilter
+  }, "id" | "usuario">
+
+  export type UsuarioOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    usuario?: SortOrder
+    password?: SortOrder
+    rol?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    _count?: UsuarioCountOrderByAggregateInput
+    _max?: UsuarioMaxOrderByAggregateInput
+    _min?: UsuarioMinOrderByAggregateInput
+  }
+
+  export type UsuarioScalarWhereWithAggregatesInput = {
+    AND?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
+    OR?: UsuarioScalarWhereWithAggregatesInput[]
+    NOT?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Usuario"> | string
+    nombre?: StringWithAggregatesFilter<"Usuario"> | string
+    usuario?: StringWithAggregatesFilter<"Usuario"> | string
+    password?: StringWithAggregatesFilter<"Usuario"> | string
+    rol?: StringWithAggregatesFilter<"Usuario"> | string
+    activo?: BoolWithAggregatesFilter<"Usuario"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+  }
+
+  export type LegajoWhereInput = {
+    AND?: LegajoWhereInput | LegajoWhereInput[]
+    OR?: LegajoWhereInput[]
+    NOT?: LegajoWhereInput | LegajoWhereInput[]
+    id?: StringFilter<"Legajo"> | string
+    numero?: StringFilter<"Legajo"> | string
+    caratula?: StringFilter<"Legajo"> | string
+    cuij?: StringNullableFilter<"Legajo"> | string | null
+    delito?: StringFilter<"Legajo"> | string
+    fechaHecho?: DateTimeFilter<"Legajo"> | Date | string
+    estado?: StringFilter<"Legajo"> | string
+    observaciones?: StringNullableFilter<"Legajo"> | string | null
+    fiscal?: StringNullableFilter<"Legajo"> | string | null
+    emailRespuesta?: StringNullableFilter<"Legajo"> | string | null
+    createdAt?: DateTimeFilter<"Legajo"> | Date | string
+    updatedAt?: DateTimeFilter<"Legajo"> | Date | string
+    usuarioId?: StringFilter<"Legajo"> | string
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+    victimas?: VictimaListRelationFilter
+    dispositivos?: DispositivoListRelationFilter
+    oficios?: OficioListRelationFilter
+  }
+
+  export type LegajoOrderByWithRelationInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    caratula?: SortOrder
+    cuij?: SortOrderInput | SortOrder
+    delito?: SortOrder
+    fechaHecho?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    emailRespuesta?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    usuarioId?: SortOrder
+    usuario?: UsuarioOrderByWithRelationInput
+    victimas?: VictimaOrderByRelationAggregateInput
+    dispositivos?: DispositivoOrderByRelationAggregateInput
+    oficios?: OficioOrderByRelationAggregateInput
+  }
+
+  export type LegajoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    numero?: string
+    AND?: LegajoWhereInput | LegajoWhereInput[]
+    OR?: LegajoWhereInput[]
+    NOT?: LegajoWhereInput | LegajoWhereInput[]
+    caratula?: StringFilter<"Legajo"> | string
+    cuij?: StringNullableFilter<"Legajo"> | string | null
+    delito?: StringFilter<"Legajo"> | string
+    fechaHecho?: DateTimeFilter<"Legajo"> | Date | string
+    estado?: StringFilter<"Legajo"> | string
+    observaciones?: StringNullableFilter<"Legajo"> | string | null
+    fiscal?: StringNullableFilter<"Legajo"> | string | null
+    emailRespuesta?: StringNullableFilter<"Legajo"> | string | null
+    createdAt?: DateTimeFilter<"Legajo"> | Date | string
+    updatedAt?: DateTimeFilter<"Legajo"> | Date | string
+    usuarioId?: StringFilter<"Legajo"> | string
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+    victimas?: VictimaListRelationFilter
+    dispositivos?: DispositivoListRelationFilter
+    oficios?: OficioListRelationFilter
+  }, "id" | "numero">
+
+  export type LegajoOrderByWithAggregationInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    caratula?: SortOrder
+    cuij?: SortOrderInput | SortOrder
+    delito?: SortOrder
+    fechaHecho?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    emailRespuesta?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    usuarioId?: SortOrder
+    _count?: LegajoCountOrderByAggregateInput
+    _max?: LegajoMaxOrderByAggregateInput
+    _min?: LegajoMinOrderByAggregateInput
+  }
+
+  export type LegajoScalarWhereWithAggregatesInput = {
+    AND?: LegajoScalarWhereWithAggregatesInput | LegajoScalarWhereWithAggregatesInput[]
+    OR?: LegajoScalarWhereWithAggregatesInput[]
+    NOT?: LegajoScalarWhereWithAggregatesInput | LegajoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Legajo"> | string
+    numero?: StringWithAggregatesFilter<"Legajo"> | string
+    caratula?: StringWithAggregatesFilter<"Legajo"> | string
+    cuij?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
+    delito?: StringWithAggregatesFilter<"Legajo"> | string
+    fechaHecho?: DateTimeWithAggregatesFilter<"Legajo"> | Date | string
+    estado?: StringWithAggregatesFilter<"Legajo"> | string
+    observaciones?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
+    fiscal?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
+    emailRespuesta?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Legajo"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Legajo"> | Date | string
+    usuarioId?: StringWithAggregatesFilter<"Legajo"> | string
+  }
+
+  export type VictimaWhereInput = {
+    AND?: VictimaWhereInput | VictimaWhereInput[]
+    OR?: VictimaWhereInput[]
+    NOT?: VictimaWhereInput | VictimaWhereInput[]
+    id?: StringFilter<"Victima"> | string
+    nombre?: StringFilter<"Victima"> | string
+    dni?: StringNullableFilter<"Victima"> | string | null
+    telefono?: StringNullableFilter<"Victima"> | string | null
+    email?: StringNullableFilter<"Victima"> | string | null
+    legajoId?: StringFilter<"Victima"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }
+
+  export type VictimaOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    dni?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    legajoId?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+  }
+
+  export type VictimaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VictimaWhereInput | VictimaWhereInput[]
+    OR?: VictimaWhereInput[]
+    NOT?: VictimaWhereInput | VictimaWhereInput[]
+    nombre?: StringFilter<"Victima"> | string
+    dni?: StringNullableFilter<"Victima"> | string | null
+    telefono?: StringNullableFilter<"Victima"> | string | null
+    email?: StringNullableFilter<"Victima"> | string | null
+    legajoId?: StringFilter<"Victima"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }, "id">
+
+  export type VictimaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    dni?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    legajoId?: SortOrder
+    _count?: VictimaCountOrderByAggregateInput
+    _max?: VictimaMaxOrderByAggregateInput
+    _min?: VictimaMinOrderByAggregateInput
+  }
+
+  export type VictimaScalarWhereWithAggregatesInput = {
+    AND?: VictimaScalarWhereWithAggregatesInput | VictimaScalarWhereWithAggregatesInput[]
+    OR?: VictimaScalarWhereWithAggregatesInput[]
+    NOT?: VictimaScalarWhereWithAggregatesInput | VictimaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Victima"> | string
+    nombre?: StringWithAggregatesFilter<"Victima"> | string
+    dni?: StringNullableWithAggregatesFilter<"Victima"> | string | null
+    telefono?: StringNullableWithAggregatesFilter<"Victima"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Victima"> | string | null
+    legajoId?: StringWithAggregatesFilter<"Victima"> | string
+  }
+
+  export type DispositivoWhereInput = {
+    AND?: DispositivoWhereInput | DispositivoWhereInput[]
+    OR?: DispositivoWhereInput[]
+    NOT?: DispositivoWhereInput | DispositivoWhereInput[]
+    id?: StringFilter<"Dispositivo"> | string
+    tipo?: StringFilter<"Dispositivo"> | string
+    marca?: StringNullableFilter<"Dispositivo"> | string | null
+    modelo?: StringNullableFilter<"Dispositivo"> | string | null
+    imei?: StringNullableFilter<"Dispositivo"> | string | null
+    color?: StringNullableFilter<"Dispositivo"> | string | null
+    legajoId?: StringFilter<"Dispositivo"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }
+
+  export type DispositivoOrderByWithRelationInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    marca?: SortOrderInput | SortOrder
+    modelo?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    legajoId?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+  }
+
+  export type DispositivoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DispositivoWhereInput | DispositivoWhereInput[]
+    OR?: DispositivoWhereInput[]
+    NOT?: DispositivoWhereInput | DispositivoWhereInput[]
+    tipo?: StringFilter<"Dispositivo"> | string
+    marca?: StringNullableFilter<"Dispositivo"> | string | null
+    modelo?: StringNullableFilter<"Dispositivo"> | string | null
+    imei?: StringNullableFilter<"Dispositivo"> | string | null
+    color?: StringNullableFilter<"Dispositivo"> | string | null
+    legajoId?: StringFilter<"Dispositivo"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }, "id">
+
+  export type DispositivoOrderByWithAggregationInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    marca?: SortOrderInput | SortOrder
+    modelo?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    legajoId?: SortOrder
+    _count?: DispositivoCountOrderByAggregateInput
+    _max?: DispositivoMaxOrderByAggregateInput
+    _min?: DispositivoMinOrderByAggregateInput
+  }
+
+  export type DispositivoScalarWhereWithAggregatesInput = {
+    AND?: DispositivoScalarWhereWithAggregatesInput | DispositivoScalarWhereWithAggregatesInput[]
+    OR?: DispositivoScalarWhereWithAggregatesInput[]
+    NOT?: DispositivoScalarWhereWithAggregatesInput | DispositivoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Dispositivo"> | string
+    tipo?: StringWithAggregatesFilter<"Dispositivo"> | string
+    marca?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
+    modelo?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
+    imei?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
+    color?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
+    legajoId?: StringWithAggregatesFilter<"Dispositivo"> | string
+  }
+
+  export type OficioWhereInput = {
+    AND?: OficioWhereInput | OficioWhereInput[]
+    OR?: OficioWhereInput[]
+    NOT?: OficioWhereInput | OficioWhereInput[]
+    id?: StringFilter<"Oficio"> | string
+    numero?: StringNullableFilter<"Oficio"> | string | null
+    operadora?: StringFilter<"Oficio"> | string
+    tipo?: StringFilter<"Oficio"> | string
+    fechaEnvio?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    fechaRespuesta?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    estado?: StringFilter<"Oficio"> | string
+    urgencia?: StringFilter<"Oficio"> | string
+    observaciones?: StringNullableFilter<"Oficio"> | string | null
+    columnas?: StringNullableFilter<"Oficio"> | string | null
+    createdAt?: DateTimeFilter<"Oficio"> | Date | string
+    legajoId?: StringFilter<"Oficio"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+    respuestas?: RespuestaListRelationFilter
+  }
+
+  export type OficioOrderByWithRelationInput = {
+    id?: SortOrder
+    numero?: SortOrderInput | SortOrder
+    operadora?: SortOrder
+    tipo?: SortOrder
+    fechaEnvio?: SortOrderInput | SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    urgencia?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    columnas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    legajoId?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+    respuestas?: RespuestaOrderByRelationAggregateInput
+  }
+
+  export type OficioWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OficioWhereInput | OficioWhereInput[]
+    OR?: OficioWhereInput[]
+    NOT?: OficioWhereInput | OficioWhereInput[]
+    numero?: StringNullableFilter<"Oficio"> | string | null
+    operadora?: StringFilter<"Oficio"> | string
+    tipo?: StringFilter<"Oficio"> | string
+    fechaEnvio?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    fechaRespuesta?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    estado?: StringFilter<"Oficio"> | string
+    urgencia?: StringFilter<"Oficio"> | string
+    observaciones?: StringNullableFilter<"Oficio"> | string | null
+    columnas?: StringNullableFilter<"Oficio"> | string | null
+    createdAt?: DateTimeFilter<"Oficio"> | Date | string
+    legajoId?: StringFilter<"Oficio"> | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+    respuestas?: RespuestaListRelationFilter
+  }, "id">
+
+  export type OficioOrderByWithAggregationInput = {
+    id?: SortOrder
+    numero?: SortOrderInput | SortOrder
+    operadora?: SortOrder
+    tipo?: SortOrder
+    fechaEnvio?: SortOrderInput | SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    urgencia?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    columnas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    legajoId?: SortOrder
+    _count?: OficioCountOrderByAggregateInput
+    _max?: OficioMaxOrderByAggregateInput
+    _min?: OficioMinOrderByAggregateInput
+  }
+
+  export type OficioScalarWhereWithAggregatesInput = {
+    AND?: OficioScalarWhereWithAggregatesInput | OficioScalarWhereWithAggregatesInput[]
+    OR?: OficioScalarWhereWithAggregatesInput[]
+    NOT?: OficioScalarWhereWithAggregatesInput | OficioScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Oficio"> | string
+    numero?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
+    operadora?: StringWithAggregatesFilter<"Oficio"> | string
+    tipo?: StringWithAggregatesFilter<"Oficio"> | string
+    fechaEnvio?: DateTimeNullableWithAggregatesFilter<"Oficio"> | Date | string | null
+    fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"Oficio"> | Date | string | null
+    estado?: StringWithAggregatesFilter<"Oficio"> | string
+    urgencia?: StringWithAggregatesFilter<"Oficio"> | string
+    observaciones?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
+    columnas?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Oficio"> | Date | string
+    legajoId?: StringWithAggregatesFilter<"Oficio"> | string
+  }
+
+  export type RespuestaWhereInput = {
+    AND?: RespuestaWhereInput | RespuestaWhereInput[]
+    OR?: RespuestaWhereInput[]
+    NOT?: RespuestaWhereInput | RespuestaWhereInput[]
+    id?: StringFilter<"Respuesta"> | string
+    oficioId?: StringFilter<"Respuesta"> | string
+    datos?: StringFilter<"Respuesta"> | string
+    createdAt?: DateTimeFilter<"Respuesta"> | Date | string
+    oficio?: XOR<OficioRelationFilter, OficioWhereInput>
+  }
+
+  export type RespuestaOrderByWithRelationInput = {
+    id?: SortOrder
+    oficioId?: SortOrder
+    datos?: SortOrder
+    createdAt?: SortOrder
+    oficio?: OficioOrderByWithRelationInput
+  }
+
+  export type RespuestaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RespuestaWhereInput | RespuestaWhereInput[]
+    OR?: RespuestaWhereInput[]
+    NOT?: RespuestaWhereInput | RespuestaWhereInput[]
+    oficioId?: StringFilter<"Respuesta"> | string
+    datos?: StringFilter<"Respuesta"> | string
+    createdAt?: DateTimeFilter<"Respuesta"> | Date | string
+    oficio?: XOR<OficioRelationFilter, OficioWhereInput>
+  }, "id">
+
+  export type RespuestaOrderByWithAggregationInput = {
+    id?: SortOrder
+    oficioId?: SortOrder
+    datos?: SortOrder
+    createdAt?: SortOrder
+    _count?: RespuestaCountOrderByAggregateInput
+    _max?: RespuestaMaxOrderByAggregateInput
+    _min?: RespuestaMinOrderByAggregateInput
+  }
+
+  export type RespuestaScalarWhereWithAggregatesInput = {
+    AND?: RespuestaScalarWhereWithAggregatesInput | RespuestaScalarWhereWithAggregatesInput[]
+    OR?: RespuestaScalarWhereWithAggregatesInput[]
+    NOT?: RespuestaScalarWhereWithAggregatesInput | RespuestaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Respuesta"> | string
+    oficioId?: StringWithAggregatesFilter<"Respuesta"> | string
+    datos?: StringWithAggregatesFilter<"Respuesta"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Respuesta"> | Date | string
+  }
+
+  export type FiscalWhereInput = {
+    AND?: FiscalWhereInput | FiscalWhereInput[]
+    OR?: FiscalWhereInput[]
+    NOT?: FiscalWhereInput | FiscalWhereInput[]
+    id?: StringFilter<"Fiscal"> | string
+    nombre?: StringFilter<"Fiscal"> | string
+    cargo?: StringNullableFilter<"Fiscal"> | string | null
+    fiscalia?: StringNullableFilter<"Fiscal"> | string | null
+    secretario?: StringNullableFilter<"Fiscal"> | string | null
+    dniSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    dni?: StringNullableFilter<"Fiscal"> | string | null
+    email?: StringNullableFilter<"Fiscal"> | string | null
+    emailSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    direccion?: StringNullableFilter<"Fiscal"> | string | null
+    telefono?: StringNullableFilter<"Fiscal"> | string | null
+    telefonoMovil?: StringNullableFilter<"Fiscal"> | string | null
+    activo?: BoolFilter<"Fiscal"> | boolean
+    createdAt?: DateTimeFilter<"Fiscal"> | Date | string
+    usuarioId?: StringFilter<"Fiscal"> | string
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+  }
+
+  export type FiscalOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    cargo?: SortOrderInput | SortOrder
+    fiscalia?: SortOrderInput | SortOrder
+    secretario?: SortOrderInput | SortOrder
+    dniSecretario?: SortOrderInput | SortOrder
+    dni?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    emailSecretario?: SortOrderInput | SortOrder
+    direccion?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    telefonoMovil?: SortOrderInput | SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    usuarioId?: SortOrder
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type FiscalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FiscalWhereInput | FiscalWhereInput[]
+    OR?: FiscalWhereInput[]
+    NOT?: FiscalWhereInput | FiscalWhereInput[]
+    nombre?: StringFilter<"Fiscal"> | string
+    cargo?: StringNullableFilter<"Fiscal"> | string | null
+    fiscalia?: StringNullableFilter<"Fiscal"> | string | null
+    secretario?: StringNullableFilter<"Fiscal"> | string | null
+    dniSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    dni?: StringNullableFilter<"Fiscal"> | string | null
+    email?: StringNullableFilter<"Fiscal"> | string | null
+    emailSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    direccion?: StringNullableFilter<"Fiscal"> | string | null
+    telefono?: StringNullableFilter<"Fiscal"> | string | null
+    telefonoMovil?: StringNullableFilter<"Fiscal"> | string | null
+    activo?: BoolFilter<"Fiscal"> | boolean
+    createdAt?: DateTimeFilter<"Fiscal"> | Date | string
+    usuarioId?: StringFilter<"Fiscal"> | string
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+  }, "id">
+
+  export type FiscalOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    cargo?: SortOrderInput | SortOrder
+    fiscalia?: SortOrderInput | SortOrder
+    secretario?: SortOrderInput | SortOrder
+    dniSecretario?: SortOrderInput | SortOrder
+    dni?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    emailSecretario?: SortOrderInput | SortOrder
+    direccion?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    telefonoMovil?: SortOrderInput | SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    usuarioId?: SortOrder
+    _count?: FiscalCountOrderByAggregateInput
+    _max?: FiscalMaxOrderByAggregateInput
+    _min?: FiscalMinOrderByAggregateInput
+  }
+
+  export type FiscalScalarWhereWithAggregatesInput = {
+    AND?: FiscalScalarWhereWithAggregatesInput | FiscalScalarWhereWithAggregatesInput[]
+    OR?: FiscalScalarWhereWithAggregatesInput[]
+    NOT?: FiscalScalarWhereWithAggregatesInput | FiscalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Fiscal"> | string
+    nombre?: StringWithAggregatesFilter<"Fiscal"> | string
+    cargo?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    fiscalia?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    secretario?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    dniSecretario?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    dni?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    emailSecretario?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    direccion?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    telefono?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    telefonoMovil?: StringNullableWithAggregatesFilter<"Fiscal"> | string | null
+    activo?: BoolWithAggregatesFilter<"Fiscal"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Fiscal"> | Date | string
+    usuarioId?: StringWithAggregatesFilter<"Fiscal"> | string
+  }
+
+  export type UsuarioCreateInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoCreateNestedManyWithoutUsuarioInput
+    fiscales?: FiscalCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoUncheckedCreateNestedManyWithoutUsuarioInput
+    fiscales?: FiscalUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUpdateManyWithoutUsuarioNestedInput
+    fiscales?: FiscalUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
+    fiscales?: FiscalUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioCreateManyInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+  }
+
+  export type UsuarioUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsuarioUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LegajoCreateInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoCreateManyInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+  }
+
+  export type LegajoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LegajoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type VictimaCreateInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+    legajo: LegajoCreateNestedOneWithoutVictimasInput
+  }
+
+  export type VictimaUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+    legajoId: string
+  }
+
+  export type VictimaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: LegajoUpdateOneRequiredWithoutVictimasNestedInput
+  }
+
+  export type VictimaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type VictimaCreateManyInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+    legajoId: string
+  }
+
+  export type VictimaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VictimaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DispositivoCreateInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+    legajo: LegajoCreateNestedOneWithoutDispositivosInput
+  }
+
+  export type DispositivoUncheckedCreateInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+    legajoId: string
+  }
+
+  export type DispositivoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: LegajoUpdateOneRequiredWithoutDispositivosNestedInput
+  }
+
+  export type DispositivoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DispositivoCreateManyInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+    legajoId: string
+  }
+
+  export type DispositivoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DispositivoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OficioCreateInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutOficiosInput
+    respuestas?: RespuestaCreateNestedManyWithoutOficioInput
+  }
+
+  export type OficioUncheckedCreateInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    legajoId: string
+    respuestas?: RespuestaUncheckedCreateNestedManyWithoutOficioInput
+  }
+
+  export type OficioUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutOficiosNestedInput
+    respuestas?: RespuestaUpdateManyWithoutOficioNestedInput
+  }
+
+  export type OficioUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    respuestas?: RespuestaUncheckedUpdateManyWithoutOficioNestedInput
+  }
+
+  export type OficioCreateManyInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    legajoId: string
+  }
+
+  export type OficioUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OficioUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RespuestaCreateInput = {
+    id?: string
+    datos: string
+    createdAt?: Date | string
+    oficio: OficioCreateNestedOneWithoutRespuestasInput
+  }
+
+  export type RespuestaUncheckedCreateInput = {
+    id?: string
+    oficioId: string
+    datos: string
+    createdAt?: Date | string
+  }
+
+  export type RespuestaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    oficio?: OficioUpdateOneRequiredWithoutRespuestasNestedInput
+  }
+
+  export type RespuestaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    oficioId?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RespuestaCreateManyInput = {
+    id?: string
+    oficioId: string
+    datos: string
+    createdAt?: Date | string
+  }
+
+  export type RespuestaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RespuestaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    oficioId?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FiscalCreateInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutFiscalesInput
+  }
+
+  export type FiscalUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    usuarioId: string
+  }
+
+  export type FiscalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutFiscalesNestedInput
+  }
+
+  export type FiscalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FiscalCreateManyInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    usuarioId: string
+  }
+
+  export type FiscalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FiscalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[]
+    notIn?: string[]
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type LegajoListRelationFilter = {
+    every?: LegajoWhereInput
+    some?: LegajoWhereInput
+    none?: LegajoWhereInput
+  }
+
+  export type FiscalListRelationFilter = {
+    every?: FiscalWhereInput
+    some?: FiscalWhereInput
+    none?: FiscalWhereInput
+  }
+
+  export type LegajoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FiscalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UsuarioCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    usuario?: SortOrder
+    password?: SortOrder
+    rol?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UsuarioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    usuario?: SortOrder
+    password?: SortOrder
+    rol?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UsuarioMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    usuario?: SortOrder
+    password?: SortOrder
+    rol?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[]
+    notIn?: string[]
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type UsuarioRelationFilter = {
+    is?: UsuarioWhereInput
+    isNot?: UsuarioWhereInput
+  }
+
+  export type VictimaListRelationFilter = {
+    every?: VictimaWhereInput
+    some?: VictimaWhereInput
+    none?: VictimaWhereInput
+  }
+
+  export type DispositivoListRelationFilter = {
+    every?: DispositivoWhereInput
+    some?: DispositivoWhereInput
+    none?: DispositivoWhereInput
+  }
+
+  export type OficioListRelationFilter = {
+    every?: OficioWhereInput
+    some?: OficioWhereInput
+    none?: OficioWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type VictimaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DispositivoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OficioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LegajoCountOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    caratula?: SortOrder
+    cuij?: SortOrder
+    delito?: SortOrder
+    fechaHecho?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    fiscal?: SortOrder
+    emailRespuesta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type LegajoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    caratula?: SortOrder
+    cuij?: SortOrder
+    delito?: SortOrder
+    fechaHecho?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    fiscal?: SortOrder
+    emailRespuesta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type LegajoMinOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    caratula?: SortOrder
+    cuij?: SortOrder
+    delito?: SortOrder
+    fechaHecho?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    fiscal?: SortOrder
+    emailRespuesta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type LegajoRelationFilter = {
+    is?: LegajoWhereInput
+    isNot?: LegajoWhereInput
+  }
+
+  export type VictimaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    dni?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type VictimaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    dni?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type VictimaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    dni?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type DispositivoCountOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    marca?: SortOrder
+    modelo?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type DispositivoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    marca?: SortOrder
+    modelo?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type DispositivoMinOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    marca?: SortOrder
+    modelo?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type RespuestaListRelationFilter = {
+    every?: RespuestaWhereInput
+    some?: RespuestaWhereInput
+    none?: RespuestaWhereInput
+  }
+
+  export type RespuestaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OficioCountOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    operadora?: SortOrder
+    tipo?: SortOrder
+    fechaEnvio?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+    urgencia?: SortOrder
+    observaciones?: SortOrder
+    columnas?: SortOrder
+    createdAt?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type OficioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    operadora?: SortOrder
+    tipo?: SortOrder
+    fechaEnvio?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+    urgencia?: SortOrder
+    observaciones?: SortOrder
+    columnas?: SortOrder
+    createdAt?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type OficioMinOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    operadora?: SortOrder
+    tipo?: SortOrder
+    fechaEnvio?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+    urgencia?: SortOrder
+    observaciones?: SortOrder
+    columnas?: SortOrder
+    createdAt?: SortOrder
+    legajoId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type OficioRelationFilter = {
+    is?: OficioWhereInput
+    isNot?: OficioWhereInput
+  }
+
+  export type RespuestaCountOrderByAggregateInput = {
+    id?: SortOrder
+    oficioId?: SortOrder
+    datos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RespuestaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    oficioId?: SortOrder
+    datos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RespuestaMinOrderByAggregateInput = {
+    id?: SortOrder
+    oficioId?: SortOrder
+    datos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FiscalCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    cargo?: SortOrder
+    fiscalia?: SortOrder
+    secretario?: SortOrder
+    dniSecretario?: SortOrder
+    dni?: SortOrder
+    email?: SortOrder
+    emailSecretario?: SortOrder
+    direccion?: SortOrder
+    telefono?: SortOrder
+    telefonoMovil?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type FiscalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    cargo?: SortOrder
+    fiscalia?: SortOrder
+    secretario?: SortOrder
+    dniSecretario?: SortOrder
+    dni?: SortOrder
+    email?: SortOrder
+    emailSecretario?: SortOrder
+    direccion?: SortOrder
+    telefono?: SortOrder
+    telefonoMovil?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type FiscalMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    cargo?: SortOrder
+    fiscalia?: SortOrder
+    secretario?: SortOrder
+    dniSecretario?: SortOrder
+    dni?: SortOrder
+    email?: SortOrder
+    emailSecretario?: SortOrder
+    direccion?: SortOrder
+    telefono?: SortOrder
+    telefonoMovil?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type LegajoCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
+    createMany?: LegajoCreateManyUsuarioInputEnvelope
+    connect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+  }
+
+  export type FiscalCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput> | FiscalCreateWithoutUsuarioInput[] | FiscalUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: FiscalCreateOrConnectWithoutUsuarioInput | FiscalCreateOrConnectWithoutUsuarioInput[]
+    createMany?: FiscalCreateManyUsuarioInputEnvelope
+    connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+  }
+
+  export type LegajoUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
+    createMany?: LegajoCreateManyUsuarioInputEnvelope
+    connect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+  }
+
+  export type FiscalUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput> | FiscalCreateWithoutUsuarioInput[] | FiscalUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: FiscalCreateOrConnectWithoutUsuarioInput | FiscalCreateOrConnectWithoutUsuarioInput[]
+    createMany?: FiscalCreateManyUsuarioInputEnvelope
+    connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type LegajoUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
+    upsert?: LegajoUpsertWithWhereUniqueWithoutUsuarioInput | LegajoUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: LegajoCreateManyUsuarioInputEnvelope
+    set?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    disconnect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    delete?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    connect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    update?: LegajoUpdateWithWhereUniqueWithoutUsuarioInput | LegajoUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: LegajoUpdateManyWithWhereWithoutUsuarioInput | LegajoUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: LegajoScalarWhereInput | LegajoScalarWhereInput[]
+  }
+
+  export type FiscalUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput> | FiscalCreateWithoutUsuarioInput[] | FiscalUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: FiscalCreateOrConnectWithoutUsuarioInput | FiscalCreateOrConnectWithoutUsuarioInput[]
+    upsert?: FiscalUpsertWithWhereUniqueWithoutUsuarioInput | FiscalUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: FiscalCreateManyUsuarioInputEnvelope
+    set?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    disconnect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    delete?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    update?: FiscalUpdateWithWhereUniqueWithoutUsuarioInput | FiscalUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: FiscalUpdateManyWithWhereWithoutUsuarioInput | FiscalUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
+  }
+
+  export type LegajoUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
+    upsert?: LegajoUpsertWithWhereUniqueWithoutUsuarioInput | LegajoUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: LegajoCreateManyUsuarioInputEnvelope
+    set?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    disconnect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    delete?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    connect?: LegajoWhereUniqueInput | LegajoWhereUniqueInput[]
+    update?: LegajoUpdateWithWhereUniqueWithoutUsuarioInput | LegajoUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: LegajoUpdateManyWithWhereWithoutUsuarioInput | LegajoUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: LegajoScalarWhereInput | LegajoScalarWhereInput[]
+  }
+
+  export type FiscalUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput> | FiscalCreateWithoutUsuarioInput[] | FiscalUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: FiscalCreateOrConnectWithoutUsuarioInput | FiscalCreateOrConnectWithoutUsuarioInput[]
+    upsert?: FiscalUpsertWithWhereUniqueWithoutUsuarioInput | FiscalUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: FiscalCreateManyUsuarioInputEnvelope
+    set?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    disconnect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    delete?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+    update?: FiscalUpdateWithWhereUniqueWithoutUsuarioInput | FiscalUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: FiscalUpdateManyWithWhereWithoutUsuarioInput | FiscalUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
+  }
+
+  export type UsuarioCreateNestedOneWithoutLegajosInput = {
+    create?: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutLegajosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type VictimaCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
+    createMany?: VictimaCreateManyLegajoInputEnvelope
+    connect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+  }
+
+  export type DispositivoCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput> | DispositivoCreateWithoutLegajoInput[] | DispositivoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: DispositivoCreateOrConnectWithoutLegajoInput | DispositivoCreateOrConnectWithoutLegajoInput[]
+    createMany?: DispositivoCreateManyLegajoInputEnvelope
+    connect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+  }
+
+  export type OficioCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput> | OficioCreateWithoutLegajoInput[] | OficioUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: OficioCreateOrConnectWithoutLegajoInput | OficioCreateOrConnectWithoutLegajoInput[]
+    createMany?: OficioCreateManyLegajoInputEnvelope
+    connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+  }
+
+  export type VictimaUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
+    createMany?: VictimaCreateManyLegajoInputEnvelope
+    connect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+  }
+
+  export type DispositivoUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput> | DispositivoCreateWithoutLegajoInput[] | DispositivoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: DispositivoCreateOrConnectWithoutLegajoInput | DispositivoCreateOrConnectWithoutLegajoInput[]
+    createMany?: DispositivoCreateManyLegajoInputEnvelope
+    connect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+  }
+
+  export type OficioUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput> | OficioCreateWithoutLegajoInput[] | OficioUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: OficioCreateOrConnectWithoutLegajoInput | OficioCreateOrConnectWithoutLegajoInput[]
+    createMany?: OficioCreateManyLegajoInputEnvelope
+    connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutLegajosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutLegajosInput
+    upsert?: UsuarioUpsertWithoutLegajosInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutLegajosInput, UsuarioUpdateWithoutLegajosInput>, UsuarioUncheckedUpdateWithoutLegajosInput>
+  }
+
+  export type VictimaUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
+    upsert?: VictimaUpsertWithWhereUniqueWithoutLegajoInput | VictimaUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: VictimaCreateManyLegajoInputEnvelope
+    set?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    disconnect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    delete?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    connect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    update?: VictimaUpdateWithWhereUniqueWithoutLegajoInput | VictimaUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: VictimaUpdateManyWithWhereWithoutLegajoInput | VictimaUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: VictimaScalarWhereInput | VictimaScalarWhereInput[]
+  }
+
+  export type DispositivoUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput> | DispositivoCreateWithoutLegajoInput[] | DispositivoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: DispositivoCreateOrConnectWithoutLegajoInput | DispositivoCreateOrConnectWithoutLegajoInput[]
+    upsert?: DispositivoUpsertWithWhereUniqueWithoutLegajoInput | DispositivoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: DispositivoCreateManyLegajoInputEnvelope
+    set?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    disconnect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    delete?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    connect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    update?: DispositivoUpdateWithWhereUniqueWithoutLegajoInput | DispositivoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: DispositivoUpdateManyWithWhereWithoutLegajoInput | DispositivoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: DispositivoScalarWhereInput | DispositivoScalarWhereInput[]
+  }
+
+  export type OficioUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput> | OficioCreateWithoutLegajoInput[] | OficioUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: OficioCreateOrConnectWithoutLegajoInput | OficioCreateOrConnectWithoutLegajoInput[]
+    upsert?: OficioUpsertWithWhereUniqueWithoutLegajoInput | OficioUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: OficioCreateManyLegajoInputEnvelope
+    set?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    disconnect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    delete?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    update?: OficioUpdateWithWhereUniqueWithoutLegajoInput | OficioUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: OficioUpdateManyWithWhereWithoutLegajoInput | OficioUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: OficioScalarWhereInput | OficioScalarWhereInput[]
+  }
+
+  export type VictimaUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
+    upsert?: VictimaUpsertWithWhereUniqueWithoutLegajoInput | VictimaUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: VictimaCreateManyLegajoInputEnvelope
+    set?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    disconnect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    delete?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    connect?: VictimaWhereUniqueInput | VictimaWhereUniqueInput[]
+    update?: VictimaUpdateWithWhereUniqueWithoutLegajoInput | VictimaUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: VictimaUpdateManyWithWhereWithoutLegajoInput | VictimaUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: VictimaScalarWhereInput | VictimaScalarWhereInput[]
+  }
+
+  export type DispositivoUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput> | DispositivoCreateWithoutLegajoInput[] | DispositivoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: DispositivoCreateOrConnectWithoutLegajoInput | DispositivoCreateOrConnectWithoutLegajoInput[]
+    upsert?: DispositivoUpsertWithWhereUniqueWithoutLegajoInput | DispositivoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: DispositivoCreateManyLegajoInputEnvelope
+    set?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    disconnect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    delete?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    connect?: DispositivoWhereUniqueInput | DispositivoWhereUniqueInput[]
+    update?: DispositivoUpdateWithWhereUniqueWithoutLegajoInput | DispositivoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: DispositivoUpdateManyWithWhereWithoutLegajoInput | DispositivoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: DispositivoScalarWhereInput | DispositivoScalarWhereInput[]
+  }
+
+  export type OficioUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput> | OficioCreateWithoutLegajoInput[] | OficioUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: OficioCreateOrConnectWithoutLegajoInput | OficioCreateOrConnectWithoutLegajoInput[]
+    upsert?: OficioUpsertWithWhereUniqueWithoutLegajoInput | OficioUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: OficioCreateManyLegajoInputEnvelope
+    set?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    disconnect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    delete?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+    update?: OficioUpdateWithWhereUniqueWithoutLegajoInput | OficioUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: OficioUpdateManyWithWhereWithoutLegajoInput | OficioUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: OficioScalarWhereInput | OficioScalarWhereInput[]
+  }
+
+  export type LegajoCreateNestedOneWithoutVictimasInput = {
+    create?: XOR<LegajoCreateWithoutVictimasInput, LegajoUncheckedCreateWithoutVictimasInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutVictimasInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type LegajoUpdateOneRequiredWithoutVictimasNestedInput = {
+    create?: XOR<LegajoCreateWithoutVictimasInput, LegajoUncheckedCreateWithoutVictimasInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutVictimasInput
+    upsert?: LegajoUpsertWithoutVictimasInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutVictimasInput, LegajoUpdateWithoutVictimasInput>, LegajoUncheckedUpdateWithoutVictimasInput>
+  }
+
+  export type LegajoCreateNestedOneWithoutDispositivosInput = {
+    create?: XOR<LegajoCreateWithoutDispositivosInput, LegajoUncheckedCreateWithoutDispositivosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutDispositivosInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type LegajoUpdateOneRequiredWithoutDispositivosNestedInput = {
+    create?: XOR<LegajoCreateWithoutDispositivosInput, LegajoUncheckedCreateWithoutDispositivosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutDispositivosInput
+    upsert?: LegajoUpsertWithoutDispositivosInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutDispositivosInput, LegajoUpdateWithoutDispositivosInput>, LegajoUncheckedUpdateWithoutDispositivosInput>
+  }
+
+  export type LegajoCreateNestedOneWithoutOficiosInput = {
+    create?: XOR<LegajoCreateWithoutOficiosInput, LegajoUncheckedCreateWithoutOficiosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutOficiosInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type RespuestaCreateNestedManyWithoutOficioInput = {
+    create?: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput> | RespuestaCreateWithoutOficioInput[] | RespuestaUncheckedCreateWithoutOficioInput[]
+    connectOrCreate?: RespuestaCreateOrConnectWithoutOficioInput | RespuestaCreateOrConnectWithoutOficioInput[]
+    createMany?: RespuestaCreateManyOficioInputEnvelope
+    connect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+  }
+
+  export type RespuestaUncheckedCreateNestedManyWithoutOficioInput = {
+    create?: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput> | RespuestaCreateWithoutOficioInput[] | RespuestaUncheckedCreateWithoutOficioInput[]
+    connectOrCreate?: RespuestaCreateOrConnectWithoutOficioInput | RespuestaCreateOrConnectWithoutOficioInput[]
+    createMany?: RespuestaCreateManyOficioInputEnvelope
+    connect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type LegajoUpdateOneRequiredWithoutOficiosNestedInput = {
+    create?: XOR<LegajoCreateWithoutOficiosInput, LegajoUncheckedCreateWithoutOficiosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutOficiosInput
+    upsert?: LegajoUpsertWithoutOficiosInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutOficiosInput, LegajoUpdateWithoutOficiosInput>, LegajoUncheckedUpdateWithoutOficiosInput>
+  }
+
+  export type RespuestaUpdateManyWithoutOficioNestedInput = {
+    create?: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput> | RespuestaCreateWithoutOficioInput[] | RespuestaUncheckedCreateWithoutOficioInput[]
+    connectOrCreate?: RespuestaCreateOrConnectWithoutOficioInput | RespuestaCreateOrConnectWithoutOficioInput[]
+    upsert?: RespuestaUpsertWithWhereUniqueWithoutOficioInput | RespuestaUpsertWithWhereUniqueWithoutOficioInput[]
+    createMany?: RespuestaCreateManyOficioInputEnvelope
+    set?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    disconnect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    delete?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    connect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    update?: RespuestaUpdateWithWhereUniqueWithoutOficioInput | RespuestaUpdateWithWhereUniqueWithoutOficioInput[]
+    updateMany?: RespuestaUpdateManyWithWhereWithoutOficioInput | RespuestaUpdateManyWithWhereWithoutOficioInput[]
+    deleteMany?: RespuestaScalarWhereInput | RespuestaScalarWhereInput[]
+  }
+
+  export type RespuestaUncheckedUpdateManyWithoutOficioNestedInput = {
+    create?: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput> | RespuestaCreateWithoutOficioInput[] | RespuestaUncheckedCreateWithoutOficioInput[]
+    connectOrCreate?: RespuestaCreateOrConnectWithoutOficioInput | RespuestaCreateOrConnectWithoutOficioInput[]
+    upsert?: RespuestaUpsertWithWhereUniqueWithoutOficioInput | RespuestaUpsertWithWhereUniqueWithoutOficioInput[]
+    createMany?: RespuestaCreateManyOficioInputEnvelope
+    set?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    disconnect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    delete?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    connect?: RespuestaWhereUniqueInput | RespuestaWhereUniqueInput[]
+    update?: RespuestaUpdateWithWhereUniqueWithoutOficioInput | RespuestaUpdateWithWhereUniqueWithoutOficioInput[]
+    updateMany?: RespuestaUpdateManyWithWhereWithoutOficioInput | RespuestaUpdateManyWithWhereWithoutOficioInput[]
+    deleteMany?: RespuestaScalarWhereInput | RespuestaScalarWhereInput[]
+  }
+
+  export type OficioCreateNestedOneWithoutRespuestasInput = {
+    create?: XOR<OficioCreateWithoutRespuestasInput, OficioUncheckedCreateWithoutRespuestasInput>
+    connectOrCreate?: OficioCreateOrConnectWithoutRespuestasInput
+    connect?: OficioWhereUniqueInput
+  }
+
+  export type OficioUpdateOneRequiredWithoutRespuestasNestedInput = {
+    create?: XOR<OficioCreateWithoutRespuestasInput, OficioUncheckedCreateWithoutRespuestasInput>
+    connectOrCreate?: OficioCreateOrConnectWithoutRespuestasInput
+    upsert?: OficioUpsertWithoutRespuestasInput
+    connect?: OficioWhereUniqueInput
+    update?: XOR<XOR<OficioUpdateToOneWithWhereWithoutRespuestasInput, OficioUpdateWithoutRespuestasInput>, OficioUncheckedUpdateWithoutRespuestasInput>
+  }
+
+  export type UsuarioCreateNestedOneWithoutFiscalesInput = {
+    create?: XOR<UsuarioCreateWithoutFiscalesInput, UsuarioUncheckedCreateWithoutFiscalesInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutFiscalesInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutFiscalesNestedInput = {
+    create?: XOR<UsuarioCreateWithoutFiscalesInput, UsuarioUncheckedCreateWithoutFiscalesInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutFiscalesInput
+    upsert?: UsuarioUpsertWithoutFiscalesInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutFiscalesInput, UsuarioUpdateWithoutFiscalesInput>, UsuarioUncheckedUpdateWithoutFiscalesInput>
+  }
+
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[]
+    notIn?: string[]
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[]
+    notIn?: string[]
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type LegajoCreateWithoutUsuarioInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutUsuarioInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type LegajoCreateManyUsuarioInputEnvelope = {
+    data: LegajoCreateManyUsuarioInput | LegajoCreateManyUsuarioInput[]
+  }
+
+  export type FiscalCreateWithoutUsuarioInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+  }
+
+  export type FiscalUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+  }
+
+  export type FiscalCreateOrConnectWithoutUsuarioInput = {
+    where: FiscalWhereUniqueInput
+    create: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type FiscalCreateManyUsuarioInputEnvelope = {
+    data: FiscalCreateManyUsuarioInput | FiscalCreateManyUsuarioInput[]
+  }
+
+  export type LegajoUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: LegajoWhereUniqueInput
+    update: XOR<LegajoUpdateWithoutUsuarioInput, LegajoUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type LegajoUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: LegajoWhereUniqueInput
+    data: XOR<LegajoUpdateWithoutUsuarioInput, LegajoUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type LegajoUpdateManyWithWhereWithoutUsuarioInput = {
+    where: LegajoScalarWhereInput
+    data: XOR<LegajoUpdateManyMutationInput, LegajoUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type LegajoScalarWhereInput = {
+    AND?: LegajoScalarWhereInput | LegajoScalarWhereInput[]
+    OR?: LegajoScalarWhereInput[]
+    NOT?: LegajoScalarWhereInput | LegajoScalarWhereInput[]
+    id?: StringFilter<"Legajo"> | string
+    numero?: StringFilter<"Legajo"> | string
+    caratula?: StringFilter<"Legajo"> | string
+    cuij?: StringNullableFilter<"Legajo"> | string | null
+    delito?: StringFilter<"Legajo"> | string
+    fechaHecho?: DateTimeFilter<"Legajo"> | Date | string
+    estado?: StringFilter<"Legajo"> | string
+    observaciones?: StringNullableFilter<"Legajo"> | string | null
+    fiscal?: StringNullableFilter<"Legajo"> | string | null
+    emailRespuesta?: StringNullableFilter<"Legajo"> | string | null
+    createdAt?: DateTimeFilter<"Legajo"> | Date | string
+    updatedAt?: DateTimeFilter<"Legajo"> | Date | string
+    usuarioId?: StringFilter<"Legajo"> | string
+  }
+
+  export type FiscalUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: FiscalWhereUniqueInput
+    update: XOR<FiscalUpdateWithoutUsuarioInput, FiscalUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<FiscalCreateWithoutUsuarioInput, FiscalUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type FiscalUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: FiscalWhereUniqueInput
+    data: XOR<FiscalUpdateWithoutUsuarioInput, FiscalUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type FiscalUpdateManyWithWhereWithoutUsuarioInput = {
+    where: FiscalScalarWhereInput
+    data: XOR<FiscalUpdateManyMutationInput, FiscalUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type FiscalScalarWhereInput = {
+    AND?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
+    OR?: FiscalScalarWhereInput[]
+    NOT?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
+    id?: StringFilter<"Fiscal"> | string
+    nombre?: StringFilter<"Fiscal"> | string
+    cargo?: StringNullableFilter<"Fiscal"> | string | null
+    fiscalia?: StringNullableFilter<"Fiscal"> | string | null
+    secretario?: StringNullableFilter<"Fiscal"> | string | null
+    dniSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    dni?: StringNullableFilter<"Fiscal"> | string | null
+    email?: StringNullableFilter<"Fiscal"> | string | null
+    emailSecretario?: StringNullableFilter<"Fiscal"> | string | null
+    direccion?: StringNullableFilter<"Fiscal"> | string | null
+    telefono?: StringNullableFilter<"Fiscal"> | string | null
+    telefonoMovil?: StringNullableFilter<"Fiscal"> | string | null
+    activo?: BoolFilter<"Fiscal"> | boolean
+    createdAt?: DateTimeFilter<"Fiscal"> | Date | string
+    usuarioId?: StringFilter<"Fiscal"> | string
+  }
+
+  export type UsuarioCreateWithoutLegajosInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    fiscales?: FiscalCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutLegajosInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    fiscales?: FiscalUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutLegajosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
+  }
+
+  export type VictimaCreateWithoutLegajoInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+  }
+
+  export type VictimaUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+  }
+
+  export type VictimaCreateOrConnectWithoutLegajoInput = {
+    where: VictimaWhereUniqueInput
+    create: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type VictimaCreateManyLegajoInputEnvelope = {
+    data: VictimaCreateManyLegajoInput | VictimaCreateManyLegajoInput[]
+  }
+
+  export type DispositivoCreateWithoutLegajoInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+  }
+
+  export type DispositivoUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+  }
+
+  export type DispositivoCreateOrConnectWithoutLegajoInput = {
+    where: DispositivoWhereUniqueInput
+    create: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type DispositivoCreateManyLegajoInputEnvelope = {
+    data: DispositivoCreateManyLegajoInput | DispositivoCreateManyLegajoInput[]
+  }
+
+  export type OficioCreateWithoutLegajoInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    respuestas?: RespuestaCreateNestedManyWithoutOficioInput
+  }
+
+  export type OficioUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    respuestas?: RespuestaUncheckedCreateNestedManyWithoutOficioInput
+  }
+
+  export type OficioCreateOrConnectWithoutLegajoInput = {
+    where: OficioWhereUniqueInput
+    create: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type OficioCreateManyLegajoInputEnvelope = {
+    data: OficioCreateManyLegajoInput | OficioCreateManyLegajoInput[]
+  }
+
+  export type UsuarioUpsertWithoutLegajosInput = {
+    update: XOR<UsuarioUpdateWithoutLegajosInput, UsuarioUncheckedUpdateWithoutLegajosInput>
+    create: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutLegajosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutLegajosInput, UsuarioUncheckedUpdateWithoutLegajosInput>
+  }
+
+  export type UsuarioUpdateWithoutLegajosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscales?: FiscalUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutLegajosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fiscales?: FiscalUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type VictimaUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: VictimaWhereUniqueInput
+    update: XOR<VictimaUpdateWithoutLegajoInput, VictimaUncheckedUpdateWithoutLegajoInput>
+    create: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type VictimaUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: VictimaWhereUniqueInput
+    data: XOR<VictimaUpdateWithoutLegajoInput, VictimaUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type VictimaUpdateManyWithWhereWithoutLegajoInput = {
+    where: VictimaScalarWhereInput
+    data: XOR<VictimaUpdateManyMutationInput, VictimaUncheckedUpdateManyWithoutLegajoInput>
+  }
+
+  export type VictimaScalarWhereInput = {
+    AND?: VictimaScalarWhereInput | VictimaScalarWhereInput[]
+    OR?: VictimaScalarWhereInput[]
+    NOT?: VictimaScalarWhereInput | VictimaScalarWhereInput[]
+    id?: StringFilter<"Victima"> | string
+    nombre?: StringFilter<"Victima"> | string
+    dni?: StringNullableFilter<"Victima"> | string | null
+    telefono?: StringNullableFilter<"Victima"> | string | null
+    email?: StringNullableFilter<"Victima"> | string | null
+    legajoId?: StringFilter<"Victima"> | string
+  }
+
+  export type DispositivoUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: DispositivoWhereUniqueInput
+    update: XOR<DispositivoUpdateWithoutLegajoInput, DispositivoUncheckedUpdateWithoutLegajoInput>
+    create: XOR<DispositivoCreateWithoutLegajoInput, DispositivoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type DispositivoUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: DispositivoWhereUniqueInput
+    data: XOR<DispositivoUpdateWithoutLegajoInput, DispositivoUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type DispositivoUpdateManyWithWhereWithoutLegajoInput = {
+    where: DispositivoScalarWhereInput
+    data: XOR<DispositivoUpdateManyMutationInput, DispositivoUncheckedUpdateManyWithoutLegajoInput>
+  }
+
+  export type DispositivoScalarWhereInput = {
+    AND?: DispositivoScalarWhereInput | DispositivoScalarWhereInput[]
+    OR?: DispositivoScalarWhereInput[]
+    NOT?: DispositivoScalarWhereInput | DispositivoScalarWhereInput[]
+    id?: StringFilter<"Dispositivo"> | string
+    tipo?: StringFilter<"Dispositivo"> | string
+    marca?: StringNullableFilter<"Dispositivo"> | string | null
+    modelo?: StringNullableFilter<"Dispositivo"> | string | null
+    imei?: StringNullableFilter<"Dispositivo"> | string | null
+    color?: StringNullableFilter<"Dispositivo"> | string | null
+    legajoId?: StringFilter<"Dispositivo"> | string
+  }
+
+  export type OficioUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: OficioWhereUniqueInput
+    update: XOR<OficioUpdateWithoutLegajoInput, OficioUncheckedUpdateWithoutLegajoInput>
+    create: XOR<OficioCreateWithoutLegajoInput, OficioUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type OficioUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: OficioWhereUniqueInput
+    data: XOR<OficioUpdateWithoutLegajoInput, OficioUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type OficioUpdateManyWithWhereWithoutLegajoInput = {
+    where: OficioScalarWhereInput
+    data: XOR<OficioUpdateManyMutationInput, OficioUncheckedUpdateManyWithoutLegajoInput>
+  }
+
+  export type OficioScalarWhereInput = {
+    AND?: OficioScalarWhereInput | OficioScalarWhereInput[]
+    OR?: OficioScalarWhereInput[]
+    NOT?: OficioScalarWhereInput | OficioScalarWhereInput[]
+    id?: StringFilter<"Oficio"> | string
+    numero?: StringNullableFilter<"Oficio"> | string | null
+    operadora?: StringFilter<"Oficio"> | string
+    tipo?: StringFilter<"Oficio"> | string
+    fechaEnvio?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    fechaRespuesta?: DateTimeNullableFilter<"Oficio"> | Date | string | null
+    estado?: StringFilter<"Oficio"> | string
+    urgencia?: StringFilter<"Oficio"> | string
+    observaciones?: StringNullableFilter<"Oficio"> | string | null
+    columnas?: StringNullableFilter<"Oficio"> | string | null
+    createdAt?: DateTimeFilter<"Oficio"> | Date | string
+    legajoId?: StringFilter<"Oficio"> | string
+  }
+
+  export type LegajoCreateWithoutVictimasInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutVictimasInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutVictimasInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutVictimasInput, LegajoUncheckedCreateWithoutVictimasInput>
+  }
+
+  export type LegajoUpsertWithoutVictimasInput = {
+    update: XOR<LegajoUpdateWithoutVictimasInput, LegajoUncheckedUpdateWithoutVictimasInput>
+    create: XOR<LegajoCreateWithoutVictimasInput, LegajoUncheckedCreateWithoutVictimasInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutVictimasInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutVictimasInput, LegajoUncheckedUpdateWithoutVictimasInput>
+  }
+
+  export type LegajoUpdateWithoutVictimasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutVictimasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoCreateWithoutDispositivosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutDispositivosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutDispositivosInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutDispositivosInput, LegajoUncheckedCreateWithoutDispositivosInput>
+  }
+
+  export type LegajoUpsertWithoutDispositivosInput = {
+    update: XOR<LegajoUpdateWithoutDispositivosInput, LegajoUncheckedUpdateWithoutDispositivosInput>
+    create: XOR<LegajoCreateWithoutDispositivosInput, LegajoUncheckedCreateWithoutDispositivosInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutDispositivosInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutDispositivosInput, LegajoUncheckedUpdateWithoutDispositivosInput>
+  }
+
+  export type LegajoUpdateWithoutDispositivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutDispositivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoCreateWithoutOficiosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutOficiosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutOficiosInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutOficiosInput, LegajoUncheckedCreateWithoutOficiosInput>
+  }
+
+  export type RespuestaCreateWithoutOficioInput = {
+    id?: string
+    datos: string
+    createdAt?: Date | string
+  }
+
+  export type RespuestaUncheckedCreateWithoutOficioInput = {
+    id?: string
+    datos: string
+    createdAt?: Date | string
+  }
+
+  export type RespuestaCreateOrConnectWithoutOficioInput = {
+    where: RespuestaWhereUniqueInput
+    create: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput>
+  }
+
+  export type RespuestaCreateManyOficioInputEnvelope = {
+    data: RespuestaCreateManyOficioInput | RespuestaCreateManyOficioInput[]
+  }
+
+  export type LegajoUpsertWithoutOficiosInput = {
+    update: XOR<LegajoUpdateWithoutOficiosInput, LegajoUncheckedUpdateWithoutOficiosInput>
+    create: XOR<LegajoCreateWithoutOficiosInput, LegajoUncheckedCreateWithoutOficiosInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutOficiosInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutOficiosInput, LegajoUncheckedUpdateWithoutOficiosInput>
+  }
+
+  export type LegajoUpdateWithoutOficiosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutOficiosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type RespuestaUpsertWithWhereUniqueWithoutOficioInput = {
+    where: RespuestaWhereUniqueInput
+    update: XOR<RespuestaUpdateWithoutOficioInput, RespuestaUncheckedUpdateWithoutOficioInput>
+    create: XOR<RespuestaCreateWithoutOficioInput, RespuestaUncheckedCreateWithoutOficioInput>
+  }
+
+  export type RespuestaUpdateWithWhereUniqueWithoutOficioInput = {
+    where: RespuestaWhereUniqueInput
+    data: XOR<RespuestaUpdateWithoutOficioInput, RespuestaUncheckedUpdateWithoutOficioInput>
+  }
+
+  export type RespuestaUpdateManyWithWhereWithoutOficioInput = {
+    where: RespuestaScalarWhereInput
+    data: XOR<RespuestaUpdateManyMutationInput, RespuestaUncheckedUpdateManyWithoutOficioInput>
+  }
+
+  export type RespuestaScalarWhereInput = {
+    AND?: RespuestaScalarWhereInput | RespuestaScalarWhereInput[]
+    OR?: RespuestaScalarWhereInput[]
+    NOT?: RespuestaScalarWhereInput | RespuestaScalarWhereInput[]
+    id?: StringFilter<"Respuesta"> | string
+    oficioId?: StringFilter<"Respuesta"> | string
+    datos?: StringFilter<"Respuesta"> | string
+    createdAt?: DateTimeFilter<"Respuesta"> | Date | string
+  }
+
+  export type OficioCreateWithoutRespuestasInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutOficiosInput
+  }
+
+  export type OficioUncheckedCreateWithoutRespuestasInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+    legajoId: string
+  }
+
+  export type OficioCreateOrConnectWithoutRespuestasInput = {
+    where: OficioWhereUniqueInput
+    create: XOR<OficioCreateWithoutRespuestasInput, OficioUncheckedCreateWithoutRespuestasInput>
+  }
+
+  export type OficioUpsertWithoutRespuestasInput = {
+    update: XOR<OficioUpdateWithoutRespuestasInput, OficioUncheckedUpdateWithoutRespuestasInput>
+    create: XOR<OficioCreateWithoutRespuestasInput, OficioUncheckedCreateWithoutRespuestasInput>
+    where?: OficioWhereInput
+  }
+
+  export type OficioUpdateToOneWithWhereWithoutRespuestasInput = {
+    where?: OficioWhereInput
+    data: XOR<OficioUpdateWithoutRespuestasInput, OficioUncheckedUpdateWithoutRespuestasInput>
+  }
+
+  export type OficioUpdateWithoutRespuestasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutOficiosNestedInput
+  }
+
+  export type OficioUncheckedUpdateWithoutRespuestasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UsuarioCreateWithoutFiscalesInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutFiscalesInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutFiscalesInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutFiscalesInput, UsuarioUncheckedCreateWithoutFiscalesInput>
+  }
+
+  export type UsuarioUpsertWithoutFiscalesInput = {
+    update: XOR<UsuarioUpdateWithoutFiscalesInput, UsuarioUncheckedUpdateWithoutFiscalesInput>
+    create: XOR<UsuarioCreateWithoutFiscalesInput, UsuarioUncheckedCreateWithoutFiscalesInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutFiscalesInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutFiscalesInput, UsuarioUncheckedUpdateWithoutFiscalesInput>
+  }
+
+  export type UsuarioUpdateWithoutFiscalesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutFiscalesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type LegajoCreateManyUsuarioInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FiscalCreateManyUsuarioInput = {
+    id?: string
+    nombre: string
+    cargo?: string | null
+    fiscalia?: string | null
+    secretario?: string | null
+    dniSecretario?: string | null
+    dni?: string | null
+    email?: string | null
+    emailSecretario?: string | null
+    direccion?: string | null
+    telefono?: string | null
+    telefonoMovil?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LegajoUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FiscalUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FiscalUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FiscalUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    cargo?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscalia?: NullableStringFieldUpdateOperationsInput | string | null
+    secretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dniSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailSecretario?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoMovil?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VictimaCreateManyLegajoInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    telefono?: string | null
+    email?: string | null
+  }
+
+  export type DispositivoCreateManyLegajoInput = {
+    id?: string
+    tipo: string
+    marca?: string | null
+    modelo?: string | null
+    imei?: string | null
+    color?: string | null
+  }
+
+  export type OficioCreateManyLegajoInput = {
+    id?: string
+    numero?: string | null
+    operadora: string
+    tipo: string
+    fechaEnvio?: Date | string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+    urgencia?: string
+    observaciones?: string | null
+    columnas?: string | null
+    createdAt?: Date | string
+  }
+
+  export type VictimaUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VictimaUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VictimaUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DispositivoUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DispositivoUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DispositivoUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OficioUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuestas?: RespuestaUpdateManyWithoutOficioNestedInput
+  }
+
+  export type OficioUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuestas?: RespuestaUncheckedUpdateManyWithoutOficioNestedInput
+  }
+
+  export type OficioUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: NullableStringFieldUpdateOperationsInput | string | null
+    operadora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fechaEnvio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    urgencia?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    columnas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RespuestaCreateManyOficioInput = {
+    id?: string
+    datos: string
+    createdAt?: Date | string
+  }
+
+  export type RespuestaUpdateWithoutOficioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RespuestaUncheckedUpdateWithoutOficioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RespuestaUncheckedUpdateManyWithoutOficioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    datos?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+
+
+  /**
+   * Aliases for legacy arg types
+   */
+    /**
+     * @deprecated Use UsuarioCountOutputTypeDefaultArgs instead
+     */
+    export type UsuarioCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UsuarioCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LegajoCountOutputTypeDefaultArgs instead
+     */
+    export type LegajoCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LegajoCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OficioCountOutputTypeDefaultArgs instead
+     */
+    export type OficioCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OficioCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UsuarioDefaultArgs instead
+     */
+    export type UsuarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UsuarioDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LegajoDefaultArgs instead
+     */
+    export type LegajoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LegajoDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VictimaDefaultArgs instead
+     */
+    export type VictimaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VictimaDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DispositivoDefaultArgs instead
+     */
+    export type DispositivoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DispositivoDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OficioDefaultArgs instead
+     */
+    export type OficioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OficioDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RespuestaDefaultArgs instead
+     */
+    export type RespuestaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RespuestaDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FiscalDefaultArgs instead
+     */
+    export type FiscalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FiscalDefaultArgs<ExtArgs>
+
+  /**
+   * Batch Payload for updateMany & deleteMany & createMany
+   */
+
+  export type BatchPayload = {
+    count: number
+  }
+
+  /**
+   * DMMF
+   */
+  export const dmmf: runtime.BaseDMMF
+}
