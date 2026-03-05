@@ -31,10 +31,14 @@ export default function FormularioOficio({ onCerrar, onGuardado }: Props) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/legajos").then(r => r.json()).then(data => {
-      setLegajos(data);
-      if (data.length > 0) setLegajoId(data[0].id);
-    });
+    fetch("/api/legajos?limit=500")
+      .then(r => r.json())
+      .then(data => {
+        const lista: Legajo[] = data.legajos ?? [];
+        setLegajos(lista);
+        if (lista.length > 0) setLegajoId(lista[0].id);
+      })
+      .catch(() => setError("Error al cargar legajos"));
   }, []);
 
   const legajoActual = legajos.find(l => l.id === legajoId);

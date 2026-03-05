@@ -3,19 +3,42 @@ import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
 import { OficioSchema, handlePrismaError } from '@/lib/validators'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const oficios = await prisma.oficio.findMany({
-      where: { legajo: { usuarioId } },
-      orderBy: { createdAt: 'desc' },
-      include: {
-        legajo: { include: { victimas: true, dispositivos: true } }
-      }
-    })
-    return NextResponse.json(oficios)
+    const { searchParams } = new URL(request.url)
+    const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
+    const limit    = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
+    const busqueda = searchParams.get('q')      ?? ''
+    const estado   = searchParams.get('estado') ?? ''
+
+    const where: any = { legajo: { usuarioId } }
+    if (estado) where.estado = estado
+    if (busqueda) {
+      const q = busqueda.toLowerCase()
+      where.OR = [
+        { operadora: { contains: q } },
+        { legajo: { numero:   { contains: q } } },
+        { legajo: { caratula: { contains: q } } },
+      ]
+    }
+
+    const [total, oficios] = await prisma.$transaction([
+      prisma.oficio.count({ where }),
+      prisma.oficio.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          legajo: { include: { victimas: true, dispositivos: true } }
+        }
+      })
+    ])
+
+    return NextResponse.json({ oficios, total, page, limit, totalPages: Math.ceil(total / limit) })
   } catch (error) {
     console.error(error)
     const { message, status } = handlePrismaError(error)

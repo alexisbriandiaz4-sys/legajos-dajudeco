@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import FormularioOficio from "./FormularioOficio";
@@ -27,9 +27,10 @@ interface PaginaResponse {
 
 const ESTADOS = ["Todos", "Pendiente", "Enviado", "Respondido", "Sin respuesta"];
 const LIMIT = 20;
+const DATOS_INICIALES: PaginaResponse = { oficios: [], total: 0, page: 1, limit: LIMIT, totalPages: 0 };
 
 export default function ModuloOficios() {
-  const [datos, setDatos] = useState<PaginaResponse>({ oficios: [], total: 0, page: 1, limit: LIMIT, totalPages: 0 });
+  const [datos, setDatos] = useState<PaginaResponse>(DATOS_INICIALES);
   const [cargando, setCargando] = useState(true);
   const [page, setPage] = useState(1);
   const [busquedaInput, setBusquedaInput] = useState("");
@@ -37,34 +38,56 @@ export default function ModuloOficios() {
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [oficioAEliminar, setOficioAEliminar] = useState<string | null>(null);
-
-  const cargarOficios = useCallback(async (p = page) => {
-    setCargando(true);
-    try {
-      const params = new URLSearchParams({ page: String(p), limit: String(LIMIT) });
-      if (busqueda) params.set('q', busqueda);
-      if (filtroEstado !== "Todos") params.set('estado', filtroEstado);
-
-      const res = await fetch(`/api/oficios?${params}`);
-      if (res.ok) {
-        setDatos(await res.json());
-      } else {
-        toast.error("Error al cargar los oficios");
-      }
-    } catch {
-      toast.error("Error de conexión al cargar oficios");
-    } finally {
-      setCargando(false);
-    }
-  }, [page, busqueda, filtroEstado]);
-
-  useEffect(() => { cargarOficios(page); }, [page, busqueda, filtroEstado]);
+  const [recargar, setRecargar] = useState(0);
 
   // Debounce búsqueda
   useEffect(() => {
     const t = setTimeout(() => { setBusqueda(busquedaInput); setPage(1); }, 400);
     return () => clearTimeout(t);
   }, [busquedaInput]);
+
+  // Carga principal — se dispara ante cualquier cambio de dependencia
+  useEffect(() => {
+    let cancelado = false;
+    async function cargar() {
+      setCargando(true);
+      try {
+        const params = new URLSearchParams({ page: String(page), limit: String(LIMIT) });
+        if (busqueda) params.set('q', busqueda);
+        if (filtroEstado !== "Todos") params.set('estado', filtroEstado);
+
+        const res = await fetch(`/api/oficios?${params}`);
+        if (cancelado) return;
+        if (res.ok) {
+          const json = await res.json();
+          setDatos({
+            oficios: json.oficios ?? [],
+            total: json.total ?? 0,
+            page: json.page ?? 1,
+            limit: json.limit ?? LIMIT,
+            totalPages: json.totalPages ?? 0,
+          });
+        } else {
+          toast.error("Error al cargar los oficios");
+          setDatos(DATOS_INICIALES);
+        }
+      } catch {
+        if (!cancelado) {
+          toast.error("Error de conexión al cargar oficios");
+          setDatos(DATOS_INICIALES);
+        }
+      } finally {
+        if (!cancelado) setCargando(false);
+      }
+    }
+    cargar();
+    return () => { cancelado = true; };
+  }, [page, busqueda, filtroEstado, recargar]);
+
+  function refrescar() {
+    setPage(1);
+    setRecargar(r => r + 1);
+  }
 
   async function cambiarEstado(id: string, estado: string) {
     const extra: Record<string, string> = {};
@@ -78,7 +101,7 @@ export default function ModuloOficios() {
       });
       if (res.ok) {
         toast.success(`Oficio marcado como "${estado}"`);
-        cargarOficios(page);
+        setRecargar(r => r + 1);
       } else {
         const data = await res.json();
         toast.error(data.error ?? "Error al actualizar el estado");
@@ -94,7 +117,7 @@ export default function ModuloOficios() {
       const res = await fetch(`/api/oficios/${oficioAEliminar}`, { method: "DELETE" });
       if (res.ok) {
         toast.success("Oficio eliminado");
-        cargarOficios(page);
+        setRecargar(r => r + 1);
       } else {
         const data = await res.json();
         toast.error(data.error ?? "Error al eliminar el oficio");
@@ -124,6 +147,8 @@ export default function ModuloOficios() {
     const colores: Record<string, string> = { Claro: "#e53e3e", Personal: "#3182ce", Movistar: "#38a169" };
     return colores[op] ?? "var(--text-muted)";
   }
+
+  const oficios = datos.oficios ?? [];
 
   return (
     <div className="space-y-4">
@@ -169,14 +194,14 @@ export default function ModuloOficios() {
         </button>
       </div>
 
-      {/* Stats — se calculan del total de la página actual */}
-      {datos.total > 0 && (
+      {/* Stats */}
+      {oficios.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: "Pendientes", valor: datos.oficios.filter(o => o.estado === "Pendiente").length, color: "var(--warning)" },
-            { label: "Enviados", valor: datos.oficios.filter(o => o.estado === "Enviado").length, color: "var(--accent)" },
-            { label: "Respondidos", valor: datos.oficios.filter(o => o.estado === "Respondido").length, color: "var(--success)" },
-            { label: "Sin respuesta", valor: datos.oficios.filter(o => o.estado === "Sin respuesta").length, color: "var(--danger)" },
+            { label: "Pendientes", valor: oficios.filter(o => o.estado === "Pendiente").length, color: "var(--warning)" },
+            { label: "Enviados", valor: oficios.filter(o => o.estado === "Enviado").length, color: "var(--accent)" },
+            { label: "Respondidos", valor: oficios.filter(o => o.estado === "Respondido").length, color: "var(--success)" },
+            { label: "Sin respuesta", valor: oficios.filter(o => o.estado === "Sin respuesta").length, color: "var(--danger)" },
           ].map(({ label, valor, color }) => (
             <div key={label} style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-3 text-center">
               <p style={{ color }} className="text-2xl font-bold">{valor}</p>
@@ -211,7 +236,7 @@ export default function ModuloOficios() {
       {/* Lista */}
       {cargando ? (
         <p style={{ color: "var(--text-muted)" }} className="text-sm text-center py-8">Cargando oficios...</p>
-      ) : datos.oficios.length === 0 ? (
+      ) : oficios.length === 0 ? (
         <div className="text-center py-16">
           <FileText size={40} style={{ color: "var(--text-muted)" }} className="mx-auto mb-3" />
           <p style={{ color: "var(--text-muted)" }} className="text-sm">
@@ -220,7 +245,7 @@ export default function ModuloOficios() {
         </div>
       ) : (
         <div className="space-y-2">
-          {datos.oficios.map(oficio => (
+          {oficios.map(oficio => (
             <div key={oficio.id} style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
@@ -317,7 +342,7 @@ export default function ModuloOficios() {
 
       {mostrarFormulario && (
         <FormularioOficio onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => { setMostrarFormulario(false); toast.success("Oficio creado correctamente"); cargarOficios(page); }} />
+          onGuardado={() => { setMostrarFormulario(false); toast.success("Oficio creado correctamente"); refrescar(); }} />
       )}
     </div>
   );

@@ -86,11 +86,12 @@ export default function ModuloAlertas() {
     setCargando(true);
     try {
       const [oficiosRes, configRes] = await Promise.all([
-        fetch('/api/oficios'),
+        fetch('/api/oficios?limit=500'),
         fetch('/api/configuracion'),
       ]);
       if (oficiosRes.ok) {
-        setOficios(await oficiosRes.json());
+        const data = await oficiosRes.json();
+        setOficios(data.oficios ?? []);
         setUltimaActualizacion(new Date());
       }
       if (configRes.ok) {
