@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import FormularioOficio from "./FormularioOficio";
-import { generarPDFOficio } from "@/lib/generarPDF";
 import { generarOficioFiscal } from "@/lib/generarOficioFiscal";
 
 interface Legajo {
@@ -86,12 +85,11 @@ export default function ModuloOficios() {
 
   function colorOperadora(op: string) {
     const colores: Record<string, string> = {
-      Claro: "#e53e3e", Personal: "#3182ce", Movistar: "#38a169", Telecom: "#805ad5"
+      Claro: "#e53e3e", Personal: "#3182ce", Movistar: "#38a169",
     };
     return colores[op] ?? "var(--text-muted)";
   }
 
-  // Estadísticas rápidas
   const stats = {
     total: oficios.length,
     pendientes: oficios.filter(o => o.estado === "Pendiente").length,
@@ -194,8 +192,12 @@ export default function ModuloOficios() {
                     Legajo <span style={{ color: "var(--accent)" }} className="font-medium">#{oficio.legajo.numero}</span> — {oficio.legajo.caratula}
                   </p>
 
-                  {/* Tipo */}
-                  <p style={{ color: "var(--text-muted)" }} className="text-xs truncate">{oficio.tipo}</p>
+                  {/* Tipo consulta */}
+                  <p style={{ color: "var(--text-muted)" }} className="text-xs truncate">
+                    {oficio.tipoConsulta === "linea"
+                      ? `📞 Por línea: ${oficio.numeroLinea || "-"}`
+                      : `📱 Por IMEI`}
+                  </p>
 
                   {/* Fechas */}
                   <div className="flex gap-3 mt-2 flex-wrap">
@@ -212,7 +214,7 @@ export default function ModuloOficios() {
                   </div>
                 </div>
 
-{/* Acciones */}
+                {/* Acciones */}
                 <div className="flex flex-col gap-1 shrink-0">
                   {oficio.estado === "Pendiente" && (
                     <button onClick={() => cambiarEstado(oficio.id, "Enviado")}
@@ -235,11 +237,6 @@ export default function ModuloOficios() {
                       </button>
                     </>
                   )}
-                  <button onClick={() => generarPDFOficio(oficio)}
-                    style={{ background: "rgba(34,197,94,0.15)", color: "var(--success)" }}
-                    className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition whitespace-nowrap">
-                    📄 Generar PDF
-                  </button>
                   <button onClick={() => generarOficioFiscal(oficio)}
                     style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent)" }}
                     className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition whitespace-nowrap">
