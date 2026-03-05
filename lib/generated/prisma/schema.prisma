@@ -157,3 +157,39 @@ model RegistroTelefonia {
   @@index([anio])
   @@index([causa])
 }
+
+model RegistroEstafa {
+  id                 String    @id @default(cuid())
+  nroInterno         Int?
+  cuij               String?
+  fechaHecho         DateTime?
+  fechaDenuncia      DateTime?
+  dependencia        String?
+  nroLegajo          String?
+  recibido           DateTime?
+  victima            String?
+  telefonoVictima    String?
+  caratula           String?
+  fiscal             String?
+  ardid              String?
+  seudonimo          String?
+  telefonoReferencia String?
+  nombreReferencia   String?
+  imei               String?
+  otrosTelefonos     String?
+  cbu                String?
+  titulares          String?
+  filaExcel          Int?
+  otrosCbu           String?
+  estadoLegajo       String?
+  complementos       String?
+  createdAt          DateTime  @default(now())
+
+  @@index([victima])
+  @@index([nroLegajo])
+  @@index([ardid])
+  @@index([imei])
+  @@index([cbu])
+  @@index([fechaHecho])
+  @@index([filaExcel])
+}

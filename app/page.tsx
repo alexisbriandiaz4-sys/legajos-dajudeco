@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
-import { LogOut, FolderOpen, FileText, Bell, User, Sun, Moon, Monitor, Settings, Phone } from "lucide-react";
+import { LogOut, FolderOpen, FileText, Bell, User, Sun, Moon, Monitor, Settings, Phone, Database } from "lucide-react";
 import ModuloLegajos from "@/components/ModuloLegajos";
 import ModuloOficios from "@/components/ModuloOficios";
 import ModuloConfiguracion from "@/components/ModuloConfiguracion";
 import ModuloAlertas from "@/components/ModuloAlertas";
-import ModuloTelefonia from "@/components/ModuloTelefonia";
+import ModuloBaseGeneral from "@/components/ModuloBaseGeneral";
 
 type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia';
 
@@ -29,7 +29,7 @@ export default function Home() {
     { id: 'legajos', label: 'Legajos', icono: FolderOpen },
     { id: 'oficios', label: 'Oficios', icono: FileText },
     { id: 'alertas', label: 'Alertas', icono: Bell },
-    { id: 'telefonia', label: 'Telefonía', icono: Phone },
+    { id: 'telefonia', label: 'Base General', icono: Database },
     { id: 'configuracion', label: 'Configuración', icono: Settings },
   ];
 
@@ -115,7 +115,7 @@ export default function Home() {
         {vista === 'legajos' && <ModuloLegajos />}
         {vista === 'oficios' && <ModuloOficios />}
         {vista === 'alertas' && <ModuloAlertas />}
-        {vista === 'telefonia' && <ModuloTelefonia />}
+        {vista === 'telefonia' && <ModuloBaseGeneral />}
         {vista === 'configuracion' && <ModuloConfiguracion />}
       </main>
     </div>

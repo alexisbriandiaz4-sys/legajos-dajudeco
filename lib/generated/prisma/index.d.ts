@@ -58,6 +58,11 @@ export type Configuracion = $Result.DefaultSelection<Prisma.$ConfiguracionPayloa
  * 
  */
 export type RegistroTelefonia = $Result.DefaultSelection<Prisma.$RegistroTelefoniaPayload>
+/**
+ * Model RegistroEstafa
+ * 
+ */
+export type RegistroEstafa = $Result.DefaultSelection<Prisma.$RegistroEstafaPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -271,6 +276,16 @@ export class PrismaClient<
     * ```
     */
   get registroTelefonia(): Prisma.RegistroTelefoniaDelegate<ExtArgs>;
+
+  /**
+   * `prisma.registroEstafa`: Exposes CRUD operations for the **RegistroEstafa** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RegistroEstafas
+    * const registroEstafas = await prisma.registroEstafa.findMany()
+    * ```
+    */
+  get registroEstafa(): Prisma.RegistroEstafaDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -720,7 +735,8 @@ export namespace Prisma {
     Respuesta: 'Respuesta',
     Fiscal: 'Fiscal',
     Configuracion: 'Configuracion',
-    RegistroTelefonia: 'RegistroTelefonia'
+    RegistroTelefonia: 'RegistroTelefonia',
+    RegistroEstafa: 'RegistroEstafa'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -736,7 +752,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia"
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1367,6 +1383,76 @@ export namespace Prisma {
           count: {
             args: Prisma.RegistroTelefoniaCountArgs<ExtArgs>
             result: $Utils.Optional<RegistroTelefoniaCountAggregateOutputType> | number
+          }
+        }
+      }
+      RegistroEstafa: {
+        payload: Prisma.$RegistroEstafaPayload<ExtArgs>
+        fields: Prisma.RegistroEstafaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RegistroEstafaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RegistroEstafaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          findFirst: {
+            args: Prisma.RegistroEstafaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RegistroEstafaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          findMany: {
+            args: Prisma.RegistroEstafaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>[]
+          }
+          create: {
+            args: Prisma.RegistroEstafaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          createMany: {
+            args: Prisma.RegistroEstafaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RegistroEstafaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>[]
+          }
+          delete: {
+            args: Prisma.RegistroEstafaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          update: {
+            args: Prisma.RegistroEstafaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          deleteMany: {
+            args: Prisma.RegistroEstafaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RegistroEstafaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RegistroEstafaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroEstafaPayload>
+          }
+          aggregate: {
+            args: Prisma.RegistroEstafaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRegistroEstafa>
+          }
+          groupBy: {
+            args: Prisma.RegistroEstafaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RegistroEstafaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RegistroEstafaCountArgs<ExtArgs>
+            result: $Utils.Optional<RegistroEstafaCountAggregateOutputType> | number
           }
         }
       }
@@ -10877,6 +10963,1162 @@ export namespace Prisma {
 
 
   /**
+   * Model RegistroEstafa
+   */
+
+  export type AggregateRegistroEstafa = {
+    _count: RegistroEstafaCountAggregateOutputType | null
+    _avg: RegistroEstafaAvgAggregateOutputType | null
+    _sum: RegistroEstafaSumAggregateOutputType | null
+    _min: RegistroEstafaMinAggregateOutputType | null
+    _max: RegistroEstafaMaxAggregateOutputType | null
+  }
+
+  export type RegistroEstafaAvgAggregateOutputType = {
+    nroInterno: number | null
+    filaExcel: number | null
+  }
+
+  export type RegistroEstafaSumAggregateOutputType = {
+    nroInterno: number | null
+    filaExcel: number | null
+  }
+
+  export type RegistroEstafaMinAggregateOutputType = {
+    id: string | null
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaDenuncia: Date | null
+    dependencia: string | null
+    nroLegajo: string | null
+    recibido: Date | null
+    victima: string | null
+    telefonoVictima: string | null
+    caratula: string | null
+    fiscal: string | null
+    ardid: string | null
+    seudonimo: string | null
+    telefonoReferencia: string | null
+    nombreReferencia: string | null
+    imei: string | null
+    otrosTelefonos: string | null
+    cbu: string | null
+    titulares: string | null
+    filaExcel: number | null
+    otrosCbu: string | null
+    estadoLegajo: string | null
+    complementos: string | null
+    createdAt: Date | null
+  }
+
+  export type RegistroEstafaMaxAggregateOutputType = {
+    id: string | null
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaDenuncia: Date | null
+    dependencia: string | null
+    nroLegajo: string | null
+    recibido: Date | null
+    victima: string | null
+    telefonoVictima: string | null
+    caratula: string | null
+    fiscal: string | null
+    ardid: string | null
+    seudonimo: string | null
+    telefonoReferencia: string | null
+    nombreReferencia: string | null
+    imei: string | null
+    otrosTelefonos: string | null
+    cbu: string | null
+    titulares: string | null
+    filaExcel: number | null
+    otrosCbu: string | null
+    estadoLegajo: string | null
+    complementos: string | null
+    createdAt: Date | null
+  }
+
+  export type RegistroEstafaCountAggregateOutputType = {
+    id: number
+    nroInterno: number
+    cuij: number
+    fechaHecho: number
+    fechaDenuncia: number
+    dependencia: number
+    nroLegajo: number
+    recibido: number
+    victima: number
+    telefonoVictima: number
+    caratula: number
+    fiscal: number
+    ardid: number
+    seudonimo: number
+    telefonoReferencia: number
+    nombreReferencia: number
+    imei: number
+    otrosTelefonos: number
+    cbu: number
+    titulares: number
+    filaExcel: number
+    otrosCbu: number
+    estadoLegajo: number
+    complementos: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RegistroEstafaAvgAggregateInputType = {
+    nroInterno?: true
+    filaExcel?: true
+  }
+
+  export type RegistroEstafaSumAggregateInputType = {
+    nroInterno?: true
+    filaExcel?: true
+  }
+
+  export type RegistroEstafaMinAggregateInputType = {
+    id?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaDenuncia?: true
+    dependencia?: true
+    nroLegajo?: true
+    recibido?: true
+    victima?: true
+    telefonoVictima?: true
+    caratula?: true
+    fiscal?: true
+    ardid?: true
+    seudonimo?: true
+    telefonoReferencia?: true
+    nombreReferencia?: true
+    imei?: true
+    otrosTelefonos?: true
+    cbu?: true
+    titulares?: true
+    filaExcel?: true
+    otrosCbu?: true
+    estadoLegajo?: true
+    complementos?: true
+    createdAt?: true
+  }
+
+  export type RegistroEstafaMaxAggregateInputType = {
+    id?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaDenuncia?: true
+    dependencia?: true
+    nroLegajo?: true
+    recibido?: true
+    victima?: true
+    telefonoVictima?: true
+    caratula?: true
+    fiscal?: true
+    ardid?: true
+    seudonimo?: true
+    telefonoReferencia?: true
+    nombreReferencia?: true
+    imei?: true
+    otrosTelefonos?: true
+    cbu?: true
+    titulares?: true
+    filaExcel?: true
+    otrosCbu?: true
+    estadoLegajo?: true
+    complementos?: true
+    createdAt?: true
+  }
+
+  export type RegistroEstafaCountAggregateInputType = {
+    id?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaDenuncia?: true
+    dependencia?: true
+    nroLegajo?: true
+    recibido?: true
+    victima?: true
+    telefonoVictima?: true
+    caratula?: true
+    fiscal?: true
+    ardid?: true
+    seudonimo?: true
+    telefonoReferencia?: true
+    nombreReferencia?: true
+    imei?: true
+    otrosTelefonos?: true
+    cbu?: true
+    titulares?: true
+    filaExcel?: true
+    otrosCbu?: true
+    estadoLegajo?: true
+    complementos?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RegistroEstafaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RegistroEstafa to aggregate.
+     */
+    where?: RegistroEstafaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroEstafas to fetch.
+     */
+    orderBy?: RegistroEstafaOrderByWithRelationInput | RegistroEstafaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RegistroEstafaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroEstafas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroEstafas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RegistroEstafas
+    **/
+    _count?: true | RegistroEstafaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RegistroEstafaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RegistroEstafaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RegistroEstafaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RegistroEstafaMaxAggregateInputType
+  }
+
+  export type GetRegistroEstafaAggregateType<T extends RegistroEstafaAggregateArgs> = {
+        [P in keyof T & keyof AggregateRegistroEstafa]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRegistroEstafa[P]>
+      : GetScalarType<T[P], AggregateRegistroEstafa[P]>
+  }
+
+
+
+
+  export type RegistroEstafaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RegistroEstafaWhereInput
+    orderBy?: RegistroEstafaOrderByWithAggregationInput | RegistroEstafaOrderByWithAggregationInput[]
+    by: RegistroEstafaScalarFieldEnum[] | RegistroEstafaScalarFieldEnum
+    having?: RegistroEstafaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RegistroEstafaCountAggregateInputType | true
+    _avg?: RegistroEstafaAvgAggregateInputType
+    _sum?: RegistroEstafaSumAggregateInputType
+    _min?: RegistroEstafaMinAggregateInputType
+    _max?: RegistroEstafaMaxAggregateInputType
+  }
+
+  export type RegistroEstafaGroupByOutputType = {
+    id: string
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaDenuncia: Date | null
+    dependencia: string | null
+    nroLegajo: string | null
+    recibido: Date | null
+    victima: string | null
+    telefonoVictima: string | null
+    caratula: string | null
+    fiscal: string | null
+    ardid: string | null
+    seudonimo: string | null
+    telefonoReferencia: string | null
+    nombreReferencia: string | null
+    imei: string | null
+    otrosTelefonos: string | null
+    cbu: string | null
+    titulares: string | null
+    filaExcel: number | null
+    otrosCbu: string | null
+    estadoLegajo: string | null
+    complementos: string | null
+    createdAt: Date
+    _count: RegistroEstafaCountAggregateOutputType | null
+    _avg: RegistroEstafaAvgAggregateOutputType | null
+    _sum: RegistroEstafaSumAggregateOutputType | null
+    _min: RegistroEstafaMinAggregateOutputType | null
+    _max: RegistroEstafaMaxAggregateOutputType | null
+  }
+
+  type GetRegistroEstafaGroupByPayload<T extends RegistroEstafaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RegistroEstafaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RegistroEstafaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RegistroEstafaGroupByOutputType[P]>
+            : GetScalarType<T[P], RegistroEstafaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RegistroEstafaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaDenuncia?: boolean
+    dependencia?: boolean
+    nroLegajo?: boolean
+    recibido?: boolean
+    victima?: boolean
+    telefonoVictima?: boolean
+    caratula?: boolean
+    fiscal?: boolean
+    ardid?: boolean
+    seudonimo?: boolean
+    telefonoReferencia?: boolean
+    nombreReferencia?: boolean
+    imei?: boolean
+    otrosTelefonos?: boolean
+    cbu?: boolean
+    titulares?: boolean
+    filaExcel?: boolean
+    otrosCbu?: boolean
+    estadoLegajo?: boolean
+    complementos?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["registroEstafa"]>
+
+  export type RegistroEstafaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaDenuncia?: boolean
+    dependencia?: boolean
+    nroLegajo?: boolean
+    recibido?: boolean
+    victima?: boolean
+    telefonoVictima?: boolean
+    caratula?: boolean
+    fiscal?: boolean
+    ardid?: boolean
+    seudonimo?: boolean
+    telefonoReferencia?: boolean
+    nombreReferencia?: boolean
+    imei?: boolean
+    otrosTelefonos?: boolean
+    cbu?: boolean
+    titulares?: boolean
+    filaExcel?: boolean
+    otrosCbu?: boolean
+    estadoLegajo?: boolean
+    complementos?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["registroEstafa"]>
+
+  export type RegistroEstafaSelectScalar = {
+    id?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaDenuncia?: boolean
+    dependencia?: boolean
+    nroLegajo?: boolean
+    recibido?: boolean
+    victima?: boolean
+    telefonoVictima?: boolean
+    caratula?: boolean
+    fiscal?: boolean
+    ardid?: boolean
+    seudonimo?: boolean
+    telefonoReferencia?: boolean
+    nombreReferencia?: boolean
+    imei?: boolean
+    otrosTelefonos?: boolean
+    cbu?: boolean
+    titulares?: boolean
+    filaExcel?: boolean
+    otrosCbu?: boolean
+    estadoLegajo?: boolean
+    complementos?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $RegistroEstafaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RegistroEstafa"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nroInterno: number | null
+      cuij: string | null
+      fechaHecho: Date | null
+      fechaDenuncia: Date | null
+      dependencia: string | null
+      nroLegajo: string | null
+      recibido: Date | null
+      victima: string | null
+      telefonoVictima: string | null
+      caratula: string | null
+      fiscal: string | null
+      ardid: string | null
+      seudonimo: string | null
+      telefonoReferencia: string | null
+      nombreReferencia: string | null
+      imei: string | null
+      otrosTelefonos: string | null
+      cbu: string | null
+      titulares: string | null
+      filaExcel: number | null
+      otrosCbu: string | null
+      estadoLegajo: string | null
+      complementos: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["registroEstafa"]>
+    composites: {}
+  }
+
+  type RegistroEstafaGetPayload<S extends boolean | null | undefined | RegistroEstafaDefaultArgs> = $Result.GetResult<Prisma.$RegistroEstafaPayload, S>
+
+  type RegistroEstafaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RegistroEstafaFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RegistroEstafaCountAggregateInputType | true
+    }
+
+  export interface RegistroEstafaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RegistroEstafa'], meta: { name: 'RegistroEstafa' } }
+    /**
+     * Find zero or one RegistroEstafa that matches the filter.
+     * @param {RegistroEstafaFindUniqueArgs} args - Arguments to find a RegistroEstafa
+     * @example
+     * // Get one RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RegistroEstafaFindUniqueArgs>(args: SelectSubset<T, RegistroEstafaFindUniqueArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RegistroEstafa that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RegistroEstafaFindUniqueOrThrowArgs} args - Arguments to find a RegistroEstafa
+     * @example
+     * // Get one RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RegistroEstafaFindUniqueOrThrowArgs>(args: SelectSubset<T, RegistroEstafaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RegistroEstafa that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaFindFirstArgs} args - Arguments to find a RegistroEstafa
+     * @example
+     * // Get one RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RegistroEstafaFindFirstArgs>(args?: SelectSubset<T, RegistroEstafaFindFirstArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RegistroEstafa that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaFindFirstOrThrowArgs} args - Arguments to find a RegistroEstafa
+     * @example
+     * // Get one RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RegistroEstafaFindFirstOrThrowArgs>(args?: SelectSubset<T, RegistroEstafaFindFirstOrThrowArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RegistroEstafas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RegistroEstafas
+     * const registroEstafas = await prisma.registroEstafa.findMany()
+     * 
+     * // Get first 10 RegistroEstafas
+     * const registroEstafas = await prisma.registroEstafa.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const registroEstafaWithIdOnly = await prisma.registroEstafa.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RegistroEstafaFindManyArgs>(args?: SelectSubset<T, RegistroEstafaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RegistroEstafa.
+     * @param {RegistroEstafaCreateArgs} args - Arguments to create a RegistroEstafa.
+     * @example
+     * // Create one RegistroEstafa
+     * const RegistroEstafa = await prisma.registroEstafa.create({
+     *   data: {
+     *     // ... data to create a RegistroEstafa
+     *   }
+     * })
+     * 
+     */
+    create<T extends RegistroEstafaCreateArgs>(args: SelectSubset<T, RegistroEstafaCreateArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RegistroEstafas.
+     * @param {RegistroEstafaCreateManyArgs} args - Arguments to create many RegistroEstafas.
+     * @example
+     * // Create many RegistroEstafas
+     * const registroEstafa = await prisma.registroEstafa.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RegistroEstafaCreateManyArgs>(args?: SelectSubset<T, RegistroEstafaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RegistroEstafas and returns the data saved in the database.
+     * @param {RegistroEstafaCreateManyAndReturnArgs} args - Arguments to create many RegistroEstafas.
+     * @example
+     * // Create many RegistroEstafas
+     * const registroEstafa = await prisma.registroEstafa.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RegistroEstafas and only return the `id`
+     * const registroEstafaWithIdOnly = await prisma.registroEstafa.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RegistroEstafaCreateManyAndReturnArgs>(args?: SelectSubset<T, RegistroEstafaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RegistroEstafa.
+     * @param {RegistroEstafaDeleteArgs} args - Arguments to delete one RegistroEstafa.
+     * @example
+     * // Delete one RegistroEstafa
+     * const RegistroEstafa = await prisma.registroEstafa.delete({
+     *   where: {
+     *     // ... filter to delete one RegistroEstafa
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RegistroEstafaDeleteArgs>(args: SelectSubset<T, RegistroEstafaDeleteArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RegistroEstafa.
+     * @param {RegistroEstafaUpdateArgs} args - Arguments to update one RegistroEstafa.
+     * @example
+     * // Update one RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RegistroEstafaUpdateArgs>(args: SelectSubset<T, RegistroEstafaUpdateArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RegistroEstafas.
+     * @param {RegistroEstafaDeleteManyArgs} args - Arguments to filter RegistroEstafas to delete.
+     * @example
+     * // Delete a few RegistroEstafas
+     * const { count } = await prisma.registroEstafa.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RegistroEstafaDeleteManyArgs>(args?: SelectSubset<T, RegistroEstafaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RegistroEstafas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RegistroEstafas
+     * const registroEstafa = await prisma.registroEstafa.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RegistroEstafaUpdateManyArgs>(args: SelectSubset<T, RegistroEstafaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RegistroEstafa.
+     * @param {RegistroEstafaUpsertArgs} args - Arguments to update or create a RegistroEstafa.
+     * @example
+     * // Update or create a RegistroEstafa
+     * const registroEstafa = await prisma.registroEstafa.upsert({
+     *   create: {
+     *     // ... data to create a RegistroEstafa
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RegistroEstafa we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RegistroEstafaUpsertArgs>(args: SelectSubset<T, RegistroEstafaUpsertArgs<ExtArgs>>): Prisma__RegistroEstafaClient<$Result.GetResult<Prisma.$RegistroEstafaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RegistroEstafas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaCountArgs} args - Arguments to filter RegistroEstafas to count.
+     * @example
+     * // Count the number of RegistroEstafas
+     * const count = await prisma.registroEstafa.count({
+     *   where: {
+     *     // ... the filter for the RegistroEstafas we want to count
+     *   }
+     * })
+    **/
+    count<T extends RegistroEstafaCountArgs>(
+      args?: Subset<T, RegistroEstafaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RegistroEstafaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RegistroEstafa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RegistroEstafaAggregateArgs>(args: Subset<T, RegistroEstafaAggregateArgs>): Prisma.PrismaPromise<GetRegistroEstafaAggregateType<T>>
+
+    /**
+     * Group by RegistroEstafa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroEstafaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RegistroEstafaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RegistroEstafaGroupByArgs['orderBy'] }
+        : { orderBy?: RegistroEstafaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RegistroEstafaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRegistroEstafaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RegistroEstafa model
+   */
+  readonly fields: RegistroEstafaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RegistroEstafa.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RegistroEstafaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RegistroEstafa model
+   */ 
+  interface RegistroEstafaFieldRefs {
+    readonly id: FieldRef<"RegistroEstafa", 'String'>
+    readonly nroInterno: FieldRef<"RegistroEstafa", 'Int'>
+    readonly cuij: FieldRef<"RegistroEstafa", 'String'>
+    readonly fechaHecho: FieldRef<"RegistroEstafa", 'DateTime'>
+    readonly fechaDenuncia: FieldRef<"RegistroEstafa", 'DateTime'>
+    readonly dependencia: FieldRef<"RegistroEstafa", 'String'>
+    readonly nroLegajo: FieldRef<"RegistroEstafa", 'String'>
+    readonly recibido: FieldRef<"RegistroEstafa", 'DateTime'>
+    readonly victima: FieldRef<"RegistroEstafa", 'String'>
+    readonly telefonoVictima: FieldRef<"RegistroEstafa", 'String'>
+    readonly caratula: FieldRef<"RegistroEstafa", 'String'>
+    readonly fiscal: FieldRef<"RegistroEstafa", 'String'>
+    readonly ardid: FieldRef<"RegistroEstafa", 'String'>
+    readonly seudonimo: FieldRef<"RegistroEstafa", 'String'>
+    readonly telefonoReferencia: FieldRef<"RegistroEstafa", 'String'>
+    readonly nombreReferencia: FieldRef<"RegistroEstafa", 'String'>
+    readonly imei: FieldRef<"RegistroEstafa", 'String'>
+    readonly otrosTelefonos: FieldRef<"RegistroEstafa", 'String'>
+    readonly cbu: FieldRef<"RegistroEstafa", 'String'>
+    readonly titulares: FieldRef<"RegistroEstafa", 'String'>
+    readonly filaExcel: FieldRef<"RegistroEstafa", 'Int'>
+    readonly otrosCbu: FieldRef<"RegistroEstafa", 'String'>
+    readonly estadoLegajo: FieldRef<"RegistroEstafa", 'String'>
+    readonly complementos: FieldRef<"RegistroEstafa", 'String'>
+    readonly createdAt: FieldRef<"RegistroEstafa", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RegistroEstafa findUnique
+   */
+  export type RegistroEstafaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroEstafa to fetch.
+     */
+    where: RegistroEstafaWhereUniqueInput
+  }
+
+  /**
+   * RegistroEstafa findUniqueOrThrow
+   */
+  export type RegistroEstafaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroEstafa to fetch.
+     */
+    where: RegistroEstafaWhereUniqueInput
+  }
+
+  /**
+   * RegistroEstafa findFirst
+   */
+  export type RegistroEstafaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroEstafa to fetch.
+     */
+    where?: RegistroEstafaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroEstafas to fetch.
+     */
+    orderBy?: RegistroEstafaOrderByWithRelationInput | RegistroEstafaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RegistroEstafas.
+     */
+    cursor?: RegistroEstafaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroEstafas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroEstafas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RegistroEstafas.
+     */
+    distinct?: RegistroEstafaScalarFieldEnum | RegistroEstafaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroEstafa findFirstOrThrow
+   */
+  export type RegistroEstafaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroEstafa to fetch.
+     */
+    where?: RegistroEstafaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroEstafas to fetch.
+     */
+    orderBy?: RegistroEstafaOrderByWithRelationInput | RegistroEstafaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RegistroEstafas.
+     */
+    cursor?: RegistroEstafaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroEstafas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroEstafas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RegistroEstafas.
+     */
+    distinct?: RegistroEstafaScalarFieldEnum | RegistroEstafaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroEstafa findMany
+   */
+  export type RegistroEstafaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroEstafas to fetch.
+     */
+    where?: RegistroEstafaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroEstafas to fetch.
+     */
+    orderBy?: RegistroEstafaOrderByWithRelationInput | RegistroEstafaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RegistroEstafas.
+     */
+    cursor?: RegistroEstafaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroEstafas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroEstafas.
+     */
+    skip?: number
+    distinct?: RegistroEstafaScalarFieldEnum | RegistroEstafaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroEstafa create
+   */
+  export type RegistroEstafaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * The data needed to create a RegistroEstafa.
+     */
+    data?: XOR<RegistroEstafaCreateInput, RegistroEstafaUncheckedCreateInput>
+  }
+
+  /**
+   * RegistroEstafa createMany
+   */
+  export type RegistroEstafaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RegistroEstafas.
+     */
+    data: RegistroEstafaCreateManyInput | RegistroEstafaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RegistroEstafa createManyAndReturn
+   */
+  export type RegistroEstafaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RegistroEstafas.
+     */
+    data: RegistroEstafaCreateManyInput | RegistroEstafaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RegistroEstafa update
+   */
+  export type RegistroEstafaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * The data needed to update a RegistroEstafa.
+     */
+    data: XOR<RegistroEstafaUpdateInput, RegistroEstafaUncheckedUpdateInput>
+    /**
+     * Choose, which RegistroEstafa to update.
+     */
+    where: RegistroEstafaWhereUniqueInput
+  }
+
+  /**
+   * RegistroEstafa updateMany
+   */
+  export type RegistroEstafaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RegistroEstafas.
+     */
+    data: XOR<RegistroEstafaUpdateManyMutationInput, RegistroEstafaUncheckedUpdateManyInput>
+    /**
+     * Filter which RegistroEstafas to update
+     */
+    where?: RegistroEstafaWhereInput
+  }
+
+  /**
+   * RegistroEstafa upsert
+   */
+  export type RegistroEstafaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * The filter to search for the RegistroEstafa to update in case it exists.
+     */
+    where: RegistroEstafaWhereUniqueInput
+    /**
+     * In case the RegistroEstafa found by the `where` argument doesn't exist, create a new RegistroEstafa with this data.
+     */
+    create: XOR<RegistroEstafaCreateInput, RegistroEstafaUncheckedCreateInput>
+    /**
+     * In case the RegistroEstafa was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RegistroEstafaUpdateInput, RegistroEstafaUncheckedUpdateInput>
+  }
+
+  /**
+   * RegistroEstafa delete
+   */
+  export type RegistroEstafaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+    /**
+     * Filter which RegistroEstafa to delete.
+     */
+    where: RegistroEstafaWhereUniqueInput
+  }
+
+  /**
+   * RegistroEstafa deleteMany
+   */
+  export type RegistroEstafaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RegistroEstafas to delete
+     */
+    where?: RegistroEstafaWhereInput
+  }
+
+  /**
+   * RegistroEstafa without action
+   */
+  export type RegistroEstafaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroEstafa
+     */
+    select?: RegistroEstafaSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11047,6 +12289,37 @@ export namespace Prisma {
   };
 
   export type RegistroTelefoniaScalarFieldEnum = (typeof RegistroTelefoniaScalarFieldEnum)[keyof typeof RegistroTelefoniaScalarFieldEnum]
+
+
+  export const RegistroEstafaScalarFieldEnum: {
+    id: 'id',
+    nroInterno: 'nroInterno',
+    cuij: 'cuij',
+    fechaHecho: 'fechaHecho',
+    fechaDenuncia: 'fechaDenuncia',
+    dependencia: 'dependencia',
+    nroLegajo: 'nroLegajo',
+    recibido: 'recibido',
+    victima: 'victima',
+    telefonoVictima: 'telefonoVictima',
+    caratula: 'caratula',
+    fiscal: 'fiscal',
+    ardid: 'ardid',
+    seudonimo: 'seudonimo',
+    telefonoReferencia: 'telefonoReferencia',
+    nombreReferencia: 'nombreReferencia',
+    imei: 'imei',
+    otrosTelefonos: 'otrosTelefonos',
+    cbu: 'cbu',
+    titulares: 'titulares',
+    filaExcel: 'filaExcel',
+    otrosCbu: 'otrosCbu',
+    estadoLegajo: 'estadoLegajo',
+    complementos: 'complementos',
+    createdAt: 'createdAt'
+  };
+
+  export type RegistroEstafaScalarFieldEnum = (typeof RegistroEstafaScalarFieldEnum)[keyof typeof RegistroEstafaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11950,6 +13223,160 @@ export namespace Prisma {
     requisa?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
     procedimientos?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"RegistroTelefonia"> | Date | string
+  }
+
+  export type RegistroEstafaWhereInput = {
+    AND?: RegistroEstafaWhereInput | RegistroEstafaWhereInput[]
+    OR?: RegistroEstafaWhereInput[]
+    NOT?: RegistroEstafaWhereInput | RegistroEstafaWhereInput[]
+    id?: StringFilter<"RegistroEstafa"> | string
+    nroInterno?: IntNullableFilter<"RegistroEstafa"> | number | null
+    cuij?: StringNullableFilter<"RegistroEstafa"> | string | null
+    fechaHecho?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    fechaDenuncia?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    dependencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    nroLegajo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    recibido?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    victima?: StringNullableFilter<"RegistroEstafa"> | string | null
+    telefonoVictima?: StringNullableFilter<"RegistroEstafa"> | string | null
+    caratula?: StringNullableFilter<"RegistroEstafa"> | string | null
+    fiscal?: StringNullableFilter<"RegistroEstafa"> | string | null
+    ardid?: StringNullableFilter<"RegistroEstafa"> | string | null
+    seudonimo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    telefonoReferencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    nombreReferencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    imei?: StringNullableFilter<"RegistroEstafa"> | string | null
+    otrosTelefonos?: StringNullableFilter<"RegistroEstafa"> | string | null
+    cbu?: StringNullableFilter<"RegistroEstafa"> | string | null
+    titulares?: StringNullableFilter<"RegistroEstafa"> | string | null
+    filaExcel?: IntNullableFilter<"RegistroEstafa"> | number | null
+    otrosCbu?: StringNullableFilter<"RegistroEstafa"> | string | null
+    estadoLegajo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    complementos?: StringNullableFilter<"RegistroEstafa"> | string | null
+    createdAt?: DateTimeFilter<"RegistroEstafa"> | Date | string
+  }
+
+  export type RegistroEstafaOrderByWithRelationInput = {
+    id?: SortOrder
+    nroInterno?: SortOrderInput | SortOrder
+    cuij?: SortOrderInput | SortOrder
+    fechaHecho?: SortOrderInput | SortOrder
+    fechaDenuncia?: SortOrderInput | SortOrder
+    dependencia?: SortOrderInput | SortOrder
+    nroLegajo?: SortOrderInput | SortOrder
+    recibido?: SortOrderInput | SortOrder
+    victima?: SortOrderInput | SortOrder
+    telefonoVictima?: SortOrderInput | SortOrder
+    caratula?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    ardid?: SortOrderInput | SortOrder
+    seudonimo?: SortOrderInput | SortOrder
+    telefonoReferencia?: SortOrderInput | SortOrder
+    nombreReferencia?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    otrosTelefonos?: SortOrderInput | SortOrder
+    cbu?: SortOrderInput | SortOrder
+    titulares?: SortOrderInput | SortOrder
+    filaExcel?: SortOrderInput | SortOrder
+    otrosCbu?: SortOrderInput | SortOrder
+    estadoLegajo?: SortOrderInput | SortOrder
+    complementos?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroEstafaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RegistroEstafaWhereInput | RegistroEstafaWhereInput[]
+    OR?: RegistroEstafaWhereInput[]
+    NOT?: RegistroEstafaWhereInput | RegistroEstafaWhereInput[]
+    nroInterno?: IntNullableFilter<"RegistroEstafa"> | number | null
+    cuij?: StringNullableFilter<"RegistroEstafa"> | string | null
+    fechaHecho?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    fechaDenuncia?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    dependencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    nroLegajo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    recibido?: DateTimeNullableFilter<"RegistroEstafa"> | Date | string | null
+    victima?: StringNullableFilter<"RegistroEstafa"> | string | null
+    telefonoVictima?: StringNullableFilter<"RegistroEstafa"> | string | null
+    caratula?: StringNullableFilter<"RegistroEstafa"> | string | null
+    fiscal?: StringNullableFilter<"RegistroEstafa"> | string | null
+    ardid?: StringNullableFilter<"RegistroEstafa"> | string | null
+    seudonimo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    telefonoReferencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    nombreReferencia?: StringNullableFilter<"RegistroEstafa"> | string | null
+    imei?: StringNullableFilter<"RegistroEstafa"> | string | null
+    otrosTelefonos?: StringNullableFilter<"RegistroEstafa"> | string | null
+    cbu?: StringNullableFilter<"RegistroEstafa"> | string | null
+    titulares?: StringNullableFilter<"RegistroEstafa"> | string | null
+    filaExcel?: IntNullableFilter<"RegistroEstafa"> | number | null
+    otrosCbu?: StringNullableFilter<"RegistroEstafa"> | string | null
+    estadoLegajo?: StringNullableFilter<"RegistroEstafa"> | string | null
+    complementos?: StringNullableFilter<"RegistroEstafa"> | string | null
+    createdAt?: DateTimeFilter<"RegistroEstafa"> | Date | string
+  }, "id">
+
+  export type RegistroEstafaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nroInterno?: SortOrderInput | SortOrder
+    cuij?: SortOrderInput | SortOrder
+    fechaHecho?: SortOrderInput | SortOrder
+    fechaDenuncia?: SortOrderInput | SortOrder
+    dependencia?: SortOrderInput | SortOrder
+    nroLegajo?: SortOrderInput | SortOrder
+    recibido?: SortOrderInput | SortOrder
+    victima?: SortOrderInput | SortOrder
+    telefonoVictima?: SortOrderInput | SortOrder
+    caratula?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    ardid?: SortOrderInput | SortOrder
+    seudonimo?: SortOrderInput | SortOrder
+    telefonoReferencia?: SortOrderInput | SortOrder
+    nombreReferencia?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    otrosTelefonos?: SortOrderInput | SortOrder
+    cbu?: SortOrderInput | SortOrder
+    titulares?: SortOrderInput | SortOrder
+    filaExcel?: SortOrderInput | SortOrder
+    otrosCbu?: SortOrderInput | SortOrder
+    estadoLegajo?: SortOrderInput | SortOrder
+    complementos?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RegistroEstafaCountOrderByAggregateInput
+    _avg?: RegistroEstafaAvgOrderByAggregateInput
+    _max?: RegistroEstafaMaxOrderByAggregateInput
+    _min?: RegistroEstafaMinOrderByAggregateInput
+    _sum?: RegistroEstafaSumOrderByAggregateInput
+  }
+
+  export type RegistroEstafaScalarWhereWithAggregatesInput = {
+    AND?: RegistroEstafaScalarWhereWithAggregatesInput | RegistroEstafaScalarWhereWithAggregatesInput[]
+    OR?: RegistroEstafaScalarWhereWithAggregatesInput[]
+    NOT?: RegistroEstafaScalarWhereWithAggregatesInput | RegistroEstafaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RegistroEstafa"> | string
+    nroInterno?: IntNullableWithAggregatesFilter<"RegistroEstafa"> | number | null
+    cuij?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    fechaHecho?: DateTimeNullableWithAggregatesFilter<"RegistroEstafa"> | Date | string | null
+    fechaDenuncia?: DateTimeNullableWithAggregatesFilter<"RegistroEstafa"> | Date | string | null
+    dependencia?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    nroLegajo?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    recibido?: DateTimeNullableWithAggregatesFilter<"RegistroEstafa"> | Date | string | null
+    victima?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    telefonoVictima?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    caratula?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    fiscal?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    ardid?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    seudonimo?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    telefonoReferencia?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    nombreReferencia?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    imei?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    otrosTelefonos?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    cbu?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    titulares?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    filaExcel?: IntNullableWithAggregatesFilter<"RegistroEstafa"> | number | null
+    otrosCbu?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    estadoLegajo?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    complementos?: StringNullableWithAggregatesFilter<"RegistroEstafa"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RegistroEstafa"> | Date | string
   }
 
   export type UsuarioCreateInput = {
@@ -12894,6 +14321,202 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RegistroEstafaCreateInput = {
+    id?: string
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaDenuncia?: Date | string | null
+    dependencia?: string | null
+    nroLegajo?: string | null
+    recibido?: Date | string | null
+    victima?: string | null
+    telefonoVictima?: string | null
+    caratula?: string | null
+    fiscal?: string | null
+    ardid?: string | null
+    seudonimo?: string | null
+    telefonoReferencia?: string | null
+    nombreReferencia?: string | null
+    imei?: string | null
+    otrosTelefonos?: string | null
+    cbu?: string | null
+    titulares?: string | null
+    filaExcel?: number | null
+    otrosCbu?: string | null
+    estadoLegajo?: string | null
+    complementos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroEstafaUncheckedCreateInput = {
+    id?: string
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaDenuncia?: Date | string | null
+    dependencia?: string | null
+    nroLegajo?: string | null
+    recibido?: Date | string | null
+    victima?: string | null
+    telefonoVictima?: string | null
+    caratula?: string | null
+    fiscal?: string | null
+    ardid?: string | null
+    seudonimo?: string | null
+    telefonoReferencia?: string | null
+    nombreReferencia?: string | null
+    imei?: string | null
+    otrosTelefonos?: string | null
+    cbu?: string | null
+    titulares?: string | null
+    filaExcel?: number | null
+    otrosCbu?: string | null
+    estadoLegajo?: string | null
+    complementos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroEstafaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaDenuncia?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dependencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    recibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoVictima?: NullableStringFieldUpdateOperationsInput | string | null
+    caratula?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    ardid?: NullableStringFieldUpdateOperationsInput | string | null
+    seudonimo?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nombreReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    otrosTelefonos?: NullableStringFieldUpdateOperationsInput | string | null
+    cbu?: NullableStringFieldUpdateOperationsInput | string | null
+    titulares?: NullableStringFieldUpdateOperationsInput | string | null
+    filaExcel?: NullableIntFieldUpdateOperationsInput | number | null
+    otrosCbu?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    complementos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroEstafaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaDenuncia?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dependencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    recibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoVictima?: NullableStringFieldUpdateOperationsInput | string | null
+    caratula?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    ardid?: NullableStringFieldUpdateOperationsInput | string | null
+    seudonimo?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nombreReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    otrosTelefonos?: NullableStringFieldUpdateOperationsInput | string | null
+    cbu?: NullableStringFieldUpdateOperationsInput | string | null
+    titulares?: NullableStringFieldUpdateOperationsInput | string | null
+    filaExcel?: NullableIntFieldUpdateOperationsInput | number | null
+    otrosCbu?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    complementos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroEstafaCreateManyInput = {
+    id?: string
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaDenuncia?: Date | string | null
+    dependencia?: string | null
+    nroLegajo?: string | null
+    recibido?: Date | string | null
+    victima?: string | null
+    telefonoVictima?: string | null
+    caratula?: string | null
+    fiscal?: string | null
+    ardid?: string | null
+    seudonimo?: string | null
+    telefonoReferencia?: string | null
+    nombreReferencia?: string | null
+    imei?: string | null
+    otrosTelefonos?: string | null
+    cbu?: string | null
+    titulares?: string | null
+    filaExcel?: number | null
+    otrosCbu?: string | null
+    estadoLegajo?: string | null
+    complementos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroEstafaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaDenuncia?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dependencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    recibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoVictima?: NullableStringFieldUpdateOperationsInput | string | null
+    caratula?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    ardid?: NullableStringFieldUpdateOperationsInput | string | null
+    seudonimo?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nombreReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    otrosTelefonos?: NullableStringFieldUpdateOperationsInput | string | null
+    cbu?: NullableStringFieldUpdateOperationsInput | string | null
+    titulares?: NullableStringFieldUpdateOperationsInput | string | null
+    filaExcel?: NullableIntFieldUpdateOperationsInput | number | null
+    otrosCbu?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    complementos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroEstafaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaDenuncia?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dependencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    recibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoVictima?: NullableStringFieldUpdateOperationsInput | string | null
+    caratula?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    ardid?: NullableStringFieldUpdateOperationsInput | string | null
+    seudonimo?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    nombreReferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    otrosTelefonos?: NullableStringFieldUpdateOperationsInput | string | null
+    cbu?: NullableStringFieldUpdateOperationsInput | string | null
+    titulares?: NullableStringFieldUpdateOperationsInput | string | null
+    filaExcel?: NullableIntFieldUpdateOperationsInput | number | null
+    otrosCbu?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    complementos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -13573,6 +15196,100 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type RegistroEstafaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaDenuncia?: SortOrder
+    dependencia?: SortOrder
+    nroLegajo?: SortOrder
+    recibido?: SortOrder
+    victima?: SortOrder
+    telefonoVictima?: SortOrder
+    caratula?: SortOrder
+    fiscal?: SortOrder
+    ardid?: SortOrder
+    seudonimo?: SortOrder
+    telefonoReferencia?: SortOrder
+    nombreReferencia?: SortOrder
+    imei?: SortOrder
+    otrosTelefonos?: SortOrder
+    cbu?: SortOrder
+    titulares?: SortOrder
+    filaExcel?: SortOrder
+    otrosCbu?: SortOrder
+    estadoLegajo?: SortOrder
+    complementos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroEstafaAvgOrderByAggregateInput = {
+    nroInterno?: SortOrder
+    filaExcel?: SortOrder
+  }
+
+  export type RegistroEstafaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaDenuncia?: SortOrder
+    dependencia?: SortOrder
+    nroLegajo?: SortOrder
+    recibido?: SortOrder
+    victima?: SortOrder
+    telefonoVictima?: SortOrder
+    caratula?: SortOrder
+    fiscal?: SortOrder
+    ardid?: SortOrder
+    seudonimo?: SortOrder
+    telefonoReferencia?: SortOrder
+    nombreReferencia?: SortOrder
+    imei?: SortOrder
+    otrosTelefonos?: SortOrder
+    cbu?: SortOrder
+    titulares?: SortOrder
+    filaExcel?: SortOrder
+    otrosCbu?: SortOrder
+    estadoLegajo?: SortOrder
+    complementos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroEstafaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaDenuncia?: SortOrder
+    dependencia?: SortOrder
+    nroLegajo?: SortOrder
+    recibido?: SortOrder
+    victima?: SortOrder
+    telefonoVictima?: SortOrder
+    caratula?: SortOrder
+    fiscal?: SortOrder
+    ardid?: SortOrder
+    seudonimo?: SortOrder
+    telefonoReferencia?: SortOrder
+    nombreReferencia?: SortOrder
+    imei?: SortOrder
+    otrosTelefonos?: SortOrder
+    cbu?: SortOrder
+    titulares?: SortOrder
+    filaExcel?: SortOrder
+    otrosCbu?: SortOrder
+    estadoLegajo?: SortOrder
+    complementos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroEstafaSumOrderByAggregateInput = {
+    nroInterno?: SortOrder
+    filaExcel?: SortOrder
   }
 
   export type LegajoCreateNestedManyWithoutUsuarioInput = {
@@ -15380,6 +17097,10 @@ export namespace Prisma {
      * @deprecated Use RegistroTelefoniaDefaultArgs instead
      */
     export type RegistroTelefoniaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RegistroTelefoniaDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RegistroEstafaDefaultArgs instead
+     */
+    export type RegistroEstafaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RegistroEstafaDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
