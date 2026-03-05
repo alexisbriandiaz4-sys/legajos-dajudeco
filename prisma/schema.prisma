@@ -38,6 +38,7 @@ model Legajo {
   victimas      Victima[]
   dispositivos  Dispositivo[]
   oficios       Oficio[]
+  archivos    ArchivoLegajo[]
 }
 
 model Victima {
@@ -189,4 +190,19 @@ model RegistroEstafa {
   @@index([cbu])
   @@index([fechaHecho])
   @@index([filaExcel])
+}
+model ArchivoLegajo {
+  id          String   @id @default(cuid())
+  legajoId    String
+  legajo      Legajo   @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  nombre      String
+  tipo        String
+  url         String
+  publicId    String
+  tamano      Int?
+  esAnalizable Boolean @default(false)
+  analisis    String?
+  createdAt   DateTime @default(now())
+
+  @@index([legajoId])
 }

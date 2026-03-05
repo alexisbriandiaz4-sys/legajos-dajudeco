@@ -21,23 +21,24 @@ model Usuario {
 }
 
 model Legajo {
-  id             String        @id @default(cuid())
-  numero         String        @unique
+  id             String          @id @default(cuid())
+  numero         String          @unique
   caratula       String
   cuij           String?
   delito         String
   fechaHecho     DateTime
-  estado         String        @default("Activo")
+  estado         String          @default("Activo")
   observaciones  String?
   fiscal         String?
   emailRespuesta String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   usuarioId      String
-  usuario        Usuario       @relation(fields: [usuarioId], references: [id])
+  usuario        Usuario         @relation(fields: [usuarioId], references: [id])
   victimas       Victima[]
   dispositivos   Dispositivo[]
   oficios        Oficio[]
+  archivos       ArchivoLegajo[]
 }
 
 model Victima {
@@ -192,4 +193,20 @@ model RegistroEstafa {
   @@index([cbu])
   @@index([fechaHecho])
   @@index([filaExcel])
+}
+
+model ArchivoLegajo {
+  id           String   @id @default(cuid())
+  legajoId     String
+  legajo       Legajo   @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  nombre       String
+  tipo         String
+  url          String
+  publicId     String
+  tamano       Int?
+  esAnalizable Boolean  @default(false)
+  analisis     String?
+  createdAt    DateTime @default(now())
+
+  @@index([legajoId])
 }

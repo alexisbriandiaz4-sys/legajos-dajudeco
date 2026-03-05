@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle, SlidersHorizontal, X, ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
+import SeccionArchivos from "./SeccionArchivos";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
 interface Dispositivo { id: string; tipo: string; marca?: string; modelo?: string; imei?: string; }
@@ -42,8 +43,8 @@ export default function ModuloLegajos() {
     setCargando(true);
     try {
       const params = new URLSearchParams({ page: String(p), limit: String(LIMIT) });
-      if (busqueda)        params.set('q', busqueda);
-      if (filtroEstado)    params.set('estado', filtroEstado);
+      if (busqueda)         params.set('q', busqueda);
+      if (filtroEstado)     params.set('estado', filtroEstado);
       if (filtroFechaDesde) params.set('desde', filtroFechaDesde);
       if (filtroFechaHasta) params.set('hasta', filtroFechaHasta);
 
@@ -62,7 +63,6 @@ export default function ModuloLegajos() {
 
   useEffect(() => { cargarLegajos(page); }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta]);
 
-  // Debounce búsqueda
   useEffect(() => {
     const t = setTimeout(() => {
       setBusqueda(busquedaInput);
@@ -259,6 +259,13 @@ export default function ModuloLegajos() {
               ))
             }
           </div>
+
+          {/* ── Sección de archivos ── */}
+          <div>
+            <p style={{ color: "var(--text-muted)" }} className="text-xs font-semibold mb-2 uppercase tracking-wide">Archivos y análisis</p>
+            <SeccionArchivos legajoId={legajoSeleccionado.id} nroLegajo={legajoSeleccionado.numero} />
+          </div>
+
         </div>
 
         {legajoEditar && (

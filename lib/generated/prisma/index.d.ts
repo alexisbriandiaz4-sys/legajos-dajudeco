@@ -63,6 +63,11 @@ export type RegistroTelefonia = $Result.DefaultSelection<Prisma.$RegistroTelefon
  * 
  */
 export type RegistroEstafa = $Result.DefaultSelection<Prisma.$RegistroEstafaPayload>
+/**
+ * Model ArchivoLegajo
+ * 
+ */
+export type ArchivoLegajo = $Result.DefaultSelection<Prisma.$ArchivoLegajoPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -286,6 +291,16 @@ export class PrismaClient<
     * ```
     */
   get registroEstafa(): Prisma.RegistroEstafaDelegate<ExtArgs>;
+
+  /**
+   * `prisma.archivoLegajo`: Exposes CRUD operations for the **ArchivoLegajo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ArchivoLegajos
+    * const archivoLegajos = await prisma.archivoLegajo.findMany()
+    * ```
+    */
+  get archivoLegajo(): Prisma.ArchivoLegajoDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -736,7 +751,8 @@ export namespace Prisma {
     Fiscal: 'Fiscal',
     Configuracion: 'Configuracion',
     RegistroTelefonia: 'RegistroTelefonia',
-    RegistroEstafa: 'RegistroEstafa'
+    RegistroEstafa: 'RegistroEstafa',
+    ArchivoLegajo: 'ArchivoLegajo'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -752,7 +768,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa"
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa" | "archivoLegajo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1456,6 +1472,76 @@ export namespace Prisma {
           }
         }
       }
+      ArchivoLegajo: {
+        payload: Prisma.$ArchivoLegajoPayload<ExtArgs>
+        fields: Prisma.ArchivoLegajoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ArchivoLegajoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ArchivoLegajoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          findFirst: {
+            args: Prisma.ArchivoLegajoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ArchivoLegajoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          findMany: {
+            args: Prisma.ArchivoLegajoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>[]
+          }
+          create: {
+            args: Prisma.ArchivoLegajoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          createMany: {
+            args: Prisma.ArchivoLegajoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ArchivoLegajoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>[]
+          }
+          delete: {
+            args: Prisma.ArchivoLegajoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          update: {
+            args: Prisma.ArchivoLegajoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ArchivoLegajoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ArchivoLegajoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ArchivoLegajoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivoLegajoPayload>
+          }
+          aggregate: {
+            args: Prisma.ArchivoLegajoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateArchivoLegajo>
+          }
+          groupBy: {
+            args: Prisma.ArchivoLegajoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ArchivoLegajoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ArchivoLegajoCountArgs<ExtArgs>
+            result: $Utils.Optional<ArchivoLegajoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1660,12 +1746,14 @@ export namespace Prisma {
     victimas: number
     dispositivos: number
     oficios: number
+    archivos: number
   }
 
   export type LegajoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     victimas?: boolean | LegajoCountOutputTypeCountVictimasArgs
     dispositivos?: boolean | LegajoCountOutputTypeCountDispositivosArgs
     oficios?: boolean | LegajoCountOutputTypeCountOficiosArgs
+    archivos?: boolean | LegajoCountOutputTypeCountArchivosArgs
   }
 
   // Custom InputTypes
@@ -1698,6 +1786,13 @@ export namespace Prisma {
    */
   export type LegajoCountOutputTypeCountOficiosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OficioWhereInput
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountArchivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArchivoLegajoWhereInput
   }
 
 
@@ -2964,6 +3059,7 @@ export namespace Prisma {
     victimas?: boolean | Legajo$victimasArgs<ExtArgs>
     dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
+    archivos?: boolean | Legajo$archivosArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["legajo"]>
 
@@ -3005,6 +3101,7 @@ export namespace Prisma {
     victimas?: boolean | Legajo$victimasArgs<ExtArgs>
     dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
+    archivos?: boolean | Legajo$archivosArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3018,6 +3115,7 @@ export namespace Prisma {
       victimas: Prisma.$VictimaPayload<ExtArgs>[]
       dispositivos: Prisma.$DispositivoPayload<ExtArgs>[]
       oficios: Prisma.$OficioPayload<ExtArgs>[]
+      archivos: Prisma.$ArchivoLegajoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3401,6 +3499,7 @@ export namespace Prisma {
     victimas<T extends Legajo$victimasArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$victimasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VictimaPayload<ExtArgs>, T, "findMany"> | Null>
     dispositivos<T extends Legajo$dispositivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$dispositivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findMany"> | Null>
     oficios<T extends Legajo$oficiosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$oficiosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findMany"> | Null>
+    archivos<T extends Legajo$archivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$archivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3818,6 +3917,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OficioScalarFieldEnum | OficioScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo.archivos
+   */
+  export type Legajo$archivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    where?: ArchivoLegajoWhereInput
+    orderBy?: ArchivoLegajoOrderByWithRelationInput | ArchivoLegajoOrderByWithRelationInput[]
+    cursor?: ArchivoLegajoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArchivoLegajoScalarFieldEnum | ArchivoLegajoScalarFieldEnum[]
   }
 
   /**
@@ -12119,6 +12238,1033 @@ export namespace Prisma {
 
 
   /**
+   * Model ArchivoLegajo
+   */
+
+  export type AggregateArchivoLegajo = {
+    _count: ArchivoLegajoCountAggregateOutputType | null
+    _avg: ArchivoLegajoAvgAggregateOutputType | null
+    _sum: ArchivoLegajoSumAggregateOutputType | null
+    _min: ArchivoLegajoMinAggregateOutputType | null
+    _max: ArchivoLegajoMaxAggregateOutputType | null
+  }
+
+  export type ArchivoLegajoAvgAggregateOutputType = {
+    tamano: number | null
+  }
+
+  export type ArchivoLegajoSumAggregateOutputType = {
+    tamano: number | null
+  }
+
+  export type ArchivoLegajoMinAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    nombre: string | null
+    tipo: string | null
+    url: string | null
+    publicId: string | null
+    tamano: number | null
+    esAnalizable: boolean | null
+    analisis: string | null
+    createdAt: Date | null
+  }
+
+  export type ArchivoLegajoMaxAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    nombre: string | null
+    tipo: string | null
+    url: string | null
+    publicId: string | null
+    tamano: number | null
+    esAnalizable: boolean | null
+    analisis: string | null
+    createdAt: Date | null
+  }
+
+  export type ArchivoLegajoCountAggregateOutputType = {
+    id: number
+    legajoId: number
+    nombre: number
+    tipo: number
+    url: number
+    publicId: number
+    tamano: number
+    esAnalizable: number
+    analisis: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ArchivoLegajoAvgAggregateInputType = {
+    tamano?: true
+  }
+
+  export type ArchivoLegajoSumAggregateInputType = {
+    tamano?: true
+  }
+
+  export type ArchivoLegajoMinAggregateInputType = {
+    id?: true
+    legajoId?: true
+    nombre?: true
+    tipo?: true
+    url?: true
+    publicId?: true
+    tamano?: true
+    esAnalizable?: true
+    analisis?: true
+    createdAt?: true
+  }
+
+  export type ArchivoLegajoMaxAggregateInputType = {
+    id?: true
+    legajoId?: true
+    nombre?: true
+    tipo?: true
+    url?: true
+    publicId?: true
+    tamano?: true
+    esAnalizable?: true
+    analisis?: true
+    createdAt?: true
+  }
+
+  export type ArchivoLegajoCountAggregateInputType = {
+    id?: true
+    legajoId?: true
+    nombre?: true
+    tipo?: true
+    url?: true
+    publicId?: true
+    tamano?: true
+    esAnalizable?: true
+    analisis?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ArchivoLegajoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ArchivoLegajo to aggregate.
+     */
+    where?: ArchivoLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivoLegajos to fetch.
+     */
+    orderBy?: ArchivoLegajoOrderByWithRelationInput | ArchivoLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ArchivoLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivoLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivoLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ArchivoLegajos
+    **/
+    _count?: true | ArchivoLegajoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ArchivoLegajoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ArchivoLegajoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArchivoLegajoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArchivoLegajoMaxAggregateInputType
+  }
+
+  export type GetArchivoLegajoAggregateType<T extends ArchivoLegajoAggregateArgs> = {
+        [P in keyof T & keyof AggregateArchivoLegajo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArchivoLegajo[P]>
+      : GetScalarType<T[P], AggregateArchivoLegajo[P]>
+  }
+
+
+
+
+  export type ArchivoLegajoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArchivoLegajoWhereInput
+    orderBy?: ArchivoLegajoOrderByWithAggregationInput | ArchivoLegajoOrderByWithAggregationInput[]
+    by: ArchivoLegajoScalarFieldEnum[] | ArchivoLegajoScalarFieldEnum
+    having?: ArchivoLegajoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArchivoLegajoCountAggregateInputType | true
+    _avg?: ArchivoLegajoAvgAggregateInputType
+    _sum?: ArchivoLegajoSumAggregateInputType
+    _min?: ArchivoLegajoMinAggregateInputType
+    _max?: ArchivoLegajoMaxAggregateInputType
+  }
+
+  export type ArchivoLegajoGroupByOutputType = {
+    id: string
+    legajoId: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano: number | null
+    esAnalizable: boolean
+    analisis: string | null
+    createdAt: Date
+    _count: ArchivoLegajoCountAggregateOutputType | null
+    _avg: ArchivoLegajoAvgAggregateOutputType | null
+    _sum: ArchivoLegajoSumAggregateOutputType | null
+    _min: ArchivoLegajoMinAggregateOutputType | null
+    _max: ArchivoLegajoMaxAggregateOutputType | null
+  }
+
+  type GetArchivoLegajoGroupByPayload<T extends ArchivoLegajoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArchivoLegajoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArchivoLegajoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArchivoLegajoGroupByOutputType[P]>
+            : GetScalarType<T[P], ArchivoLegajoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ArchivoLegajoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    url?: boolean
+    publicId?: boolean
+    tamano?: boolean
+    esAnalizable?: boolean
+    analisis?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["archivoLegajo"]>
+
+  export type ArchivoLegajoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    url?: boolean
+    publicId?: boolean
+    tamano?: boolean
+    esAnalizable?: boolean
+    analisis?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["archivoLegajo"]>
+
+  export type ArchivoLegajoSelectScalar = {
+    id?: boolean
+    legajoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
+    url?: boolean
+    publicId?: boolean
+    tamano?: boolean
+    esAnalizable?: boolean
+    analisis?: boolean
+    createdAt?: boolean
+  }
+
+  export type ArchivoLegajoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+  export type ArchivoLegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+
+  export type $ArchivoLegajoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ArchivoLegajo"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      legajoId: string
+      nombre: string
+      tipo: string
+      url: string
+      publicId: string
+      tamano: number | null
+      esAnalizable: boolean
+      analisis: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["archivoLegajo"]>
+    composites: {}
+  }
+
+  type ArchivoLegajoGetPayload<S extends boolean | null | undefined | ArchivoLegajoDefaultArgs> = $Result.GetResult<Prisma.$ArchivoLegajoPayload, S>
+
+  type ArchivoLegajoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ArchivoLegajoFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ArchivoLegajoCountAggregateInputType | true
+    }
+
+  export interface ArchivoLegajoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ArchivoLegajo'], meta: { name: 'ArchivoLegajo' } }
+    /**
+     * Find zero or one ArchivoLegajo that matches the filter.
+     * @param {ArchivoLegajoFindUniqueArgs} args - Arguments to find a ArchivoLegajo
+     * @example
+     * // Get one ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ArchivoLegajoFindUniqueArgs>(args: SelectSubset<T, ArchivoLegajoFindUniqueArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ArchivoLegajo that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ArchivoLegajoFindUniqueOrThrowArgs} args - Arguments to find a ArchivoLegajo
+     * @example
+     * // Get one ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ArchivoLegajoFindUniqueOrThrowArgs>(args: SelectSubset<T, ArchivoLegajoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ArchivoLegajo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoFindFirstArgs} args - Arguments to find a ArchivoLegajo
+     * @example
+     * // Get one ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ArchivoLegajoFindFirstArgs>(args?: SelectSubset<T, ArchivoLegajoFindFirstArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ArchivoLegajo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoFindFirstOrThrowArgs} args - Arguments to find a ArchivoLegajo
+     * @example
+     * // Get one ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ArchivoLegajoFindFirstOrThrowArgs>(args?: SelectSubset<T, ArchivoLegajoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ArchivoLegajos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ArchivoLegajos
+     * const archivoLegajos = await prisma.archivoLegajo.findMany()
+     * 
+     * // Get first 10 ArchivoLegajos
+     * const archivoLegajos = await prisma.archivoLegajo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const archivoLegajoWithIdOnly = await prisma.archivoLegajo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ArchivoLegajoFindManyArgs>(args?: SelectSubset<T, ArchivoLegajoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ArchivoLegajo.
+     * @param {ArchivoLegajoCreateArgs} args - Arguments to create a ArchivoLegajo.
+     * @example
+     * // Create one ArchivoLegajo
+     * const ArchivoLegajo = await prisma.archivoLegajo.create({
+     *   data: {
+     *     // ... data to create a ArchivoLegajo
+     *   }
+     * })
+     * 
+     */
+    create<T extends ArchivoLegajoCreateArgs>(args: SelectSubset<T, ArchivoLegajoCreateArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ArchivoLegajos.
+     * @param {ArchivoLegajoCreateManyArgs} args - Arguments to create many ArchivoLegajos.
+     * @example
+     * // Create many ArchivoLegajos
+     * const archivoLegajo = await prisma.archivoLegajo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ArchivoLegajoCreateManyArgs>(args?: SelectSubset<T, ArchivoLegajoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ArchivoLegajos and returns the data saved in the database.
+     * @param {ArchivoLegajoCreateManyAndReturnArgs} args - Arguments to create many ArchivoLegajos.
+     * @example
+     * // Create many ArchivoLegajos
+     * const archivoLegajo = await prisma.archivoLegajo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ArchivoLegajos and only return the `id`
+     * const archivoLegajoWithIdOnly = await prisma.archivoLegajo.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ArchivoLegajoCreateManyAndReturnArgs>(args?: SelectSubset<T, ArchivoLegajoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ArchivoLegajo.
+     * @param {ArchivoLegajoDeleteArgs} args - Arguments to delete one ArchivoLegajo.
+     * @example
+     * // Delete one ArchivoLegajo
+     * const ArchivoLegajo = await prisma.archivoLegajo.delete({
+     *   where: {
+     *     // ... filter to delete one ArchivoLegajo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ArchivoLegajoDeleteArgs>(args: SelectSubset<T, ArchivoLegajoDeleteArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ArchivoLegajo.
+     * @param {ArchivoLegajoUpdateArgs} args - Arguments to update one ArchivoLegajo.
+     * @example
+     * // Update one ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ArchivoLegajoUpdateArgs>(args: SelectSubset<T, ArchivoLegajoUpdateArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ArchivoLegajos.
+     * @param {ArchivoLegajoDeleteManyArgs} args - Arguments to filter ArchivoLegajos to delete.
+     * @example
+     * // Delete a few ArchivoLegajos
+     * const { count } = await prisma.archivoLegajo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ArchivoLegajoDeleteManyArgs>(args?: SelectSubset<T, ArchivoLegajoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ArchivoLegajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ArchivoLegajos
+     * const archivoLegajo = await prisma.archivoLegajo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ArchivoLegajoUpdateManyArgs>(args: SelectSubset<T, ArchivoLegajoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ArchivoLegajo.
+     * @param {ArchivoLegajoUpsertArgs} args - Arguments to update or create a ArchivoLegajo.
+     * @example
+     * // Update or create a ArchivoLegajo
+     * const archivoLegajo = await prisma.archivoLegajo.upsert({
+     *   create: {
+     *     // ... data to create a ArchivoLegajo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ArchivoLegajo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ArchivoLegajoUpsertArgs>(args: SelectSubset<T, ArchivoLegajoUpsertArgs<ExtArgs>>): Prisma__ArchivoLegajoClient<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ArchivoLegajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoCountArgs} args - Arguments to filter ArchivoLegajos to count.
+     * @example
+     * // Count the number of ArchivoLegajos
+     * const count = await prisma.archivoLegajo.count({
+     *   where: {
+     *     // ... the filter for the ArchivoLegajos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ArchivoLegajoCountArgs>(
+      args?: Subset<T, ArchivoLegajoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArchivoLegajoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ArchivoLegajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArchivoLegajoAggregateArgs>(args: Subset<T, ArchivoLegajoAggregateArgs>): Prisma.PrismaPromise<GetArchivoLegajoAggregateType<T>>
+
+    /**
+     * Group by ArchivoLegajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivoLegajoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ArchivoLegajoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ArchivoLegajoGroupByArgs['orderBy'] }
+        : { orderBy?: ArchivoLegajoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ArchivoLegajoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArchivoLegajoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ArchivoLegajo model
+   */
+  readonly fields: ArchivoLegajoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ArchivoLegajo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ArchivoLegajoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ArchivoLegajo model
+   */ 
+  interface ArchivoLegajoFieldRefs {
+    readonly id: FieldRef<"ArchivoLegajo", 'String'>
+    readonly legajoId: FieldRef<"ArchivoLegajo", 'String'>
+    readonly nombre: FieldRef<"ArchivoLegajo", 'String'>
+    readonly tipo: FieldRef<"ArchivoLegajo", 'String'>
+    readonly url: FieldRef<"ArchivoLegajo", 'String'>
+    readonly publicId: FieldRef<"ArchivoLegajo", 'String'>
+    readonly tamano: FieldRef<"ArchivoLegajo", 'Int'>
+    readonly esAnalizable: FieldRef<"ArchivoLegajo", 'Boolean'>
+    readonly analisis: FieldRef<"ArchivoLegajo", 'String'>
+    readonly createdAt: FieldRef<"ArchivoLegajo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ArchivoLegajo findUnique
+   */
+  export type ArchivoLegajoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ArchivoLegajo to fetch.
+     */
+    where: ArchivoLegajoWhereUniqueInput
+  }
+
+  /**
+   * ArchivoLegajo findUniqueOrThrow
+   */
+  export type ArchivoLegajoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ArchivoLegajo to fetch.
+     */
+    where: ArchivoLegajoWhereUniqueInput
+  }
+
+  /**
+   * ArchivoLegajo findFirst
+   */
+  export type ArchivoLegajoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ArchivoLegajo to fetch.
+     */
+    where?: ArchivoLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivoLegajos to fetch.
+     */
+    orderBy?: ArchivoLegajoOrderByWithRelationInput | ArchivoLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ArchivoLegajos.
+     */
+    cursor?: ArchivoLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivoLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivoLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ArchivoLegajos.
+     */
+    distinct?: ArchivoLegajoScalarFieldEnum | ArchivoLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivoLegajo findFirstOrThrow
+   */
+  export type ArchivoLegajoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ArchivoLegajo to fetch.
+     */
+    where?: ArchivoLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivoLegajos to fetch.
+     */
+    orderBy?: ArchivoLegajoOrderByWithRelationInput | ArchivoLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ArchivoLegajos.
+     */
+    cursor?: ArchivoLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivoLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivoLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ArchivoLegajos.
+     */
+    distinct?: ArchivoLegajoScalarFieldEnum | ArchivoLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivoLegajo findMany
+   */
+  export type ArchivoLegajoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ArchivoLegajos to fetch.
+     */
+    where?: ArchivoLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivoLegajos to fetch.
+     */
+    orderBy?: ArchivoLegajoOrderByWithRelationInput | ArchivoLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ArchivoLegajos.
+     */
+    cursor?: ArchivoLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivoLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivoLegajos.
+     */
+    skip?: number
+    distinct?: ArchivoLegajoScalarFieldEnum | ArchivoLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivoLegajo create
+   */
+  export type ArchivoLegajoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ArchivoLegajo.
+     */
+    data: XOR<ArchivoLegajoCreateInput, ArchivoLegajoUncheckedCreateInput>
+  }
+
+  /**
+   * ArchivoLegajo createMany
+   */
+  export type ArchivoLegajoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ArchivoLegajos.
+     */
+    data: ArchivoLegajoCreateManyInput | ArchivoLegajoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ArchivoLegajo createManyAndReturn
+   */
+  export type ArchivoLegajoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ArchivoLegajos.
+     */
+    data: ArchivoLegajoCreateManyInput | ArchivoLegajoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ArchivoLegajo update
+   */
+  export type ArchivoLegajoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ArchivoLegajo.
+     */
+    data: XOR<ArchivoLegajoUpdateInput, ArchivoLegajoUncheckedUpdateInput>
+    /**
+     * Choose, which ArchivoLegajo to update.
+     */
+    where: ArchivoLegajoWhereUniqueInput
+  }
+
+  /**
+   * ArchivoLegajo updateMany
+   */
+  export type ArchivoLegajoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ArchivoLegajos.
+     */
+    data: XOR<ArchivoLegajoUpdateManyMutationInput, ArchivoLegajoUncheckedUpdateManyInput>
+    /**
+     * Filter which ArchivoLegajos to update
+     */
+    where?: ArchivoLegajoWhereInput
+  }
+
+  /**
+   * ArchivoLegajo upsert
+   */
+  export type ArchivoLegajoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ArchivoLegajo to update in case it exists.
+     */
+    where: ArchivoLegajoWhereUniqueInput
+    /**
+     * In case the ArchivoLegajo found by the `where` argument doesn't exist, create a new ArchivoLegajo with this data.
+     */
+    create: XOR<ArchivoLegajoCreateInput, ArchivoLegajoUncheckedCreateInput>
+    /**
+     * In case the ArchivoLegajo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ArchivoLegajoUpdateInput, ArchivoLegajoUncheckedUpdateInput>
+  }
+
+  /**
+   * ArchivoLegajo delete
+   */
+  export type ArchivoLegajoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+    /**
+     * Filter which ArchivoLegajo to delete.
+     */
+    where: ArchivoLegajoWhereUniqueInput
+  }
+
+  /**
+   * ArchivoLegajo deleteMany
+   */
+  export type ArchivoLegajoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ArchivoLegajos to delete
+     */
+    where?: ArchivoLegajoWhereInput
+  }
+
+  /**
+   * ArchivoLegajo without action
+   */
+  export type ArchivoLegajoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivoLegajo
+     */
+    select?: ArchivoLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArchivoLegajoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12322,6 +13468,22 @@ export namespace Prisma {
   export type RegistroEstafaScalarFieldEnum = (typeof RegistroEstafaScalarFieldEnum)[keyof typeof RegistroEstafaScalarFieldEnum]
 
 
+  export const ArchivoLegajoScalarFieldEnum: {
+    id: 'id',
+    legajoId: 'legajoId',
+    nombre: 'nombre',
+    tipo: 'tipo',
+    url: 'url',
+    publicId: 'publicId',
+    tamano: 'tamano',
+    esAnalizable: 'esAnalizable',
+    analisis: 'analisis',
+    createdAt: 'createdAt'
+  };
+
+  export type ArchivoLegajoScalarFieldEnum = (typeof ArchivoLegajoScalarFieldEnum)[keyof typeof ArchivoLegajoScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -12506,6 +13668,7 @@ export namespace Prisma {
     victimas?: VictimaListRelationFilter
     dispositivos?: DispositivoListRelationFilter
     oficios?: OficioListRelationFilter
+    archivos?: ArchivoLegajoListRelationFilter
   }
 
   export type LegajoOrderByWithRelationInput = {
@@ -12526,6 +13689,7 @@ export namespace Prisma {
     victimas?: VictimaOrderByRelationAggregateInput
     dispositivos?: DispositivoOrderByRelationAggregateInput
     oficios?: OficioOrderByRelationAggregateInput
+    archivos?: ArchivoLegajoOrderByRelationAggregateInput
   }
 
   export type LegajoWhereUniqueInput = Prisma.AtLeast<{
@@ -12549,6 +13713,7 @@ export namespace Prisma {
     victimas?: VictimaListRelationFilter
     dispositivos?: DispositivoListRelationFilter
     oficios?: OficioListRelationFilter
+    archivos?: ArchivoLegajoListRelationFilter
   }, "id" | "numero">
 
   export type LegajoOrderByWithAggregationInput = {
@@ -13379,6 +14544,88 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RegistroEstafa"> | Date | string
   }
 
+  export type ArchivoLegajoWhereInput = {
+    AND?: ArchivoLegajoWhereInput | ArchivoLegajoWhereInput[]
+    OR?: ArchivoLegajoWhereInput[]
+    NOT?: ArchivoLegajoWhereInput | ArchivoLegajoWhereInput[]
+    id?: StringFilter<"ArchivoLegajo"> | string
+    legajoId?: StringFilter<"ArchivoLegajo"> | string
+    nombre?: StringFilter<"ArchivoLegajo"> | string
+    tipo?: StringFilter<"ArchivoLegajo"> | string
+    url?: StringFilter<"ArchivoLegajo"> | string
+    publicId?: StringFilter<"ArchivoLegajo"> | string
+    tamano?: IntNullableFilter<"ArchivoLegajo"> | number | null
+    esAnalizable?: BoolFilter<"ArchivoLegajo"> | boolean
+    analisis?: StringNullableFilter<"ArchivoLegajo"> | string | null
+    createdAt?: DateTimeFilter<"ArchivoLegajo"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }
+
+  export type ArchivoLegajoOrderByWithRelationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    url?: SortOrder
+    publicId?: SortOrder
+    tamano?: SortOrderInput | SortOrder
+    esAnalizable?: SortOrder
+    analisis?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+  }
+
+  export type ArchivoLegajoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ArchivoLegajoWhereInput | ArchivoLegajoWhereInput[]
+    OR?: ArchivoLegajoWhereInput[]
+    NOT?: ArchivoLegajoWhereInput | ArchivoLegajoWhereInput[]
+    legajoId?: StringFilter<"ArchivoLegajo"> | string
+    nombre?: StringFilter<"ArchivoLegajo"> | string
+    tipo?: StringFilter<"ArchivoLegajo"> | string
+    url?: StringFilter<"ArchivoLegajo"> | string
+    publicId?: StringFilter<"ArchivoLegajo"> | string
+    tamano?: IntNullableFilter<"ArchivoLegajo"> | number | null
+    esAnalizable?: BoolFilter<"ArchivoLegajo"> | boolean
+    analisis?: StringNullableFilter<"ArchivoLegajo"> | string | null
+    createdAt?: DateTimeFilter<"ArchivoLegajo"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }, "id">
+
+  export type ArchivoLegajoOrderByWithAggregationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    url?: SortOrder
+    publicId?: SortOrder
+    tamano?: SortOrderInput | SortOrder
+    esAnalizable?: SortOrder
+    analisis?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ArchivoLegajoCountOrderByAggregateInput
+    _avg?: ArchivoLegajoAvgOrderByAggregateInput
+    _max?: ArchivoLegajoMaxOrderByAggregateInput
+    _min?: ArchivoLegajoMinOrderByAggregateInput
+    _sum?: ArchivoLegajoSumOrderByAggregateInput
+  }
+
+  export type ArchivoLegajoScalarWhereWithAggregatesInput = {
+    AND?: ArchivoLegajoScalarWhereWithAggregatesInput | ArchivoLegajoScalarWhereWithAggregatesInput[]
+    OR?: ArchivoLegajoScalarWhereWithAggregatesInput[]
+    NOT?: ArchivoLegajoScalarWhereWithAggregatesInput | ArchivoLegajoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    legajoId?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    nombre?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    tipo?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    url?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    publicId?: StringWithAggregatesFilter<"ArchivoLegajo"> | string
+    tamano?: IntNullableWithAggregatesFilter<"ArchivoLegajo"> | number | null
+    esAnalizable?: BoolWithAggregatesFilter<"ArchivoLegajo"> | boolean
+    analisis?: StringNullableWithAggregatesFilter<"ArchivoLegajo"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ArchivoLegajo"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
@@ -13474,6 +14721,7 @@ export namespace Prisma {
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateInput = {
@@ -13493,6 +14741,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUpdateInput = {
@@ -13512,6 +14761,7 @@ export namespace Prisma {
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateInput = {
@@ -13531,6 +14781,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateManyInput = {
@@ -14517,6 +15768,96 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ArchivoLegajoCreateInput = {
+    id?: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutArchivosInput
+  }
+
+  export type ArchivoLegajoUncheckedCreateInput = {
+    id?: string
+    legajoId: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ArchivoLegajoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutArchivosNestedInput
+  }
+
+  export type ArchivoLegajoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArchivoLegajoCreateManyInput = {
+    id?: string
+    legajoId: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ArchivoLegajoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArchivoLegajoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -14676,6 +16017,12 @@ export namespace Prisma {
     none?: OficioWhereInput
   }
 
+  export type ArchivoLegajoListRelationFilter = {
+    every?: ArchivoLegajoWhereInput
+    some?: ArchivoLegajoWhereInput
+    none?: ArchivoLegajoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -14690,6 +16037,10 @@ export namespace Prisma {
   }
 
   export type OficioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ArchivoLegajoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15292,6 +16643,53 @@ export namespace Prisma {
     filaExcel?: SortOrder
   }
 
+  export type ArchivoLegajoCountOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    url?: SortOrder
+    publicId?: SortOrder
+    tamano?: SortOrder
+    esAnalizable?: SortOrder
+    analisis?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ArchivoLegajoAvgOrderByAggregateInput = {
+    tamano?: SortOrder
+  }
+
+  export type ArchivoLegajoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    url?: SortOrder
+    publicId?: SortOrder
+    tamano?: SortOrder
+    esAnalizable?: SortOrder
+    analisis?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ArchivoLegajoMinOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
+    url?: SortOrder
+    publicId?: SortOrder
+    tamano?: SortOrder
+    esAnalizable?: SortOrder
+    analisis?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ArchivoLegajoSumOrderByAggregateInput = {
+    tamano?: SortOrder
+  }
+
   export type LegajoCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
@@ -15415,6 +16813,13 @@ export namespace Prisma {
     connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
   }
 
+  export type ArchivoLegajoCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput> | ArchivoLegajoCreateWithoutLegajoInput[] | ArchivoLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ArchivoLegajoCreateOrConnectWithoutLegajoInput | ArchivoLegajoCreateOrConnectWithoutLegajoInput[]
+    createMany?: ArchivoLegajoCreateManyLegajoInputEnvelope
+    connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+  }
+
   export type VictimaUncheckedCreateNestedManyWithoutLegajoInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -15434,6 +16839,13 @@ export namespace Prisma {
     connectOrCreate?: OficioCreateOrConnectWithoutLegajoInput | OficioCreateOrConnectWithoutLegajoInput[]
     createMany?: OficioCreateManyLegajoInputEnvelope
     connect?: OficioWhereUniqueInput | OficioWhereUniqueInput[]
+  }
+
+  export type ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput> | ArchivoLegajoCreateWithoutLegajoInput[] | ArchivoLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ArchivoLegajoCreateOrConnectWithoutLegajoInput | ArchivoLegajoCreateOrConnectWithoutLegajoInput[]
+    createMany?: ArchivoLegajoCreateManyLegajoInputEnvelope
+    connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -15490,6 +16902,20 @@ export namespace Prisma {
     deleteMany?: OficioScalarWhereInput | OficioScalarWhereInput[]
   }
 
+  export type ArchivoLegajoUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput> | ArchivoLegajoCreateWithoutLegajoInput[] | ArchivoLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ArchivoLegajoCreateOrConnectWithoutLegajoInput | ArchivoLegajoCreateOrConnectWithoutLegajoInput[]
+    upsert?: ArchivoLegajoUpsertWithWhereUniqueWithoutLegajoInput | ArchivoLegajoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: ArchivoLegajoCreateManyLegajoInputEnvelope
+    set?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    disconnect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    delete?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    update?: ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput | ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput | ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
+  }
+
   export type VictimaUncheckedUpdateManyWithoutLegajoNestedInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -15530,6 +16956,20 @@ export namespace Prisma {
     update?: OficioUpdateWithWhereUniqueWithoutLegajoInput | OficioUpdateWithWhereUniqueWithoutLegajoInput[]
     updateMany?: OficioUpdateManyWithWhereWithoutLegajoInput | OficioUpdateManyWithWhereWithoutLegajoInput[]
     deleteMany?: OficioScalarWhereInput | OficioScalarWhereInput[]
+  }
+
+  export type ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput> | ArchivoLegajoCreateWithoutLegajoInput[] | ArchivoLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ArchivoLegajoCreateOrConnectWithoutLegajoInput | ArchivoLegajoCreateOrConnectWithoutLegajoInput[]
+    upsert?: ArchivoLegajoUpsertWithWhereUniqueWithoutLegajoInput | ArchivoLegajoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: ArchivoLegajoCreateManyLegajoInputEnvelope
+    set?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    disconnect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    delete?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+    update?: ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput | ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput | ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
   }
 
   export type LegajoCreateNestedOneWithoutVictimasInput = {
@@ -15662,6 +17102,20 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type LegajoCreateNestedOneWithoutArchivosInput = {
+    create?: XOR<LegajoCreateWithoutArchivosInput, LegajoUncheckedCreateWithoutArchivosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutArchivosInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type LegajoUpdateOneRequiredWithoutArchivosNestedInput = {
+    create?: XOR<LegajoCreateWithoutArchivosInput, LegajoUncheckedCreateWithoutArchivosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutArchivosInput
+    upsert?: LegajoUpsertWithoutArchivosInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutArchivosInput, LegajoUpdateWithoutArchivosInput>, LegajoUncheckedUpdateWithoutArchivosInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -15881,6 +17335,7 @@ export namespace Prisma {
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutUsuarioInput = {
@@ -15899,6 +17354,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutUsuarioInput = {
@@ -16156,6 +17612,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ArchivoLegajoCreateWithoutLegajoInput = {
+    id?: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ArchivoLegajoUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ArchivoLegajoCreateOrConnectWithoutLegajoInput = {
+    where: ArchivoLegajoWhereUniqueInput
+    create: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type ArchivoLegajoCreateManyLegajoInputEnvelope = {
+    data: ArchivoLegajoCreateManyLegajoInput | ArchivoLegajoCreateManyLegajoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutLegajosInput = {
     update: XOR<UsuarioUpdateWithoutLegajosInput, UsuarioUncheckedUpdateWithoutLegajosInput>
     create: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
@@ -16284,6 +17774,38 @@ export namespace Prisma {
     legajoId?: StringFilter<"Oficio"> | string
   }
 
+  export type ArchivoLegajoUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: ArchivoLegajoWhereUniqueInput
+    update: XOR<ArchivoLegajoUpdateWithoutLegajoInput, ArchivoLegajoUncheckedUpdateWithoutLegajoInput>
+    create: XOR<ArchivoLegajoCreateWithoutLegajoInput, ArchivoLegajoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: ArchivoLegajoWhereUniqueInput
+    data: XOR<ArchivoLegajoUpdateWithoutLegajoInput, ArchivoLegajoUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput = {
+    where: ArchivoLegajoScalarWhereInput
+    data: XOR<ArchivoLegajoUpdateManyMutationInput, ArchivoLegajoUncheckedUpdateManyWithoutLegajoInput>
+  }
+
+  export type ArchivoLegajoScalarWhereInput = {
+    AND?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
+    OR?: ArchivoLegajoScalarWhereInput[]
+    NOT?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
+    id?: StringFilter<"ArchivoLegajo"> | string
+    legajoId?: StringFilter<"ArchivoLegajo"> | string
+    nombre?: StringFilter<"ArchivoLegajo"> | string
+    tipo?: StringFilter<"ArchivoLegajo"> | string
+    url?: StringFilter<"ArchivoLegajo"> | string
+    publicId?: StringFilter<"ArchivoLegajo"> | string
+    tamano?: IntNullableFilter<"ArchivoLegajo"> | number | null
+    esAnalizable?: BoolFilter<"ArchivoLegajo"> | boolean
+    analisis?: StringNullableFilter<"ArchivoLegajo"> | string | null
+    createdAt?: DateTimeFilter<"ArchivoLegajo"> | Date | string
+  }
+
   export type LegajoCreateWithoutVictimasInput = {
     id?: string
     numero: string
@@ -16300,6 +17822,7 @@ export namespace Prisma {
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutVictimasInput = {
@@ -16318,6 +17841,7 @@ export namespace Prisma {
     usuarioId: string
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutVictimasInput = {
@@ -16352,6 +17876,7 @@ export namespace Prisma {
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutVictimasInput = {
@@ -16370,6 +17895,7 @@ export namespace Prisma {
     usuarioId?: StringFieldUpdateOperationsInput | string
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutDispositivosInput = {
@@ -16388,6 +17914,7 @@ export namespace Prisma {
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutDispositivosInput = {
@@ -16406,6 +17933,7 @@ export namespace Prisma {
     usuarioId: string
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutDispositivosInput = {
@@ -16440,6 +17968,7 @@ export namespace Prisma {
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutDispositivosInput = {
@@ -16458,6 +17987,7 @@ export namespace Prisma {
     usuarioId?: StringFieldUpdateOperationsInput | string
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutOficiosInput = {
@@ -16476,6 +18006,7 @@ export namespace Prisma {
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutOficiosInput = {
@@ -16494,6 +18025,7 @@ export namespace Prisma {
     usuarioId: string
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutOficiosInput = {
@@ -16550,6 +18082,7 @@ export namespace Prisma {
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutOficiosInput = {
@@ -16568,6 +18101,7 @@ export namespace Prisma {
     usuarioId?: StringFieldUpdateOperationsInput | string
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type RespuestaUpsertWithWhereUniqueWithoutOficioInput = {
@@ -16744,6 +18278,98 @@ export namespace Prisma {
     legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
+  export type LegajoCreateWithoutArchivosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutArchivosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutArchivosInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutArchivosInput, LegajoUncheckedCreateWithoutArchivosInput>
+  }
+
+  export type LegajoUpsertWithoutArchivosInput = {
+    update: XOR<LegajoUpdateWithoutArchivosInput, LegajoUncheckedUpdateWithoutArchivosInput>
+    create: XOR<LegajoCreateWithoutArchivosInput, LegajoUncheckedCreateWithoutArchivosInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutArchivosInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutArchivosInput, LegajoUncheckedUpdateWithoutArchivosInput>
+  }
+
+  export type LegajoUpdateWithoutArchivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutArchivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
   export type LegajoCreateManyUsuarioInput = {
     id?: string
     numero: string
@@ -16792,6 +18418,7 @@ export namespace Prisma {
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutUsuarioInput = {
@@ -16810,6 +18437,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateManyWithoutUsuarioInput = {
@@ -16910,6 +18538,18 @@ export namespace Prisma {
     tipoConsulta?: string | null
     numeroLinea?: string | null
     imeiSeleccionado?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ArchivoLegajoCreateManyLegajoInput = {
+    id?: string
+    nombre: string
+    tipo: string
+    url: string
+    publicId: string
+    tamano?: number | null
+    esAnalizable?: boolean
+    analisis?: string | null
     createdAt?: Date | string
   }
 
@@ -17020,6 +18660,42 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ArchivoLegajoUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArchivoLegajoUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArchivoLegajoUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    publicId?: StringFieldUpdateOperationsInput | string
+    tamano?: NullableIntFieldUpdateOperationsInput | number | null
+    esAnalizable?: BoolFieldUpdateOperationsInput | boolean
+    analisis?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RespuestaCreateManyOficioInput = {
     id?: string
     datos: string
@@ -17101,6 +18777,10 @@ export namespace Prisma {
      * @deprecated Use RegistroEstafaDefaultArgs instead
      */
     export type RegistroEstafaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RegistroEstafaDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ArchivoLegajoDefaultArgs instead
+     */
+    export type ArchivoLegajoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ArchivoLegajoDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
