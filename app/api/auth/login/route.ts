@@ -4,37 +4,26 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
 
-const SECRET = process.env.JWT_SECRET!
-
-// Rate limiting simple en memoria
-// Guarda { intentos, primerIntento } por IP
 const loginAttempts = new Map<string, { count: number; firstAttempt: number }>()
 const MAX_INTENTOS = 10
-const VENTANA_MS = 15 * 60 * 1000 // 15 minutos
+const VENTANA_MS = 15 * 60 * 1000
 
 function checkRateLimit(ip: string): boolean {
   const ahora = Date.now()
   const registro = loginAttempts.get(ip)
-
   if (!registro) {
     loginAttempts.set(ip, { count: 1, firstAttempt: ahora })
     return true
   }
-
-  // Si pasaron más de 15 min, resetear
   if (ahora - registro.firstAttempt > VENTANA_MS) {
     loginAttempts.set(ip, { count: 1, firstAttempt: ahora })
     return true
   }
-
-  // Si superó el límite
   if (registro.count >= MAX_INTENTOS) return false
-
   registro.count++
   return true
 }
 
-// Esquema de validación con Zod
 const LoginSchema = z.object({
   usuario: z.string().min(1, 'Usuario requerido').max(50),
   password: z.string().min(1, 'Contraseña requerida').max(100),
@@ -42,23 +31,21 @@ const LoginSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // Rate limiting por IP
-    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'unknown'
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: 'Demasiados intentos. Esperá 15 minutos.' },
-        { status: 429 }
-      )
+    const SECRET = process.env.JWT_SECRET
+    if (!SECRET) {
+      console.error('JWT_SECRET no está definido en las variables de entorno')
+      return NextResponse.json({ error: 'Error de configuración del servidor' }, { status: 500 })
     }
 
-    // Validación con Zod
+    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'unknown'
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json({ error: 'Demasiados intentos. Esperá 15 minutos.' }, { status: 429 })
+    }
+
     const body = await request.json()
     const parsed = LoginSchema.safeParse(body)
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.issues[0].message },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
 
     const { usuario, password } = parsed.data
@@ -73,7 +60,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 })
     }
 
-    // Login exitoso — resetear intentos
     loginAttempts.delete(ip)
 
     const token = jwt.sign(
@@ -87,6 +73,7 @@ export async function POST(request: Request) {
     return res
 
   } catch (error) {
+    console.error('Error en login:', error)
     return NextResponse.json({ error: 'Error en login' }, { status: 500 })
   }
 }
