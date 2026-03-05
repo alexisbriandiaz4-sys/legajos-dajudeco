@@ -16,6 +16,7 @@ interface Legajo {
 interface Props {
   onCerrar: () => void;
   onGuardado: () => void;
+  legajoEditar?: Legajo;
 }
 
 const OPERADORAS = ["Claro", "Personal", "Movistar", "Todas"];

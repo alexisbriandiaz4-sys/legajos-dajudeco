@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 
-const SECRET = process.env.JWT_SECRET ?? 'legajos-secret-2024'
+const SECRET = process.env.JWT_SECRET!
 
 export async function GET() {
   try {

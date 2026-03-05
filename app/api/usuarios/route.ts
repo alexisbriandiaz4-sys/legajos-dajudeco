@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
-const SECRET = process.env.JWT_SECRET ?? 'legajos-secret-2024'
+const SECRET = process.env.JWT_SECRET!
 
 async function getUsuario() {
   const cookieStore = await cookies()
