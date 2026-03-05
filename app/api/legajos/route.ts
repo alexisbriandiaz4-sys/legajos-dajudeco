@@ -3,17 +3,63 @@ import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
 import { LegajoSchema, handlePrismaError } from '@/lib/validators'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const legajos = await prisma.legajo.findMany({
-      where: { usuarioId },
-      orderBy: { createdAt: 'desc' },
-      include: { victimas: true, dispositivos: true, oficios: true }
+    const { searchParams } = new URL(request.url)
+    const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
+    const limit    = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
+    const busqueda = searchParams.get('q')         ?? ''
+    const estado   = searchParams.get('estado')    ?? ''
+    const desde    = searchParams.get('desde')     ?? ''
+    const hasta    = searchParams.get('hasta')     ?? ''
+
+    const where: any = { usuarioId }
+
+    if (estado) where.estado = estado
+
+    if (desde || hasta) {
+      where.fechaHecho = {}
+      if (desde) where.fechaHecho.gte = new Date(desde)
+      if (hasta) {
+        const h = new Date(hasta)
+        h.setHours(23, 59, 59)
+        where.fechaHecho.lte = h
+      }
+    }
+
+    if (busqueda) {
+      const q = busqueda.toLowerCase()
+      where.OR = [
+        { numero:   { contains: q } },
+        { caratula: { contains: q } },
+        { delito:   { contains: q } },
+        { fiscal:   { contains: q } },
+        { cuij:     { contains: q } },
+        { victimas: { some: { nombre: { contains: q } } } },
+      ]
+    }
+
+    const [total, legajos] = await prisma.$transaction([
+      prisma.legajo.count({ where }),
+      prisma.legajo.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+        include: { victimas: true, dispositivos: true, oficios: true }
+      })
+    ])
+
+    return NextResponse.json({
+      legajos,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     })
-    return NextResponse.json(legajos)
   } catch (error) {
     console.error(error)
     const { message, status } = handlePrismaError(error)

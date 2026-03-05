@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle, SlidersHorizontal, X } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle, SlidersHorizontal, X, ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
 
@@ -15,12 +15,19 @@ interface Legajo {
   victimas: Victima[]; dispositivos: Dispositivo[]; oficios: Oficio[];
 }
 
+interface PaginaResponse {
+  legajos: Legajo[]; total: number; page: number; limit: number; totalPages: number;
+}
+
 const ESTADOS = ["Activo", "En seguimiento", "Cerrado", "Inactivo"];
+const LIMIT = 20;
 
 export default function ModuloLegajos() {
-  const [legajos, setLegajos] = useState<Legajo[]>([]);
+  const [datos, setDatos] = useState<PaginaResponse>({ legajos: [], total: 0, page: 1, limit: LIMIT, totalPages: 0 });
   const [cargando, setCargando] = useState(true);
+  const [page, setPage] = useState(1);
   const [busqueda, setBusqueda] = useState("");
+  const [busquedaInput, setBusquedaInput] = useState("");
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
   const [filtroFechaDesde, setFiltroFechaDesde] = useState("");
@@ -31,14 +38,18 @@ export default function ModuloLegajos() {
   const [confirmarBorrar, setConfirmarBorrar] = useState<Legajo | null>(null);
   const [procesando, setProcesando] = useState(false);
 
-  useEffect(() => { cargarLegajos(); }, []);
-
-  async function cargarLegajos() {
+  const cargarLegajos = useCallback(async (p = page) => {
     setCargando(true);
     try {
-      const res = await fetch("/api/legajos");
+      const params = new URLSearchParams({ page: String(p), limit: String(LIMIT) });
+      if (busqueda)        params.set('q', busqueda);
+      if (filtroEstado)    params.set('estado', filtroEstado);
+      if (filtroFechaDesde) params.set('desde', filtroFechaDesde);
+      if (filtroFechaHasta) params.set('hasta', filtroFechaHasta);
+
+      const res = await fetch(`/api/legajos?${params}`);
       if (res.ok) {
-        setLegajos(await res.json());
+        setDatos(await res.json());
       } else {
         toast.error("Error al cargar los legajos");
       }
@@ -47,7 +58,18 @@ export default function ModuloLegajos() {
     } finally {
       setCargando(false);
     }
-  }
+  }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta]);
+
+  useEffect(() => { cargarLegajos(page); }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta]);
+
+  // Debounce búsqueda
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setBusqueda(busquedaInput);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(t);
+  }, [busquedaInput]);
 
   async function cambiarEstado(legajo: Legajo, nuevoEstado: string) {
     setProcesando(true);
@@ -59,7 +81,7 @@ export default function ModuloLegajos() {
       });
       if (res.ok) {
         toast.success(`Legajo marcado como "${nuevoEstado}"`);
-        await cargarLegajos();
+        await cargarLegajos(page);
         if (legajoSeleccionado?.id === legajo.id) {
           const actualizado = await fetch(`/api/legajos/${legajo.id}`);
           if (actualizado.ok) setLegajoSeleccionado(await actualizado.json());
@@ -83,7 +105,7 @@ export default function ModuloLegajos() {
         toast.success(`Legajo #${legajo.numero} eliminado`);
         setConfirmarBorrar(null);
         setLegajoSeleccionado(null);
-        await cargarLegajos();
+        await cargarLegajos(page);
       } else {
         const data = await res.json();
         toast.error(data.error ?? "Error al eliminar el legajo");
@@ -96,44 +118,15 @@ export default function ModuloLegajos() {
   }
 
   function limpiarFiltros() {
+    setBusquedaInput("");
     setBusqueda("");
     setFiltroEstado("");
     setFiltroFechaDesde("");
     setFiltroFechaHasta("");
+    setPage(1);
   }
 
-  const hayFiltrosActivos = busqueda || filtroEstado || filtroFechaDesde || filtroFechaHasta;
-
-  const filtrados = legajos.filter(l => {
-    // Búsqueda de texto
-    if (busqueda) {
-      const q = busqueda.toLowerCase();
-      const coincideTexto =
-        l.numero.toLowerCase().includes(q) ||
-        l.caratula.toLowerCase().includes(q) ||
-        l.delito.toLowerCase().includes(q) ||
-        (l.fiscal ?? "").toLowerCase().includes(q) ||
-        (l.cuij ?? "").toLowerCase().includes(q) ||
-        l.victimas.some(v => v.nombre.toLowerCase().includes(q) || (v.dni ?? "").includes(q));
-      if (!coincideTexto) return false;
-    }
-    // Filtro estado
-    if (filtroEstado && l.estado !== filtroEstado) return false;
-    // Filtro fecha desde
-    if (filtroFechaDesde) {
-      const fecha = new Date(l.fechaHecho);
-      const desde = new Date(filtroFechaDesde);
-      if (fecha < desde) return false;
-    }
-    // Filtro fecha hasta
-    if (filtroFechaHasta) {
-      const fecha = new Date(l.fechaHecho);
-      const hasta = new Date(filtroFechaHasta);
-      hasta.setHours(23, 59, 59);
-      if (fecha > hasta) return false;
-    }
-    return true;
-  });
+  const hayFiltrosActivos = busquedaInput || filtroEstado || filtroFechaDesde || filtroFechaHasta;
 
   function colorEstado(estado: string) {
     if (estado === "Activo") return { background: "rgba(34,197,94,0.15)", color: "var(--success)" };
@@ -143,12 +136,8 @@ export default function ModuloLegajos() {
   }
 
   const btnAccion = (onClick: () => void, icon: React.ReactNode, titulo: string, color = "var(--text-muted)") => (
-    <button
-      onClick={e => { e.stopPropagation(); onClick(); }}
-      title={titulo}
-      style={{ color }}
-      className="p-1.5 rounded-lg hover:opacity-70 transition"
-    >
+    <button onClick={e => { e.stopPropagation(); onClick(); }} title={titulo}
+      style={{ color }} className="p-1.5 rounded-lg hover:opacity-70 transition">
       {icon}
     </button>
   );
@@ -160,14 +149,10 @@ export default function ModuloLegajos() {
   if (legajoSeleccionado) {
     return (
       <div>
-        <button
-          onClick={() => setLegajoSeleccionado(null)}
-          style={{ color: "var(--accent)" }}
-          className="mb-4 text-sm flex items-center gap-1 hover:opacity-80"
-        >
+        <button onClick={() => setLegajoSeleccionado(null)}
+          style={{ color: "var(--accent)" }} className="mb-4 text-sm flex items-center gap-1 hover:opacity-80">
           ← Volver a legajos
         </button>
-
         <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 space-y-6">
           <div className="flex items-start justify-between">
             <div>
@@ -193,16 +178,11 @@ export default function ModuloLegajos() {
           <div className="flex items-center gap-2">
             <span style={{ color: "var(--text-muted)" }} className="text-xs">Estado:</span>
             {["Activo", "En seguimiento", "Cerrado"].map(est => (
-              <button
-                key={est}
-                onClick={() => cambiarEstado(legajoSeleccionado, est)}
-                disabled={procesando}
+              <button key={est} onClick={() => cambiarEstado(legajoSeleccionado, est)} disabled={procesando}
                 style={legajoSeleccionado.estado === est
                   ? { ...colorEstado(est), border: "1px solid currentColor" }
-                  : { background: "var(--bg-tertiary)", color: "var(--text-muted)", border: "1px solid var(--border)" }
-                }
-                className="text-xs px-3 py-1 rounded-full transition hover:opacity-80 disabled:opacity-50"
-              >
+                  : { background: "var(--bg-tertiary)", color: "var(--text-muted)", border: "1px solid var(--border)" }}
+                className="text-xs px-3 py-1 rounded-full transition hover:opacity-80 disabled:opacity-50">
                 {est}
               </button>
             ))}
@@ -282,26 +262,19 @@ export default function ModuloLegajos() {
         </div>
 
         {legajoEditar && (
-          <FormularioLegajo
-            legajoEditar={legajoEditar}
-            onCerrar={() => setLegajoEditar(null)}
+          <FormularioLegajo legajoEditar={legajoEditar} onCerrar={() => setLegajoEditar(null)}
             onGuardado={async () => {
               setLegajoEditar(null);
               toast.success("Legajo actualizado correctamente");
-              await cargarLegajos();
+              await cargarLegajos(page);
               const res = await fetch(`/api/legajos/${legajoSeleccionado.id}`);
               if (res.ok) setLegajoSeleccionado(await res.json());
-            }}
-          />
+            }} />
         )}
-
         {confirmarBorrar && (
-          <ModalConfirmarBorrar
-            legajo={confirmarBorrar}
-            procesando={procesando}
+          <ModalConfirmarBorrar legajo={confirmarBorrar} procesando={procesando}
             onCancelar={() => setConfirmarBorrar(null)}
-            onConfirmar={() => borrarLegajo(confirmarBorrar)}
-          />
+            onConfirmar={() => borrarLegajo(confirmarBorrar)} />
         )}
       </div>
     );
@@ -314,46 +287,40 @@ export default function ModuloLegajos() {
         <div>
           <h2 style={{ color: "var(--text-primary)" }} className="text-xl font-bold">Legajos</h2>
           <p style={{ color: "var(--text-muted)" }} className="text-sm">
-            {filtrados.length} de {legajos.length} legajo{legajos.length !== 1 ? "s" : ""}
+            {datos.total} legajo{datos.total !== 1 ? "s" : ""}
             {hayFiltrosActivos ? " (filtrado)" : ""}
+            {datos.totalPages > 1 && ` · Página ${datos.page} de ${datos.totalPages}`}
           </p>
         </div>
-        <button
-          onClick={() => setMostrarFormulario(true)}
+        <button onClick={() => setMostrarFormulario(true)}
           style={{ background: "var(--accent)" }}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium hover:opacity-90 transition"
-        >
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium hover:opacity-90 transition">
           <Plus size={16} /> Nuevo legajo
         </button>
       </div>
 
-      {/* Barra de búsqueda */}
+      {/* Búsqueda */}
       <div className="flex gap-2">
         <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="flex-1 flex items-center gap-2 rounded-lg px-3 py-2">
           <Search size={16} style={{ color: "var(--text-muted)" }} />
-          <input
-            value={busqueda}
-            onChange={e => setBusqueda(e.target.value)}
+          <input value={busquedaInput} onChange={e => setBusquedaInput(e.target.value)}
             placeholder="Buscar por número, carátula, delito, fiscal, CUIJ o víctima..."
             style={{ background: "transparent", color: "var(--text-primary)" }}
-            className="flex-1 text-sm outline-none placeholder:text-[var(--text-muted)]"
-          />
-          {busqueda && (
-            <button onClick={() => setBusqueda("")} style={{ color: "var(--text-muted)" }} className="hover:opacity-70">
+            className="flex-1 text-sm outline-none placeholder:text-[var(--text-muted)]" />
+          {busquedaInput && (
+            <button onClick={() => { setBusquedaInput(""); setBusqueda(""); setPage(1); }}
+              style={{ color: "var(--text-muted)" }} className="hover:opacity-70">
               <X size={14} />
             </button>
           )}
         </div>
-        <button
-          onClick={() => setMostrarFiltros(v => !v)}
+        <button onClick={() => setMostrarFiltros(v => !v)}
           style={{
             background: mostrarFiltros || (filtroEstado || filtroFechaDesde || filtroFechaHasta) ? "var(--accent)" : "var(--bg-secondary)",
             border: "1px solid var(--border)",
             color: mostrarFiltros || (filtroEstado || filtroFechaDesde || filtroFechaHasta) ? "#fff" : "var(--text-secondary)",
           }}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition hover:opacity-90"
-          title="Filtros avanzados"
-        >
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition hover:opacity-90">
           <SlidersHorizontal size={15} />
           <span className="hidden md:inline">Filtros</span>
           {(filtroEstado || filtroFechaDesde || filtroFechaHasta) && (
@@ -362,84 +329,60 @@ export default function ModuloLegajos() {
         </button>
       </div>
 
-      {/* Panel de filtros avanzados */}
+      {/* Filtros avanzados */}
       {mostrarFiltros && (
         <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
             <p style={{ color: "var(--text-primary)" }} className="text-sm font-medium">Filtros avanzados</p>
             {hayFiltrosActivos && (
-              <button
-                onClick={limpiarFiltros}
-                style={{ color: "var(--danger)" }}
-                className="text-xs hover:opacity-70 flex items-center gap-1"
-              >
+              <button onClick={limpiarFiltros} style={{ color: "var(--danger)" }} className="text-xs hover:opacity-70 flex items-center gap-1">
                 <X size={12} /> Limpiar todo
               </button>
             )}
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Estado */}
             <div>
               <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Estado</label>
-              <select
-                value={filtroEstado}
-                onChange={e => setFiltroEstado(e.target.value)}
-                style={inputStyle}
-                className={inputClass}
-              >
+              <select value={filtroEstado} onChange={e => { setFiltroEstado(e.target.value); setPage(1); }}
+                style={inputStyle} className={inputClass}>
                 <option value="">Todos</option>
                 {ESTADOS.map(e => <option key={e} value={e}>{e}</option>)}
               </select>
             </div>
-
-            {/* Fecha desde */}
             <div>
               <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Fecha hecho — desde</label>
-              <input
-                type="date"
-                value={filtroFechaDesde}
-                onChange={e => setFiltroFechaDesde(e.target.value)}
-                style={inputStyle}
-                className={inputClass}
-              />
+              <input type="date" value={filtroFechaDesde}
+                onChange={e => { setFiltroFechaDesde(e.target.value); setPage(1); }}
+                style={inputStyle} className={inputClass} />
             </div>
-
-            {/* Fecha hasta */}
             <div>
               <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Fecha hecho — hasta</label>
-              <input
-                type="date"
-                value={filtroFechaHasta}
-                onChange={e => setFiltroFechaHasta(e.target.value)}
-                style={inputStyle}
-                className={inputClass}
-              />
+              <input type="date" value={filtroFechaHasta}
+                onChange={e => { setFiltroFechaHasta(e.target.value); setPage(1); }}
+                style={inputStyle} className={inputClass} />
             </div>
           </div>
-
-          {/* Tags de filtros activos */}
           {(filtroEstado || filtroFechaDesde || filtroFechaHasta) && (
             <div className="flex flex-wrap gap-2 pt-1">
               {filtroEstado && (
                 <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
                   className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
                   Estado: {filtroEstado}
-                  <button onClick={() => setFiltroEstado("")} className="hover:opacity-70"><X size={11} /></button>
+                  <button onClick={() => { setFiltroEstado(""); setPage(1); }} className="hover:opacity-70"><X size={11} /></button>
                 </span>
               )}
               {filtroFechaDesde && (
                 <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
                   className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
                   Desde: {new Date(filtroFechaDesde).toLocaleDateString("es-AR")}
-                  <button onClick={() => setFiltroFechaDesde("")} className="hover:opacity-70"><X size={11} /></button>
+                  <button onClick={() => { setFiltroFechaDesde(""); setPage(1); }} className="hover:opacity-70"><X size={11} /></button>
                 </span>
               )}
               {filtroFechaHasta && (
                 <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
                   className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
                   Hasta: {new Date(filtroFechaHasta).toLocaleDateString("es-AR")}
-                  <button onClick={() => setFiltroFechaHasta("")} className="hover:opacity-70"><X size={11} /></button>
+                  <button onClick={() => { setFiltroFechaHasta(""); setPage(1); }} className="hover:opacity-70"><X size={11} /></button>
                 </span>
               )}
             </div>
@@ -450,7 +393,7 @@ export default function ModuloLegajos() {
       {/* Lista */}
       {cargando ? (
         <p style={{ color: "var(--text-muted)" }} className="text-sm text-center py-8">Cargando legajos...</p>
-      ) : filtrados.length === 0 ? (
+      ) : datos.legajos.length === 0 ? (
         <div className="text-center py-16">
           <FolderOpen size={40} style={{ color: "var(--text-muted)" }} className="mx-auto mb-3" />
           <p style={{ color: "var(--text-muted)" }} className="text-sm">
@@ -464,16 +407,10 @@ export default function ModuloLegajos() {
         </div>
       ) : (
         <div className="space-y-2">
-          {filtrados.map(legajo => (
-            <div
-              key={legajo.id}
-              style={{
-                background: "var(--bg-secondary)",
-                border: "1px solid var(--border)",
-                opacity: legajo.estado === "Inactivo" ? 0.5 : 1,
-              }}
-              className="rounded-xl p-4 hover:border-[var(--accent)] transition-all group"
-            >
+          {datos.legajos.map(legajo => (
+            <div key={legajo.id}
+              style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", opacity: legajo.estado === "Inactivo" ? 0.5 : 1 }}
+              className="rounded-xl p-4 hover:border-[var(--accent)] transition-all group">
               <div className="flex items-start justify-between">
                 <button className="flex-1 min-w-0 text-left" onClick={() => setLegajoSeleccionado(legajo)}>
                   <div className="flex items-center gap-2 mb-1">
@@ -499,7 +436,6 @@ export default function ModuloLegajos() {
                     )}
                   </div>
                 </button>
-
                 <div className="flex items-center gap-1 ml-2">
                   {btnAccion(() => setLegajoEditar(legajo), <Pencil size={14} />, "Editar", "var(--accent)")}
                   {btnAccion(
@@ -517,44 +453,61 @@ export default function ModuloLegajos() {
         </div>
       )}
 
+      {/* Paginación */}
+      {datos.totalPages > 1 && (
+        <div className="flex items-center justify-between pt-2">
+          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1 || cargando}
+            style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+            className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm hover:opacity-80 transition disabled:opacity-40">
+            <ChevronLeft size={15} /> Anterior
+          </button>
+          <div className="flex items-center gap-1">
+            {Array.from({ length: Math.min(5, datos.totalPages) }, (_, i) => {
+              let p: number;
+              if (datos.totalPages <= 5) p = i + 1;
+              else if (page <= 3) p = i + 1;
+              else if (page >= datos.totalPages - 2) p = datos.totalPages - 4 + i;
+              else p = page - 2 + i;
+              return (
+                <button key={p} onClick={() => setPage(p)}
+                  style={{
+                    background: p === page ? "var(--accent)" : "var(--bg-secondary)",
+                    border: "1px solid var(--border)",
+                    color: p === page ? "#fff" : "var(--text-secondary)",
+                  }}
+                  className="w-8 h-8 rounded-lg text-sm hover:opacity-80 transition">
+                  {p}
+                </button>
+              );
+            })}
+          </div>
+          <button onClick={() => setPage(p => Math.min(datos.totalPages, p + 1))} disabled={page === datos.totalPages || cargando}
+            style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+            className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm hover:opacity-80 transition disabled:opacity-40">
+            Siguiente <ChevronRight size={15} />
+          </button>
+        </div>
+      )}
+
       {mostrarFormulario && (
-        <FormularioLegajo
-          onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => {
-            setMostrarFormulario(false);
-            toast.success("Legajo creado correctamente");
-            cargarLegajos();
-          }}
-        />
+        <FormularioLegajo onCerrar={() => setMostrarFormulario(false)}
+          onGuardado={() => { setMostrarFormulario(false); toast.success("Legajo creado correctamente"); cargarLegajos(1); setPage(1); }} />
       )}
-
       {legajoEditar && (
-        <FormularioLegajo
-          legajoEditar={legajoEditar}
-          onCerrar={() => setLegajoEditar(null)}
-          onGuardado={() => {
-            setLegajoEditar(null);
-            toast.success("Legajo actualizado correctamente");
-            cargarLegajos();
-          }}
-        />
+        <FormularioLegajo legajoEditar={legajoEditar} onCerrar={() => setLegajoEditar(null)}
+          onGuardado={() => { setLegajoEditar(null); toast.success("Legajo actualizado correctamente"); cargarLegajos(page); }} />
       )}
-
       {confirmarBorrar && (
-        <ModalConfirmarBorrar
-          legajo={confirmarBorrar}
-          procesando={procesando}
+        <ModalConfirmarBorrar legajo={confirmarBorrar} procesando={procesando}
           onCancelar={() => setConfirmarBorrar(null)}
-          onConfirmar={() => borrarLegajo(confirmarBorrar)}
-        />
+          onConfirmar={() => borrarLegajo(confirmarBorrar)} />
       )}
     </div>
   );
 }
 
 function ModalConfirmarBorrar({ legajo, procesando, onCancelar, onConfirmar }: {
-  legajo: Legajo; procesando: boolean;
-  onCancelar: () => void; onConfirmar: () => void;
+  legajo: Legajo; procesando: boolean; onCancelar: () => void; onConfirmar: () => void;
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.6)" }}>
@@ -574,9 +527,7 @@ function ModalConfirmarBorrar({ legajo, procesando, onCancelar, onConfirmar }: {
         <div className="flex gap-3">
           <button onClick={onCancelar}
             style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
-            className="flex-1 py-2 rounded-lg text-sm hover:opacity-80 transition">
-            Cancelar
-          </button>
+            className="flex-1 py-2 rounded-lg text-sm hover:opacity-80 transition">Cancelar</button>
           <button onClick={onConfirmar} disabled={procesando} style={{ background: "var(--danger)" }}
             className="flex-1 py-2 rounded-lg text-sm text-white hover:opacity-80 transition disabled:opacity-50">
             {procesando ? "Eliminando..." : "Eliminar"}
