@@ -1,46 +1,26 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
-import { OficioSchema, handlePrismaError } from '@/lib/validators'
+import { handlePrismaError } from '@/lib/validators'
 
-export async function GET(request: Request) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const { searchParams } = new URL(request.url)
-    const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
-    const limit    = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
-    const busqueda = searchParams.get('q')      ?? ''
-    const estado   = searchParams.get('estado') ?? ''
+    const oficio = await prisma.oficio.findFirst({
+      where: { id, legajo: { usuarioId } }
+    })
+    if (!oficio) return NextResponse.json({ error: 'Oficio no encontrado' }, { status: 404 })
 
-    const where: any = { legajo: { usuarioId } }
-
-    if (estado) where.estado = estado
-
-    if (busqueda) {
-      const q = busqueda.toLowerCase()
-      where.OR = [
-        { operadora: { contains: q } },
-        { legajo: { numero:   { contains: q } } },
-        { legajo: { caratula: { contains: q } } },
-      ]
-    }
-
-    const [total, oficios] = await prisma.$transaction([
-      prisma.oficio.count({ where }),
-      prisma.oficio.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
-        include: {
-          legajo: { include: { victimas: true, dispositivos: true } }
-        }
-      })
-    ])
-
-    return NextResponse.json({ oficios, total, page, limit, totalPages: Math.ceil(total / limit) })
+    const body = await request.json()
+    const actualizado = await prisma.oficio.update({
+      where: { id },
+      data: body,
+      include: { legajo: { include: { victimas: true, dispositivos: true } } }
+    })
+    return NextResponse.json(actualizado)
   } catch (error) {
     console.error(error)
     const { message, status } = handlePrismaError(error)
@@ -48,40 +28,43 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const json = await request.json()
-    const parsed = OficioSchema.safeParse(json)
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
-    }
-    const body = parsed.data
-
-    const legajo = await prisma.legajo.findFirst({ where: { id: body.legajoId, usuarioId } })
-    if (!legajo) return NextResponse.json({ error: 'Legajo no encontrado' }, { status: 404 })
-
-    const oficio = await prisma.oficio.create({
-      data: {
-        legajoId:         body.legajoId,
-        operadora:        body.operadora,
-        tipo:             body.tipo,
-        urgencia:         body.urgencia,
-        numero:           body.numero           || null,
-        observaciones:    body.observaciones    || null,
-        columnas:         body.columnas         || null,
-        tipoConsulta:     body.tipoConsulta,
-        numeroLinea:      body.numeroLinea      || null,
-        imeiSeleccionado: body.imeiSeleccionado || null,
-        fechaEnvio:       body.fechaEnvio ? new Date(body.fechaEnvio) : null,
-      },
-      include: {
-        legajo: { include: { victimas: true, dispositivos: true } }
-      }
+    const oficio = await prisma.oficio.findFirst({
+      where: { id, legajo: { usuarioId } }
     })
-    return NextResponse.json(oficio)
+    if (!oficio) return NextResponse.json({ error: 'Oficio no encontrado' }, { status: 404 })
+
+    await prisma.oficio.delete({ where: { id } })
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error(error)
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
+  }
+}
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params
+    const usuarioId = await getUsuarioId()
+    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    const oficio = await prisma.oficio.findFirst({
+      where: { id, legajo: { usuarioId } }
+    })
+    if (!oficio) return NextResponse.json({ error: 'Oficio no encontrado' }, { status: 404 })
+
+    const body = await request.json()
+    const actualizado = await prisma.oficio.update({
+      where: { id },
+      data: body,
+      include: { legajo: { include: { victimas: true, dispositivos: true } } }
+    })
+    return NextResponse.json(actualizado)
   } catch (error) {
     console.error(error)
     const { message, status } = handlePrismaError(error)
