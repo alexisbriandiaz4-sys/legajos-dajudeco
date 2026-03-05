@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Users, Scale, Download, Plus, Pencil, Trash2, X, Eye, EyeOff, CheckCircle, XCircle, Shield, User, Settings } from "lucide-react";
+import { toast } from "sonner";
 
 interface Fiscal {
   id: string; nombre: string; cargo?: string; fiscalia?: string;
@@ -57,26 +58,32 @@ export default function ModuloConfiguracion() {
 function SeccionGeneral() {
   const [email, setEmail] = useState("");
   const [guardando, setGuardando] = useState(false);
-  const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
     fetch("/api/configuracion")
       .then(r => r.json())
-      .then(d => setEmail(d.emailRespuesta || ""));
+      .then(d => setEmail(d.emailRespuesta || ""))
+      .catch(() => toast.error("Error al cargar la configuración"));
   }, []);
 
   async function guardar() {
-    setGuardando(true); setMensaje("");
+    setGuardando(true);
     try {
       const res = await fetch("/api/configuracion", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ emailRespuesta: email }),
       });
-      if (res.ok) setMensaje("✅ Guardado correctamente");
-      else setMensaje("❌ Error al guardar");
-    } catch { setMensaje("❌ Error de conexión"); }
-    finally { setGuardando(false); }
+      if (res.ok) {
+        toast.success("Configuración guardada correctamente");
+      } else {
+        toast.error("Error al guardar la configuración");
+      }
+    } catch {
+      toast.error("Error de conexión");
+    } finally {
+      setGuardando(false);
+    }
   }
 
   return (
@@ -101,11 +108,6 @@ function SeccionGeneral() {
         className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90 transition disabled:opacity-50">
         {guardando ? "Guardando..." : "Guardar"}
       </button>
-      {mensaje && (
-        <p style={{ color: mensaje.includes("✅") ? "var(--success)" : "var(--danger)" }} className="text-sm text-center">
-          {mensaje}
-        </p>
-      )}
     </div>
   );
 }
@@ -123,21 +125,48 @@ function SeccionFiscales() {
     setCargando(true);
     try {
       const res = await fetch("/api/fiscales");
-      if (res.ok) setFiscales(await res.json());
-    } catch {} finally { setCargando(false); }
+      if (res.ok) {
+        setFiscales(await res.json());
+      } else {
+        toast.error("Error al cargar los fiscales");
+      }
+    } catch {
+      toast.error("Error de conexión al cargar fiscales");
+    } finally {
+      setCargando(false);
+    }
   }
 
   async function toggleActivo(f: Fiscal) {
-    await fetch(`/api/fiscales/${f.id}`, {
-      method: "PUT", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...f, activo: !f.activo }),
-    });
-    cargar();
+    try {
+      const res = await fetch(`/api/fiscales/${f.id}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...f, activo: !f.activo }),
+      });
+      if (res.ok) {
+        toast.success(`Fiscal ${!f.activo ? "activado" : "desactivado"}`);
+        cargar();
+      } else {
+        toast.error("Error al actualizar el fiscal");
+      }
+    } catch {
+      toast.error("Error de conexión");
+    }
   }
 
   async function borrar(f: Fiscal) {
-    await fetch(`/api/fiscales/${f.id}`, { method: "DELETE" });
-    setConfirmarBorrar(null); cargar();
+    try {
+      const res = await fetch(`/api/fiscales/${f.id}`, { method: "DELETE" });
+      if (res.ok) {
+        toast.success(`Fiscal ${f.nombre} eliminado`);
+        setConfirmarBorrar(null);
+        cargar();
+      } else {
+        toast.error("Error al eliminar el fiscal");
+      }
+    } catch {
+      toast.error("Error de conexión");
+    }
   }
 
   return (
@@ -266,7 +295,6 @@ function FormularioFiscal({ fiscal, onCerrar, onGuardado }: {
           </h3>
           <button onClick={onCerrar} style={{ color: "var(--text-muted)" }} className="hover:opacity-70"><X size={20} /></button>
         </div>
-
         <div className="p-5 space-y-5">
           <div>
             <p style={{ color: "var(--text-muted)" }} className="text-xs font-semibold uppercase tracking-wide mb-3">Datos del fiscal / titular</p>
@@ -305,7 +333,6 @@ function FormularioFiscal({ fiscal, onCerrar, onGuardado }: {
               </div>
             </div>
           </div>
-
           <div>
             <p style={{ color: "var(--text-muted)" }} className="text-xs font-semibold uppercase tracking-wide mb-3">Datos del secretario</p>
             <div className="grid grid-cols-2 gap-3">
@@ -323,9 +350,7 @@ function FormularioFiscal({ fiscal, onCerrar, onGuardado }: {
               </div>
             </div>
           </div>
-
           {error && <p style={{ color: "var(--danger)" }} className="text-sm text-center">{error}</p>}
-
           <div className="flex gap-3">
             <button onClick={onCerrar}
               style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
@@ -358,21 +383,48 @@ function SeccionUsuarios() {
     try {
       const res = await fetch("/api/usuarios");
       if (res.status === 403) { setSinPermisos(true); return; }
-      if (res.ok) setUsuarios(await res.json());
-    } catch {} finally { setCargando(false); }
+      if (res.ok) {
+        setUsuarios(await res.json());
+      } else {
+        toast.error("Error al cargar los usuarios");
+      }
+    } catch {
+      toast.error("Error de conexión al cargar usuarios");
+    } finally {
+      setCargando(false);
+    }
   }
 
   async function toggleActivo(u: Usuario) {
-    await fetch(`/api/usuarios/${u.id}`, {
-      method: "PUT", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ activo: !u.activo }),
-    });
-    cargar();
+    try {
+      const res = await fetch(`/api/usuarios/${u.id}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ activo: !u.activo }),
+      });
+      if (res.ok) {
+        toast.success(`Usuario ${!u.activo ? "activado" : "desactivado"}`);
+        cargar();
+      } else {
+        toast.error("Error al actualizar el usuario");
+      }
+    } catch {
+      toast.error("Error de conexión");
+    }
   }
 
   async function borrar(u: Usuario) {
-    await fetch(`/api/usuarios/${u.id}`, { method: "DELETE" });
-    setConfirmarBorrar(null); cargar();
+    try {
+      const res = await fetch(`/api/usuarios/${u.id}`, { method: "DELETE" });
+      if (res.ok) {
+        toast.success(`Usuario ${u.nombre} eliminado`);
+        setConfirmarBorrar(null);
+        cargar();
+      } else {
+        toast.error("Error al eliminar el usuario");
+      }
+    } catch {
+      toast.error("Error de conexión");
+    }
   }
 
   if (sinPermisos) {
@@ -478,7 +530,7 @@ function FormularioUsuario({ usuario, onCerrar, onGuardado }: { usuario: Usuario
     if (form.password && form.password.length < 6) { setError("La contraseña debe tener al menos 6 caracteres"); return; }
     setGuardando(true); setError("");
     try {
-      const body: any = { nombre: form.nombre, usuario: form.usuario, rol: form.rol };
+      const body: Record<string, string> = { nombre: form.nombre, usuario: form.usuario, rol: form.rol };
       if (form.password) body.password = form.password;
       const res = await fetch(
         esEdicion ? `/api/usuarios/${usuario!.id}` : "/api/usuarios",
@@ -568,10 +620,9 @@ function FormularioUsuario({ usuario, onCerrar, onGuardado }: { usuario: Usuario
 
 function SeccionBackup() {
   const [generando, setGenerando] = useState(false);
-  const [mensaje, setMensaje] = useState("");
 
   async function generarBackup() {
-    setGenerando(true); setMensaje("");
+    setGenerando(true);
     try {
       const [legajosRes, oficiosRes, fiscalesRes] = await Promise.all([
         fetch("/api/legajos"), fetch("/api/oficios"), fetch("/api/fiscales"),
@@ -621,11 +672,13 @@ function SeccionBackup() {
 
       const fecha = new Date().toLocaleDateString("es-AR").replace(/\//g, "-");
       writeFile(wb, `Backup_Legajos_${fecha}.xlsx`);
-      setMensaje("✅ Backup generado correctamente");
+      toast.success("Backup generado y descargado correctamente");
     } catch (e) {
       console.error(e);
-      setMensaje("❌ Error al generar el backup");
-    } finally { setGenerando(false); }
+      toast.error("Error al generar el backup");
+    } finally {
+      setGenerando(false);
+    }
   }
 
   return (
@@ -652,11 +705,6 @@ function SeccionBackup() {
           <Download size={16} />
           {generando ? "Generando backup..." : "Descargar backup Excel"}
         </button>
-        {mensaje && (
-          <p style={{ color: mensaje.includes("✅") ? "var(--success)" : "var(--danger)" }} className="text-sm text-center font-medium">
-            {mensaje}
-          </p>
-        )}
       </div>
     </div>
   );

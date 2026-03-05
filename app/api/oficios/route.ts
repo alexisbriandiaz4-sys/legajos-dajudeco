@@ -1,8 +1,7 @@
-// app/api/oficios/route.ts
-
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
+import { OficioSchema } from '@/lib/validators'
 
 export async function GET() {
   try {
@@ -13,9 +12,7 @@ export async function GET() {
       where: { legajo: { usuarioId } },
       orderBy: { createdAt: 'desc' },
       include: {
-        legajo: {
-          include: { victimas: true, dispositivos: true }
-        }
+        legajo: { include: { victimas: true, dispositivos: true } }
       }
     })
     return NextResponse.json(oficios)
@@ -30,7 +27,15 @@ export async function POST(request: Request) {
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const body = await request.json()
+    const json = await request.json()
+    const parsed = OficioSchema.safeParse(json)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0].message },
+        { status: 400 }
+      )
+    }
+    const body = parsed.data
 
     const legajo = await prisma.legajo.findFirst({
       where: { id: body.legajoId, usuarioId }
@@ -42,19 +47,17 @@ export async function POST(request: Request) {
         legajoId:         body.legajoId,
         operadora:        body.operadora,
         tipo:             body.tipo,
-        urgencia:         body.urgencia         ?? '48 horas',
-        numero:           body.numero           ?? null,
-        observaciones:    body.observaciones    ?? null,
-        columnas:         body.columnas         ?? null,
-        tipoConsulta:     body.tipoConsulta     ?? 'imei',
-        numeroLinea:      body.numeroLinea      ?? null,
-        imeiSeleccionado: body.imeiSeleccionado ?? null,
+        urgencia:         body.urgencia,
+        numero:           body.numero           || null,
+        observaciones:    body.observaciones    || null,
+        columnas:         body.columnas         || null,
+        tipoConsulta:     body.tipoConsulta,
+        numeroLinea:      body.numeroLinea      || null,
+        imeiSeleccionado: body.imeiSeleccionado || null,
         fechaEnvio:       body.fechaEnvio ? new Date(body.fechaEnvio) : null,
       },
       include: {
-        legajo: {
-          include: { victimas: true, dispositivos: true }
-        }
+        legajo: { include: { victimas: true, dispositivos: true } }
       }
     })
     return NextResponse.json(oficio)

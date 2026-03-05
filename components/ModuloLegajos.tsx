@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle } from "lucide-react";
+import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
@@ -30,9 +31,16 @@ export default function ModuloLegajos() {
     setCargando(true);
     try {
       const res = await fetch("/api/legajos");
-      if (res.ok) setLegajos(await res.json());
-    } catch {}
-    finally { setCargando(false); }
+      if (res.ok) {
+        setLegajos(await res.json());
+      } else {
+        toast.error("Error al cargar los legajos");
+      }
+    } catch {
+      toast.error("Error de conexión al cargar legajos");
+    } finally {
+      setCargando(false);
+    }
   }
 
   async function cambiarEstado(legajo: Legajo, nuevoEstado: string) {
@@ -44,14 +52,21 @@ export default function ModuloLegajos() {
         body: JSON.stringify({ estado: nuevoEstado }),
       });
       if (res.ok) {
+        toast.success(`Legajo marcado como "${nuevoEstado}"`);
         await cargarLegajos();
         if (legajoSeleccionado?.id === legajo.id) {
           const actualizado = await fetch(`/api/legajos/${legajo.id}`);
           if (actualizado.ok) setLegajoSeleccionado(await actualizado.json());
         }
+      } else {
+        const data = await res.json();
+        toast.error(data.error ?? "Error al cambiar el estado");
       }
-    } catch {}
-    finally { setProcesando(false); }
+    } catch {
+      toast.error("Error de conexión al cambiar el estado");
+    } finally {
+      setProcesando(false);
+    }
   }
 
   async function borrarLegajo(legajo: Legajo) {
@@ -59,12 +74,19 @@ export default function ModuloLegajos() {
     try {
       const res = await fetch(`/api/legajos/${legajo.id}`, { method: "DELETE" });
       if (res.ok) {
+        toast.success(`Legajo #${legajo.numero} eliminado`);
         setConfirmarBorrar(null);
         setLegajoSeleccionado(null);
         await cargarLegajos();
+      } else {
+        const data = await res.json();
+        toast.error(data.error ?? "Error al eliminar el legajo");
       }
-    } catch {}
-    finally { setProcesando(false); }
+    } catch {
+      toast.error("Error de conexión al eliminar el legajo");
+    } finally {
+      setProcesando(false);
+    }
   }
 
   const filtrados = legajos.filter(l =>
@@ -105,7 +127,6 @@ export default function ModuloLegajos() {
         </button>
 
         <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 space-y-6">
-          {/* Header con acciones */}
           <div className="flex items-start justify-between">
             <div>
               <p style={{ color: "var(--text-muted)" }} className="text-xs mb-1">Legajo</p>
@@ -116,31 +137,17 @@ export default function ModuloLegajos() {
               <span style={colorEstado(legajoSeleccionado.estado)} className="text-xs px-3 py-1 rounded-full font-medium">
                 {legajoSeleccionado.estado}
               </span>
-              {/* Botón editar */}
-              {btnAccion(
-                () => setLegajoEditar(legajoSeleccionado),
-                <Pencil size={15} />,
-                "Editar legajo",
-                "var(--accent)"
-              )}
-              {/* Botón activar/desactivar */}
+              {btnAccion(() => setLegajoEditar(legajoSeleccionado), <Pencil size={15} />, "Editar legajo", "var(--accent)")}
               {btnAccion(
                 () => cambiarEstado(legajoSeleccionado, legajoSeleccionado.estado === "Inactivo" ? "Activo" : "Inactivo"),
                 <PowerOff size={15} />,
                 legajoSeleccionado.estado === "Inactivo" ? "Activar" : "Desactivar",
                 legajoSeleccionado.estado === "Inactivo" ? "var(--success)" : "var(--warning)"
               )}
-              {/* Botón borrar */}
-              {btnAccion(
-                () => setConfirmarBorrar(legajoSeleccionado),
-                <Trash2 size={15} />,
-                "Eliminar legajo",
-                "var(--danger)"
-              )}
+              {btnAccion(() => setConfirmarBorrar(legajoSeleccionado), <Trash2 size={15} />, "Eliminar legajo", "var(--danger)")}
             </div>
           </div>
 
-          {/* Cambio rápido de estado */}
           <div className="flex items-center gap-2">
             <span style={{ color: "var(--text-muted)" }} className="text-xs">Estado:</span>
             {["Activo", "En seguimiento", "Cerrado"].map(est => (
@@ -232,13 +239,13 @@ export default function ModuloLegajos() {
           </div>
         </div>
 
-        {/* Modal editar */}
         {legajoEditar && (
           <FormularioLegajo
             legajoEditar={legajoEditar}
             onCerrar={() => setLegajoEditar(null)}
             onGuardado={async () => {
               setLegajoEditar(null);
+              toast.success("Legajo actualizado correctamente");
               await cargarLegajos();
               const res = await fetch(`/api/legajos/${legajoSeleccionado.id}`);
               if (res.ok) setLegajoSeleccionado(await res.json());
@@ -246,8 +253,14 @@ export default function ModuloLegajos() {
           />
         )}
 
-        {/* Modal confirmar borrar */}
-        {confirmarBorrar && <ModalConfirmarBorrar legajo={confirmarBorrar} procesando={procesando} onCancelar={() => setConfirmarBorrar(null)} onConfirmar={() => borrarLegajo(confirmarBorrar)} />}
+        {confirmarBorrar && (
+          <ModalConfirmarBorrar
+            legajo={confirmarBorrar}
+            procesando={procesando}
+            onCancelar={() => setConfirmarBorrar(null)}
+            onConfirmar={() => borrarLegajo(confirmarBorrar)}
+          />
+        )}
       </div>
     );
   }
@@ -302,7 +315,6 @@ export default function ModuloLegajos() {
               className="rounded-xl p-4 hover:border-[var(--accent)] transition-all group"
             >
               <div className="flex items-start justify-between">
-                {/* Info clickeable */}
                 <button className="flex-1 min-w-0 text-left" onClick={() => setLegajoSeleccionado(legajo)}>
                   <div className="flex items-center gap-2 mb-1">
                     <span style={{ color: "var(--accent)" }} className="text-sm font-bold">#{legajo.numero}</span>
@@ -323,7 +335,6 @@ export default function ModuloLegajos() {
                   </div>
                 </button>
 
-                {/* Acciones */}
                 <div className="flex items-center gap-1 ml-2">
                   {btnAccion(() => setLegajoEditar(legajo), <Pencil size={14} />, "Editar", "var(--accent)")}
                   {btnAccion(
@@ -341,24 +352,29 @@ export default function ModuloLegajos() {
         </div>
       )}
 
-      {/* Modal nuevo legajo */}
       {mostrarFormulario && (
         <FormularioLegajo
           onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => { setMostrarFormulario(false); cargarLegajos(); }}
+          onGuardado={() => {
+            setMostrarFormulario(false);
+            toast.success("Legajo creado correctamente");
+            cargarLegajos();
+          }}
         />
       )}
 
-      {/* Modal editar desde lista */}
       {legajoEditar && (
         <FormularioLegajo
           legajoEditar={legajoEditar}
           onCerrar={() => setLegajoEditar(null)}
-          onGuardado={() => { setLegajoEditar(null); cargarLegajos(); }}
+          onGuardado={() => {
+            setLegajoEditar(null);
+            toast.success("Legajo actualizado correctamente");
+            cargarLegajos();
+          }}
         />
       )}
 
-      {/* Modal confirmar borrar */}
       {confirmarBorrar && (
         <ModalConfirmarBorrar
           legajo={confirmarBorrar}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
+import { toast } from "sonner";
 import FormularioOficio from "./FormularioOficio";
 import { generarOficioFiscal } from "@/lib/generarOficioFiscal";
 
@@ -20,7 +21,7 @@ interface Oficio {
   columnas?: string;
   tipoConsulta?: string;
   numeroLinea?: string;
-  imeiSeleccionado?: string
+  imeiSeleccionado?: string;
 }
 
 const ESTADOS = ["Todos", "Pendiente", "Enviado", "Respondido", "Sin respuesta"];
@@ -38,27 +39,54 @@ export default function ModuloOficios() {
     setCargando(true);
     try {
       const res = await fetch("/api/oficios");
-      if (res.ok) setOficios(await res.json());
-    } catch {}
-    finally { setCargando(false); }
+      if (res.ok) {
+        setOficios(await res.json());
+      } else {
+        toast.error("Error al cargar los oficios");
+      }
+    } catch {
+      toast.error("Error de conexión al cargar oficios");
+    } finally {
+      setCargando(false);
+    }
   }
 
   async function cambiarEstado(id: string, estado: string) {
-    const extra: any = {};
+    const extra: Record<string, string> = {};
     if (estado === "Enviado") extra.fechaEnvio = new Date().toISOString();
     if (estado === "Respondido") extra.fechaRespuesta = new Date().toISOString();
-    await fetch(`/api/oficios/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ estado, ...extra }),
-    });
-    cargarOficios();
+    try {
+      const res = await fetch(`/api/oficios/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ estado, ...extra }),
+      });
+      if (res.ok) {
+        toast.success(`Oficio marcado como "${estado}"`);
+        cargarOficios();
+      } else {
+        const data = await res.json();
+        toast.error(data.error ?? "Error al actualizar el estado");
+      }
+    } catch {
+      toast.error("Error de conexión al actualizar el estado");
+    }
   }
 
   async function eliminar(id: string) {
     if (!confirm("¿Eliminar este oficio?")) return;
-    await fetch(`/api/oficios/${id}`, { method: "DELETE" });
-    cargarOficios();
+    try {
+      const res = await fetch(`/api/oficios/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        toast.success("Oficio eliminado");
+        cargarOficios();
+      } else {
+        const data = await res.json();
+        toast.error(data.error ?? "Error al eliminar el oficio");
+      }
+    } catch {
+      toast.error("Error de conexión al eliminar el oficio");
+    }
   }
 
   const filtrados = oficios.filter(o => {
@@ -258,7 +286,11 @@ export default function ModuloOficios() {
       {mostrarFormulario && (
         <FormularioOficio
           onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => { setMostrarFormulario(false); cargarOficios(); }}
+          onGuardado={() => {
+            setMostrarFormulario(false);
+            toast.success("Oficio creado correctamente");
+            cargarOficios();
+          }}
         />
       )}
     </div>
