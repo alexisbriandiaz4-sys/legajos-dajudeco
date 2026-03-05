@@ -3,6 +3,8 @@ import { prisma } from '@/lib/db'
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import { z } from 'zod'
+import { getUsuarioId } from '@/lib/server-auth'
 
 const SECRET = process.env.JWT_SECRET!
 
@@ -15,6 +17,13 @@ async function getUsuario() {
     return payload
   } catch { return null }
 }
+
+const UsuarioCreateSchema = z.object({
+  nombre:   z.string().min(1, 'El nombre es requerido').max(100),
+  usuario:  z.string().min(3, 'Mínimo 3 caracteres').max(50),
+  password: z.string().min(6, 'Mínimo 6 caracteres').max(100),
+  rol:      z.enum(['admin', 'usuario']).default('usuario'),
+})
 
 export async function GET() {
   try {
@@ -40,20 +49,21 @@ export async function POST(request: Request) {
     if (usuario.rol !== 'admin') return NextResponse.json({ error: 'Sin permisos' }, { status: 403 })
 
     const body = await request.json()
-    if (!body.nombre || !body.usuario || !body.password) {
-      return NextResponse.json({ error: 'Nombre, usuario y contraseña son obligatorios' }, { status: 400 })
+    const parsed = UsuarioCreateSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
 
-    const existe = await prisma.usuario.findUnique({ where: { usuario: body.usuario } })
+    const existe = await prisma.usuario.findUnique({ where: { usuario: parsed.data.usuario } })
     if (existe) return NextResponse.json({ error: 'El nombre de usuario ya existe' }, { status: 400 })
 
-    const hash = await bcrypt.hash(body.password, 10)
+    const hash = await bcrypt.hash(parsed.data.password, 10)
     const nuevo = await prisma.usuario.create({
       data: {
-        nombre: body.nombre,
-        usuario: body.usuario,
+        nombre:   parsed.data.nombre,
+        usuario:  parsed.data.usuario,
         password: hash,
-        rol: body.rol ?? 'investigador',
+        rol:      parsed.data.rol,
       },
       select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true }
     })

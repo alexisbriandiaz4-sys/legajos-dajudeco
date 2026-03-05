@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
+import { LegajoSchema } from '@/lib/validators'
 
 export async function GET(_: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -26,7 +27,12 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const body = await request.json()
+    const json = await request.json()
+    const parsed = LegajoSchema.partial().safeParse(json)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
+    }
+    const body = parsed.data
 
     const legajoExistente = await prisma.legajo.findFirst({ where: { id, usuarioId } })
     if (!legajoExistente) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
@@ -34,15 +40,15 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     await prisma.legajo.update({
       where: { id },
       data: {
-        numero: body.numero,
-        caratula: body.caratula,
-        cuij: body.cuij ?? null,
-        delito: body.delito,
-        fechaHecho: new Date(body.fechaHecho),
-        estado: body.estado,
-        observaciones: body.observaciones ?? null,
-        fiscal: body.fiscal ?? null,
-        emailRespuesta: body.emailRespuesta ?? null,
+        ...(body.numero      !== undefined && { numero: body.numero }),
+        ...(body.caratula    !== undefined && { caratula: body.caratula }),
+        ...(body.cuij        !== undefined && { cuij: body.cuij || null }),
+        ...(body.delito      !== undefined && { delito: body.delito }),
+        ...(body.fechaHecho  !== undefined && { fechaHecho: new Date(body.fechaHecho) }),
+        ...(body.estado      !== undefined && { estado: body.estado }),
+        ...(body.observaciones !== undefined && { observaciones: body.observaciones || null }),
+        ...(body.fiscal      !== undefined && { fiscal: body.fiscal || null }),
+        ...(body.emailRespuesta !== undefined && { emailRespuesta: body.emailRespuesta || null }),
       }
     })
 
@@ -51,8 +57,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       if (body.victimas.length > 0) {
         await prisma.victima.createMany({
           data: body.victimas
-            .filter((v: any) => v.nombre?.trim())
-            .map((v: any) => ({
+            .filter((v) => v.nombre?.trim())
+            .map((v) => ({
               nombre: v.nombre,
               dni: v.dni || null,
               telefono: v.telefono || null,
@@ -68,8 +74,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       if (body.dispositivos.length > 0) {
         await prisma.dispositivo.createMany({
           data: body.dispositivos
-            .filter((d: any) => d.marca?.trim() || d.imei?.trim() || d.numeroLinea?.trim())
-            .map((d: any) => ({
+            .filter((d) => d.marca?.trim() || d.imei?.trim() || d.numeroLinea?.trim())
+            .map((d) => ({
               tipo: d.tipo || 'Celular',
               marca: d.marca || null,
               modelo: d.modelo || null,

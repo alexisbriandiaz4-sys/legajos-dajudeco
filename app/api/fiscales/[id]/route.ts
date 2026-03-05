@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
+import { FiscalSchema } from '@/lib/validators'
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -8,22 +9,28 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const body = await request.json()
+    const json = await request.json()
+    const parsed = FiscalSchema.partial().safeParse(json)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
+    }
+    const body = parsed.data
+
     const fiscal = await prisma.fiscal.updateMany({
       where: { id, usuarioId },
       data: {
-        nombre: body.nombre,
-        cargo: body.cargo ?? null,
-        fiscalia: body.fiscalia ?? null,
-        secretario: body.secretario ?? null,
-        dniSecretario: body.dniSecretario ?? null,
-        dni: body.dni ?? null,
-        email: body.email ?? null,
-        emailSecretario: body.emailSecretario ?? null,
-        direccion: body.direccion ?? null,
-        telefono: body.telefono ?? null,
-        telefonoMovil: body.telefonoMovil ?? null,
-        activo: body.activo ?? true,
+        ...(body.nombre          !== undefined && { nombre: body.nombre }),
+        ...(body.cargo           !== undefined && { cargo: body.cargo || null }),
+        ...(body.fiscalia        !== undefined && { fiscalia: body.fiscalia || null }),
+        ...(body.secretario      !== undefined && { secretario: body.secretario || null }),
+        ...(body.dniSecretario   !== undefined && { dniSecretario: body.dniSecretario || null }),
+        ...(body.dni             !== undefined && { dni: body.dni || null }),
+        ...(body.email           !== undefined && { email: body.email || null }),
+        ...(body.emailSecretario !== undefined && { emailSecretario: body.emailSecretario || null }),
+        ...(body.direccion       !== undefined && { direccion: body.direccion || null }),
+        ...(body.telefono        !== undefined && { telefono: body.telefono || null }),
+        ...(body.telefonoMovil   !== undefined && { telefonoMovil: body.telefonoMovil || null }),
+        ...('activo' in json     && { activo: json.activo ?? true }),
       }
     })
     return NextResponse.json(fiscal)

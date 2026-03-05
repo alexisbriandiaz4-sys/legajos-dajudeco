@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
+import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import FormularioOficio from "./FormularioOficio";
 import { generarOficioFiscal } from "@/lib/generarOficioFiscal";
@@ -32,6 +32,7 @@ export default function ModuloOficios() {
   const [busqueda, setBusqueda] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [oficioAEliminar, setOficioAEliminar] = useState<string | null>(null);
 
   useEffect(() => { cargarOficios(); }, []);
 
@@ -73,10 +74,10 @@ export default function ModuloOficios() {
     }
   }
 
-  async function eliminar(id: string) {
-    if (!confirm("¿Eliminar este oficio?")) return;
+  async function confirmarEliminar() {
+    if (!oficioAEliminar) return;
     try {
-      const res = await fetch(`/api/oficios/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/oficios/${oficioAEliminar}`, { method: "DELETE" });
       if (res.ok) {
         toast.success("Oficio eliminado");
         cargarOficios();
@@ -86,6 +87,8 @@ export default function ModuloOficios() {
       }
     } catch {
       toast.error("Error de conexión al eliminar el oficio");
+    } finally {
+      setOficioAEliminar(null);
     }
   }
 
@@ -129,6 +132,37 @@ export default function ModuloOficios() {
 
   return (
     <div className="space-y-4">
+
+      {/* Modal confirmación eliminar */}
+      {oficioAEliminar && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.6)" }}>
+          <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
+            className="rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div style={{ background: "rgba(239,68,68,0.15)" }} className="p-2 rounded-full">
+                <Trash2 size={20} style={{ color: "var(--danger)" }} />
+              </div>
+              <div>
+                <h3 style={{ color: "var(--text-primary)" }} className="font-semibold">Eliminar oficio</h3>
+                <p style={{ color: "var(--text-muted)" }} className="text-sm">Esta acción no se puede deshacer</p>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end mt-4">
+              <button onClick={() => setOficioAEliminar(null)}
+                style={{ background: "var(--bg-primary)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+                className="px-4 py-2 rounded-lg text-sm hover:opacity-80 transition">
+                Cancelar
+              </button>
+              <button onClick={confirmarEliminar}
+                style={{ background: "var(--danger)", color: "#fff" }}
+                className="px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition">
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -271,8 +305,8 @@ export default function ModuloOficios() {
                     className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition whitespace-nowrap">
                     📝 Generar Oficio
                   </button>
-                  <button onClick={() => eliminar(oficio.id)}
-                    style={{ color: "var(--text-muted)" }}
+                  <button onClick={() => setOficioAEliminar(oficio.id)}
+                    style={{ color: "var(--danger)" }}
                     className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition">
                     Eliminar
                   </button>

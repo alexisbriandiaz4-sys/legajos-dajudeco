@@ -46,6 +46,8 @@ export const OficioSchema = z.object({
   numeroLinea:      z.string().max(30).optional().or(z.literal('')),
   imeiSeleccionado: z.string().max(20).optional().or(z.literal('')),
   fechaEnvio:       z.string().optional().or(z.literal('')),
+  estado:           z.enum(['Pendiente', 'Enviado', 'Respondido', 'Vencido']).optional(),
+  fechaRespuesta:   z.string().optional().or(z.literal('')),
 })
 
 // ── Fiscal ──
