@@ -1,5 +1,4 @@
 // app/api/oficios/route.ts
-// CAMBIOS: agrega campo "columnas" en POST y en el include del GET
 
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
@@ -54,14 +53,16 @@ export async function POST(request: Request) {
 
     const oficio = await prisma.oficio.create({
       data: {
-        legajoId: body.legajoId,
-        operadora: body.operadora,
-        tipo: body.tipo,
-        urgencia: body.urgencia ?? '48 horas',
-        numero: body.numero ?? null,
+        legajoId:      body.legajoId,
+        operadora:     body.operadora,
+        tipo:          body.tipo,
+        urgencia:      body.urgencia      ?? '48 horas',
+        numero:        body.numero        ?? null,
         observaciones: body.observaciones ?? null,
-        columnas: body.columnas ?? null,
-        fechaEnvio: body.fechaEnvio ? new Date(body.fechaEnvio) : null,
+        columnas:      body.columnas      ?? null,
+        tipoConsulta:  body.tipoConsulta  ?? 'imei',
+        numeroLinea:   body.numeroLinea   ?? null,
+        fechaEnvio:    body.fechaEnvio ? new Date(body.fechaEnvio) : null,
       },
       include: {
         legajo: {

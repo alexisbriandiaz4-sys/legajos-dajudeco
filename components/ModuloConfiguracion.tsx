@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Scale, Download, Plus, Pencil, Trash2, X, Eye, EyeOff, CheckCircle, XCircle, Shield, User } from "lucide-react";
+import { Users, Scale, Download, Plus, Pencil, Trash2, X, Eye, EyeOff, CheckCircle, XCircle, Shield, User, Settings } from "lucide-react";
 
 interface Fiscal {
   id: string; nombre: string; cargo?: string; fiscalia?: string;
@@ -15,27 +15,28 @@ interface Usuario {
   rol: string; activo: boolean; createdAt: string;
 }
 
-type Seccion = "fiscales" | "usuarios" | "backup";
+type Seccion = "general" | "fiscales" | "usuarios" | "backup";
 
 const inputStyle = { background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-primary)" };
 const inputClass = "w-full rounded-lg px-3 py-2 text-sm outline-none";
 const labelStyle = { color: "var(--text-muted)" };
 
 export default function ModuloConfiguracion() {
-  const [seccion, setSeccion] = useState<Seccion>("fiscales");
+  const [seccion, setSeccion] = useState<Seccion>("general");
 
   return (
     <div className="space-y-4">
       <div>
         <h2 style={{ color: "var(--text-primary)" }} className="text-xl font-bold">Configuración</h2>
-        <p style={{ color: "var(--text-muted)" }} className="text-sm">Gestión de fiscales, usuarios y backups</p>
+        <p style={{ color: "var(--text-muted)" }} className="text-sm">Gestión general, fiscales, usuarios y backups</p>
       </div>
 
       <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="flex rounded-xl p-1 gap-1">
         {([
-          { key: "fiscales", label: "Fiscales", icon: <Scale size={15} /> },
-          { key: "usuarios", label: "Usuarios", icon: <Users size={15} /> },
-          { key: "backup", label: "Backup", icon: <Download size={15} /> },
+          { key: "general",  label: "General",  icon: <Settings size={15} /> },
+          { key: "fiscales", label: "Fiscales",  icon: <Scale size={15} /> },
+          { key: "usuarios", label: "Usuarios",  icon: <Users size={15} /> },
+          { key: "backup",   label: "Backup",    icon: <Download size={15} /> },
         ] as { key: Seccion; label: string; icon: React.ReactNode }[]).map(({ key, label, icon }) => (
           <button key={key} onClick={() => setSeccion(key)}
             style={seccion === key ? { background: "var(--accent)", color: "#fff" } : { color: "var(--text-muted)" }}
@@ -45,9 +46,66 @@ export default function ModuloConfiguracion() {
         ))}
       </div>
 
+      {seccion === "general"  && <SeccionGeneral />}
       {seccion === "fiscales" && <SeccionFiscales />}
       {seccion === "usuarios" && <SeccionUsuarios />}
-      {seccion === "backup" && <SeccionBackup />}
+      {seccion === "backup"   && <SeccionBackup />}
+    </div>
+  );
+}
+
+function SeccionGeneral() {
+  const [email, setEmail] = useState("");
+  const [guardando, setGuardando] = useState(false);
+  const [mensaje, setMensaje] = useState("");
+
+  useEffect(() => {
+    fetch("/api/configuracion")
+      .then(r => r.json())
+      .then(d => setEmail(d.emailRespuesta || ""));
+  }, []);
+
+  async function guardar() {
+    setGuardando(true); setMensaje("");
+    try {
+      const res = await fetch("/api/configuracion", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emailRespuesta: email }),
+      });
+      if (res.ok) setMensaje("✅ Guardado correctamente");
+      else setMensaje("❌ Error al guardar");
+    } catch { setMensaje("❌ Error de conexión"); }
+    finally { setGuardando(false); }
+  }
+
+  return (
+    <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 space-y-4">
+      <h3 style={{ color: "var(--text-primary)" }} className="font-semibold">Configuración general</h3>
+      <div>
+        <label style={labelStyle} className="text-xs mb-1 block">
+          Correo de respuesta para oficios fiscales
+        </label>
+        <input
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          style={inputStyle}
+          className={inputClass}
+          placeholder="Ej: abdiaz@santafe.gov.ar"
+        />
+        <p style={{ color: "var(--text-muted)" }} className="text-xs mt-1">
+          Este correo aparecerá al final de cada oficio fiscal generado.
+        </p>
+      </div>
+      <button onClick={guardar} disabled={guardando} style={{ background: "var(--accent)" }}
+        className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90 transition disabled:opacity-50">
+        {guardando ? "Guardando..." : "Guardar"}
+      </button>
+      {mensaje && (
+        <p style={{ color: mensaje.includes("✅") ? "var(--success)" : "var(--danger)" }} className="text-sm text-center">
+          {mensaje}
+        </p>
+      )}
     </div>
   );
 }
@@ -165,7 +223,6 @@ function SeccionFiscales() {
   );
 }
 
-// ── Formulario Fiscal — cada campo tiene su propio useState para evitar pérdida de foco ──
 function FormularioFiscal({ fiscal, onCerrar, onGuardado }: {
   fiscal: Fiscal | null; onCerrar: () => void; onGuardado: () => void;
 }) {

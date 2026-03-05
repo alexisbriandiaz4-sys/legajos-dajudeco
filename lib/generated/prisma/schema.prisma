@@ -72,6 +72,8 @@ model Oficio {
   urgencia       String      @default("48 horas")
   observaciones  String?
   columnas       String?
+  tipoConsulta   String?
+  numeroLinea    String?
   createdAt      DateTime    @default(now())
   legajoId       String
   legajo         Legajo      @relation(fields: [legajoId], references: [id], onDelete: Cascade)
@@ -103,4 +105,11 @@ model Fiscal {
   createdAt       DateTime @default(now())
   usuarioId       String
   usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Configuracion {
+  id             String   @id @default("global")
+  emailRespuesta String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

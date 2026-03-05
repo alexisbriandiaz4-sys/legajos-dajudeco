@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Search, FileText, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import FormularioOficio from "./FormularioOficio";
 import { generarPDFOficio } from "@/lib/generarPDF";
+import { generarOficioFiscal } from "@/lib/generarOficioFiscal";
 
 interface Legajo {
   id: string; numero: string; caratula: string;
@@ -18,6 +19,8 @@ interface Oficio {
   fechaRespuesta?: string; observaciones?: string; createdAt: string;
   legajo: Legajo;
   columnas?: string;
+  tipoConsulta?: string;
+  numeroLinea?: string;
 }
 
 const ESTADOS = ["Todos", "Pendiente", "Enviado", "Respondido", "Sin respuesta"];
@@ -209,7 +212,7 @@ export default function ModuloOficios() {
                   </div>
                 </div>
 
-                {/* Acciones */}
+{/* Acciones */}
                 <div className="flex flex-col gap-1 shrink-0">
                   {oficio.estado === "Pendiente" && (
                     <button onClick={() => cambiarEstado(oficio.id, "Enviado")}
@@ -236,6 +239,11 @@ export default function ModuloOficios() {
                     style={{ background: "rgba(34,197,94,0.15)", color: "var(--success)" }}
                     className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition whitespace-nowrap">
                     📄 Generar PDF
+                  </button>
+                  <button onClick={() => generarOficioFiscal(oficio)}
+                    style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent)" }}
+                    className="text-xs px-2 py-1 rounded-lg hover:opacity-80 transition whitespace-nowrap">
+                    📝 Generar Oficio
                   </button>
                   <button onClick={() => eliminar(oficio.id)}
                     style={{ color: "var(--text-muted)" }}
