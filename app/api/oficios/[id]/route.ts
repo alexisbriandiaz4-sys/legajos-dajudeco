@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
-import { OficioSchema } from '@/lib/validators'
+import { OficioSchema, handlePrismaError } from '@/lib/validators'
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -29,7 +29,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     return NextResponse.json(oficio)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al actualizar oficio' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -43,6 +44,7 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al eliminar oficio' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }

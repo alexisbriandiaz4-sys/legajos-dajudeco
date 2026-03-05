@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
-import { LegajoSchema } from '@/lib/validators'
+import { LegajoSchema, handlePrismaError } from '@/lib/validators'
 
 export async function GET() {
   try {
@@ -16,7 +16,8 @@ export async function GET() {
     return NextResponse.json(legajos)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al obtener legajos' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -28,10 +29,7 @@ export async function POST(request: Request) {
     const json = await request.json()
     const parsed = LegajoSchema.safeParse(json)
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.issues[0].message },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
     const body = parsed.data
 
@@ -45,15 +43,15 @@ export async function POST(request: Request) {
         estado:        body.estado,
         observaciones: body.observaciones || null,
         usuarioId,
-        victimas:    { create: body.victimas },
-        dispositivos:{ create: body.dispositivos },
+        victimas:     { create: body.victimas },
+        dispositivos: { create: body.dispositivos },
       },
       include: { victimas: true, dispositivos: true, oficios: true }
     })
     return NextResponse.json(legajo)
-  } catch (error: any) {
-    if (error.code === 'P2002') return NextResponse.json({ error: 'El número de legajo ya existe' }, { status: 400 })
+  } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al crear legajo' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
-import { LegajoSchema } from '@/lib/validators'
+import { LegajoSchema, handlePrismaError } from '@/lib/validators'
 
 export async function GET(_: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -17,7 +17,8 @@ export async function GET(_: Request, context: { params: Promise<{ id: string }>
     return NextResponse.json(legajo)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al obtener legajo' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -96,7 +97,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     return NextResponse.json(legajoActualizado)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al actualizar legajo' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -117,6 +119,7 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al eliminar legajo' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }

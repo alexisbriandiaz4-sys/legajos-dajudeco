@@ -72,4 +72,26 @@ export const UsuarioSchema = z.object({
   password: z.string().min(6, 'Mínimo 6 caracteres').max(100),
   rol:      z.enum(['admin', 'usuario']).default('usuario'),
   activo:   z.boolean().default(true),
+  
 })
+// ── Manejo de errores de Prisma ──
+import { Prisma } from '@/lib/generated/prisma'
+
+export function handlePrismaError(error: unknown): { message: string; status: number } {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    switch (error.code) {
+      case 'P2002':
+        return { message: `Ya existe un registro con ese valor (${(error.meta?.target as string[])?.join(', ') ?? 'campo único'})`, status: 400 }
+      case 'P2025':
+        return { message: 'El registro no existe o fue eliminado', status: 404 }
+      case 'P2003':
+        return { message: 'No se puede completar la operación por dependencias existentes', status: 400 }
+      case 'P2014':
+        return { message: 'La operación violaría una relación requerida', status: 400 }
+    }
+  }
+  if (error instanceof Prisma.PrismaClientValidationError) {
+    return { message: 'Datos inválidos enviados a la base de datos', status: 400 }
+  }
+  return { message: 'Error interno del servidor', status: 500 }
+}

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { getUsuarioId } from '@/lib/server-auth'
-import { OficioSchema } from '@/lib/validators'
+import { OficioSchema, handlePrismaError } from '@/lib/validators'
 
 export async function GET() {
   try {
@@ -18,7 +18,8 @@ export async function GET() {
     return NextResponse.json(oficios)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al obtener oficios' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -30,16 +31,11 @@ export async function POST(request: Request) {
     const json = await request.json()
     const parsed = OficioSchema.safeParse(json)
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.issues[0].message },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
     const body = parsed.data
 
-    const legajo = await prisma.legajo.findFirst({
-      where: { id: body.legajoId, usuarioId }
-    })
+    const legajo = await prisma.legajo.findFirst({ where: { id: body.legajoId, usuarioId } })
     if (!legajo) return NextResponse.json({ error: 'Legajo no encontrado' }, { status: 404 })
 
     const oficio = await prisma.oficio.create({
@@ -63,6 +59,7 @@ export async function POST(request: Request) {
     return NextResponse.json(oficio)
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ error: 'Error al crear oficio' }, { status: 500 })
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
