@@ -53,6 +53,11 @@ export type Fiscal = $Result.DefaultSelection<Prisma.$FiscalPayload>
  * 
  */
 export type Configuracion = $Result.DefaultSelection<Prisma.$ConfiguracionPayload>
+/**
+ * Model RegistroTelefonia
+ * 
+ */
+export type RegistroTelefonia = $Result.DefaultSelection<Prisma.$RegistroTelefoniaPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -256,6 +261,16 @@ export class PrismaClient<
     * ```
     */
   get configuracion(): Prisma.ConfiguracionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.registroTelefonia`: Exposes CRUD operations for the **RegistroTelefonia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RegistroTelefonias
+    * const registroTelefonias = await prisma.registroTelefonia.findMany()
+    * ```
+    */
+  get registroTelefonia(): Prisma.RegistroTelefoniaDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -704,7 +719,8 @@ export namespace Prisma {
     Oficio: 'Oficio',
     Respuesta: 'Respuesta',
     Fiscal: 'Fiscal',
-    Configuracion: 'Configuracion'
+    Configuracion: 'Configuracion',
+    RegistroTelefonia: 'RegistroTelefonia'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -720,7 +736,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion"
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1281,6 +1297,76 @@ export namespace Prisma {
           count: {
             args: Prisma.ConfiguracionCountArgs<ExtArgs>
             result: $Utils.Optional<ConfiguracionCountAggregateOutputType> | number
+          }
+        }
+      }
+      RegistroTelefonia: {
+        payload: Prisma.$RegistroTelefoniaPayload<ExtArgs>
+        fields: Prisma.RegistroTelefoniaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RegistroTelefoniaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RegistroTelefoniaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          findFirst: {
+            args: Prisma.RegistroTelefoniaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RegistroTelefoniaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          findMany: {
+            args: Prisma.RegistroTelefoniaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>[]
+          }
+          create: {
+            args: Prisma.RegistroTelefoniaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          createMany: {
+            args: Prisma.RegistroTelefoniaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RegistroTelefoniaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>[]
+          }
+          delete: {
+            args: Prisma.RegistroTelefoniaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          update: {
+            args: Prisma.RegistroTelefoniaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          deleteMany: {
+            args: Prisma.RegistroTelefoniaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RegistroTelefoniaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RegistroTelefoniaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RegistroTelefoniaPayload>
+          }
+          aggregate: {
+            args: Prisma.RegistroTelefoniaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRegistroTelefonia>
+          }
+          groupBy: {
+            args: Prisma.RegistroTelefoniaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RegistroTelefoniaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RegistroTelefoniaCountArgs<ExtArgs>
+            result: $Utils.Optional<RegistroTelefoniaCountAggregateOutputType> | number
           }
         }
       }
@@ -9575,6 +9661,1222 @@ export namespace Prisma {
 
 
   /**
+   * Model RegistroTelefonia
+   */
+
+  export type AggregateRegistroTelefonia = {
+    _count: RegistroTelefoniaCountAggregateOutputType | null
+    _avg: RegistroTelefoniaAvgAggregateOutputType | null
+    _sum: RegistroTelefoniaSumAggregateOutputType | null
+    _min: RegistroTelefoniaMinAggregateOutputType | null
+    _max: RegistroTelefoniaMaxAggregateOutputType | null
+  }
+
+  export type RegistroTelefoniaAvgAggregateOutputType = {
+    anio: number | null
+    nroInterno: number | null
+  }
+
+  export type RegistroTelefoniaSumAggregateOutputType = {
+    anio: number | null
+    nroInterno: number | null
+  }
+
+  export type RegistroTelefoniaMinAggregateOutputType = {
+    id: string | null
+    anio: number | null
+    nroLegajo: string | null
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaIngreso: Date | null
+    lugarHecho: string | null
+    barrio: string | null
+    victima: string | null
+    causa: string | null
+    aparato: string | null
+    empresa: string | null
+    abonado: string | null
+    imei: string | null
+    color: string | null
+    correo: string | null
+    clave: string | null
+    fiscal: string | null
+    depOrigen: string | null
+    nroCom: string | null
+    rpiComisaria: string | null
+    rpiCompleja: string | null
+    observaciones: string | null
+    estadoLegajo: string | null
+    elevaciones: string | null
+    imputados: string | null
+    requisa: string | null
+    procedimientos: string | null
+    createdAt: Date | null
+  }
+
+  export type RegistroTelefoniaMaxAggregateOutputType = {
+    id: string | null
+    anio: number | null
+    nroLegajo: string | null
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaIngreso: Date | null
+    lugarHecho: string | null
+    barrio: string | null
+    victima: string | null
+    causa: string | null
+    aparato: string | null
+    empresa: string | null
+    abonado: string | null
+    imei: string | null
+    color: string | null
+    correo: string | null
+    clave: string | null
+    fiscal: string | null
+    depOrigen: string | null
+    nroCom: string | null
+    rpiComisaria: string | null
+    rpiCompleja: string | null
+    observaciones: string | null
+    estadoLegajo: string | null
+    elevaciones: string | null
+    imputados: string | null
+    requisa: string | null
+    procedimientos: string | null
+    createdAt: Date | null
+  }
+
+  export type RegistroTelefoniaCountAggregateOutputType = {
+    id: number
+    anio: number
+    nroLegajo: number
+    nroInterno: number
+    cuij: number
+    fechaHecho: number
+    fechaIngreso: number
+    lugarHecho: number
+    barrio: number
+    victima: number
+    causa: number
+    aparato: number
+    empresa: number
+    abonado: number
+    imei: number
+    color: number
+    correo: number
+    clave: number
+    fiscal: number
+    depOrigen: number
+    nroCom: number
+    rpiComisaria: number
+    rpiCompleja: number
+    observaciones: number
+    estadoLegajo: number
+    elevaciones: number
+    imputados: number
+    requisa: number
+    procedimientos: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RegistroTelefoniaAvgAggregateInputType = {
+    anio?: true
+    nroInterno?: true
+  }
+
+  export type RegistroTelefoniaSumAggregateInputType = {
+    anio?: true
+    nroInterno?: true
+  }
+
+  export type RegistroTelefoniaMinAggregateInputType = {
+    id?: true
+    anio?: true
+    nroLegajo?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaIngreso?: true
+    lugarHecho?: true
+    barrio?: true
+    victima?: true
+    causa?: true
+    aparato?: true
+    empresa?: true
+    abonado?: true
+    imei?: true
+    color?: true
+    correo?: true
+    clave?: true
+    fiscal?: true
+    depOrigen?: true
+    nroCom?: true
+    rpiComisaria?: true
+    rpiCompleja?: true
+    observaciones?: true
+    estadoLegajo?: true
+    elevaciones?: true
+    imputados?: true
+    requisa?: true
+    procedimientos?: true
+    createdAt?: true
+  }
+
+  export type RegistroTelefoniaMaxAggregateInputType = {
+    id?: true
+    anio?: true
+    nroLegajo?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaIngreso?: true
+    lugarHecho?: true
+    barrio?: true
+    victima?: true
+    causa?: true
+    aparato?: true
+    empresa?: true
+    abonado?: true
+    imei?: true
+    color?: true
+    correo?: true
+    clave?: true
+    fiscal?: true
+    depOrigen?: true
+    nroCom?: true
+    rpiComisaria?: true
+    rpiCompleja?: true
+    observaciones?: true
+    estadoLegajo?: true
+    elevaciones?: true
+    imputados?: true
+    requisa?: true
+    procedimientos?: true
+    createdAt?: true
+  }
+
+  export type RegistroTelefoniaCountAggregateInputType = {
+    id?: true
+    anio?: true
+    nroLegajo?: true
+    nroInterno?: true
+    cuij?: true
+    fechaHecho?: true
+    fechaIngreso?: true
+    lugarHecho?: true
+    barrio?: true
+    victima?: true
+    causa?: true
+    aparato?: true
+    empresa?: true
+    abonado?: true
+    imei?: true
+    color?: true
+    correo?: true
+    clave?: true
+    fiscal?: true
+    depOrigen?: true
+    nroCom?: true
+    rpiComisaria?: true
+    rpiCompleja?: true
+    observaciones?: true
+    estadoLegajo?: true
+    elevaciones?: true
+    imputados?: true
+    requisa?: true
+    procedimientos?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RegistroTelefoniaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RegistroTelefonia to aggregate.
+     */
+    where?: RegistroTelefoniaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroTelefonias to fetch.
+     */
+    orderBy?: RegistroTelefoniaOrderByWithRelationInput | RegistroTelefoniaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RegistroTelefoniaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroTelefonias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroTelefonias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RegistroTelefonias
+    **/
+    _count?: true | RegistroTelefoniaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RegistroTelefoniaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RegistroTelefoniaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RegistroTelefoniaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RegistroTelefoniaMaxAggregateInputType
+  }
+
+  export type GetRegistroTelefoniaAggregateType<T extends RegistroTelefoniaAggregateArgs> = {
+        [P in keyof T & keyof AggregateRegistroTelefonia]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRegistroTelefonia[P]>
+      : GetScalarType<T[P], AggregateRegistroTelefonia[P]>
+  }
+
+
+
+
+  export type RegistroTelefoniaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RegistroTelefoniaWhereInput
+    orderBy?: RegistroTelefoniaOrderByWithAggregationInput | RegistroTelefoniaOrderByWithAggregationInput[]
+    by: RegistroTelefoniaScalarFieldEnum[] | RegistroTelefoniaScalarFieldEnum
+    having?: RegistroTelefoniaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RegistroTelefoniaCountAggregateInputType | true
+    _avg?: RegistroTelefoniaAvgAggregateInputType
+    _sum?: RegistroTelefoniaSumAggregateInputType
+    _min?: RegistroTelefoniaMinAggregateInputType
+    _max?: RegistroTelefoniaMaxAggregateInputType
+  }
+
+  export type RegistroTelefoniaGroupByOutputType = {
+    id: string
+    anio: number | null
+    nroLegajo: string | null
+    nroInterno: number | null
+    cuij: string | null
+    fechaHecho: Date | null
+    fechaIngreso: Date | null
+    lugarHecho: string | null
+    barrio: string | null
+    victima: string | null
+    causa: string | null
+    aparato: string | null
+    empresa: string | null
+    abonado: string | null
+    imei: string | null
+    color: string | null
+    correo: string | null
+    clave: string | null
+    fiscal: string | null
+    depOrigen: string | null
+    nroCom: string | null
+    rpiComisaria: string | null
+    rpiCompleja: string | null
+    observaciones: string | null
+    estadoLegajo: string | null
+    elevaciones: string | null
+    imputados: string | null
+    requisa: string | null
+    procedimientos: string | null
+    createdAt: Date
+    _count: RegistroTelefoniaCountAggregateOutputType | null
+    _avg: RegistroTelefoniaAvgAggregateOutputType | null
+    _sum: RegistroTelefoniaSumAggregateOutputType | null
+    _min: RegistroTelefoniaMinAggregateOutputType | null
+    _max: RegistroTelefoniaMaxAggregateOutputType | null
+  }
+
+  type GetRegistroTelefoniaGroupByPayload<T extends RegistroTelefoniaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RegistroTelefoniaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RegistroTelefoniaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RegistroTelefoniaGroupByOutputType[P]>
+            : GetScalarType<T[P], RegistroTelefoniaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RegistroTelefoniaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    anio?: boolean
+    nroLegajo?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaIngreso?: boolean
+    lugarHecho?: boolean
+    barrio?: boolean
+    victima?: boolean
+    causa?: boolean
+    aparato?: boolean
+    empresa?: boolean
+    abonado?: boolean
+    imei?: boolean
+    color?: boolean
+    correo?: boolean
+    clave?: boolean
+    fiscal?: boolean
+    depOrigen?: boolean
+    nroCom?: boolean
+    rpiComisaria?: boolean
+    rpiCompleja?: boolean
+    observaciones?: boolean
+    estadoLegajo?: boolean
+    elevaciones?: boolean
+    imputados?: boolean
+    requisa?: boolean
+    procedimientos?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["registroTelefonia"]>
+
+  export type RegistroTelefoniaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    anio?: boolean
+    nroLegajo?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaIngreso?: boolean
+    lugarHecho?: boolean
+    barrio?: boolean
+    victima?: boolean
+    causa?: boolean
+    aparato?: boolean
+    empresa?: boolean
+    abonado?: boolean
+    imei?: boolean
+    color?: boolean
+    correo?: boolean
+    clave?: boolean
+    fiscal?: boolean
+    depOrigen?: boolean
+    nroCom?: boolean
+    rpiComisaria?: boolean
+    rpiCompleja?: boolean
+    observaciones?: boolean
+    estadoLegajo?: boolean
+    elevaciones?: boolean
+    imputados?: boolean
+    requisa?: boolean
+    procedimientos?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["registroTelefonia"]>
+
+  export type RegistroTelefoniaSelectScalar = {
+    id?: boolean
+    anio?: boolean
+    nroLegajo?: boolean
+    nroInterno?: boolean
+    cuij?: boolean
+    fechaHecho?: boolean
+    fechaIngreso?: boolean
+    lugarHecho?: boolean
+    barrio?: boolean
+    victima?: boolean
+    causa?: boolean
+    aparato?: boolean
+    empresa?: boolean
+    abonado?: boolean
+    imei?: boolean
+    color?: boolean
+    correo?: boolean
+    clave?: boolean
+    fiscal?: boolean
+    depOrigen?: boolean
+    nroCom?: boolean
+    rpiComisaria?: boolean
+    rpiCompleja?: boolean
+    observaciones?: boolean
+    estadoLegajo?: boolean
+    elevaciones?: boolean
+    imputados?: boolean
+    requisa?: boolean
+    procedimientos?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $RegistroTelefoniaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RegistroTelefonia"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      anio: number | null
+      nroLegajo: string | null
+      nroInterno: number | null
+      cuij: string | null
+      fechaHecho: Date | null
+      fechaIngreso: Date | null
+      lugarHecho: string | null
+      barrio: string | null
+      victima: string | null
+      causa: string | null
+      aparato: string | null
+      empresa: string | null
+      abonado: string | null
+      imei: string | null
+      color: string | null
+      correo: string | null
+      clave: string | null
+      fiscal: string | null
+      depOrigen: string | null
+      nroCom: string | null
+      rpiComisaria: string | null
+      rpiCompleja: string | null
+      observaciones: string | null
+      estadoLegajo: string | null
+      elevaciones: string | null
+      imputados: string | null
+      requisa: string | null
+      procedimientos: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["registroTelefonia"]>
+    composites: {}
+  }
+
+  type RegistroTelefoniaGetPayload<S extends boolean | null | undefined | RegistroTelefoniaDefaultArgs> = $Result.GetResult<Prisma.$RegistroTelefoniaPayload, S>
+
+  type RegistroTelefoniaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RegistroTelefoniaFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RegistroTelefoniaCountAggregateInputType | true
+    }
+
+  export interface RegistroTelefoniaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RegistroTelefonia'], meta: { name: 'RegistroTelefonia' } }
+    /**
+     * Find zero or one RegistroTelefonia that matches the filter.
+     * @param {RegistroTelefoniaFindUniqueArgs} args - Arguments to find a RegistroTelefonia
+     * @example
+     * // Get one RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RegistroTelefoniaFindUniqueArgs>(args: SelectSubset<T, RegistroTelefoniaFindUniqueArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RegistroTelefonia that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RegistroTelefoniaFindUniqueOrThrowArgs} args - Arguments to find a RegistroTelefonia
+     * @example
+     * // Get one RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RegistroTelefoniaFindUniqueOrThrowArgs>(args: SelectSubset<T, RegistroTelefoniaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RegistroTelefonia that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaFindFirstArgs} args - Arguments to find a RegistroTelefonia
+     * @example
+     * // Get one RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RegistroTelefoniaFindFirstArgs>(args?: SelectSubset<T, RegistroTelefoniaFindFirstArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RegistroTelefonia that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaFindFirstOrThrowArgs} args - Arguments to find a RegistroTelefonia
+     * @example
+     * // Get one RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RegistroTelefoniaFindFirstOrThrowArgs>(args?: SelectSubset<T, RegistroTelefoniaFindFirstOrThrowArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RegistroTelefonias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RegistroTelefonias
+     * const registroTelefonias = await prisma.registroTelefonia.findMany()
+     * 
+     * // Get first 10 RegistroTelefonias
+     * const registroTelefonias = await prisma.registroTelefonia.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const registroTelefoniaWithIdOnly = await prisma.registroTelefonia.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RegistroTelefoniaFindManyArgs>(args?: SelectSubset<T, RegistroTelefoniaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RegistroTelefonia.
+     * @param {RegistroTelefoniaCreateArgs} args - Arguments to create a RegistroTelefonia.
+     * @example
+     * // Create one RegistroTelefonia
+     * const RegistroTelefonia = await prisma.registroTelefonia.create({
+     *   data: {
+     *     // ... data to create a RegistroTelefonia
+     *   }
+     * })
+     * 
+     */
+    create<T extends RegistroTelefoniaCreateArgs>(args: SelectSubset<T, RegistroTelefoniaCreateArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RegistroTelefonias.
+     * @param {RegistroTelefoniaCreateManyArgs} args - Arguments to create many RegistroTelefonias.
+     * @example
+     * // Create many RegistroTelefonias
+     * const registroTelefonia = await prisma.registroTelefonia.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RegistroTelefoniaCreateManyArgs>(args?: SelectSubset<T, RegistroTelefoniaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RegistroTelefonias and returns the data saved in the database.
+     * @param {RegistroTelefoniaCreateManyAndReturnArgs} args - Arguments to create many RegistroTelefonias.
+     * @example
+     * // Create many RegistroTelefonias
+     * const registroTelefonia = await prisma.registroTelefonia.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RegistroTelefonias and only return the `id`
+     * const registroTelefoniaWithIdOnly = await prisma.registroTelefonia.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RegistroTelefoniaCreateManyAndReturnArgs>(args?: SelectSubset<T, RegistroTelefoniaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RegistroTelefonia.
+     * @param {RegistroTelefoniaDeleteArgs} args - Arguments to delete one RegistroTelefonia.
+     * @example
+     * // Delete one RegistroTelefonia
+     * const RegistroTelefonia = await prisma.registroTelefonia.delete({
+     *   where: {
+     *     // ... filter to delete one RegistroTelefonia
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RegistroTelefoniaDeleteArgs>(args: SelectSubset<T, RegistroTelefoniaDeleteArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RegistroTelefonia.
+     * @param {RegistroTelefoniaUpdateArgs} args - Arguments to update one RegistroTelefonia.
+     * @example
+     * // Update one RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RegistroTelefoniaUpdateArgs>(args: SelectSubset<T, RegistroTelefoniaUpdateArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RegistroTelefonias.
+     * @param {RegistroTelefoniaDeleteManyArgs} args - Arguments to filter RegistroTelefonias to delete.
+     * @example
+     * // Delete a few RegistroTelefonias
+     * const { count } = await prisma.registroTelefonia.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RegistroTelefoniaDeleteManyArgs>(args?: SelectSubset<T, RegistroTelefoniaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RegistroTelefonias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RegistroTelefonias
+     * const registroTelefonia = await prisma.registroTelefonia.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RegistroTelefoniaUpdateManyArgs>(args: SelectSubset<T, RegistroTelefoniaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RegistroTelefonia.
+     * @param {RegistroTelefoniaUpsertArgs} args - Arguments to update or create a RegistroTelefonia.
+     * @example
+     * // Update or create a RegistroTelefonia
+     * const registroTelefonia = await prisma.registroTelefonia.upsert({
+     *   create: {
+     *     // ... data to create a RegistroTelefonia
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RegistroTelefonia we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RegistroTelefoniaUpsertArgs>(args: SelectSubset<T, RegistroTelefoniaUpsertArgs<ExtArgs>>): Prisma__RegistroTelefoniaClient<$Result.GetResult<Prisma.$RegistroTelefoniaPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RegistroTelefonias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaCountArgs} args - Arguments to filter RegistroTelefonias to count.
+     * @example
+     * // Count the number of RegistroTelefonias
+     * const count = await prisma.registroTelefonia.count({
+     *   where: {
+     *     // ... the filter for the RegistroTelefonias we want to count
+     *   }
+     * })
+    **/
+    count<T extends RegistroTelefoniaCountArgs>(
+      args?: Subset<T, RegistroTelefoniaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RegistroTelefoniaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RegistroTelefonia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RegistroTelefoniaAggregateArgs>(args: Subset<T, RegistroTelefoniaAggregateArgs>): Prisma.PrismaPromise<GetRegistroTelefoniaAggregateType<T>>
+
+    /**
+     * Group by RegistroTelefonia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RegistroTelefoniaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RegistroTelefoniaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RegistroTelefoniaGroupByArgs['orderBy'] }
+        : { orderBy?: RegistroTelefoniaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RegistroTelefoniaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRegistroTelefoniaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RegistroTelefonia model
+   */
+  readonly fields: RegistroTelefoniaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RegistroTelefonia.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RegistroTelefoniaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RegistroTelefonia model
+   */ 
+  interface RegistroTelefoniaFieldRefs {
+    readonly id: FieldRef<"RegistroTelefonia", 'String'>
+    readonly anio: FieldRef<"RegistroTelefonia", 'Int'>
+    readonly nroLegajo: FieldRef<"RegistroTelefonia", 'String'>
+    readonly nroInterno: FieldRef<"RegistroTelefonia", 'Int'>
+    readonly cuij: FieldRef<"RegistroTelefonia", 'String'>
+    readonly fechaHecho: FieldRef<"RegistroTelefonia", 'DateTime'>
+    readonly fechaIngreso: FieldRef<"RegistroTelefonia", 'DateTime'>
+    readonly lugarHecho: FieldRef<"RegistroTelefonia", 'String'>
+    readonly barrio: FieldRef<"RegistroTelefonia", 'String'>
+    readonly victima: FieldRef<"RegistroTelefonia", 'String'>
+    readonly causa: FieldRef<"RegistroTelefonia", 'String'>
+    readonly aparato: FieldRef<"RegistroTelefonia", 'String'>
+    readonly empresa: FieldRef<"RegistroTelefonia", 'String'>
+    readonly abonado: FieldRef<"RegistroTelefonia", 'String'>
+    readonly imei: FieldRef<"RegistroTelefonia", 'String'>
+    readonly color: FieldRef<"RegistroTelefonia", 'String'>
+    readonly correo: FieldRef<"RegistroTelefonia", 'String'>
+    readonly clave: FieldRef<"RegistroTelefonia", 'String'>
+    readonly fiscal: FieldRef<"RegistroTelefonia", 'String'>
+    readonly depOrigen: FieldRef<"RegistroTelefonia", 'String'>
+    readonly nroCom: FieldRef<"RegistroTelefonia", 'String'>
+    readonly rpiComisaria: FieldRef<"RegistroTelefonia", 'String'>
+    readonly rpiCompleja: FieldRef<"RegistroTelefonia", 'String'>
+    readonly observaciones: FieldRef<"RegistroTelefonia", 'String'>
+    readonly estadoLegajo: FieldRef<"RegistroTelefonia", 'String'>
+    readonly elevaciones: FieldRef<"RegistroTelefonia", 'String'>
+    readonly imputados: FieldRef<"RegistroTelefonia", 'String'>
+    readonly requisa: FieldRef<"RegistroTelefonia", 'String'>
+    readonly procedimientos: FieldRef<"RegistroTelefonia", 'String'>
+    readonly createdAt: FieldRef<"RegistroTelefonia", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RegistroTelefonia findUnique
+   */
+  export type RegistroTelefoniaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroTelefonia to fetch.
+     */
+    where: RegistroTelefoniaWhereUniqueInput
+  }
+
+  /**
+   * RegistroTelefonia findUniqueOrThrow
+   */
+  export type RegistroTelefoniaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroTelefonia to fetch.
+     */
+    where: RegistroTelefoniaWhereUniqueInput
+  }
+
+  /**
+   * RegistroTelefonia findFirst
+   */
+  export type RegistroTelefoniaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroTelefonia to fetch.
+     */
+    where?: RegistroTelefoniaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroTelefonias to fetch.
+     */
+    orderBy?: RegistroTelefoniaOrderByWithRelationInput | RegistroTelefoniaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RegistroTelefonias.
+     */
+    cursor?: RegistroTelefoniaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroTelefonias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroTelefonias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RegistroTelefonias.
+     */
+    distinct?: RegistroTelefoniaScalarFieldEnum | RegistroTelefoniaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroTelefonia findFirstOrThrow
+   */
+  export type RegistroTelefoniaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroTelefonia to fetch.
+     */
+    where?: RegistroTelefoniaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroTelefonias to fetch.
+     */
+    orderBy?: RegistroTelefoniaOrderByWithRelationInput | RegistroTelefoniaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RegistroTelefonias.
+     */
+    cursor?: RegistroTelefoniaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroTelefonias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroTelefonias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RegistroTelefonias.
+     */
+    distinct?: RegistroTelefoniaScalarFieldEnum | RegistroTelefoniaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroTelefonia findMany
+   */
+  export type RegistroTelefoniaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter, which RegistroTelefonias to fetch.
+     */
+    where?: RegistroTelefoniaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RegistroTelefonias to fetch.
+     */
+    orderBy?: RegistroTelefoniaOrderByWithRelationInput | RegistroTelefoniaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RegistroTelefonias.
+     */
+    cursor?: RegistroTelefoniaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RegistroTelefonias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RegistroTelefonias.
+     */
+    skip?: number
+    distinct?: RegistroTelefoniaScalarFieldEnum | RegistroTelefoniaScalarFieldEnum[]
+  }
+
+  /**
+   * RegistroTelefonia create
+   */
+  export type RegistroTelefoniaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * The data needed to create a RegistroTelefonia.
+     */
+    data?: XOR<RegistroTelefoniaCreateInput, RegistroTelefoniaUncheckedCreateInput>
+  }
+
+  /**
+   * RegistroTelefonia createMany
+   */
+  export type RegistroTelefoniaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RegistroTelefonias.
+     */
+    data: RegistroTelefoniaCreateManyInput | RegistroTelefoniaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RegistroTelefonia createManyAndReturn
+   */
+  export type RegistroTelefoniaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RegistroTelefonias.
+     */
+    data: RegistroTelefoniaCreateManyInput | RegistroTelefoniaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RegistroTelefonia update
+   */
+  export type RegistroTelefoniaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * The data needed to update a RegistroTelefonia.
+     */
+    data: XOR<RegistroTelefoniaUpdateInput, RegistroTelefoniaUncheckedUpdateInput>
+    /**
+     * Choose, which RegistroTelefonia to update.
+     */
+    where: RegistroTelefoniaWhereUniqueInput
+  }
+
+  /**
+   * RegistroTelefonia updateMany
+   */
+  export type RegistroTelefoniaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RegistroTelefonias.
+     */
+    data: XOR<RegistroTelefoniaUpdateManyMutationInput, RegistroTelefoniaUncheckedUpdateManyInput>
+    /**
+     * Filter which RegistroTelefonias to update
+     */
+    where?: RegistroTelefoniaWhereInput
+  }
+
+  /**
+   * RegistroTelefonia upsert
+   */
+  export type RegistroTelefoniaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * The filter to search for the RegistroTelefonia to update in case it exists.
+     */
+    where: RegistroTelefoniaWhereUniqueInput
+    /**
+     * In case the RegistroTelefonia found by the `where` argument doesn't exist, create a new RegistroTelefonia with this data.
+     */
+    create: XOR<RegistroTelefoniaCreateInput, RegistroTelefoniaUncheckedCreateInput>
+    /**
+     * In case the RegistroTelefonia was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RegistroTelefoniaUpdateInput, RegistroTelefoniaUncheckedUpdateInput>
+  }
+
+  /**
+   * RegistroTelefonia delete
+   */
+  export type RegistroTelefoniaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+    /**
+     * Filter which RegistroTelefonia to delete.
+     */
+    where: RegistroTelefoniaWhereUniqueInput
+  }
+
+  /**
+   * RegistroTelefonia deleteMany
+   */
+  export type RegistroTelefoniaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RegistroTelefonias to delete
+     */
+    where?: RegistroTelefoniaWhereInput
+  }
+
+  /**
+   * RegistroTelefonia without action
+   */
+  export type RegistroTelefoniaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RegistroTelefonia
+     */
+    select?: RegistroTelefoniaSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9709,6 +11011,42 @@ export namespace Prisma {
   };
 
   export type ConfiguracionScalarFieldEnum = (typeof ConfiguracionScalarFieldEnum)[keyof typeof ConfiguracionScalarFieldEnum]
+
+
+  export const RegistroTelefoniaScalarFieldEnum: {
+    id: 'id',
+    anio: 'anio',
+    nroLegajo: 'nroLegajo',
+    nroInterno: 'nroInterno',
+    cuij: 'cuij',
+    fechaHecho: 'fechaHecho',
+    fechaIngreso: 'fechaIngreso',
+    lugarHecho: 'lugarHecho',
+    barrio: 'barrio',
+    victima: 'victima',
+    causa: 'causa',
+    aparato: 'aparato',
+    empresa: 'empresa',
+    abonado: 'abonado',
+    imei: 'imei',
+    color: 'color',
+    correo: 'correo',
+    clave: 'clave',
+    fiscal: 'fiscal',
+    depOrigen: 'depOrigen',
+    nroCom: 'nroCom',
+    rpiComisaria: 'rpiComisaria',
+    rpiCompleja: 'rpiCompleja',
+    observaciones: 'observaciones',
+    estadoLegajo: 'estadoLegajo',
+    elevaciones: 'elevaciones',
+    imputados: 'imputados',
+    requisa: 'requisa',
+    procedimientos: 'procedimientos',
+    createdAt: 'createdAt'
+  };
+
+  export type RegistroTelefoniaScalarFieldEnum = (typeof RegistroTelefoniaScalarFieldEnum)[keyof typeof RegistroTelefoniaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10435,6 +11773,185 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Configuracion"> | Date | string
   }
 
+  export type RegistroTelefoniaWhereInput = {
+    AND?: RegistroTelefoniaWhereInput | RegistroTelefoniaWhereInput[]
+    OR?: RegistroTelefoniaWhereInput[]
+    NOT?: RegistroTelefoniaWhereInput | RegistroTelefoniaWhereInput[]
+    id?: StringFilter<"RegistroTelefonia"> | string
+    anio?: IntNullableFilter<"RegistroTelefonia"> | number | null
+    nroLegajo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    nroInterno?: IntNullableFilter<"RegistroTelefonia"> | number | null
+    cuij?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    fechaHecho?: DateTimeNullableFilter<"RegistroTelefonia"> | Date | string | null
+    fechaIngreso?: DateTimeNullableFilter<"RegistroTelefonia"> | Date | string | null
+    lugarHecho?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    barrio?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    victima?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    causa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    aparato?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    empresa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    abonado?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    imei?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    color?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    correo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    clave?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    fiscal?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    depOrigen?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    nroCom?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    rpiComisaria?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    rpiCompleja?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    observaciones?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    estadoLegajo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    elevaciones?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    imputados?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    requisa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    procedimientos?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    createdAt?: DateTimeFilter<"RegistroTelefonia"> | Date | string
+  }
+
+  export type RegistroTelefoniaOrderByWithRelationInput = {
+    id?: SortOrder
+    anio?: SortOrderInput | SortOrder
+    nroLegajo?: SortOrderInput | SortOrder
+    nroInterno?: SortOrderInput | SortOrder
+    cuij?: SortOrderInput | SortOrder
+    fechaHecho?: SortOrderInput | SortOrder
+    fechaIngreso?: SortOrderInput | SortOrder
+    lugarHecho?: SortOrderInput | SortOrder
+    barrio?: SortOrderInput | SortOrder
+    victima?: SortOrderInput | SortOrder
+    causa?: SortOrderInput | SortOrder
+    aparato?: SortOrderInput | SortOrder
+    empresa?: SortOrderInput | SortOrder
+    abonado?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    correo?: SortOrderInput | SortOrder
+    clave?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    depOrigen?: SortOrderInput | SortOrder
+    nroCom?: SortOrderInput | SortOrder
+    rpiComisaria?: SortOrderInput | SortOrder
+    rpiCompleja?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    estadoLegajo?: SortOrderInput | SortOrder
+    elevaciones?: SortOrderInput | SortOrder
+    imputados?: SortOrderInput | SortOrder
+    requisa?: SortOrderInput | SortOrder
+    procedimientos?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroTelefoniaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RegistroTelefoniaWhereInput | RegistroTelefoniaWhereInput[]
+    OR?: RegistroTelefoniaWhereInput[]
+    NOT?: RegistroTelefoniaWhereInput | RegistroTelefoniaWhereInput[]
+    anio?: IntNullableFilter<"RegistroTelefonia"> | number | null
+    nroLegajo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    nroInterno?: IntNullableFilter<"RegistroTelefonia"> | number | null
+    cuij?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    fechaHecho?: DateTimeNullableFilter<"RegistroTelefonia"> | Date | string | null
+    fechaIngreso?: DateTimeNullableFilter<"RegistroTelefonia"> | Date | string | null
+    lugarHecho?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    barrio?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    victima?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    causa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    aparato?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    empresa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    abonado?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    imei?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    color?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    correo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    clave?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    fiscal?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    depOrigen?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    nroCom?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    rpiComisaria?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    rpiCompleja?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    observaciones?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    estadoLegajo?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    elevaciones?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    imputados?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    requisa?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    procedimientos?: StringNullableFilter<"RegistroTelefonia"> | string | null
+    createdAt?: DateTimeFilter<"RegistroTelefonia"> | Date | string
+  }, "id">
+
+  export type RegistroTelefoniaOrderByWithAggregationInput = {
+    id?: SortOrder
+    anio?: SortOrderInput | SortOrder
+    nroLegajo?: SortOrderInput | SortOrder
+    nroInterno?: SortOrderInput | SortOrder
+    cuij?: SortOrderInput | SortOrder
+    fechaHecho?: SortOrderInput | SortOrder
+    fechaIngreso?: SortOrderInput | SortOrder
+    lugarHecho?: SortOrderInput | SortOrder
+    barrio?: SortOrderInput | SortOrder
+    victima?: SortOrderInput | SortOrder
+    causa?: SortOrderInput | SortOrder
+    aparato?: SortOrderInput | SortOrder
+    empresa?: SortOrderInput | SortOrder
+    abonado?: SortOrderInput | SortOrder
+    imei?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    correo?: SortOrderInput | SortOrder
+    clave?: SortOrderInput | SortOrder
+    fiscal?: SortOrderInput | SortOrder
+    depOrigen?: SortOrderInput | SortOrder
+    nroCom?: SortOrderInput | SortOrder
+    rpiComisaria?: SortOrderInput | SortOrder
+    rpiCompleja?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    estadoLegajo?: SortOrderInput | SortOrder
+    elevaciones?: SortOrderInput | SortOrder
+    imputados?: SortOrderInput | SortOrder
+    requisa?: SortOrderInput | SortOrder
+    procedimientos?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RegistroTelefoniaCountOrderByAggregateInput
+    _avg?: RegistroTelefoniaAvgOrderByAggregateInput
+    _max?: RegistroTelefoniaMaxOrderByAggregateInput
+    _min?: RegistroTelefoniaMinOrderByAggregateInput
+    _sum?: RegistroTelefoniaSumOrderByAggregateInput
+  }
+
+  export type RegistroTelefoniaScalarWhereWithAggregatesInput = {
+    AND?: RegistroTelefoniaScalarWhereWithAggregatesInput | RegistroTelefoniaScalarWhereWithAggregatesInput[]
+    OR?: RegistroTelefoniaScalarWhereWithAggregatesInput[]
+    NOT?: RegistroTelefoniaScalarWhereWithAggregatesInput | RegistroTelefoniaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RegistroTelefonia"> | string
+    anio?: IntNullableWithAggregatesFilter<"RegistroTelefonia"> | number | null
+    nroLegajo?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    nroInterno?: IntNullableWithAggregatesFilter<"RegistroTelefonia"> | number | null
+    cuij?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    fechaHecho?: DateTimeNullableWithAggregatesFilter<"RegistroTelefonia"> | Date | string | null
+    fechaIngreso?: DateTimeNullableWithAggregatesFilter<"RegistroTelefonia"> | Date | string | null
+    lugarHecho?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    barrio?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    victima?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    causa?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    aparato?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    empresa?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    abonado?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    imei?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    color?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    correo?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    clave?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    fiscal?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    depOrigen?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    nroCom?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    rpiComisaria?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    rpiCompleja?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    observaciones?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    estadoLegajo?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    elevaciones?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    imputados?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    requisa?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    procedimientos?: StringNullableWithAggregatesFilter<"RegistroTelefonia"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RegistroTelefonia"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
@@ -11146,6 +12663,237 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RegistroTelefoniaCreateInput = {
+    id?: string
+    anio?: number | null
+    nroLegajo?: string | null
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaIngreso?: Date | string | null
+    lugarHecho?: string | null
+    barrio?: string | null
+    victima?: string | null
+    causa?: string | null
+    aparato?: string | null
+    empresa?: string | null
+    abonado?: string | null
+    imei?: string | null
+    color?: string | null
+    correo?: string | null
+    clave?: string | null
+    fiscal?: string | null
+    depOrigen?: string | null
+    nroCom?: string | null
+    rpiComisaria?: string | null
+    rpiCompleja?: string | null
+    observaciones?: string | null
+    estadoLegajo?: string | null
+    elevaciones?: string | null
+    imputados?: string | null
+    requisa?: string | null
+    procedimientos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroTelefoniaUncheckedCreateInput = {
+    id?: string
+    anio?: number | null
+    nroLegajo?: string | null
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaIngreso?: Date | string | null
+    lugarHecho?: string | null
+    barrio?: string | null
+    victima?: string | null
+    causa?: string | null
+    aparato?: string | null
+    empresa?: string | null
+    abonado?: string | null
+    imei?: string | null
+    color?: string | null
+    correo?: string | null
+    clave?: string | null
+    fiscal?: string | null
+    depOrigen?: string | null
+    nroCom?: string | null
+    rpiComisaria?: string | null
+    rpiCompleja?: string | null
+    observaciones?: string | null
+    estadoLegajo?: string | null
+    elevaciones?: string | null
+    imputados?: string | null
+    requisa?: string | null
+    procedimientos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroTelefoniaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    anio?: NullableIntFieldUpdateOperationsInput | number | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lugarHecho?: NullableStringFieldUpdateOperationsInput | string | null
+    barrio?: NullableStringFieldUpdateOperationsInput | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    causa?: NullableStringFieldUpdateOperationsInput | string | null
+    aparato?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    abonado?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    clave?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    depOrigen?: NullableStringFieldUpdateOperationsInput | string | null
+    nroCom?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiComisaria?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiCompleja?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    elevaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    imputados?: NullableStringFieldUpdateOperationsInput | string | null
+    requisa?: NullableStringFieldUpdateOperationsInput | string | null
+    procedimientos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroTelefoniaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    anio?: NullableIntFieldUpdateOperationsInput | number | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lugarHecho?: NullableStringFieldUpdateOperationsInput | string | null
+    barrio?: NullableStringFieldUpdateOperationsInput | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    causa?: NullableStringFieldUpdateOperationsInput | string | null
+    aparato?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    abonado?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    clave?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    depOrigen?: NullableStringFieldUpdateOperationsInput | string | null
+    nroCom?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiComisaria?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiCompleja?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    elevaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    imputados?: NullableStringFieldUpdateOperationsInput | string | null
+    requisa?: NullableStringFieldUpdateOperationsInput | string | null
+    procedimientos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroTelefoniaCreateManyInput = {
+    id?: string
+    anio?: number | null
+    nroLegajo?: string | null
+    nroInterno?: number | null
+    cuij?: string | null
+    fechaHecho?: Date | string | null
+    fechaIngreso?: Date | string | null
+    lugarHecho?: string | null
+    barrio?: string | null
+    victima?: string | null
+    causa?: string | null
+    aparato?: string | null
+    empresa?: string | null
+    abonado?: string | null
+    imei?: string | null
+    color?: string | null
+    correo?: string | null
+    clave?: string | null
+    fiscal?: string | null
+    depOrigen?: string | null
+    nroCom?: string | null
+    rpiComisaria?: string | null
+    rpiCompleja?: string | null
+    observaciones?: string | null
+    estadoLegajo?: string | null
+    elevaciones?: string | null
+    imputados?: string | null
+    requisa?: string | null
+    procedimientos?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RegistroTelefoniaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    anio?: NullableIntFieldUpdateOperationsInput | number | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lugarHecho?: NullableStringFieldUpdateOperationsInput | string | null
+    barrio?: NullableStringFieldUpdateOperationsInput | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    causa?: NullableStringFieldUpdateOperationsInput | string | null
+    aparato?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    abonado?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    clave?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    depOrigen?: NullableStringFieldUpdateOperationsInput | string | null
+    nroCom?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiComisaria?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiCompleja?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    elevaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    imputados?: NullableStringFieldUpdateOperationsInput | string | null
+    requisa?: NullableStringFieldUpdateOperationsInput | string | null
+    procedimientos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RegistroTelefoniaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    anio?: NullableIntFieldUpdateOperationsInput | number | null
+    nroLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    nroInterno?: NullableIntFieldUpdateOperationsInput | number | null
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaHecho?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lugarHecho?: NullableStringFieldUpdateOperationsInput | string | null
+    barrio?: NullableStringFieldUpdateOperationsInput | string | null
+    victima?: NullableStringFieldUpdateOperationsInput | string | null
+    causa?: NullableStringFieldUpdateOperationsInput | string | null
+    aparato?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    abonado?: NullableStringFieldUpdateOperationsInput | string | null
+    imei?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    clave?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    depOrigen?: NullableStringFieldUpdateOperationsInput | string | null
+    nroCom?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiComisaria?: NullableStringFieldUpdateOperationsInput | string | null
+    rpiCompleja?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoLegajo?: NullableStringFieldUpdateOperationsInput | string | null
+    elevaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    imputados?: NullableStringFieldUpdateOperationsInput | string | null
+    requisa?: NullableStringFieldUpdateOperationsInput | string | null
+    procedimientos?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11691,6 +13439,142 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type RegistroTelefoniaCountOrderByAggregateInput = {
+    id?: SortOrder
+    anio?: SortOrder
+    nroLegajo?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaIngreso?: SortOrder
+    lugarHecho?: SortOrder
+    barrio?: SortOrder
+    victima?: SortOrder
+    causa?: SortOrder
+    aparato?: SortOrder
+    empresa?: SortOrder
+    abonado?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    correo?: SortOrder
+    clave?: SortOrder
+    fiscal?: SortOrder
+    depOrigen?: SortOrder
+    nroCom?: SortOrder
+    rpiComisaria?: SortOrder
+    rpiCompleja?: SortOrder
+    observaciones?: SortOrder
+    estadoLegajo?: SortOrder
+    elevaciones?: SortOrder
+    imputados?: SortOrder
+    requisa?: SortOrder
+    procedimientos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroTelefoniaAvgOrderByAggregateInput = {
+    anio?: SortOrder
+    nroInterno?: SortOrder
+  }
+
+  export type RegistroTelefoniaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    anio?: SortOrder
+    nroLegajo?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaIngreso?: SortOrder
+    lugarHecho?: SortOrder
+    barrio?: SortOrder
+    victima?: SortOrder
+    causa?: SortOrder
+    aparato?: SortOrder
+    empresa?: SortOrder
+    abonado?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    correo?: SortOrder
+    clave?: SortOrder
+    fiscal?: SortOrder
+    depOrigen?: SortOrder
+    nroCom?: SortOrder
+    rpiComisaria?: SortOrder
+    rpiCompleja?: SortOrder
+    observaciones?: SortOrder
+    estadoLegajo?: SortOrder
+    elevaciones?: SortOrder
+    imputados?: SortOrder
+    requisa?: SortOrder
+    procedimientos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroTelefoniaMinOrderByAggregateInput = {
+    id?: SortOrder
+    anio?: SortOrder
+    nroLegajo?: SortOrder
+    nroInterno?: SortOrder
+    cuij?: SortOrder
+    fechaHecho?: SortOrder
+    fechaIngreso?: SortOrder
+    lugarHecho?: SortOrder
+    barrio?: SortOrder
+    victima?: SortOrder
+    causa?: SortOrder
+    aparato?: SortOrder
+    empresa?: SortOrder
+    abonado?: SortOrder
+    imei?: SortOrder
+    color?: SortOrder
+    correo?: SortOrder
+    clave?: SortOrder
+    fiscal?: SortOrder
+    depOrigen?: SortOrder
+    nroCom?: SortOrder
+    rpiComisaria?: SortOrder
+    rpiCompleja?: SortOrder
+    observaciones?: SortOrder
+    estadoLegajo?: SortOrder
+    elevaciones?: SortOrder
+    imputados?: SortOrder
+    requisa?: SortOrder
+    procedimientos?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RegistroTelefoniaSumOrderByAggregateInput = {
+    anio?: SortOrder
+    nroInterno?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type LegajoCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
@@ -12055,6 +13939,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -12227,6 +14119,33 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type LegajoCreateWithoutUsuarioInput = {
@@ -13457,6 +15376,10 @@ export namespace Prisma {
      * @deprecated Use ConfiguracionDefaultArgs instead
      */
     export type ConfiguracionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ConfiguracionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RegistroTelefoniaDefaultArgs instead
+     */
+    export type RegistroTelefoniaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RegistroTelefoniaDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -118,3 +118,42 @@ model Configuracion {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
+
+model RegistroTelefonia {
+  id             String    @id @default(cuid())
+  anio           Int?
+  nroLegajo      String?
+  nroInterno     Int?
+  cuij           String?
+  fechaHecho     DateTime?
+  fechaIngreso   DateTime?
+  lugarHecho     String?
+  barrio         String?
+  victima        String?
+  causa          String?
+  aparato        String?
+  empresa        String?
+  abonado        String?
+  imei           String?
+  color          String?
+  correo         String?
+  clave          String?
+  fiscal         String?
+  depOrigen      String?
+  nroCom         String?
+  rpiComisaria   String?
+  rpiCompleja    String?
+  observaciones  String?
+  estadoLegajo   String?
+  elevaciones    String?
+  imputados      String?
+  requisa        String?
+  procedimientos String?
+  createdAt      DateTime  @default(now())
+
+  @@index([victima])
+  @@index([imei])
+  @@index([nroLegajo])
+  @@index([anio])
+  @@index([causa])
+}
