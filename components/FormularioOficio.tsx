@@ -3,10 +3,14 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
+interface Dispositivo {
+  imei?: string; marca?: string; modelo?: string; tipo: string; numeroLinea?: string;
+}
+
 interface Legajo {
   id: string; numero: string; caratula: string;
   victimas: { nombre: string; dni?: string; telefono?: string }[];
-  dispositivos: { imei?: string; marca?: string; modelo?: string; tipo: string }[];
+  dispositivos: Dispositivo[];
 }
 
 interface Props {
@@ -19,6 +23,7 @@ const OPERADORAS = ["Claro", "Personal", "Movistar", "Todas"];
 export default function FormularioOficio({ onCerrar, onGuardado }: Props) {
   const [legajos, setLegajos] = useState<Legajo[]>([]);
   const [legajoId, setLegajoId] = useState("");
+  const [dispositivoIdx, setDispositivoIdx] = useState(0);
   const [operadora, setOperadora] = useState("Claro");
   const [tipoConsulta, setTipoConsulta] = useState("imei");
   const [numeroLinea, setNumeroLinea] = useState("");
@@ -33,7 +38,23 @@ export default function FormularioOficio({ onCerrar, onGuardado }: Props) {
   }, []);
 
   const legajoActual = legajos.find(l => l.id === legajoId);
-  const imeiDelLegajo = legajoActual?.dispositivos.find(d => d.imei)?.imei || "";
+  const dispositivos = legajoActual?.dispositivos ?? [];
+
+  // Reset índice de dispositivo al cambiar legajo
+  useEffect(() => {
+    setDispositivoIdx(0);
+  }, [legajoId]);
+
+  const dispositivoActual: Dispositivo = dispositivos[dispositivoIdx] ?? {};
+  const imeiActual = dispositivoActual.imei || "";
+  const lineaActual = dispositivoActual.numeroLinea || "";
+
+  // Precargar número de línea al cambiar dispositivo o tipo
+  useEffect(() => {
+    if (tipoConsulta === "linea") {
+      setNumeroLinea(lineaActual);
+    }
+  }, [dispositivoIdx, tipoConsulta, lineaActual]);
 
   async function guardar() {
     if (!legajoId) { setError("Seleccioná un legajo"); return; }
@@ -85,19 +106,53 @@ export default function FormularioOficio({ onCerrar, onGuardado }: Props) {
             </select>
           </div>
 
-          {/* Info del legajo */}
-          {legajoActual && (
+          {/* Info víctimas */}
+          {legajoActual && legajoActual.victimas.length > 0 && (
             <div style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)" }} className="rounded-lg p-3 space-y-1">
               {legajoActual.victimas.map((v, i) => (
                 <p key={i} style={{ color: "var(--text-secondary)" }} className="text-xs">
                   👤 <span className="font-medium">{v.nombre}</span>{v.telefono && ` — Tel: ${v.telefono}`}
                 </p>
               ))}
-              {legajoActual.dispositivos.filter(d => d.imei).map((d, i) => (
-                <p key={i} style={{ color: "var(--text-secondary)" }} className="text-xs">
-                  📱 {d.marca} {d.modelo} — IMEI: <span className="font-mono">{d.imei}</span>
-                </p>
-              ))}
+            </div>
+          )}
+
+          {/* Selector de dispositivo — solo si hay más de uno */}
+          {dispositivos.length > 1 && (
+            <div>
+              <label style={labelStyle} className="text-xs mb-1 block">Seleccioná el dispositivo *</label>
+              <div className="space-y-2">
+                {dispositivos.map((d, i) => (
+                  <button key={i} onClick={() => setDispositivoIdx(i)}
+                    style={{
+                      background: dispositivoIdx === i ? "rgba(59,130,246,0.12)" : "var(--bg-tertiary)",
+                      border: `1px solid ${dispositivoIdx === i ? "var(--accent)" : "var(--border)"}`,
+                      color: "var(--text-primary)",
+                    }}
+                    className="w-full rounded-lg px-3 py-2 text-left text-sm transition">
+                    <span style={{ color: dispositivoIdx === i ? "var(--accent)" : "var(--text-primary)" }} className="font-medium">
+                      📱 {d.marca || d.tipo}{d.modelo ? ` ${d.modelo}` : ""}
+                    </span>
+                    <span style={{ color: "var(--text-muted)" }} className="text-xs ml-2">
+                      {d.imei && `IMEI: ${d.imei}`}
+                      {d.imei && d.numeroLinea && " · "}
+                      {d.numeroLinea && `Línea: ${d.numeroLinea}`}
+                      {!d.imei && !d.numeroLinea && "Sin datos"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Si hay un solo dispositivo, mostrarlo como info */}
+          {dispositivos.length === 1 && (
+            <div style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)" }} className="rounded-lg p-3">
+              <p style={{ color: "var(--text-secondary)" }} className="text-xs">
+                📱 <span className="font-medium">{dispositivos[0].marca} {dispositivos[0].modelo}</span>
+                {dispositivos[0].imei && <> — IMEI: <span className="font-mono">{dispositivos[0].imei}</span></>}
+                {dispositivos[0].numeroLinea && <> — Línea: <span className="font-mono">{dispositivos[0].numeroLinea}</span></>}
+              </p>
             </div>
           )}
 
@@ -146,14 +201,17 @@ export default function FormularioOficio({ onCerrar, onGuardado }: Props) {
 
             <div style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)" }} className="rounded-lg p-3">
               {tipoConsulta === "imei" ? (
-                <p style={{ color: imeiDelLegajo ? "var(--text-primary)" : "var(--warning)" }} className="text-sm">
-                  {imeiDelLegajo
-                    ? <>IMEI: <span className="font-mono font-semibold">{imeiDelLegajo}</span></>
-                    : "⚠️ El legajo no tiene IMEI cargado"}
+                <p style={{ color: imeiActual ? "var(--text-primary)" : "var(--warning)" }} className="text-sm">
+                  {imeiActual
+                    ? <>IMEI: <span className="font-mono font-semibold">{imeiActual}</span></>
+                    : "⚠️ El dispositivo no tiene IMEI cargado"}
                 </p>
               ) : (
                 <>
-                  <label style={labelStyle} className="text-xs mb-1 block">Número de línea</label>
+                  <label style={labelStyle} className="text-xs mb-1 block">
+                    Número de línea
+                    {lineaActual && <span style={{ color: "var(--accent)" }}> (cargado del dispositivo)</span>}
+                  </label>
                   <input
                     value={numeroLinea}
                     onChange={e => setNumeroLinea(e.target.value)}

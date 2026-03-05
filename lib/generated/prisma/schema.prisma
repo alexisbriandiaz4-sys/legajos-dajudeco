@@ -51,33 +51,35 @@ model Victima {
 }
 
 model Dispositivo {
-  id       String  @id @default(cuid())
-  tipo     String
-  marca    String?
-  modelo   String?
-  imei     String?
-  color    String?
-  legajoId String
-  legajo   Legajo  @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  tipo        String
+  marca       String?
+  modelo      String?
+  imei        String?
+  color       String?
+  numeroLinea String?
+  legajoId    String
+  legajo      Legajo  @relation(fields: [legajoId], references: [id], onDelete: Cascade)
 }
 
 model Oficio {
-  id             String      @id @default(cuid())
-  numero         String?
-  operadora      String
-  tipo           String
-  fechaEnvio     DateTime?
-  fechaRespuesta DateTime?
-  estado         String      @default("Pendiente")
-  urgencia       String      @default("48 horas")
-  observaciones  String?
-  columnas       String?
-  tipoConsulta   String?
-  numeroLinea    String?
-  createdAt      DateTime    @default(now())
-  legajoId       String
-  legajo         Legajo      @relation(fields: [legajoId], references: [id], onDelete: Cascade)
-  respuestas     Respuesta[]
+  id               String      @id @default(cuid())
+  numero           String?
+  operadora        String
+  tipo             String
+  fechaEnvio       DateTime?
+  fechaRespuesta   DateTime?
+  estado           String      @default("Pendiente")
+  urgencia         String      @default("48 horas")
+  observaciones    String?
+  columnas         String?
+  tipoConsulta     String?
+  numeroLinea      String?
+  imeiSeleccionado String?
+  createdAt        DateTime    @default(now())
+  legajoId         String
+  legajo           Legajo      @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  respuestas       Respuesta[]
 }
 
 model Respuesta {

@@ -4619,6 +4619,7 @@ export namespace Prisma {
     modelo: string | null
     imei: string | null
     color: string | null
+    numeroLinea: string | null
     legajoId: string | null
   }
 
@@ -4629,6 +4630,7 @@ export namespace Prisma {
     modelo: string | null
     imei: string | null
     color: string | null
+    numeroLinea: string | null
     legajoId: string | null
   }
 
@@ -4639,6 +4641,7 @@ export namespace Prisma {
     modelo: number
     imei: number
     color: number
+    numeroLinea: number
     legajoId: number
     _all: number
   }
@@ -4651,6 +4654,7 @@ export namespace Prisma {
     modelo?: true
     imei?: true
     color?: true
+    numeroLinea?: true
     legajoId?: true
   }
 
@@ -4661,6 +4665,7 @@ export namespace Prisma {
     modelo?: true
     imei?: true
     color?: true
+    numeroLinea?: true
     legajoId?: true
   }
 
@@ -4671,6 +4676,7 @@ export namespace Prisma {
     modelo?: true
     imei?: true
     color?: true
+    numeroLinea?: true
     legajoId?: true
     _all?: true
   }
@@ -4754,6 +4760,7 @@ export namespace Prisma {
     modelo: string | null
     imei: string | null
     color: string | null
+    numeroLinea: string | null
     legajoId: string
     _count: DispositivoCountAggregateOutputType | null
     _min: DispositivoMinAggregateOutputType | null
@@ -4781,6 +4788,7 @@ export namespace Prisma {
     modelo?: boolean
     imei?: boolean
     color?: boolean
+    numeroLinea?: boolean
     legajoId?: boolean
     legajo?: boolean | LegajoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dispositivo"]>
@@ -4792,6 +4800,7 @@ export namespace Prisma {
     modelo?: boolean
     imei?: boolean
     color?: boolean
+    numeroLinea?: boolean
     legajoId?: boolean
     legajo?: boolean | LegajoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dispositivo"]>
@@ -4803,6 +4812,7 @@ export namespace Prisma {
     modelo?: boolean
     imei?: boolean
     color?: boolean
+    numeroLinea?: boolean
     legajoId?: boolean
   }
 
@@ -4825,6 +4835,7 @@ export namespace Prisma {
       modelo: string | null
       imei: string | null
       color: string | null
+      numeroLinea: string | null
       legajoId: string
     }, ExtArgs["result"]["dispositivo"]>
     composites: {}
@@ -5226,6 +5237,7 @@ export namespace Prisma {
     readonly modelo: FieldRef<"Dispositivo", 'String'>
     readonly imei: FieldRef<"Dispositivo", 'String'>
     readonly color: FieldRef<"Dispositivo", 'String'>
+    readonly numeroLinea: FieldRef<"Dispositivo", 'String'>
     readonly legajoId: FieldRef<"Dispositivo", 'String'>
   }
     
@@ -5580,6 +5592,7 @@ export namespace Prisma {
     columnas: string | null
     tipoConsulta: string | null
     numeroLinea: string | null
+    imeiSeleccionado: string | null
     createdAt: Date | null
     legajoId: string | null
   }
@@ -5597,6 +5610,7 @@ export namespace Prisma {
     columnas: string | null
     tipoConsulta: string | null
     numeroLinea: string | null
+    imeiSeleccionado: string | null
     createdAt: Date | null
     legajoId: string | null
   }
@@ -5614,6 +5628,7 @@ export namespace Prisma {
     columnas: number
     tipoConsulta: number
     numeroLinea: number
+    imeiSeleccionado: number
     createdAt: number
     legajoId: number
     _all: number
@@ -5633,6 +5648,7 @@ export namespace Prisma {
     columnas?: true
     tipoConsulta?: true
     numeroLinea?: true
+    imeiSeleccionado?: true
     createdAt?: true
     legajoId?: true
   }
@@ -5650,6 +5666,7 @@ export namespace Prisma {
     columnas?: true
     tipoConsulta?: true
     numeroLinea?: true
+    imeiSeleccionado?: true
     createdAt?: true
     legajoId?: true
   }
@@ -5667,6 +5684,7 @@ export namespace Prisma {
     columnas?: true
     tipoConsulta?: true
     numeroLinea?: true
+    imeiSeleccionado?: true
     createdAt?: true
     legajoId?: true
     _all?: true
@@ -5757,6 +5775,7 @@ export namespace Prisma {
     columnas: string | null
     tipoConsulta: string | null
     numeroLinea: string | null
+    imeiSeleccionado: string | null
     createdAt: Date
     legajoId: string
     _count: OficioCountAggregateOutputType | null
@@ -5791,6 +5810,7 @@ export namespace Prisma {
     columnas?: boolean
     tipoConsulta?: boolean
     numeroLinea?: boolean
+    imeiSeleccionado?: boolean
     createdAt?: boolean
     legajoId?: boolean
     legajo?: boolean | LegajoDefaultArgs<ExtArgs>
@@ -5811,6 +5831,7 @@ export namespace Prisma {
     columnas?: boolean
     tipoConsulta?: boolean
     numeroLinea?: boolean
+    imeiSeleccionado?: boolean
     createdAt?: boolean
     legajoId?: boolean
     legajo?: boolean | LegajoDefaultArgs<ExtArgs>
@@ -5829,6 +5850,7 @@ export namespace Prisma {
     columnas?: boolean
     tipoConsulta?: boolean
     numeroLinea?: boolean
+    imeiSeleccionado?: boolean
     createdAt?: boolean
     legajoId?: boolean
   }
@@ -5861,6 +5883,7 @@ export namespace Prisma {
       columnas: string | null
       tipoConsulta: string | null
       numeroLinea: string | null
+      imeiSeleccionado: string | null
       createdAt: Date
       legajoId: string
     }, ExtArgs["result"]["oficio"]>
@@ -6270,6 +6293,7 @@ export namespace Prisma {
     readonly columnas: FieldRef<"Oficio", 'String'>
     readonly tipoConsulta: FieldRef<"Oficio", 'String'>
     readonly numeroLinea: FieldRef<"Oficio", 'String'>
+    readonly imeiSeleccionado: FieldRef<"Oficio", 'String'>
     readonly createdAt: FieldRef<"Oficio", 'DateTime'>
     readonly legajoId: FieldRef<"Oficio", 'String'>
   }
@@ -9518,6 +9542,7 @@ export namespace Prisma {
     modelo: 'modelo',
     imei: 'imei',
     color: 'color',
+    numeroLinea: 'numeroLinea',
     legajoId: 'legajoId'
   };
 
@@ -9537,6 +9562,7 @@ export namespace Prisma {
     columnas: 'columnas',
     tipoConsulta: 'tipoConsulta',
     numeroLinea: 'numeroLinea',
+    imeiSeleccionado: 'imeiSeleccionado',
     createdAt: 'createdAt',
     legajoId: 'legajoId'
   };
@@ -9879,6 +9905,7 @@ export namespace Prisma {
     modelo?: StringNullableFilter<"Dispositivo"> | string | null
     imei?: StringNullableFilter<"Dispositivo"> | string | null
     color?: StringNullableFilter<"Dispositivo"> | string | null
+    numeroLinea?: StringNullableFilter<"Dispositivo"> | string | null
     legajoId?: StringFilter<"Dispositivo"> | string
     legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
   }
@@ -9890,6 +9917,7 @@ export namespace Prisma {
     modelo?: SortOrderInput | SortOrder
     imei?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
+    numeroLinea?: SortOrderInput | SortOrder
     legajoId?: SortOrder
     legajo?: LegajoOrderByWithRelationInput
   }
@@ -9904,6 +9932,7 @@ export namespace Prisma {
     modelo?: StringNullableFilter<"Dispositivo"> | string | null
     imei?: StringNullableFilter<"Dispositivo"> | string | null
     color?: StringNullableFilter<"Dispositivo"> | string | null
+    numeroLinea?: StringNullableFilter<"Dispositivo"> | string | null
     legajoId?: StringFilter<"Dispositivo"> | string
     legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
   }, "id">
@@ -9915,6 +9944,7 @@ export namespace Prisma {
     modelo?: SortOrderInput | SortOrder
     imei?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
+    numeroLinea?: SortOrderInput | SortOrder
     legajoId?: SortOrder
     _count?: DispositivoCountOrderByAggregateInput
     _max?: DispositivoMaxOrderByAggregateInput
@@ -9931,6 +9961,7 @@ export namespace Prisma {
     modelo?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
     imei?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
     color?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
+    numeroLinea?: StringNullableWithAggregatesFilter<"Dispositivo"> | string | null
     legajoId?: StringWithAggregatesFilter<"Dispositivo"> | string
   }
 
@@ -9950,6 +9981,7 @@ export namespace Prisma {
     columnas?: StringNullableFilter<"Oficio"> | string | null
     tipoConsulta?: StringNullableFilter<"Oficio"> | string | null
     numeroLinea?: StringNullableFilter<"Oficio"> | string | null
+    imeiSeleccionado?: StringNullableFilter<"Oficio"> | string | null
     createdAt?: DateTimeFilter<"Oficio"> | Date | string
     legajoId?: StringFilter<"Oficio"> | string
     legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
@@ -9969,6 +10001,7 @@ export namespace Prisma {
     columnas?: SortOrderInput | SortOrder
     tipoConsulta?: SortOrderInput | SortOrder
     numeroLinea?: SortOrderInput | SortOrder
+    imeiSeleccionado?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     legajoId?: SortOrder
     legajo?: LegajoOrderByWithRelationInput
@@ -9991,6 +10024,7 @@ export namespace Prisma {
     columnas?: StringNullableFilter<"Oficio"> | string | null
     tipoConsulta?: StringNullableFilter<"Oficio"> | string | null
     numeroLinea?: StringNullableFilter<"Oficio"> | string | null
+    imeiSeleccionado?: StringNullableFilter<"Oficio"> | string | null
     createdAt?: DateTimeFilter<"Oficio"> | Date | string
     legajoId?: StringFilter<"Oficio"> | string
     legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
@@ -10010,6 +10044,7 @@ export namespace Prisma {
     columnas?: SortOrderInput | SortOrder
     tipoConsulta?: SortOrderInput | SortOrder
     numeroLinea?: SortOrderInput | SortOrder
+    imeiSeleccionado?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     legajoId?: SortOrder
     _count?: OficioCountOrderByAggregateInput
@@ -10033,6 +10068,7 @@ export namespace Prisma {
     columnas?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
     tipoConsulta?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
     numeroLinea?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
+    imeiSeleccionado?: StringNullableWithAggregatesFilter<"Oficio"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Oficio"> | Date | string
     legajoId?: StringWithAggregatesFilter<"Oficio"> | string
   }
@@ -10509,6 +10545,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
     legajo: LegajoCreateNestedOneWithoutDispositivosInput
   }
 
@@ -10519,6 +10556,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
     legajoId: string
   }
 
@@ -10529,6 +10567,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
     legajo?: LegajoUpdateOneRequiredWithoutDispositivosNestedInput
   }
 
@@ -10539,6 +10578,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
     legajoId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10549,6 +10589,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
     legajoId: string
   }
 
@@ -10559,6 +10600,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DispositivoUncheckedUpdateManyInput = {
@@ -10568,6 +10610,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
     legajoId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10584,6 +10627,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     legajo: LegajoCreateNestedOneWithoutOficiosInput
     respuestas?: RespuestaCreateNestedManyWithoutOficioInput
@@ -10602,6 +10646,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     legajoId: string
     respuestas?: RespuestaUncheckedCreateNestedManyWithoutOficioInput
@@ -10620,6 +10665,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajo?: LegajoUpdateOneRequiredWithoutOficiosNestedInput
     respuestas?: RespuestaUpdateManyWithoutOficioNestedInput
@@ -10638,6 +10684,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajoId?: StringFieldUpdateOperationsInput | string
     respuestas?: RespuestaUncheckedUpdateManyWithoutOficioNestedInput
@@ -10656,6 +10703,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     legajoId: string
   }
@@ -10673,6 +10721,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10689,6 +10738,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajoId?: StringFieldUpdateOperationsInput | string
   }
@@ -11192,6 +11242,7 @@ export namespace Prisma {
     modelo?: SortOrder
     imei?: SortOrder
     color?: SortOrder
+    numeroLinea?: SortOrder
     legajoId?: SortOrder
   }
 
@@ -11202,6 +11253,7 @@ export namespace Prisma {
     modelo?: SortOrder
     imei?: SortOrder
     color?: SortOrder
+    numeroLinea?: SortOrder
     legajoId?: SortOrder
   }
 
@@ -11212,6 +11264,7 @@ export namespace Prisma {
     modelo?: SortOrder
     imei?: SortOrder
     color?: SortOrder
+    numeroLinea?: SortOrder
     legajoId?: SortOrder
   }
 
@@ -11249,6 +11302,7 @@ export namespace Prisma {
     columnas?: SortOrder
     tipoConsulta?: SortOrder
     numeroLinea?: SortOrder
+    imeiSeleccionado?: SortOrder
     createdAt?: SortOrder
     legajoId?: SortOrder
   }
@@ -11266,6 +11320,7 @@ export namespace Prisma {
     columnas?: SortOrder
     tipoConsulta?: SortOrder
     numeroLinea?: SortOrder
+    imeiSeleccionado?: SortOrder
     createdAt?: SortOrder
     legajoId?: SortOrder
   }
@@ -11283,6 +11338,7 @@ export namespace Prisma {
     columnas?: SortOrder
     tipoConsulta?: SortOrder
     numeroLinea?: SortOrder
+    imeiSeleccionado?: SortOrder
     createdAt?: SortOrder
     legajoId?: SortOrder
   }
@@ -12124,6 +12180,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
   }
 
   export type DispositivoUncheckedCreateWithoutLegajoInput = {
@@ -12133,6 +12190,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
   }
 
   export type DispositivoCreateOrConnectWithoutLegajoInput = {
@@ -12157,6 +12215,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     respuestas?: RespuestaCreateNestedManyWithoutOficioInput
   }
@@ -12174,6 +12233,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     respuestas?: RespuestaUncheckedCreateNestedManyWithoutOficioInput
   }
@@ -12274,6 +12334,7 @@ export namespace Prisma {
     modelo?: StringNullableFilter<"Dispositivo"> | string | null
     imei?: StringNullableFilter<"Dispositivo"> | string | null
     color?: StringNullableFilter<"Dispositivo"> | string | null
+    numeroLinea?: StringNullableFilter<"Dispositivo"> | string | null
     legajoId?: StringFilter<"Dispositivo"> | string
   }
 
@@ -12309,6 +12370,7 @@ export namespace Prisma {
     columnas?: StringNullableFilter<"Oficio"> | string | null
     tipoConsulta?: StringNullableFilter<"Oficio"> | string | null
     numeroLinea?: StringNullableFilter<"Oficio"> | string | null
+    imeiSeleccionado?: StringNullableFilter<"Oficio"> | string | null
     createdAt?: DateTimeFilter<"Oficio"> | Date | string
     legajoId?: StringFilter<"Oficio"> | string
   }
@@ -12637,6 +12699,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     legajo: LegajoCreateNestedOneWithoutOficiosInput
   }
@@ -12654,6 +12717,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
     legajoId: string
   }
@@ -12687,6 +12751,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajo?: LegajoUpdateOneRequiredWithoutOficiosNestedInput
   }
@@ -12704,6 +12769,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajoId?: StringFieldUpdateOperationsInput | string
   }
@@ -12917,6 +12983,7 @@ export namespace Prisma {
     modelo?: string | null
     imei?: string | null
     color?: string | null
+    numeroLinea?: string | null
   }
 
   export type OficioCreateManyLegajoInput = {
@@ -12932,6 +12999,7 @@ export namespace Prisma {
     columnas?: string | null
     tipoConsulta?: string | null
     numeroLinea?: string | null
+    imeiSeleccionado?: string | null
     createdAt?: Date | string
   }
 
@@ -12966,6 +13034,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DispositivoUncheckedUpdateWithoutLegajoInput = {
@@ -12975,6 +13044,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DispositivoUncheckedUpdateManyWithoutLegajoInput = {
@@ -12984,6 +13054,7 @@ export namespace Prisma {
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     imei?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OficioUpdateWithoutLegajoInput = {
@@ -12999,6 +13070,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     respuestas?: RespuestaUpdateManyWithoutOficioNestedInput
   }
@@ -13016,6 +13088,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     respuestas?: RespuestaUncheckedUpdateManyWithoutOficioNestedInput
   }
@@ -13033,6 +13106,7 @@ export namespace Prisma {
     columnas?: NullableStringFieldUpdateOperationsInput | string | null
     tipoConsulta?: NullableStringFieldUpdateOperationsInput | string | null
     numeroLinea?: NullableStringFieldUpdateOperationsInput | string | null
+    imeiSeleccionado?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

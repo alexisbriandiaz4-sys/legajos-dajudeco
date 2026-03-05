@@ -20,6 +20,7 @@ interface Oficio {
   columnas?: string;
   tipoConsulta?: string;
   numeroLinea?: string;
+  imeiSeleccionado?: string
 }
 
 const ESTADOS = ["Todos", "Pendiente", "Enviado", "Respondido", "Sin respuesta"];

@@ -41,11 +41,9 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
 
     const body = await request.json()
 
-    // Verificar que el legajo pertenece al usuario
     const legajoExistente = await prisma.legajo.findFirst({ where: { id, usuarioId } })
     if (!legajoExistente) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
 
-    // Actualizar datos principales del legajo
     await prisma.legajo.update({
       where: { id },
       data: {
@@ -61,7 +59,6 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       }
     })
 
-    // Reemplazar víctimas: borrar las existentes y crear las nuevas
     if (Array.isArray(body.victimas)) {
       await prisma.victima.deleteMany({ where: { legajoId: id } })
       if (body.victimas.length > 0) {
@@ -79,26 +76,25 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       }
     }
 
-    // Reemplazar dispositivos: borrar los existentes y crear los nuevos
     if (Array.isArray(body.dispositivos)) {
       await prisma.dispositivo.deleteMany({ where: { legajoId: id } })
       if (body.dispositivos.length > 0) {
         await prisma.dispositivo.createMany({
           data: body.dispositivos
-            .filter((d: any) => d.marca?.trim() || d.imei?.trim())
+            .filter((d: any) => d.marca?.trim() || d.imei?.trim() || d.numeroLinea?.trim())
             .map((d: any) => ({
               tipo: d.tipo || 'Celular',
               marca: d.marca || null,
               modelo: d.modelo || null,
               imei: d.imei || null,
               color: d.color || null,
+              numeroLinea: d.numeroLinea || null,
               legajoId: id,
             }))
         })
       }
     }
 
-    // Devolver el legajo actualizado completo
     const legajoActualizado = await prisma.legajo.findFirst({
       where: { id },
       include: { victimas: true, dispositivos: true, oficios: true }
@@ -117,11 +113,9 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    // Verificar que pertenece al usuario antes de borrar
     const legajo = await prisma.legajo.findFirst({ where: { id, usuarioId } })
     if (!legajo) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
 
-    // Borrar víctimas, dispositivos y oficios relacionados primero
     await prisma.victima.deleteMany({ where: { legajoId: id } })
     await prisma.dispositivo.deleteMany({ where: { legajoId: id } })
     await prisma.oficio.deleteMany({ where: { legajoId: id } })

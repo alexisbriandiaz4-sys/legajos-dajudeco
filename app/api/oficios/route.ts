@@ -45,7 +45,6 @@ export async function POST(request: Request) {
 
     const body = await request.json()
 
-    // Verificar que el legajo pertenece al usuario
     const legajo = await prisma.legajo.findFirst({
       where: { id: body.legajoId, usuarioId }
     })
@@ -53,16 +52,17 @@ export async function POST(request: Request) {
 
     const oficio = await prisma.oficio.create({
       data: {
-        legajoId:      body.legajoId,
-        operadora:     body.operadora,
-        tipo:          body.tipo,
-        urgencia:      body.urgencia      ?? '48 horas',
-        numero:        body.numero        ?? null,
-        observaciones: body.observaciones ?? null,
-        columnas:      body.columnas      ?? null,
-        tipoConsulta:  body.tipoConsulta  ?? 'imei',
-        numeroLinea:   body.numeroLinea   ?? null,
-        fechaEnvio:    body.fechaEnvio ? new Date(body.fechaEnvio) : null,
+        legajoId:         body.legajoId,
+        operadora:        body.operadora,
+        tipo:             body.tipo,
+        urgencia:         body.urgencia         ?? '48 horas',
+        numero:           body.numero           ?? null,
+        observaciones:    body.observaciones    ?? null,
+        columnas:         body.columnas         ?? null,
+        tipoConsulta:     body.tipoConsulta     ?? 'imei',
+        numeroLinea:      body.numeroLinea      ?? null,
+        imeiSeleccionado: body.imeiSeleccionado ?? null,
+        fechaEnvio:       body.fechaEnvio ? new Date(body.fechaEnvio) : null,
       },
       include: {
         legajo: {

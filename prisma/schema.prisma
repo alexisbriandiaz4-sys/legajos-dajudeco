@@ -57,6 +57,7 @@ model Dispositivo {
   modelo   String?
   imei     String?
   color    String?
+  numeroLinea String?
   legajoId String
   legajo   Legajo  @relation(fields: [legajoId], references: [id], onDelete: Cascade)
 }
@@ -74,6 +75,7 @@ model Oficio {
   columnas      String?
   tipoConsulta  String?
   numeroLinea   String?
+  imeiSeleccionado  String?
   createdAt      DateTime  @default(now())
   legajoId       String
   legajo         Legajo    @relation(fields: [legajoId], references: [id], onDelete: Cascade)

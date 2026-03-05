@@ -5,18 +5,18 @@ import {
   VerticalAlign,
 } from "docx";
 
-interface Victima { nombre: string; dni?: string; telefono?: string; email?: string; }
-interface Dispositivo { tipo: string; marca?: string; modelo?: string; imei?: string; color?: string; }
+interface Dispositivo { tipo: string; marca?: string; modelo?: string; imei?: string; color?: string; numeroLinea?: string; }
 interface Legajo {
   numero: string; caratula: string; cuij?: string; delito: string;
   fechaHecho: string; fiscal?: string; emailRespuesta?: string;
-  victimas: Victima[];
+  victimas: { nombre: string }[];
   dispositivos: Dispositivo[];
 }
 interface Oficio {
   id: string; operadora: string; tipo: string; urgencia: string;
   numero?: string; observaciones?: string; fechaEnvio?: string;
   columnas?: string; tipoConsulta?: string; numeroLinea?: string;
+  imeiSeleccionado?: string;
   legajo: Legajo;
 }
 
@@ -41,10 +41,6 @@ function extraerNombre(fiscal?: string) {
   return fiscal.split("—")[0].trim();
 }
 
-function primerIMEI(dispositivos: Dispositivo[]) {
-  return dispositivos.find(d => d.imei)?.imei || "";
-}
-
 function txt(text: string, opts: Record<string, any> = {}) {
   return new TextRun({ text, font: "Calibri Light", size: 24, color: "000000", ...opts });
 }
@@ -58,9 +54,7 @@ function p(children: TextRun[], opts: Record<string, any> = {}) {
   } as any);
 }
 
-function vacio() {
-  return p([txt("")]);
-}
+function vacio() { return p([txt("")]); }
 
 async function generarDocumento(oficio: Oficio, operadora: string, emailRespuesta: string): Promise<Blob> {
   const res = await fetch("/logo-mpa.png");
@@ -71,9 +65,9 @@ async function generarDocumento(oficio: Oficio, operadora: string, emailRespuest
   const fechaOficio = oficio.fechaEnvio ? fmtFechaLarga(oficio.fechaEnvio) : fmtFechaLarga(new Date());
   const fechaDesde = fmt(oficio.legajo.fechaHecho);
   const fechaHasta = oficio.fechaEnvio ? fmt(oficio.fechaEnvio) : fmt(new Date());
-  const imei = primerIMEI(oficio.legajo.dispositivos);
 
-  // Determinar tipo de consulta — aseguramos que venga bien aunque sea undefined
+  // Usar el IMEI guardado en el oficio (el que eligió el usuario)
+  const imei = oficio.imeiSeleccionado || oficio.legajo.dispositivos.find(d => d.imei)?.imei || "";
   const esLinea = (oficio.tipoConsulta ?? "imei") === "linea";
   const numLinea = oficio.numeroLinea ?? "";
 
@@ -89,8 +83,6 @@ async function generarDocumento(oficio: Oficio, operadora: string, emailRespuest
         }
       } as any,
       children: [
-
-        // ── Encabezado ──
         new Table({
           width: { size: 9638, type: WidthType.DXA },
           columnWidths: [1800, 7838],
@@ -248,13 +240,11 @@ function delay(ms: number) {
 export async function generarOficioFiscal(oficio: Oficio) {
   const operadorasValidas = ["Claro", "Personal", "Movistar"];
 
-  // Leer correo desde configuración global
   const configRes = await fetch("/api/configuracion");
   const config = await configRes.json();
   const emailRespuesta = config.emailRespuesta || "";
 
   if (oficio.operadora === "Todos" || oficio.operadora === "Todas") {
-    // Generar los 3 con delay entre cada uno para que el navegador no bloquee las descargas
     for (const op of operadorasValidas) {
       const blob = await generarDocumento(oficio, op, emailRespuesta);
       descargar(blob, `Oficio_${op}_Legajo${oficio.legajo.numero}.docx`);
