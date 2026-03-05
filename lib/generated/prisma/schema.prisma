@@ -110,8 +110,11 @@ model Fiscal {
 }
 
 model Configuracion {
-  id             String   @id @default("global")
-  emailRespuesta String   @default("")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                String   @id @default("global")
+  emailRespuesta    String   @default("")
+  diasAlertaMedia   Int      @default(2)
+  diasAlertaAlta    Int      @default(3)
+  diasAlertaCritica Int      @default(7)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

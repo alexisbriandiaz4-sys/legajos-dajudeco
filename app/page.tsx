@@ -7,6 +7,7 @@ import { LogOut, FolderOpen, FileText, Bell, User, Sun, Moon, Monitor, Settings 
 import ModuloLegajos from "@/components/ModuloLegajos";
 import ModuloOficios from "@/components/ModuloOficios";
 import ModuloConfiguracion from "@/components/ModuloConfiguracion";
+import ModuloAlertas from "@/components/ModuloAlertas";
 
 
 type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion';
@@ -112,7 +113,7 @@ export default function Home() {
       <main className="flex-1 overflow-auto p-6">
         {vista === 'legajos' && <ModuloLegajos />}
         {vista === 'oficios' && <ModuloOficios />}
-        {vista === 'alertas' && <p style={{ color: 'var(--text-secondary)' }}>Módulo Alertas — próximamente</p>}
+        {vista === 'alertas' && <ModuloAlertas />}
 {vista === 'configuracion' && <ModuloConfiguracion />}
       </main>
     </div>

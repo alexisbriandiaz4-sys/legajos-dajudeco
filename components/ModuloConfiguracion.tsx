@@ -57,12 +57,20 @@ export default function ModuloConfiguracion() {
 
 function SeccionGeneral() {
   const [email, setEmail] = useState("");
+  const [diasMedia, setDiasMedia] = useState(2);
+  const [diasAlta, setDiasAlta] = useState(3);
+  const [diasCritica, setDiasCritica] = useState(7);
   const [guardando, setGuardando] = useState(false);
 
   useEffect(() => {
     fetch("/api/configuracion")
       .then(r => r.json())
-      .then(d => setEmail(d.emailRespuesta || ""))
+      .then(d => {
+        setEmail(d.emailRespuesta || "");
+        setDiasMedia(d.diasAlertaMedia ?? 2);
+        setDiasAlta(d.diasAlertaAlta ?? 3);
+        setDiasCritica(d.diasAlertaCritica ?? 7);
+      })
       .catch(() => toast.error("Error al cargar la configuración"));
   }, []);
 
@@ -72,7 +80,12 @@ function SeccionGeneral() {
       const res = await fetch("/api/configuracion", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailRespuesta: email }),
+        body: JSON.stringify({
+          emailRespuesta: email,
+          diasAlertaMedia: diasMedia,
+          diasAlertaAlta: diasAlta,
+          diasAlertaCritica: diasCritica,
+        }),
       });
       if (res.ok) {
         toast.success("Configuración guardada correctamente");
@@ -87,8 +100,10 @@ function SeccionGeneral() {
   }
 
   return (
-    <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 space-y-4">
+    <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 space-y-5">
       <h3 style={{ color: "var(--text-primary)" }} className="font-semibold">Configuración general</h3>
+
+      {/* Email */}
       <div>
         <label style={labelStyle} className="text-xs mb-1 block">
           Correo de respuesta para oficios fiscales
@@ -104,6 +119,56 @@ function SeccionGeneral() {
           Este correo aparecerá al final de cada oficio fiscal generado.
         </p>
       </div>
+
+      {/* Días de alerta */}
+      <div>
+        <p style={{ color: "var(--text-primary)" }} className="text-sm font-medium mb-3">Días sin respuesta para alertas</p>
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <label style={{ color: "#eab308" }} className="text-xs mb-1 block font-medium">⚠ Media</label>
+            <input
+              type="number"
+              min={1}
+              max={30}
+              value={diasMedia}
+              onChange={e => setDiasMedia(Number(e.target.value))}
+              style={inputStyle}
+              className={inputClass}
+            />
+            <p style={{ color: "var(--text-muted)" }} className="text-xs mt-1">días</p>
+          </div>
+          <div>
+            <label style={{ color: "#f97316" }} className="text-xs mb-1 block font-medium">🔶 Alta</label>
+            <input
+              type="number"
+              min={1}
+              max={30}
+              value={diasAlta}
+              onChange={e => setDiasAlta(Number(e.target.value))}
+              style={inputStyle}
+              className={inputClass}
+            />
+            <p style={{ color: "var(--text-muted)" }} className="text-xs mt-1">días</p>
+          </div>
+          <div>
+            <label style={{ color: "#ef4444" }} className="text-xs mb-1 block font-medium">🔴 Crítica</label>
+            <input
+              type="number"
+              min={1}
+              max={30}
+              value={diasCritica}
+              onChange={e => setDiasCritica(Number(e.target.value))}
+              style={inputStyle}
+              className={inputClass}
+            />
+            <p style={{ color: "var(--text-muted)" }} className="text-xs mt-1">días</p>
+          </div>
+        </div>
+        <p style={{ color: "var(--text-muted)" }} className="text-xs mt-2">
+          Un oficio enviado sin respuesta generará alerta según los días configurados.
+        </p>
+      </div>
+
       <button onClick={guardar} disabled={guardando} style={{ background: "var(--accent)" }}
         className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90 transition disabled:opacity-50">
         {guardando ? "Guardando..." : "Guardar"}

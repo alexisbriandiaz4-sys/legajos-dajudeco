@@ -8622,13 +8622,30 @@ export namespace Prisma {
 
   export type AggregateConfiguracion = {
     _count: ConfiguracionCountAggregateOutputType | null
+    _avg: ConfiguracionAvgAggregateOutputType | null
+    _sum: ConfiguracionSumAggregateOutputType | null
     _min: ConfiguracionMinAggregateOutputType | null
     _max: ConfiguracionMaxAggregateOutputType | null
+  }
+
+  export type ConfiguracionAvgAggregateOutputType = {
+    diasAlertaMedia: number | null
+    diasAlertaAlta: number | null
+    diasAlertaCritica: number | null
+  }
+
+  export type ConfiguracionSumAggregateOutputType = {
+    diasAlertaMedia: number | null
+    diasAlertaAlta: number | null
+    diasAlertaCritica: number | null
   }
 
   export type ConfiguracionMinAggregateOutputType = {
     id: string | null
     emailRespuesta: string | null
+    diasAlertaMedia: number | null
+    diasAlertaAlta: number | null
+    diasAlertaCritica: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8636,6 +8653,9 @@ export namespace Prisma {
   export type ConfiguracionMaxAggregateOutputType = {
     id: string | null
     emailRespuesta: string | null
+    diasAlertaMedia: number | null
+    diasAlertaAlta: number | null
+    diasAlertaCritica: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8643,15 +8663,33 @@ export namespace Prisma {
   export type ConfiguracionCountAggregateOutputType = {
     id: number
     emailRespuesta: number
+    diasAlertaMedia: number
+    diasAlertaAlta: number
+    diasAlertaCritica: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type ConfiguracionAvgAggregateInputType = {
+    diasAlertaMedia?: true
+    diasAlertaAlta?: true
+    diasAlertaCritica?: true
+  }
+
+  export type ConfiguracionSumAggregateInputType = {
+    diasAlertaMedia?: true
+    diasAlertaAlta?: true
+    diasAlertaCritica?: true
+  }
+
   export type ConfiguracionMinAggregateInputType = {
     id?: true
     emailRespuesta?: true
+    diasAlertaMedia?: true
+    diasAlertaAlta?: true
+    diasAlertaCritica?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8659,6 +8697,9 @@ export namespace Prisma {
   export type ConfiguracionMaxAggregateInputType = {
     id?: true
     emailRespuesta?: true
+    diasAlertaMedia?: true
+    diasAlertaAlta?: true
+    diasAlertaCritica?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8666,6 +8707,9 @@ export namespace Prisma {
   export type ConfiguracionCountAggregateInputType = {
     id?: true
     emailRespuesta?: true
+    diasAlertaMedia?: true
+    diasAlertaAlta?: true
+    diasAlertaCritica?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8709,6 +8753,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ConfiguracionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ConfiguracionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ConfiguracionMinAggregateInputType
@@ -8739,6 +8795,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ConfiguracionCountAggregateInputType | true
+    _avg?: ConfiguracionAvgAggregateInputType
+    _sum?: ConfiguracionSumAggregateInputType
     _min?: ConfiguracionMinAggregateInputType
     _max?: ConfiguracionMaxAggregateInputType
   }
@@ -8746,9 +8804,14 @@ export namespace Prisma {
   export type ConfiguracionGroupByOutputType = {
     id: string
     emailRespuesta: string
+    diasAlertaMedia: number
+    diasAlertaAlta: number
+    diasAlertaCritica: number
     createdAt: Date
     updatedAt: Date
     _count: ConfiguracionCountAggregateOutputType | null
+    _avg: ConfiguracionAvgAggregateOutputType | null
+    _sum: ConfiguracionSumAggregateOutputType | null
     _min: ConfiguracionMinAggregateOutputType | null
     _max: ConfiguracionMaxAggregateOutputType | null
   }
@@ -8770,6 +8833,9 @@ export namespace Prisma {
   export type ConfiguracionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     emailRespuesta?: boolean
+    diasAlertaMedia?: boolean
+    diasAlertaAlta?: boolean
+    diasAlertaCritica?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["configuracion"]>
@@ -8777,6 +8843,9 @@ export namespace Prisma {
   export type ConfiguracionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     emailRespuesta?: boolean
+    diasAlertaMedia?: boolean
+    diasAlertaAlta?: boolean
+    diasAlertaCritica?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["configuracion"]>
@@ -8784,6 +8853,9 @@ export namespace Prisma {
   export type ConfiguracionSelectScalar = {
     id?: boolean
     emailRespuesta?: boolean
+    diasAlertaMedia?: boolean
+    diasAlertaAlta?: boolean
+    diasAlertaCritica?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -8795,6 +8867,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       emailRespuesta: string
+      diasAlertaMedia: number
+      diasAlertaAlta: number
+      diasAlertaCritica: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["configuracion"]>
@@ -9192,6 +9267,9 @@ export namespace Prisma {
   interface ConfiguracionFieldRefs {
     readonly id: FieldRef<"Configuracion", 'String'>
     readonly emailRespuesta: FieldRef<"Configuracion", 'String'>
+    readonly diasAlertaMedia: FieldRef<"Configuracion", 'Int'>
+    readonly diasAlertaAlta: FieldRef<"Configuracion", 'Int'>
+    readonly diasAlertaCritica: FieldRef<"Configuracion", 'Int'>
     readonly createdAt: FieldRef<"Configuracion", 'DateTime'>
     readonly updatedAt: FieldRef<"Configuracion", 'DateTime'>
   }
@@ -9604,6 +9682,9 @@ export namespace Prisma {
   export const ConfiguracionScalarFieldEnum: {
     id: 'id',
     emailRespuesta: 'emailRespuesta',
+    diasAlertaMedia: 'diasAlertaMedia',
+    diasAlertaAlta: 'diasAlertaAlta',
+    diasAlertaCritica: 'diasAlertaCritica',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9657,6 +9738,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
   /**
    * Deep Input Types
@@ -10234,6 +10322,9 @@ export namespace Prisma {
     NOT?: ConfiguracionWhereInput | ConfiguracionWhereInput[]
     id?: StringFilter<"Configuracion"> | string
     emailRespuesta?: StringFilter<"Configuracion"> | string
+    diasAlertaMedia?: IntFilter<"Configuracion"> | number
+    diasAlertaAlta?: IntFilter<"Configuracion"> | number
+    diasAlertaCritica?: IntFilter<"Configuracion"> | number
     createdAt?: DateTimeFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeFilter<"Configuracion"> | Date | string
   }
@@ -10241,6 +10332,9 @@ export namespace Prisma {
   export type ConfiguracionOrderByWithRelationInput = {
     id?: SortOrder
     emailRespuesta?: SortOrder
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10251,6 +10345,9 @@ export namespace Prisma {
     OR?: ConfiguracionWhereInput[]
     NOT?: ConfiguracionWhereInput | ConfiguracionWhereInput[]
     emailRespuesta?: StringFilter<"Configuracion"> | string
+    diasAlertaMedia?: IntFilter<"Configuracion"> | number
+    diasAlertaAlta?: IntFilter<"Configuracion"> | number
+    diasAlertaCritica?: IntFilter<"Configuracion"> | number
     createdAt?: DateTimeFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeFilter<"Configuracion"> | Date | string
   }, "id">
@@ -10258,11 +10355,16 @@ export namespace Prisma {
   export type ConfiguracionOrderByWithAggregationInput = {
     id?: SortOrder
     emailRespuesta?: SortOrder
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ConfiguracionCountOrderByAggregateInput
+    _avg?: ConfiguracionAvgOrderByAggregateInput
     _max?: ConfiguracionMaxOrderByAggregateInput
     _min?: ConfiguracionMinOrderByAggregateInput
+    _sum?: ConfiguracionSumOrderByAggregateInput
   }
 
   export type ConfiguracionScalarWhereWithAggregatesInput = {
@@ -10271,6 +10373,9 @@ export namespace Prisma {
     NOT?: ConfiguracionScalarWhereWithAggregatesInput | ConfiguracionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Configuracion"> | string
     emailRespuesta?: StringWithAggregatesFilter<"Configuracion"> | string
+    diasAlertaMedia?: IntWithAggregatesFilter<"Configuracion"> | number
+    diasAlertaAlta?: IntWithAggregatesFilter<"Configuracion"> | number
+    diasAlertaCritica?: IntWithAggregatesFilter<"Configuracion"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Configuracion"> | Date | string
   }
@@ -10919,6 +11024,9 @@ export namespace Prisma {
   export type ConfiguracionCreateInput = {
     id?: string
     emailRespuesta?: string
+    diasAlertaMedia?: number
+    diasAlertaAlta?: number
+    diasAlertaCritica?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10926,6 +11034,9 @@ export namespace Prisma {
   export type ConfiguracionUncheckedCreateInput = {
     id?: string
     emailRespuesta?: string
+    diasAlertaMedia?: number
+    diasAlertaAlta?: number
+    diasAlertaCritica?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10933,6 +11044,9 @@ export namespace Prisma {
   export type ConfiguracionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     emailRespuesta?: StringFieldUpdateOperationsInput | string
+    diasAlertaMedia?: IntFieldUpdateOperationsInput | number
+    diasAlertaAlta?: IntFieldUpdateOperationsInput | number
+    diasAlertaCritica?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10940,6 +11054,9 @@ export namespace Prisma {
   export type ConfiguracionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     emailRespuesta?: StringFieldUpdateOperationsInput | string
+    diasAlertaMedia?: IntFieldUpdateOperationsInput | number
+    diasAlertaAlta?: IntFieldUpdateOperationsInput | number
+    diasAlertaCritica?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10947,6 +11064,9 @@ export namespace Prisma {
   export type ConfiguracionCreateManyInput = {
     id?: string
     emailRespuesta?: string
+    diasAlertaMedia?: number
+    diasAlertaAlta?: number
+    diasAlertaCritica?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10954,6 +11074,9 @@ export namespace Prisma {
   export type ConfiguracionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     emailRespuesta?: StringFieldUpdateOperationsInput | string
+    diasAlertaMedia?: IntFieldUpdateOperationsInput | number
+    diasAlertaAlta?: IntFieldUpdateOperationsInput | number
+    diasAlertaCritica?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10961,6 +11084,9 @@ export namespace Prisma {
   export type ConfiguracionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     emailRespuesta?: StringFieldUpdateOperationsInput | string
+    diasAlertaMedia?: IntFieldUpdateOperationsInput | number
+    diasAlertaAlta?: IntFieldUpdateOperationsInput | number
+    diasAlertaCritica?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11437,16 +11563,39 @@ export namespace Prisma {
     usuarioId?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type ConfiguracionCountOrderByAggregateInput = {
     id?: SortOrder
     emailRespuesta?: SortOrder
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ConfiguracionAvgOrderByAggregateInput = {
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
   }
 
   export type ConfiguracionMaxOrderByAggregateInput = {
     id?: SortOrder
     emailRespuesta?: SortOrder
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11454,8 +11603,33 @@ export namespace Prisma {
   export type ConfiguracionMinOrderByAggregateInput = {
     id?: SortOrder
     emailRespuesta?: SortOrder
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ConfiguracionSumOrderByAggregateInput = {
+    diasAlertaMedia?: SortOrder
+    diasAlertaAlta?: SortOrder
+    diasAlertaCritica?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type LegajoCreateNestedManyWithoutUsuarioInput = {
@@ -11814,6 +11988,14 @@ export namespace Prisma {
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutFiscalesInput, UsuarioUpdateWithoutFiscalesInput>, UsuarioUncheckedUpdateWithoutFiscalesInput>
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -11959,6 +12141,33 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type LegajoCreateWithoutUsuarioInput = {
