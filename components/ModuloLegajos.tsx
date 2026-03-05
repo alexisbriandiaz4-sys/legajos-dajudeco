@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle } from "lucide-react";
+import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, ChevronRight, Pencil, Trash2, PowerOff, AlertTriangle, SlidersHorizontal, X } from "lucide-react";
 import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
 
@@ -15,10 +15,16 @@ interface Legajo {
   victimas: Victima[]; dispositivos: Dispositivo[]; oficios: Oficio[];
 }
 
+const ESTADOS = ["Activo", "En seguimiento", "Cerrado", "Inactivo"];
+
 export default function ModuloLegajos() {
   const [legajos, setLegajos] = useState<Legajo[]>([]);
   const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState("");
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const [filtroEstado, setFiltroEstado] = useState("");
+  const [filtroFechaDesde, setFiltroFechaDesde] = useState("");
+  const [filtroFechaHasta, setFiltroFechaHasta] = useState("");
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [legajoSeleccionado, setLegajoSeleccionado] = useState<Legajo | null>(null);
   const [legajoEditar, setLegajoEditar] = useState<Legajo | null>(null);
@@ -89,12 +95,45 @@ export default function ModuloLegajos() {
     }
   }
 
-  const filtrados = legajos.filter(l =>
-    l.numero.toLowerCase().includes(busqueda.toLowerCase()) ||
-    l.caratula.toLowerCase().includes(busqueda.toLowerCase()) ||
-    l.delito.toLowerCase().includes(busqueda.toLowerCase()) ||
-    l.victimas.some(v => v.nombre.toLowerCase().includes(busqueda.toLowerCase()))
-  );
+  function limpiarFiltros() {
+    setBusqueda("");
+    setFiltroEstado("");
+    setFiltroFechaDesde("");
+    setFiltroFechaHasta("");
+  }
+
+  const hayFiltrosActivos = busqueda || filtroEstado || filtroFechaDesde || filtroFechaHasta;
+
+  const filtrados = legajos.filter(l => {
+    // Búsqueda de texto
+    if (busqueda) {
+      const q = busqueda.toLowerCase();
+      const coincideTexto =
+        l.numero.toLowerCase().includes(q) ||
+        l.caratula.toLowerCase().includes(q) ||
+        l.delito.toLowerCase().includes(q) ||
+        (l.fiscal ?? "").toLowerCase().includes(q) ||
+        (l.cuij ?? "").toLowerCase().includes(q) ||
+        l.victimas.some(v => v.nombre.toLowerCase().includes(q) || (v.dni ?? "").includes(q));
+      if (!coincideTexto) return false;
+    }
+    // Filtro estado
+    if (filtroEstado && l.estado !== filtroEstado) return false;
+    // Filtro fecha desde
+    if (filtroFechaDesde) {
+      const fecha = new Date(l.fechaHecho);
+      const desde = new Date(filtroFechaDesde);
+      if (fecha < desde) return false;
+    }
+    // Filtro fecha hasta
+    if (filtroFechaHasta) {
+      const fecha = new Date(l.fechaHecho);
+      const hasta = new Date(filtroFechaHasta);
+      hasta.setHours(23, 59, 59);
+      if (fecha > hasta) return false;
+    }
+    return true;
+  });
 
   function colorEstado(estado: string) {
     if (estado === "Activo") return { background: "rgba(34,197,94,0.15)", color: "var(--success)" };
@@ -113,6 +152,9 @@ export default function ModuloLegajos() {
       {icon}
     </button>
   );
+
+  const inputStyle = { background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-primary)" };
+  const inputClass = "w-full rounded-lg px-3 py-2 text-sm outline-none";
 
   // ── Vista detalle ──
   if (legajoSeleccionado) {
@@ -271,7 +313,10 @@ export default function ModuloLegajos() {
       <div className="flex items-center justify-between">
         <div>
           <h2 style={{ color: "var(--text-primary)" }} className="text-xl font-bold">Legajos</h2>
-          <p style={{ color: "var(--text-muted)" }} className="text-sm">{legajos.length} legajo{legajos.length !== 1 ? "s" : ""} registrado{legajos.length !== 1 ? "s" : ""}</p>
+          <p style={{ color: "var(--text-muted)" }} className="text-sm">
+            {filtrados.length} de {legajos.length} legajo{legajos.length !== 1 ? "s" : ""}
+            {hayFiltrosActivos ? " (filtrado)" : ""}
+          </p>
         </div>
         <button
           onClick={() => setMostrarFormulario(true)}
@@ -282,25 +327,140 @@ export default function ModuloLegajos() {
         </button>
       </div>
 
-      <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="flex items-center gap-2 rounded-lg px-3 py-2">
-        <Search size={16} style={{ color: "var(--text-muted)" }} />
-        <input
-          value={busqueda}
-          onChange={e => setBusqueda(e.target.value)}
-          placeholder="Buscar por número, carátula, delito o víctima..."
-          style={{ background: "transparent", color: "var(--text-primary)" }}
-          className="flex-1 text-sm outline-none placeholder:text-[var(--text-muted)]"
-        />
+      {/* Barra de búsqueda */}
+      <div className="flex gap-2">
+        <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="flex-1 flex items-center gap-2 rounded-lg px-3 py-2">
+          <Search size={16} style={{ color: "var(--text-muted)" }} />
+          <input
+            value={busqueda}
+            onChange={e => setBusqueda(e.target.value)}
+            placeholder="Buscar por número, carátula, delito, fiscal, CUIJ o víctima..."
+            style={{ background: "transparent", color: "var(--text-primary)" }}
+            className="flex-1 text-sm outline-none placeholder:text-[var(--text-muted)]"
+          />
+          {busqueda && (
+            <button onClick={() => setBusqueda("")} style={{ color: "var(--text-muted)" }} className="hover:opacity-70">
+              <X size={14} />
+            </button>
+          )}
+        </div>
+        <button
+          onClick={() => setMostrarFiltros(v => !v)}
+          style={{
+            background: mostrarFiltros || (filtroEstado || filtroFechaDesde || filtroFechaHasta) ? "var(--accent)" : "var(--bg-secondary)",
+            border: "1px solid var(--border)",
+            color: mostrarFiltros || (filtroEstado || filtroFechaDesde || filtroFechaHasta) ? "#fff" : "var(--text-secondary)",
+          }}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition hover:opacity-90"
+          title="Filtros avanzados"
+        >
+          <SlidersHorizontal size={15} />
+          <span className="hidden md:inline">Filtros</span>
+          {(filtroEstado || filtroFechaDesde || filtroFechaHasta) && (
+            <span className="w-2 h-2 rounded-full bg-white opacity-90" />
+          )}
+        </button>
       </div>
 
+      {/* Panel de filtros avanzados */}
+      {mostrarFiltros && (
+        <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <p style={{ color: "var(--text-primary)" }} className="text-sm font-medium">Filtros avanzados</p>
+            {hayFiltrosActivos && (
+              <button
+                onClick={limpiarFiltros}
+                style={{ color: "var(--danger)" }}
+                className="text-xs hover:opacity-70 flex items-center gap-1"
+              >
+                <X size={12} /> Limpiar todo
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {/* Estado */}
+            <div>
+              <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Estado</label>
+              <select
+                value={filtroEstado}
+                onChange={e => setFiltroEstado(e.target.value)}
+                style={inputStyle}
+                className={inputClass}
+              >
+                <option value="">Todos</option>
+                {ESTADOS.map(e => <option key={e} value={e}>{e}</option>)}
+              </select>
+            </div>
+
+            {/* Fecha desde */}
+            <div>
+              <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Fecha hecho — desde</label>
+              <input
+                type="date"
+                value={filtroFechaDesde}
+                onChange={e => setFiltroFechaDesde(e.target.value)}
+                style={inputStyle}
+                className={inputClass}
+              />
+            </div>
+
+            {/* Fecha hasta */}
+            <div>
+              <label style={{ color: "var(--text-muted)" }} className="text-xs mb-1 block">Fecha hecho — hasta</label>
+              <input
+                type="date"
+                value={filtroFechaHasta}
+                onChange={e => setFiltroFechaHasta(e.target.value)}
+                style={inputStyle}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          {/* Tags de filtros activos */}
+          {(filtroEstado || filtroFechaDesde || filtroFechaHasta) && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {filtroEstado && (
+                <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
+                  className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
+                  Estado: {filtroEstado}
+                  <button onClick={() => setFiltroEstado("")} className="hover:opacity-70"><X size={11} /></button>
+                </span>
+              )}
+              {filtroFechaDesde && (
+                <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
+                  className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
+                  Desde: {new Date(filtroFechaDesde).toLocaleDateString("es-AR")}
+                  <button onClick={() => setFiltroFechaDesde("")} className="hover:opacity-70"><X size={11} /></button>
+                </span>
+              )}
+              {filtroFechaHasta && (
+                <span style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
+                  className="flex items-center gap-1 text-xs px-2 py-1 rounded-full">
+                  Hasta: {new Date(filtroFechaHasta).toLocaleDateString("es-AR")}
+                  <button onClick={() => setFiltroFechaHasta("")} className="hover:opacity-70"><X size={11} /></button>
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Lista */}
       {cargando ? (
         <p style={{ color: "var(--text-muted)" }} className="text-sm text-center py-8">Cargando legajos...</p>
       ) : filtrados.length === 0 ? (
         <div className="text-center py-16">
           <FolderOpen size={40} style={{ color: "var(--text-muted)" }} className="mx-auto mb-3" />
           <p style={{ color: "var(--text-muted)" }} className="text-sm">
-            {busqueda ? "Sin resultados para la búsqueda" : "No hay legajos registrados"}
+            {hayFiltrosActivos ? "Sin resultados para los filtros aplicados" : "No hay legajos registrados"}
           </p>
+          {hayFiltrosActivos && (
+            <button onClick={limpiarFiltros} style={{ color: "var(--accent)" }} className="text-sm mt-2 hover:opacity-80">
+              Limpiar filtros
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-2">
@@ -322,7 +482,7 @@ export default function ModuloLegajos() {
                   </div>
                   <p style={{ color: "var(--text-primary)" }} className="text-sm font-medium truncate">{legajo.caratula}</p>
                   <p style={{ color: "var(--text-muted)" }} className="text-xs mt-0.5">{legajo.delito}</p>
-                  <div className="flex items-center gap-4 mt-2">
+                  <div className="flex items-center gap-4 mt-2 flex-wrap">
                     <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
                       <User size={11} /> {legajo.victimas.length} víctima{legajo.victimas.length !== 1 ? "s" : ""}
                     </span>
@@ -332,6 +492,11 @@ export default function ModuloLegajos() {
                     <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
                       <Calendar size={11} /> {new Date(legajo.fechaHecho).toLocaleDateString("es-AR")}
                     </span>
+                    {legajo.fiscal && (
+                      <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
+                        <User size={11} /> {legajo.fiscal}
+                      </span>
+                    )}
                   </div>
                 </button>
 
@@ -407,19 +572,13 @@ function ModalConfirmarBorrar({ legajo, procesando, onCancelar, onConfirmar }: {
           ¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{legajo.numero}</span>? Se eliminarán también todas las víctimas, dispositivos y oficios asociados.
         </p>
         <div className="flex gap-3">
-          <button
-            onClick={onCancelar}
+          <button onClick={onCancelar}
             style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
-            className="flex-1 py-2 rounded-lg text-sm hover:opacity-80 transition"
-          >
+            className="flex-1 py-2 rounded-lg text-sm hover:opacity-80 transition">
             Cancelar
           </button>
-          <button
-            onClick={onConfirmar}
-            disabled={procesando}
-            style={{ background: "var(--danger)" }}
-            className="flex-1 py-2 rounded-lg text-sm text-white hover:opacity-80 transition disabled:opacity-50"
-          >
+          <button onClick={onConfirmar} disabled={procesando} style={{ background: "var(--danger)" }}
+            className="flex-1 py-2 rounded-lg text-sm text-white hover:opacity-80 transition disabled:opacity-50">
             {procesando ? "Eliminando..." : "Eliminar"}
           </button>
         </div>
