@@ -22,7 +22,7 @@ const UsuarioCreateSchema = z.object({
   nombre:   z.string().min(1, 'El nombre es requerido').max(100),
   usuario:  z.string().min(3, 'Mínimo 3 caracteres').max(50),
   password: z.string().min(6, 'Mínimo 6 caracteres').max(100),
-  rol:      z.enum(['admin', 'usuario']).default('usuario'),
+  rol: z.enum(['admin', 'investigador']).default('investigador'),
 })
 
 export async function GET() {
@@ -33,7 +33,7 @@ export async function GET() {
 
     const usuarios = await prisma.usuario.findMany({
       orderBy: { createdAt: 'asc' },
-      select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true }
+      select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true, _count: { select: { legajos: true } } }
     })
     return NextResponse.json(usuarios)
   } catch (error) {

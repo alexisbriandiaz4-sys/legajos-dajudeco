@@ -31,6 +31,9 @@ model Legajo {
   observaciones  String?
   fiscal         String?
   emailRespuesta String?
+  visto          Boolean         @default(false)
+  origenTipo     String?
+  origenId       String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   usuarioId      String
@@ -150,6 +153,8 @@ model RegistroTelefonia {
   imputados      String?
   requisa        String?
   procedimientos String?
+  asignadoA      String?
+  visto          Boolean   @default(false)
   createdAt      DateTime  @default(now())
 
   @@index([victima])
@@ -184,6 +189,8 @@ model RegistroEstafa {
   otrosCbu           String?
   estadoLegajo       String?
   complementos       String?
+  asignadoA          String?
+  visto              Boolean   @default(false)
   createdAt          DateTime  @default(now())
 
   @@index([victima])

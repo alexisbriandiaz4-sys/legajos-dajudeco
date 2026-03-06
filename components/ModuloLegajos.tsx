@@ -5,6 +5,7 @@ import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, Chevron
 import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
 import SeccionArchivos from "./SeccionArchivos";
+import { useAuth } from "@/lib/auth-context";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
 interface Dispositivo { id: string; tipo: string; marca?: string; modelo?: string; imei?: string; }
@@ -15,15 +16,21 @@ interface Legajo {
   fiscal?: string; emailRespuesta?: string;
   victimas: Victima[]; dispositivos: Dispositivo[]; oficios: Oficio[];
 }
-
 interface PaginaResponse {
   legajos: Legajo[]; total: number; page: number; limit: number; totalPages: number;
+}
+interface UsuarioTab {
+  id: string; nombre: string; usuario: string; rol: string;
+  _count: { legajos: number };
 }
 
 const ESTADOS = ["Activo", "En seguimiento", "Cerrado", "Inactivo"];
 const LIMIT = 20;
 
 export default function ModuloLegajos() {
+  const { usuario } = useAuth();
+  const esAdmin = usuario?.rol === 'admin';
+
   const [datos, setDatos] = useState<PaginaResponse>({ legajos: [], total: 0, page: 1, limit: LIMIT, totalPages: 0 });
   const [cargando, setCargando] = useState(true);
   const [page, setPage] = useState(1);
@@ -39,6 +46,19 @@ export default function ModuloLegajos() {
   const [confirmarBorrar, setConfirmarBorrar] = useState<Legajo | null>(null);
   const [procesando, setProcesando] = useState(false);
 
+  // Estado para pestañas de admin
+  const [usuarios, setUsuarios] = useState<UsuarioTab[]>([]);
+  const [tabActiva, setTabActiva] = useState<string>("todos");
+
+  // Cargar lista de usuarios si es admin
+  useEffect(() => {
+    if (!esAdmin) return;
+    fetch('/api/usuarios')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => setUsuarios(data))
+      .catch(() => {});
+  }, [esAdmin]);
+
   const cargarLegajos = useCallback(async (p = page) => {
     setCargando(true);
     try {
@@ -47,6 +67,8 @@ export default function ModuloLegajos() {
       if (filtroEstado)     params.set('estado', filtroEstado);
       if (filtroFechaDesde) params.set('desde', filtroFechaDesde);
       if (filtroFechaHasta) params.set('hasta', filtroFechaHasta);
+      // Si admin y hay tab activa (no "todos"), filtrar por usuarioId
+      if (esAdmin && tabActiva !== 'todos') params.set('usuarioId', tabActiva);
 
       const res = await fetch(`/api/legajos?${params}`);
       if (res.ok) {
@@ -59,9 +81,9 @@ export default function ModuloLegajos() {
     } finally {
       setCargando(false);
     }
-  }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta]);
+  }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta, esAdmin, tabActiva]);
 
-  useEffect(() => { cargarLegajos(page); }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta]);
+  useEffect(() => { cargarLegajos(page); }, [page, busqueda, filtroEstado, filtroFechaDesde, filtroFechaHasta, tabActiva]);
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -70,6 +92,17 @@ export default function ModuloLegajos() {
     }, 400);
     return () => clearTimeout(t);
   }, [busquedaInput]);
+
+  // Al cambiar tab resetear página y filtros
+  function cambiarTab(tabId: string) {
+    setTabActiva(tabId);
+    setPage(1);
+    setBusqueda("");
+    setBusquedaInput("");
+    setFiltroEstado("");
+    setFiltroFechaDesde("");
+    setFiltroFechaHasta("");
+  }
 
   async function cambiarEstado(legajo: Legajo, nuevoEstado: string) {
     setProcesando(true);
@@ -144,6 +177,11 @@ export default function ModuloLegajos() {
 
   const inputStyle = { background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-primary)" };
   const inputClass = "w-full rounded-lg px-3 py-2 text-sm outline-none";
+
+  // Nombre de la tab activa para el título
+  const nombreTabActiva = tabActiva === 'todos'
+    ? 'Todos los legajos'
+    : usuarios.find(u => u.id === tabActiva)?.nombre ?? 'Legajos';
 
   // ── Vista detalle ──
   if (legajoSeleccionado) {
@@ -260,12 +298,10 @@ export default function ModuloLegajos() {
             }
           </div>
 
-          {/* ── Sección de archivos ── */}
           <div>
             <p style={{ color: "var(--text-muted)" }} className="text-xs font-semibold mb-2 uppercase tracking-wide">Archivos y análisis</p>
             <SeccionArchivos legajoId={legajoSeleccionado.id} nroLegajo={legajoSeleccionado.numero} />
           </div>
-
         </div>
 
         {legajoEditar && (
@@ -294,6 +330,9 @@ export default function ModuloLegajos() {
         <div>
           <h2 style={{ color: "var(--text-primary)" }} className="text-xl font-bold">Legajos</h2>
           <p style={{ color: "var(--text-muted)" }} className="text-sm">
+            {esAdmin && tabActiva !== 'todos' && (
+              <span style={{ color: "var(--accent)" }}>{nombreTabActiva} · </span>
+            )}
             {datos.total} legajo{datos.total !== 1 ? "s" : ""}
             {hayFiltrosActivos ? " (filtrado)" : ""}
             {datos.totalPages > 1 && ` · Página ${datos.page} de ${datos.totalPages}`}
@@ -305,6 +344,39 @@ export default function ModuloLegajos() {
           <Plus size={16} /> Nuevo legajo
         </button>
       </div>
+
+      {/* Pestañas de usuarios — solo admin */}
+      {esAdmin && usuarios.length > 0 && (
+        <div style={{ borderBottom: "1px solid var(--border)" }} className="flex gap-1 overflow-x-auto pb-0">
+          <button
+            onClick={() => cambiarTab('todos')}
+            style={{
+              borderBottom: tabActiva === 'todos' ? "2px solid var(--accent)" : "2px solid transparent",
+              color: tabActiva === 'todos' ? "var(--accent)" : "var(--text-muted)",
+              background: "transparent",
+            }}
+            className="px-4 py-2 text-sm font-medium whitespace-nowrap transition hover:opacity-80"
+          >
+            Todos
+            <span className="ml-1.5 text-xs opacity-60">({datos.total})</span>
+          </button>
+          {usuarios.map(u => (
+            <button
+              key={u.id}
+              onClick={() => cambiarTab(u.id)}
+              style={{
+                borderBottom: tabActiva === u.id ? "2px solid var(--accent)" : "2px solid transparent",
+                color: tabActiva === u.id ? "var(--accent)" : "var(--text-muted)",
+                background: "transparent",
+              }}
+              className="px-4 py-2 text-sm font-medium whitespace-nowrap transition hover:opacity-80"
+            >
+              {u.nombre}
+              <span className="ml-1.5 text-xs opacity-60">({u._count.legajos})</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Búsqueda */}
       <div className="flex gap-2">

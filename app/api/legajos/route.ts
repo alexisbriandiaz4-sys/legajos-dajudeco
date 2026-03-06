@@ -1,22 +1,31 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
-import { getUsuarioId } from '@/lib/server-auth'
+import { getUsuario } from '@/lib/server-auth'
 import { LegajoSchema, handlePrismaError } from '@/lib/validators'
 
 export async function GET(request: Request) {
   try {
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const { searchParams } = new URL(request.url)
-    const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
-    const limit    = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
-    const busqueda = searchParams.get('q')         ?? ''
-    const estado   = searchParams.get('estado')    ?? ''
-    const desde    = searchParams.get('desde')     ?? ''
-    const hasta    = searchParams.get('hasta')     ?? ''
+    const page      = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
+    const limit     = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
+    const busqueda  = searchParams.get('q')         ?? ''
+    const estado    = searchParams.get('estado')    ?? ''
+    const desde     = searchParams.get('desde')     ?? ''
+    const hasta     = searchParams.get('hasta')     ?? ''
+    const filtroUsuarioId = searchParams.get('usuarioId') ?? ''
 
-    const where: any = { usuarioId }
+    const where: any = {}
+
+    // Si es admin puede ver todos o filtrar por usuarioId específico
+    // Si es investigador solo ve los suyos
+    if (usuario.rol === 'admin') {
+      if (filtroUsuarioId) where.usuarioId = filtroUsuarioId
+    } else {
+      where.usuarioId = usuario.id
+    }
 
     if (estado) where.estado = estado
 
@@ -69,8 +78,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const json = await request.json()
     const parsed = LegajoSchema.safeParse(json)
@@ -88,7 +97,7 @@ export async function POST(request: Request) {
         fechaHecho:    new Date(body.fechaHecho),
         estado:        body.estado,
         observaciones: body.observaciones || null,
-        usuarioId,
+        usuarioId:     usuario.id,
         victimas:     { create: body.victimas },
         dispositivos: { create: body.dispositivos },
       },

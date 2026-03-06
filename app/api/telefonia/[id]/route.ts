@@ -39,6 +39,24 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   }
 }
 
+export async function PATCH(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params
+    const usuarioId = await getUsuarioId()
+    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    await prisma.registroTelefonia.update({
+      where: { id },
+      data: { visto: true },
+    })
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error(error)
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
+  }
+}
+
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params

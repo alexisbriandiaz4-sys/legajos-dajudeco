@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
-import { getUsuarioId } from '@/lib/server-auth'
+import { getUsuario } from '@/lib/server-auth'
 import { handlePrismaError } from '@/lib/validators'
 
 export async function GET(request: Request) {
   try {
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const { searchParams } = new URL(request.url)
     const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
@@ -18,6 +18,14 @@ export async function GET(request: Request) {
 
     const where: any = {}
 
+    // Investigador: ve solo los asignados a él o sin asignar
+    if (usuario.rol !== 'admin') {
+      where.OR = [
+        { asignadoA: usuario.id },
+        { asignadoA: null },
+      ]
+    }
+
     if (ardid) where.ardid = { contains: ardid, mode: 'insensitive' }
     if (desde || hasta) {
       where.fechaHecho = {}
@@ -25,7 +33,7 @@ export async function GET(request: Request) {
       if (hasta) where.fechaHecho.lte = new Date(hasta)
     }
     if (busqueda) {
-      where.OR = [
+      const busquedaOR = [
         { victima:   { contains: busqueda, mode: 'insensitive' } },
         { nroLegajo: { contains: busqueda, mode: 'insensitive' } },
         { ardid:     { contains: busqueda, mode: 'insensitive' } },
@@ -33,6 +41,12 @@ export async function GET(request: Request) {
         { cbu:       { contains: busqueda, mode: 'insensitive' } },
         { titulares: { contains: busqueda, mode: 'insensitive' } },
       ]
+      if (where.OR) {
+        where.AND = [{ OR: where.OR }, { OR: busquedaOR }]
+        delete where.OR
+      } else {
+        where.OR = busquedaOR
+      }
     }
 
     const [total, registros] = await prisma.$transaction([
@@ -55,8 +69,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const body = await request.json()
     const registro = await prisma.registroEstafa.create({ data: body })
