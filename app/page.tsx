@@ -3,25 +3,39 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
-import { LogOut, FolderOpen, FileText, Bell, User, Sun, Moon, Monitor, Settings, Database } from "lucide-react";
+import {
+  LogOut, FolderOpen, FileText, Bell, User, Sun, Moon,
+  Monitor, Settings, Database, BarChart3, ChevronLeft, ChevronRight
+} from "lucide-react";
 import ModuloLegajos from "@/components/ModuloLegajos";
 import ModuloOficios from "@/components/ModuloOficios";
 import ModuloConfiguracion from "@/components/ModuloConfiguracion";
 import ModuloAlertas from "@/components/ModuloAlertas";
 import ModuloBaseGeneral from "@/components/ModuloBaseGeneral";
+import ModuloEstadisticas from "@/components/ModuloEstadisticas";
 
-type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia';
+type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia' | 'estadisticas';
 
 export default function Home() {
   const { usuario, cargando, logout } = useAuth();
   const { tema, setTema } = useTheme();
   const [vista, setVista] = useState<Vista>('legajos');
   const [novedades, setNovedades] = useState(0);
+  const [sidebarAbierto, setSidebarAbierto] = useState(true);
 
-  // Cargar conteo de novedades para investigadores
+  useEffect(() => {
+    const guardado = localStorage.getItem('sidebar-abierto');
+    if (guardado !== null) setSidebarAbierto(guardado === 'true');
+  }, []);
+
+  const toggleSidebar = () => {
+    const nuevo = !sidebarAbierto;
+    setSidebarAbierto(nuevo);
+    localStorage.setItem('sidebar-abierto', String(nuevo));
+  };
+
   useEffect(() => {
     if (!usuario || usuario.rol === 'admin') return;
-
     const cargarNovedades = async () => {
       try {
         const res = await fetch('/api/novedades');
@@ -31,14 +45,11 @@ export default function Home() {
         }
       } catch {}
     };
-
     cargarNovedades();
-    // Refrescar cada 60 segundos
     const interval = setInterval(cargarNovedades, 60000);
     return () => clearInterval(interval);
   }, [usuario]);
 
-  // Al entrar a Base General, resetear el badge visualmente
   const handleNavegar = (id: Vista) => {
     setVista(id);
     if (id === 'telefonia') setNovedades(0);
@@ -47,16 +58,20 @@ export default function Home() {
   if (cargando) {
     return (
       <div style={{ background: 'var(--bg-primary)' }} className="flex items-center justify-center h-screen">
-        <p style={{ color: 'var(--text-secondary)' }}>Cargando...</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Cargando sistema...</p>
+        </div>
       </div>
     );
   }
 
-  const navegacion: { id: string; label: string; icono: any; badge?: number }[] = [
+  const navegacion: { id: Vista; label: string; icono: any; badge?: number }[] = [
     { id: 'legajos',       label: 'Legajos',       icono: FolderOpen },
     { id: 'oficios',       label: 'Oficios',        icono: FileText },
     { id: 'alertas',       label: 'Alertas',        icono: Bell },
     { id: 'telefonia',     label: 'Base General',   icono: Database, badge: novedades },
+    { id: 'estadisticas',  label: 'Estadísticas',   icono: BarChart3 },
     { id: 'configuracion', label: 'Configuración',  icono: Settings },
   ];
 
@@ -67,95 +82,111 @@ export default function Home() {
   ];
 
   return (
-    <div style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} className="flex h-screen">
-      <aside style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="w-16 md:w-56 border-r flex flex-col">
+    <div style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} className="flex h-screen overflow-hidden">
 
-        {/* Logo */}
-        <div style={{ borderColor: 'var(--border)' }} className="p-4 border-b">
-          <h1 style={{ color: 'var(--text-primary)' }} className="hidden md:block text-sm font-bold">Sistema de Legajos</h1>
-          <p style={{ color: 'var(--text-muted)' }} className="hidden md:block text-xs mt-0.5">Delitos Complejos</p>
-          <span className="md:hidden text-xl">🔍</span>
+      <aside
+        style={{
+          background: 'var(--bg-secondary)',
+          borderColor: 'var(--border)',
+          width: sidebarAbierto ? '224px' : '64px',
+          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          flexShrink: 0,
+        }}
+        className="border-r flex flex-col overflow-hidden"
+      >
+        {/* Logo + toggle */}
+        <div style={{ borderColor: 'var(--border)' }} className="flex items-center justify-between p-3 border-b min-h-[56px]">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className="text-xl flex-shrink-0">🔍</span>
+            <div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', whiteSpace: 'nowrap' }}>
+              <p style={{ color: 'var(--text-primary)' }} className="text-xs font-bold leading-tight">Sistema de Legajos</p>
+              <p style={{ color: 'var(--text-muted)' }} className="text-[10px]">Delitos Complejos</p>
+            </div>
+          </div>
+          <button onClick={toggleSidebar} className="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80 transition-opacity" style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }} title={sidebarAbierto ? 'Contraer' : 'Expandir'}>
+            {sidebarAbierto ? <ChevronLeft size={13} /> : <ChevronRight size={13} />}
+          </button>
         </div>
 
-        {/* Navegación */}
-        <nav className="flex-1 p-2 space-y-1">
-          {navegacion.map(({ id, label, icono: Icono, badge }) => (
-            <button
-              key={id}
-              onClick={() => handleNavegar(id as Vista)}
-              style={{
-                background: vista === id ? 'var(--accent)' : 'transparent',
-                color: vista === id ? '#fff' : 'var(--text-secondary)',
-              }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors hover:opacity-90"
-            >
-              <div className="relative flex-shrink-0">
-                <Icono size={18} />
-                {(badge ?? 0) > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+        {/* Nav */}
+        <nav className="flex-1 p-2 space-y-0.5 overflow-hidden">
+          {navegacion.map(({ id, label, icono: Icono, badge }) => {
+            const activo = vista === id;
+            return (
+              <button key={id} onClick={() => handleNavegar(id)} title={!sidebarAbierto ? label : undefined}
+                style={{ background: activo ? 'var(--accent)' : 'transparent', color: activo ? '#fff' : 'var(--text-secondary)', transition: 'background 0.15s, color 0.15s' }}
+                className="w-full flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-sm hover:opacity-90"
+              >
+                <div className="relative flex-shrink-0">
+                  <Icono size={18} />
+                  {(badge ?? 0) > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                      {(badge ?? 0) > 99 ? '99+' : badge}
+                    </span>
+                  )}
+                </div>
+                <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s', flex: 1, textAlign: 'left' as const }}>
+                  {label}
+                </span>
+                {(badge ?? 0) > 0 && sidebarAbierto && (
+                  <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
                     {(badge ?? 0) > 99 ? '99+' : badge}
                   </span>
                 )}
-              </div>
-              <span className="hidden md:block">{label}</span>
-              {(badge ?? 0) > 0 && (
-                <span className="hidden md:flex ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold items-center justify-center">
-                  {(badge ?? 0) > 99 ? '99+' : badge}
-                </span>
-              )}
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </nav>
 
-        {/* Selector de tema */}
+        {/* Temas */}
         <div style={{ borderColor: 'var(--border)' }} className="p-2 border-t">
-          <p style={{ color: 'var(--text-muted)' }} className="hidden md:block text-xs px-2 mb-1">Tema</p>
-          <div className="flex flex-col gap-1">
+          {sidebarAbierto && <p style={{ color: 'var(--text-muted)' }} className="text-[10px] px-2 mb-1 uppercase tracking-wider">Tema</p>}
+          <div className="flex flex-col gap-0.5">
             {temas.map(({ id, label, icono: Icono }) => (
-              <button
-                key={id}
-                onClick={() => setTema(id as any)}
-                style={{
-                  background: tema === id ? 'var(--bg-tertiary)' : 'transparent',
-                  color: tema === id ? 'var(--text-primary)' : 'var(--text-muted)',
-                  borderColor: tema === id ? 'var(--accent)' : 'transparent',
-                }}
-                className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs transition border"
+              <button key={id} onClick={() => setTema(id as any)} title={!sidebarAbierto ? label : undefined}
+                style={{ background: tema === id ? 'var(--bg-tertiary)' : 'transparent', color: tema === id ? 'var(--text-primary)' : 'var(--text-muted)', borderColor: tema === id ? 'var(--accent)' : 'transparent', transition: 'background 0.15s, color 0.15s' }}
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs border"
               >
-                <Icono size={13} />
-                <span className="hidden md:block">{label}</span>
+                <Icono size={13} className="flex-shrink-0" />
+                <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s' }}>{label}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Usuario y logout */}
-        <div style={{ borderColor: 'var(--border)' }} className="p-3 border-t space-y-2">
-          <div className="hidden md:flex items-center gap-2 px-2 py-1">
-            <User size={14} style={{ color: 'var(--text-muted)' }} className="shrink-0" />
-            <div className="min-w-0">
-              <p style={{ color: 'var(--text-primary)' }} className="text-xs font-medium truncate">{usuario?.nombre}</p>
-              <p style={{ color: 'var(--text-muted)' }} className="text-xs capitalize">{usuario?.rol}</p>
+        {/* Usuario */}
+        <div style={{ borderColor: 'var(--border)' }} className="p-2 border-t">
+          {sidebarAbierto && (
+            <div className="flex items-center gap-2 px-2 py-1.5 mb-1 rounded-lg" style={{ background: 'var(--bg-tertiary)' }}>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'var(--accent)' }}>
+                <User size={12} className="text-white" />
+              </div>
+              <div className="min-w-0">
+                <p style={{ color: 'var(--text-primary)' }} className="text-xs font-medium truncate">{usuario?.nombre}</p>
+                <p style={{ color: 'var(--text-muted)' }} className="text-[10px] capitalize">{usuario?.rol}</p>
+              </div>
             </div>
-          </div>
-          <button
-            onClick={logout}
-            style={{ color: 'var(--text-muted)' }}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm hover:opacity-80 transition"
+          )}
+          <button onClick={logout} title={!sidebarAbierto ? 'Cerrar sesión' : undefined}
+            style={{ color: 'var(--text-muted)', transition: 'color 0.15s' }}
+            className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg text-sm hover:opacity-80"
           >
-            <LogOut size={16} />
-            <span className="hidden md:block">Cerrar sesión</span>
+            <LogOut size={15} className="flex-shrink-0" />
+            <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s' }}>Cerrar sesión</span>
           </button>
         </div>
       </aside>
 
-      {/* Contenido principal */}
+      {/* Contenido */}
       <main className="flex-1 overflow-auto p-6">
-        {vista === 'legajos'       && <ModuloLegajos />}
-        {vista === 'oficios'       && <ModuloOficios />}
-        {vista === 'alertas'       && <ModuloAlertas />}
-        {vista === 'telefonia'     && <ModuloBaseGeneral />}
-        {vista === 'configuracion' && <ModuloConfiguracion />}
+        <div key={vista} style={{ animation: 'fadeSlideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+          {vista === 'legajos'       && <ModuloLegajos />}
+          {vista === 'oficios'       && <ModuloOficios />}
+          {vista === 'alertas'       && <ModuloAlertas />}
+          {vista === 'telefonia'     && <ModuloBaseGeneral />}
+          {vista === 'estadisticas'  && <ModuloEstadisticas />}
+          {vista === 'configuracion' && <ModuloConfiguracion />}
+        </div>
       </main>
     </div>
   );
