@@ -80,7 +80,15 @@ export async function POST(
 
 async function analizarConGemini(buffer: ArrayBuffer, url: string): Promise<string> {
   const base64 = Buffer.from(buffer).toString('base64')
-  const mimeType = url.toLowerCase().endsWith('.pdf') ? 'application/pdf' : 'application/pdf'
+  const urlLower = url.toLowerCase()
+  let mimeType: string = 'application/pdf'
+  if (urlLower.includes('.jpg') || urlLower.includes('.jpeg') || urlLower.includes('image/jpeg')) {
+    mimeType = 'image/jpeg'
+  } else if (urlLower.includes('.png') || urlLower.includes('image/png')) {
+    mimeType = 'image/png'
+  } else if (urlLower.includes('.webp') || urlLower.includes('image/webp')) {
+    mimeType = 'image/webp'
+  }
 
   const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
 

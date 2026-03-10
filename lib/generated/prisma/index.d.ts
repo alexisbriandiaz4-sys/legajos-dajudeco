@@ -64,6 +64,11 @@ export type RegistroTelefonia = $Result.DefaultSelection<Prisma.$RegistroTelefon
  */
 export type RegistroEstafa = $Result.DefaultSelection<Prisma.$RegistroEstafaPayload>
 /**
+ * Model ComentarioLegajo
+ * 
+ */
+export type ComentarioLegajo = $Result.DefaultSelection<Prisma.$ComentarioLegajoPayload>
+/**
  * Model ArchivoLegajo
  * 
  */
@@ -291,6 +296,16 @@ export class PrismaClient<
     * ```
     */
   get registroEstafa(): Prisma.RegistroEstafaDelegate<ExtArgs>;
+
+  /**
+   * `prisma.comentarioLegajo`: Exposes CRUD operations for the **ComentarioLegajo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ComentarioLegajos
+    * const comentarioLegajos = await prisma.comentarioLegajo.findMany()
+    * ```
+    */
+  get comentarioLegajo(): Prisma.ComentarioLegajoDelegate<ExtArgs>;
 
   /**
    * `prisma.archivoLegajo`: Exposes CRUD operations for the **ArchivoLegajo** model.
@@ -752,6 +767,7 @@ export namespace Prisma {
     Configuracion: 'Configuracion',
     RegistroTelefonia: 'RegistroTelefonia',
     RegistroEstafa: 'RegistroEstafa',
+    ComentarioLegajo: 'ComentarioLegajo',
     ArchivoLegajo: 'ArchivoLegajo'
   };
 
@@ -768,7 +784,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa" | "archivoLegajo"
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa" | "comentarioLegajo" | "archivoLegajo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1472,6 +1488,76 @@ export namespace Prisma {
           }
         }
       }
+      ComentarioLegajo: {
+        payload: Prisma.$ComentarioLegajoPayload<ExtArgs>
+        fields: Prisma.ComentarioLegajoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ComentarioLegajoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ComentarioLegajoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          findFirst: {
+            args: Prisma.ComentarioLegajoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ComentarioLegajoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          findMany: {
+            args: Prisma.ComentarioLegajoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>[]
+          }
+          create: {
+            args: Prisma.ComentarioLegajoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          createMany: {
+            args: Prisma.ComentarioLegajoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ComentarioLegajoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>[]
+          }
+          delete: {
+            args: Prisma.ComentarioLegajoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          update: {
+            args: Prisma.ComentarioLegajoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ComentarioLegajoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ComentarioLegajoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ComentarioLegajoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComentarioLegajoPayload>
+          }
+          aggregate: {
+            args: Prisma.ComentarioLegajoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateComentarioLegajo>
+          }
+          groupBy: {
+            args: Prisma.ComentarioLegajoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ComentarioLegajoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ComentarioLegajoCountArgs<ExtArgs>
+            result: $Utils.Optional<ComentarioLegajoCountAggregateOutputType> | number
+          }
+        }
+      }
       ArchivoLegajo: {
         payload: Prisma.$ArchivoLegajoPayload<ExtArgs>
         fields: Prisma.ArchivoLegajoFieldRefs
@@ -1705,11 +1791,13 @@ export namespace Prisma {
   export type UsuarioCountOutputType = {
     legajos: number
     fiscales: number
+    comentarios: number
   }
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     legajos?: boolean | UsuarioCountOutputTypeCountLegajosArgs
     fiscales?: boolean | UsuarioCountOutputTypeCountFiscalesArgs
+    comentarios?: boolean | UsuarioCountOutputTypeCountComentariosArgs
   }
 
   // Custom InputTypes
@@ -1737,6 +1825,13 @@ export namespace Prisma {
     where?: FiscalWhereInput
   }
 
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountComentariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComentarioLegajoWhereInput
+  }
+
 
   /**
    * Count Type LegajoCountOutputType
@@ -1747,6 +1842,7 @@ export namespace Prisma {
     dispositivos: number
     oficios: number
     archivos: number
+    comentarios: number
   }
 
   export type LegajoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1754,6 +1850,7 @@ export namespace Prisma {
     dispositivos?: boolean | LegajoCountOutputTypeCountDispositivosArgs
     oficios?: boolean | LegajoCountOutputTypeCountOficiosArgs
     archivos?: boolean | LegajoCountOutputTypeCountArchivosArgs
+    comentarios?: boolean | LegajoCountOutputTypeCountComentariosArgs
   }
 
   // Custom InputTypes
@@ -1793,6 +1890,13 @@ export namespace Prisma {
    */
   export type LegajoCountOutputTypeCountArchivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ArchivoLegajoWhereInput
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountComentariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComentarioLegajoWhereInput
   }
 
 
@@ -2013,6 +2117,7 @@ export namespace Prisma {
     createdAt?: boolean
     legajos?: boolean | Usuario$legajosArgs<ExtArgs>
     fiscales?: boolean | Usuario$fiscalesArgs<ExtArgs>
+    comentarios?: boolean | Usuario$comentariosArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
@@ -2039,6 +2144,7 @@ export namespace Prisma {
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     legajos?: boolean | Usuario$legajosArgs<ExtArgs>
     fiscales?: boolean | Usuario$fiscalesArgs<ExtArgs>
+    comentarios?: boolean | Usuario$comentariosArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2048,6 +2154,7 @@ export namespace Prisma {
     objects: {
       legajos: Prisma.$LegajoPayload<ExtArgs>[]
       fiscales: Prisma.$FiscalPayload<ExtArgs>[]
+      comentarios: Prisma.$ComentarioLegajoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2423,6 +2530,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     legajos<T extends Usuario$legajosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$legajosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findMany"> | Null>
     fiscales<T extends Usuario$fiscalesArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$fiscalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FiscalPayload<ExtArgs>, T, "findMany"> | Null>
+    comentarios<T extends Usuario$comentariosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$comentariosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2813,6 +2921,26 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.comentarios
+   */
+  export type Usuario$comentariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    where?: ComentarioLegajoWhereInput
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    cursor?: ComentarioLegajoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
+  }
+
+  /**
    * Usuario without action
    */
   export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3084,6 +3212,7 @@ export namespace Prisma {
     dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
     archivos?: boolean | Legajo$archivosArgs<ExtArgs>
+    comentarios?: boolean | Legajo$comentariosArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["legajo"]>
 
@@ -3132,6 +3261,7 @@ export namespace Prisma {
     dispositivos?: boolean | Legajo$dispositivosArgs<ExtArgs>
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
     archivos?: boolean | Legajo$archivosArgs<ExtArgs>
+    comentarios?: boolean | Legajo$comentariosArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3146,6 +3276,7 @@ export namespace Prisma {
       dispositivos: Prisma.$DispositivoPayload<ExtArgs>[]
       oficios: Prisma.$OficioPayload<ExtArgs>[]
       archivos: Prisma.$ArchivoLegajoPayload<ExtArgs>[]
+      comentarios: Prisma.$ComentarioLegajoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3533,6 +3664,7 @@ export namespace Prisma {
     dispositivos<T extends Legajo$dispositivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$dispositivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispositivoPayload<ExtArgs>, T, "findMany"> | Null>
     oficios<T extends Legajo$oficiosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$oficiosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findMany"> | Null>
     archivos<T extends Legajo$archivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$archivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findMany"> | Null>
+    comentarios<T extends Legajo$comentariosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$comentariosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3973,6 +4105,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ArchivoLegajoScalarFieldEnum | ArchivoLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo.comentarios
+   */
+  export type Legajo$comentariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    where?: ComentarioLegajoWhereInput
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    cursor?: ComentarioLegajoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
   }
 
   /**
@@ -12322,6 +12474,945 @@ export namespace Prisma {
 
 
   /**
+   * Model ComentarioLegajo
+   */
+
+  export type AggregateComentarioLegajo = {
+    _count: ComentarioLegajoCountAggregateOutputType | null
+    _min: ComentarioLegajoMinAggregateOutputType | null
+    _max: ComentarioLegajoMaxAggregateOutputType | null
+  }
+
+  export type ComentarioLegajoMinAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    usuarioId: string | null
+    texto: string | null
+    createdAt: Date | null
+  }
+
+  export type ComentarioLegajoMaxAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    usuarioId: string | null
+    texto: string | null
+    createdAt: Date | null
+  }
+
+  export type ComentarioLegajoCountAggregateOutputType = {
+    id: number
+    legajoId: number
+    usuarioId: number
+    texto: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ComentarioLegajoMinAggregateInputType = {
+    id?: true
+    legajoId?: true
+    usuarioId?: true
+    texto?: true
+    createdAt?: true
+  }
+
+  export type ComentarioLegajoMaxAggregateInputType = {
+    id?: true
+    legajoId?: true
+    usuarioId?: true
+    texto?: true
+    createdAt?: true
+  }
+
+  export type ComentarioLegajoCountAggregateInputType = {
+    id?: true
+    legajoId?: true
+    usuarioId?: true
+    texto?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ComentarioLegajoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComentarioLegajo to aggregate.
+     */
+    where?: ComentarioLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComentarioLegajos to fetch.
+     */
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ComentarioLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComentarioLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComentarioLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ComentarioLegajos
+    **/
+    _count?: true | ComentarioLegajoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ComentarioLegajoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ComentarioLegajoMaxAggregateInputType
+  }
+
+  export type GetComentarioLegajoAggregateType<T extends ComentarioLegajoAggregateArgs> = {
+        [P in keyof T & keyof AggregateComentarioLegajo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateComentarioLegajo[P]>
+      : GetScalarType<T[P], AggregateComentarioLegajo[P]>
+  }
+
+
+
+
+  export type ComentarioLegajoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComentarioLegajoWhereInput
+    orderBy?: ComentarioLegajoOrderByWithAggregationInput | ComentarioLegajoOrderByWithAggregationInput[]
+    by: ComentarioLegajoScalarFieldEnum[] | ComentarioLegajoScalarFieldEnum
+    having?: ComentarioLegajoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ComentarioLegajoCountAggregateInputType | true
+    _min?: ComentarioLegajoMinAggregateInputType
+    _max?: ComentarioLegajoMaxAggregateInputType
+  }
+
+  export type ComentarioLegajoGroupByOutputType = {
+    id: string
+    legajoId: string
+    usuarioId: string
+    texto: string
+    createdAt: Date
+    _count: ComentarioLegajoCountAggregateOutputType | null
+    _min: ComentarioLegajoMinAggregateOutputType | null
+    _max: ComentarioLegajoMaxAggregateOutputType | null
+  }
+
+  type GetComentarioLegajoGroupByPayload<T extends ComentarioLegajoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ComentarioLegajoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ComentarioLegajoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ComentarioLegajoGroupByOutputType[P]>
+            : GetScalarType<T[P], ComentarioLegajoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ComentarioLegajoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    usuarioId?: boolean
+    texto?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comentarioLegajo"]>
+
+  export type ComentarioLegajoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    usuarioId?: boolean
+    texto?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comentarioLegajo"]>
+
+  export type ComentarioLegajoSelectScalar = {
+    id?: boolean
+    legajoId?: boolean
+    usuarioId?: boolean
+    texto?: boolean
+    createdAt?: boolean
+  }
+
+  export type ComentarioLegajoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type ComentarioLegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $ComentarioLegajoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ComentarioLegajo"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      legajoId: string
+      usuarioId: string
+      texto: string
+      createdAt: Date
+    }, ExtArgs["result"]["comentarioLegajo"]>
+    composites: {}
+  }
+
+  type ComentarioLegajoGetPayload<S extends boolean | null | undefined | ComentarioLegajoDefaultArgs> = $Result.GetResult<Prisma.$ComentarioLegajoPayload, S>
+
+  type ComentarioLegajoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ComentarioLegajoFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ComentarioLegajoCountAggregateInputType | true
+    }
+
+  export interface ComentarioLegajoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ComentarioLegajo'], meta: { name: 'ComentarioLegajo' } }
+    /**
+     * Find zero or one ComentarioLegajo that matches the filter.
+     * @param {ComentarioLegajoFindUniqueArgs} args - Arguments to find a ComentarioLegajo
+     * @example
+     * // Get one ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ComentarioLegajoFindUniqueArgs>(args: SelectSubset<T, ComentarioLegajoFindUniqueArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ComentarioLegajo that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ComentarioLegajoFindUniqueOrThrowArgs} args - Arguments to find a ComentarioLegajo
+     * @example
+     * // Get one ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ComentarioLegajoFindUniqueOrThrowArgs>(args: SelectSubset<T, ComentarioLegajoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ComentarioLegajo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoFindFirstArgs} args - Arguments to find a ComentarioLegajo
+     * @example
+     * // Get one ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ComentarioLegajoFindFirstArgs>(args?: SelectSubset<T, ComentarioLegajoFindFirstArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ComentarioLegajo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoFindFirstOrThrowArgs} args - Arguments to find a ComentarioLegajo
+     * @example
+     * // Get one ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ComentarioLegajoFindFirstOrThrowArgs>(args?: SelectSubset<T, ComentarioLegajoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ComentarioLegajos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ComentarioLegajos
+     * const comentarioLegajos = await prisma.comentarioLegajo.findMany()
+     * 
+     * // Get first 10 ComentarioLegajos
+     * const comentarioLegajos = await prisma.comentarioLegajo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const comentarioLegajoWithIdOnly = await prisma.comentarioLegajo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ComentarioLegajoFindManyArgs>(args?: SelectSubset<T, ComentarioLegajoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ComentarioLegajo.
+     * @param {ComentarioLegajoCreateArgs} args - Arguments to create a ComentarioLegajo.
+     * @example
+     * // Create one ComentarioLegajo
+     * const ComentarioLegajo = await prisma.comentarioLegajo.create({
+     *   data: {
+     *     // ... data to create a ComentarioLegajo
+     *   }
+     * })
+     * 
+     */
+    create<T extends ComentarioLegajoCreateArgs>(args: SelectSubset<T, ComentarioLegajoCreateArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ComentarioLegajos.
+     * @param {ComentarioLegajoCreateManyArgs} args - Arguments to create many ComentarioLegajos.
+     * @example
+     * // Create many ComentarioLegajos
+     * const comentarioLegajo = await prisma.comentarioLegajo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ComentarioLegajoCreateManyArgs>(args?: SelectSubset<T, ComentarioLegajoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ComentarioLegajos and returns the data saved in the database.
+     * @param {ComentarioLegajoCreateManyAndReturnArgs} args - Arguments to create many ComentarioLegajos.
+     * @example
+     * // Create many ComentarioLegajos
+     * const comentarioLegajo = await prisma.comentarioLegajo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ComentarioLegajos and only return the `id`
+     * const comentarioLegajoWithIdOnly = await prisma.comentarioLegajo.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ComentarioLegajoCreateManyAndReturnArgs>(args?: SelectSubset<T, ComentarioLegajoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ComentarioLegajo.
+     * @param {ComentarioLegajoDeleteArgs} args - Arguments to delete one ComentarioLegajo.
+     * @example
+     * // Delete one ComentarioLegajo
+     * const ComentarioLegajo = await prisma.comentarioLegajo.delete({
+     *   where: {
+     *     // ... filter to delete one ComentarioLegajo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ComentarioLegajoDeleteArgs>(args: SelectSubset<T, ComentarioLegajoDeleteArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ComentarioLegajo.
+     * @param {ComentarioLegajoUpdateArgs} args - Arguments to update one ComentarioLegajo.
+     * @example
+     * // Update one ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ComentarioLegajoUpdateArgs>(args: SelectSubset<T, ComentarioLegajoUpdateArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ComentarioLegajos.
+     * @param {ComentarioLegajoDeleteManyArgs} args - Arguments to filter ComentarioLegajos to delete.
+     * @example
+     * // Delete a few ComentarioLegajos
+     * const { count } = await prisma.comentarioLegajo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ComentarioLegajoDeleteManyArgs>(args?: SelectSubset<T, ComentarioLegajoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ComentarioLegajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ComentarioLegajos
+     * const comentarioLegajo = await prisma.comentarioLegajo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ComentarioLegajoUpdateManyArgs>(args: SelectSubset<T, ComentarioLegajoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ComentarioLegajo.
+     * @param {ComentarioLegajoUpsertArgs} args - Arguments to update or create a ComentarioLegajo.
+     * @example
+     * // Update or create a ComentarioLegajo
+     * const comentarioLegajo = await prisma.comentarioLegajo.upsert({
+     *   create: {
+     *     // ... data to create a ComentarioLegajo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ComentarioLegajo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ComentarioLegajoUpsertArgs>(args: SelectSubset<T, ComentarioLegajoUpsertArgs<ExtArgs>>): Prisma__ComentarioLegajoClient<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ComentarioLegajos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoCountArgs} args - Arguments to filter ComentarioLegajos to count.
+     * @example
+     * // Count the number of ComentarioLegajos
+     * const count = await prisma.comentarioLegajo.count({
+     *   where: {
+     *     // ... the filter for the ComentarioLegajos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ComentarioLegajoCountArgs>(
+      args?: Subset<T, ComentarioLegajoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ComentarioLegajoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ComentarioLegajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ComentarioLegajoAggregateArgs>(args: Subset<T, ComentarioLegajoAggregateArgs>): Prisma.PrismaPromise<GetComentarioLegajoAggregateType<T>>
+
+    /**
+     * Group by ComentarioLegajo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComentarioLegajoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ComentarioLegajoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ComentarioLegajoGroupByArgs['orderBy'] }
+        : { orderBy?: ComentarioLegajoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ComentarioLegajoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetComentarioLegajoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ComentarioLegajo model
+   */
+  readonly fields: ComentarioLegajoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ComentarioLegajo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ComentarioLegajoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ComentarioLegajo model
+   */ 
+  interface ComentarioLegajoFieldRefs {
+    readonly id: FieldRef<"ComentarioLegajo", 'String'>
+    readonly legajoId: FieldRef<"ComentarioLegajo", 'String'>
+    readonly usuarioId: FieldRef<"ComentarioLegajo", 'String'>
+    readonly texto: FieldRef<"ComentarioLegajo", 'String'>
+    readonly createdAt: FieldRef<"ComentarioLegajo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ComentarioLegajo findUnique
+   */
+  export type ComentarioLegajoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ComentarioLegajo to fetch.
+     */
+    where: ComentarioLegajoWhereUniqueInput
+  }
+
+  /**
+   * ComentarioLegajo findUniqueOrThrow
+   */
+  export type ComentarioLegajoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ComentarioLegajo to fetch.
+     */
+    where: ComentarioLegajoWhereUniqueInput
+  }
+
+  /**
+   * ComentarioLegajo findFirst
+   */
+  export type ComentarioLegajoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ComentarioLegajo to fetch.
+     */
+    where?: ComentarioLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComentarioLegajos to fetch.
+     */
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComentarioLegajos.
+     */
+    cursor?: ComentarioLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComentarioLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComentarioLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComentarioLegajos.
+     */
+    distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ComentarioLegajo findFirstOrThrow
+   */
+  export type ComentarioLegajoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ComentarioLegajo to fetch.
+     */
+    where?: ComentarioLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComentarioLegajos to fetch.
+     */
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComentarioLegajos.
+     */
+    cursor?: ComentarioLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComentarioLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComentarioLegajos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComentarioLegajos.
+     */
+    distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ComentarioLegajo findMany
+   */
+  export type ComentarioLegajoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter, which ComentarioLegajos to fetch.
+     */
+    where?: ComentarioLegajoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComentarioLegajos to fetch.
+     */
+    orderBy?: ComentarioLegajoOrderByWithRelationInput | ComentarioLegajoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ComentarioLegajos.
+     */
+    cursor?: ComentarioLegajoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComentarioLegajos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComentarioLegajos.
+     */
+    skip?: number
+    distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * ComentarioLegajo create
+   */
+  export type ComentarioLegajoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ComentarioLegajo.
+     */
+    data: XOR<ComentarioLegajoCreateInput, ComentarioLegajoUncheckedCreateInput>
+  }
+
+  /**
+   * ComentarioLegajo createMany
+   */
+  export type ComentarioLegajoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ComentarioLegajos.
+     */
+    data: ComentarioLegajoCreateManyInput | ComentarioLegajoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ComentarioLegajo createManyAndReturn
+   */
+  export type ComentarioLegajoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ComentarioLegajos.
+     */
+    data: ComentarioLegajoCreateManyInput | ComentarioLegajoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ComentarioLegajo update
+   */
+  export type ComentarioLegajoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ComentarioLegajo.
+     */
+    data: XOR<ComentarioLegajoUpdateInput, ComentarioLegajoUncheckedUpdateInput>
+    /**
+     * Choose, which ComentarioLegajo to update.
+     */
+    where: ComentarioLegajoWhereUniqueInput
+  }
+
+  /**
+   * ComentarioLegajo updateMany
+   */
+  export type ComentarioLegajoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ComentarioLegajos.
+     */
+    data: XOR<ComentarioLegajoUpdateManyMutationInput, ComentarioLegajoUncheckedUpdateManyInput>
+    /**
+     * Filter which ComentarioLegajos to update
+     */
+    where?: ComentarioLegajoWhereInput
+  }
+
+  /**
+   * ComentarioLegajo upsert
+   */
+  export type ComentarioLegajoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ComentarioLegajo to update in case it exists.
+     */
+    where: ComentarioLegajoWhereUniqueInput
+    /**
+     * In case the ComentarioLegajo found by the `where` argument doesn't exist, create a new ComentarioLegajo with this data.
+     */
+    create: XOR<ComentarioLegajoCreateInput, ComentarioLegajoUncheckedCreateInput>
+    /**
+     * In case the ComentarioLegajo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ComentarioLegajoUpdateInput, ComentarioLegajoUncheckedUpdateInput>
+  }
+
+  /**
+   * ComentarioLegajo delete
+   */
+  export type ComentarioLegajoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+    /**
+     * Filter which ComentarioLegajo to delete.
+     */
+    where: ComentarioLegajoWhereUniqueInput
+  }
+
+  /**
+   * ComentarioLegajo deleteMany
+   */
+  export type ComentarioLegajoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComentarioLegajos to delete
+     */
+    where?: ComentarioLegajoWhereInput
+  }
+
+  /**
+   * ComentarioLegajo without action
+   */
+  export type ComentarioLegajoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComentarioLegajo
+     */
+    select?: ComentarioLegajoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComentarioLegajoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ArchivoLegajo
    */
 
@@ -13559,6 +14650,17 @@ export namespace Prisma {
   export type RegistroEstafaScalarFieldEnum = (typeof RegistroEstafaScalarFieldEnum)[keyof typeof RegistroEstafaScalarFieldEnum]
 
 
+  export const ComentarioLegajoScalarFieldEnum: {
+    id: 'id',
+    legajoId: 'legajoId',
+    usuarioId: 'usuarioId',
+    texto: 'texto',
+    createdAt: 'createdAt'
+  };
+
+  export type ComentarioLegajoScalarFieldEnum = (typeof ComentarioLegajoScalarFieldEnum)[keyof typeof ComentarioLegajoScalarFieldEnum]
+
+
   export const ArchivoLegajoScalarFieldEnum: {
     id: 'id',
     legajoId: 'legajoId',
@@ -13683,6 +14785,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Usuario"> | Date | string
     legajos?: LegajoListRelationFilter
     fiscales?: FiscalListRelationFilter
+    comentarios?: ComentarioLegajoListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
@@ -13695,6 +14798,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     legajos?: LegajoOrderByRelationAggregateInput
     fiscales?: FiscalOrderByRelationAggregateInput
+    comentarios?: ComentarioLegajoOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -13710,6 +14814,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Usuario"> | Date | string
     legajos?: LegajoListRelationFilter
     fiscales?: FiscalListRelationFilter
+    comentarios?: ComentarioLegajoListRelationFilter
   }, "id" | "usuario">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -13763,6 +14868,7 @@ export namespace Prisma {
     dispositivos?: DispositivoListRelationFilter
     oficios?: OficioListRelationFilter
     archivos?: ArchivoLegajoListRelationFilter
+    comentarios?: ComentarioLegajoListRelationFilter
   }
 
   export type LegajoOrderByWithRelationInput = {
@@ -13787,6 +14893,7 @@ export namespace Prisma {
     dispositivos?: DispositivoOrderByRelationAggregateInput
     oficios?: OficioOrderByRelationAggregateInput
     archivos?: ArchivoLegajoOrderByRelationAggregateInput
+    comentarios?: ComentarioLegajoOrderByRelationAggregateInput
   }
 
   export type LegajoWhereUniqueInput = Prisma.AtLeast<{
@@ -13814,6 +14921,7 @@ export namespace Prisma {
     dispositivos?: DispositivoListRelationFilter
     oficios?: OficioListRelationFilter
     archivos?: ArchivoLegajoListRelationFilter
+    comentarios?: ComentarioLegajoListRelationFilter
   }, "id" | "numero">
 
   export type LegajoOrderByWithAggregationInput = {
@@ -14670,6 +15778,64 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RegistroEstafa"> | Date | string
   }
 
+  export type ComentarioLegajoWhereInput = {
+    AND?: ComentarioLegajoWhereInput | ComentarioLegajoWhereInput[]
+    OR?: ComentarioLegajoWhereInput[]
+    NOT?: ComentarioLegajoWhereInput | ComentarioLegajoWhereInput[]
+    id?: StringFilter<"ComentarioLegajo"> | string
+    legajoId?: StringFilter<"ComentarioLegajo"> | string
+    usuarioId?: StringFilter<"ComentarioLegajo"> | string
+    texto?: StringFilter<"ComentarioLegajo"> | string
+    createdAt?: DateTimeFilter<"ComentarioLegajo"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+  }
+
+  export type ComentarioLegajoOrderByWithRelationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    usuarioId?: SortOrder
+    texto?: SortOrder
+    createdAt?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type ComentarioLegajoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ComentarioLegajoWhereInput | ComentarioLegajoWhereInput[]
+    OR?: ComentarioLegajoWhereInput[]
+    NOT?: ComentarioLegajoWhereInput | ComentarioLegajoWhereInput[]
+    legajoId?: StringFilter<"ComentarioLegajo"> | string
+    usuarioId?: StringFilter<"ComentarioLegajo"> | string
+    texto?: StringFilter<"ComentarioLegajo"> | string
+    createdAt?: DateTimeFilter<"ComentarioLegajo"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+    usuario?: XOR<UsuarioRelationFilter, UsuarioWhereInput>
+  }, "id">
+
+  export type ComentarioLegajoOrderByWithAggregationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    usuarioId?: SortOrder
+    texto?: SortOrder
+    createdAt?: SortOrder
+    _count?: ComentarioLegajoCountOrderByAggregateInput
+    _max?: ComentarioLegajoMaxOrderByAggregateInput
+    _min?: ComentarioLegajoMinOrderByAggregateInput
+  }
+
+  export type ComentarioLegajoScalarWhereWithAggregatesInput = {
+    AND?: ComentarioLegajoScalarWhereWithAggregatesInput | ComentarioLegajoScalarWhereWithAggregatesInput[]
+    OR?: ComentarioLegajoScalarWhereWithAggregatesInput[]
+    NOT?: ComentarioLegajoScalarWhereWithAggregatesInput | ComentarioLegajoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ComentarioLegajo"> | string
+    legajoId?: StringWithAggregatesFilter<"ComentarioLegajo"> | string
+    usuarioId?: StringWithAggregatesFilter<"ComentarioLegajo"> | string
+    texto?: StringWithAggregatesFilter<"ComentarioLegajo"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ComentarioLegajo"> | Date | string
+  }
+
   export type ArchivoLegajoWhereInput = {
     AND?: ArchivoLegajoWhereInput | ArchivoLegajoWhereInput[]
     OR?: ArchivoLegajoWhereInput[]
@@ -14762,6 +15928,7 @@ export namespace Prisma {
     createdAt?: Date | string
     legajos?: LegajoCreateNestedManyWithoutUsuarioInput
     fiscales?: FiscalCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
@@ -14774,6 +15941,7 @@ export namespace Prisma {
     createdAt?: Date | string
     legajos?: LegajoUncheckedCreateNestedManyWithoutUsuarioInput
     fiscales?: FiscalUncheckedCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
@@ -14786,6 +15954,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajos?: LegajoUpdateManyWithoutUsuarioNestedInput
     fiscales?: FiscalUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
@@ -14798,6 +15967,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
     fiscales?: FiscalUncheckedUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
@@ -14851,6 +16021,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateInput = {
@@ -14874,6 +16045,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUpdateInput = {
@@ -14897,6 +16069,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateInput = {
@@ -14920,6 +16093,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateManyInput = {
@@ -15943,6 +17117,60 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ComentarioLegajoCreateInput = {
+    id?: string
+    texto: string
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutComentariosInput
+    usuario: UsuarioCreateNestedOneWithoutComentariosInput
+  }
+
+  export type ComentarioLegajoUncheckedCreateInput = {
+    id?: string
+    legajoId: string
+    usuarioId: string
+    texto: string
+    createdAt?: Date | string
+  }
+
+  export type ComentarioLegajoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutComentariosNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutComentariosNestedInput
+  }
+
+  export type ComentarioLegajoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComentarioLegajoCreateManyInput = {
+    id?: string
+    legajoId: string
+    usuarioId: string
+    texto: string
+    createdAt?: Date | string
+  }
+
+  export type ComentarioLegajoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComentarioLegajoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ArchivoLegajoCreateInput = {
     id?: string
     nombre: string
@@ -16076,11 +17304,21 @@ export namespace Prisma {
     none?: FiscalWhereInput
   }
 
+  export type ComentarioLegajoListRelationFilter = {
+    every?: ComentarioLegajoWhereInput
+    some?: ComentarioLegajoWhereInput
+    none?: ComentarioLegajoWhereInput
+  }
+
   export type LegajoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type FiscalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ComentarioLegajoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16839,6 +18077,30 @@ export namespace Prisma {
     filaExcel?: SortOrder
   }
 
+  export type ComentarioLegajoCountOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    usuarioId?: SortOrder
+    texto?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ComentarioLegajoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    usuarioId?: SortOrder
+    texto?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ComentarioLegajoMinOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    usuarioId?: SortOrder
+    texto?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type ArchivoLegajoCountOrderByAggregateInput = {
     id?: SortOrder
     legajoId?: SortOrder
@@ -16900,6 +18162,13 @@ export namespace Prisma {
     connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
   }
 
+  export type ComentarioLegajoCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput> | ComentarioLegajoCreateWithoutUsuarioInput[] | ComentarioLegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutUsuarioInput | ComentarioLegajoCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ComentarioLegajoCreateManyUsuarioInputEnvelope
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+  }
+
   export type LegajoUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
@@ -16912,6 +18181,13 @@ export namespace Prisma {
     connectOrCreate?: FiscalCreateOrConnectWithoutUsuarioInput | FiscalCreateOrConnectWithoutUsuarioInput[]
     createMany?: FiscalCreateManyUsuarioInputEnvelope
     connect?: FiscalWhereUniqueInput | FiscalWhereUniqueInput[]
+  }
+
+  export type ComentarioLegajoUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput> | ComentarioLegajoCreateWithoutUsuarioInput[] | ComentarioLegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutUsuarioInput | ComentarioLegajoCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ComentarioLegajoCreateManyUsuarioInputEnvelope
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16954,6 +18230,20 @@ export namespace Prisma {
     deleteMany?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
   }
 
+  export type ComentarioLegajoUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput> | ComentarioLegajoCreateWithoutUsuarioInput[] | ComentarioLegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutUsuarioInput | ComentarioLegajoCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ComentarioLegajoUpsertWithWhereUniqueWithoutUsuarioInput | ComentarioLegajoUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ComentarioLegajoCreateManyUsuarioInputEnvelope
+    set?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    disconnect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    delete?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    update?: ComentarioLegajoUpdateWithWhereUniqueWithoutUsuarioInput | ComentarioLegajoUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ComentarioLegajoUpdateManyWithWhereWithoutUsuarioInput | ComentarioLegajoUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
+  }
+
   export type LegajoUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
@@ -16980,6 +18270,20 @@ export namespace Prisma {
     update?: FiscalUpdateWithWhereUniqueWithoutUsuarioInput | FiscalUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: FiscalUpdateManyWithWhereWithoutUsuarioInput | FiscalUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: FiscalScalarWhereInput | FiscalScalarWhereInput[]
+  }
+
+  export type ComentarioLegajoUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput> | ComentarioLegajoCreateWithoutUsuarioInput[] | ComentarioLegajoUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutUsuarioInput | ComentarioLegajoCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ComentarioLegajoUpsertWithWhereUniqueWithoutUsuarioInput | ComentarioLegajoUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ComentarioLegajoCreateManyUsuarioInputEnvelope
+    set?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    disconnect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    delete?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    update?: ComentarioLegajoUpdateWithWhereUniqueWithoutUsuarioInput | ComentarioLegajoUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ComentarioLegajoUpdateManyWithWhereWithoutUsuarioInput | ComentarioLegajoUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutLegajosInput = {
@@ -17016,6 +18320,13 @@ export namespace Prisma {
     connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
   }
 
+  export type ComentarioLegajoCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput> | ComentarioLegajoCreateWithoutLegajoInput[] | ComentarioLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutLegajoInput | ComentarioLegajoCreateOrConnectWithoutLegajoInput[]
+    createMany?: ComentarioLegajoCreateManyLegajoInputEnvelope
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+  }
+
   export type VictimaUncheckedCreateNestedManyWithoutLegajoInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -17042,6 +18353,13 @@ export namespace Prisma {
     connectOrCreate?: ArchivoLegajoCreateOrConnectWithoutLegajoInput | ArchivoLegajoCreateOrConnectWithoutLegajoInput[]
     createMany?: ArchivoLegajoCreateManyLegajoInputEnvelope
     connect?: ArchivoLegajoWhereUniqueInput | ArchivoLegajoWhereUniqueInput[]
+  }
+
+  export type ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput> | ComentarioLegajoCreateWithoutLegajoInput[] | ComentarioLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutLegajoInput | ComentarioLegajoCreateOrConnectWithoutLegajoInput[]
+    createMany?: ComentarioLegajoCreateManyLegajoInputEnvelope
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -17112,6 +18430,20 @@ export namespace Prisma {
     deleteMany?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
   }
 
+  export type ComentarioLegajoUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput> | ComentarioLegajoCreateWithoutLegajoInput[] | ComentarioLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutLegajoInput | ComentarioLegajoCreateOrConnectWithoutLegajoInput[]
+    upsert?: ComentarioLegajoUpsertWithWhereUniqueWithoutLegajoInput | ComentarioLegajoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: ComentarioLegajoCreateManyLegajoInputEnvelope
+    set?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    disconnect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    delete?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    update?: ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput | ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput | ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
+  }
+
   export type VictimaUncheckedUpdateManyWithoutLegajoNestedInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -17166,6 +18498,20 @@ export namespace Prisma {
     update?: ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput | ArchivoLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
     updateMany?: ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput | ArchivoLegajoUpdateManyWithWhereWithoutLegajoInput[]
     deleteMany?: ArchivoLegajoScalarWhereInput | ArchivoLegajoScalarWhereInput[]
+  }
+
+  export type ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput> | ComentarioLegajoCreateWithoutLegajoInput[] | ComentarioLegajoUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutLegajoInput | ComentarioLegajoCreateOrConnectWithoutLegajoInput[]
+    upsert?: ComentarioLegajoUpsertWithWhereUniqueWithoutLegajoInput | ComentarioLegajoUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: ComentarioLegajoCreateManyLegajoInputEnvelope
+    set?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    disconnect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    delete?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+    update?: ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput | ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput | ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
   }
 
   export type LegajoCreateNestedOneWithoutVictimasInput = {
@@ -17298,6 +18644,34 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type LegajoCreateNestedOneWithoutComentariosInput = {
+    create?: XOR<LegajoCreateWithoutComentariosInput, LegajoUncheckedCreateWithoutComentariosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutComentariosInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutComentariosInput = {
+    create?: XOR<UsuarioCreateWithoutComentariosInput, UsuarioUncheckedCreateWithoutComentariosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutComentariosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type LegajoUpdateOneRequiredWithoutComentariosNestedInput = {
+    create?: XOR<LegajoCreateWithoutComentariosInput, LegajoUncheckedCreateWithoutComentariosInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutComentariosInput
+    upsert?: LegajoUpsertWithoutComentariosInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutComentariosInput, LegajoUpdateWithoutComentariosInput>, LegajoUncheckedUpdateWithoutComentariosInput>
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutComentariosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutComentariosInput, UsuarioUncheckedCreateWithoutComentariosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutComentariosInput
+    upsert?: UsuarioUpsertWithoutComentariosInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutComentariosInput, UsuarioUpdateWithoutComentariosInput>, UsuarioUncheckedUpdateWithoutComentariosInput>
   }
 
   export type LegajoCreateNestedOneWithoutArchivosInput = {
@@ -17535,6 +18909,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutUsuarioInput = {
@@ -17557,6 +18932,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutUsuarioInput = {
@@ -17610,6 +18986,30 @@ export namespace Prisma {
 
   export type FiscalCreateManyUsuarioInputEnvelope = {
     data: FiscalCreateManyUsuarioInput | FiscalCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ComentarioLegajoCreateWithoutUsuarioInput = {
+    id?: string
+    texto: string
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutComentariosInput
+  }
+
+  export type ComentarioLegajoUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    legajoId: string
+    texto: string
+    createdAt?: Date | string
+  }
+
+  export type ComentarioLegajoCreateOrConnectWithoutUsuarioInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    create: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ComentarioLegajoCreateManyUsuarioInputEnvelope = {
+    data: ComentarioLegajoCreateManyUsuarioInput | ComentarioLegajoCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -17688,6 +19088,33 @@ export namespace Prisma {
     usuarioId?: StringFilter<"Fiscal"> | string
   }
 
+  export type ComentarioLegajoUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    update: XOR<ComentarioLegajoUpdateWithoutUsuarioInput, ComentarioLegajoUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<ComentarioLegajoCreateWithoutUsuarioInput, ComentarioLegajoUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ComentarioLegajoUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    data: XOR<ComentarioLegajoUpdateWithoutUsuarioInput, ComentarioLegajoUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ComentarioLegajoUpdateManyWithWhereWithoutUsuarioInput = {
+    where: ComentarioLegajoScalarWhereInput
+    data: XOR<ComentarioLegajoUpdateManyMutationInput, ComentarioLegajoUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type ComentarioLegajoScalarWhereInput = {
+    AND?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
+    OR?: ComentarioLegajoScalarWhereInput[]
+    NOT?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
+    id?: StringFilter<"ComentarioLegajo"> | string
+    legajoId?: StringFilter<"ComentarioLegajo"> | string
+    usuarioId?: StringFilter<"ComentarioLegajo"> | string
+    texto?: StringFilter<"ComentarioLegajo"> | string
+    createdAt?: DateTimeFilter<"ComentarioLegajo"> | Date | string
+  }
+
   export type UsuarioCreateWithoutLegajosInput = {
     id?: string
     nombre: string
@@ -17697,6 +19124,7 @@ export namespace Prisma {
     activo?: boolean
     createdAt?: Date | string
     fiscales?: FiscalCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutLegajosInput = {
@@ -17708,6 +19136,7 @@ export namespace Prisma {
     activo?: boolean
     createdAt?: Date | string
     fiscales?: FiscalUncheckedCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutLegajosInput = {
@@ -17851,6 +19280,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ComentarioLegajoCreateWithoutLegajoInput = {
+    id?: string
+    texto: string
+    createdAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutComentariosInput
+  }
+
+  export type ComentarioLegajoUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    usuarioId: string
+    texto: string
+    createdAt?: Date | string
+  }
+
+  export type ComentarioLegajoCreateOrConnectWithoutLegajoInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    create: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type ComentarioLegajoCreateManyLegajoInputEnvelope = {
+    data: ComentarioLegajoCreateManyLegajoInput | ComentarioLegajoCreateManyLegajoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutLegajosInput = {
     update: XOR<UsuarioUpdateWithoutLegajosInput, UsuarioUncheckedUpdateWithoutLegajosInput>
     create: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
@@ -17871,6 +19324,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscales?: FiscalUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutLegajosInput = {
@@ -17882,6 +19336,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fiscales?: FiscalUncheckedUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type VictimaUpsertWithWhereUniqueWithoutLegajoInput = {
@@ -18011,6 +19466,22 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ArchivoLegajo"> | Date | string
   }
 
+  export type ComentarioLegajoUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    update: XOR<ComentarioLegajoUpdateWithoutLegajoInput, ComentarioLegajoUncheckedUpdateWithoutLegajoInput>
+    create: XOR<ComentarioLegajoCreateWithoutLegajoInput, ComentarioLegajoUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: ComentarioLegajoWhereUniqueInput
+    data: XOR<ComentarioLegajoUpdateWithoutLegajoInput, ComentarioLegajoUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput = {
+    where: ComentarioLegajoScalarWhereInput
+    data: XOR<ComentarioLegajoUpdateManyMutationInput, ComentarioLegajoUncheckedUpdateManyWithoutLegajoInput>
+  }
+
   export type LegajoCreateWithoutVictimasInput = {
     id?: string
     numero: string
@@ -18031,6 +19502,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutVictimasInput = {
@@ -18053,6 +19525,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutVictimasInput = {
@@ -18091,6 +19564,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutVictimasInput = {
@@ -18113,6 +19587,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutDispositivosInput = {
@@ -18135,6 +19610,7 @@ export namespace Prisma {
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutDispositivosInput = {
@@ -18157,6 +19633,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutDispositivosInput = {
@@ -18195,6 +19672,7 @@ export namespace Prisma {
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutDispositivosInput = {
@@ -18217,6 +19695,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutOficiosInput = {
@@ -18239,6 +19718,7 @@ export namespace Prisma {
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutOficiosInput = {
@@ -18261,6 +19741,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutOficiosInput = {
@@ -18321,6 +19802,7 @@ export namespace Prisma {
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutOficiosInput = {
@@ -18343,6 +19825,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type RespuestaUpsertWithWhereUniqueWithoutOficioInput = {
@@ -18468,6 +19951,7 @@ export namespace Prisma {
     activo?: boolean
     createdAt?: Date | string
     legajos?: LegajoCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutFiscalesInput = {
@@ -18479,6 +19963,7 @@ export namespace Prisma {
     activo?: boolean
     createdAt?: Date | string
     legajos?: LegajoUncheckedCreateNestedManyWithoutUsuarioInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutFiscalesInput = {
@@ -18506,6 +19991,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajos?: LegajoUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutFiscalesInput = {
@@ -18517,6 +20003,179 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type LegajoCreateWithoutComentariosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    visto?: boolean
+    origenTipo?: string | null
+    origenId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutComentariosInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    visto?: boolean
+    origenTipo?: string | null
+    origenId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutComentariosInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutComentariosInput, LegajoUncheckedCreateWithoutComentariosInput>
+  }
+
+  export type UsuarioCreateWithoutComentariosInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoCreateNestedManyWithoutUsuarioInput
+    fiscales?: FiscalCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutComentariosInput = {
+    id?: string
+    nombre: string
+    usuario: string
+    password: string
+    rol?: string
+    activo?: boolean
+    createdAt?: Date | string
+    legajos?: LegajoUncheckedCreateNestedManyWithoutUsuarioInput
+    fiscales?: FiscalUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutComentariosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutComentariosInput, UsuarioUncheckedCreateWithoutComentariosInput>
+  }
+
+  export type LegajoUpsertWithoutComentariosInput = {
+    update: XOR<LegajoUpdateWithoutComentariosInput, LegajoUncheckedUpdateWithoutComentariosInput>
+    create: XOR<LegajoCreateWithoutComentariosInput, LegajoUncheckedCreateWithoutComentariosInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutComentariosInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutComentariosInput, LegajoUncheckedUpdateWithoutComentariosInput>
+  }
+
+  export type LegajoUpdateWithoutComentariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    visto?: BoolFieldUpdateOperationsInput | boolean
+    origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
+    origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutComentariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    visto?: BoolFieldUpdateOperationsInput | boolean
+    origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
+    origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutComentariosInput = {
+    update: XOR<UsuarioUpdateWithoutComentariosInput, UsuarioUncheckedUpdateWithoutComentariosInput>
+    create: XOR<UsuarioCreateWithoutComentariosInput, UsuarioUncheckedCreateWithoutComentariosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutComentariosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutComentariosInput, UsuarioUncheckedUpdateWithoutComentariosInput>
+  }
+
+  export type UsuarioUpdateWithoutComentariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUpdateManyWithoutUsuarioNestedInput
+    fiscales?: FiscalUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutComentariosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    usuario?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    rol?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajos?: LegajoUncheckedUpdateManyWithoutUsuarioNestedInput
+    fiscales?: FiscalUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type LegajoCreateWithoutArchivosInput = {
@@ -18539,6 +20198,7 @@ export namespace Prisma {
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutArchivosInput = {
@@ -18561,6 +20221,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutArchivosInput = {
@@ -18599,6 +20260,7 @@ export namespace Prisma {
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutArchivosInput = {
@@ -18621,6 +20283,7 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateManyUsuarioInput = {
@@ -18658,6 +20321,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ComentarioLegajoCreateManyUsuarioInput = {
+    id?: string
+    legajoId: string
+    texto: string
+    createdAt?: Date | string
+  }
+
   export type LegajoUpdateWithoutUsuarioInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
@@ -18678,6 +20348,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutUsuarioInput = {
@@ -18700,6 +20371,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateManyWithoutUsuarioInput = {
@@ -18771,6 +20443,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ComentarioLegajoUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutComentariosNestedInput
+  }
+
+  export type ComentarioLegajoUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComentarioLegajoUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type VictimaCreateManyLegajoInput = {
     id?: string
     nombre: string
@@ -18815,6 +20508,13 @@ export namespace Prisma {
     tamano?: number | null
     esAnalizable?: boolean
     analisis?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ComentarioLegajoCreateManyLegajoInput = {
+    id?: string
+    usuarioId: string
+    texto: string
     createdAt?: Date | string
   }
 
@@ -18961,6 +20661,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ComentarioLegajoUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutComentariosNestedInput
+  }
+
+  export type ComentarioLegajoUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComentarioLegajoUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    texto?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RespuestaCreateManyOficioInput = {
     id?: string
     datos: string
@@ -19042,6 +20763,10 @@ export namespace Prisma {
      * @deprecated Use RegistroEstafaDefaultArgs instead
      */
     export type RegistroEstafaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RegistroEstafaDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ComentarioLegajoDefaultArgs instead
+     */
+    export type ComentarioLegajoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ComentarioLegajoDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ArchivoLegajoDefaultArgs instead
      */

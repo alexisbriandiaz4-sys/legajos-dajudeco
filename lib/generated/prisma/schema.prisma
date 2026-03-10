@@ -9,39 +9,41 @@ datasource db {
 }
 
 model Usuario {
-  id        String   @id @default(cuid())
-  nombre    String
-  usuario   String   @unique
-  password  String
-  rol       String   @default("investigador")
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  legajos   Legajo[]
-  fiscales  Fiscal[]
+  id          String             @id @default(cuid())
+  nombre      String
+  usuario     String             @unique
+  password    String
+  rol         String             @default("investigador")
+  activo      Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  legajos     Legajo[]
+  fiscales    Fiscal[]
+  comentarios ComentarioLegajo[]
 }
 
 model Legajo {
-  id             String          @id @default(cuid())
-  numero         String          @unique
+  id             String             @id @default(cuid())
+  numero         String             @unique
   caratula       String
   cuij           String?
   delito         String
   fechaHecho     DateTime
-  estado         String          @default("Activo")
+  estado         String             @default("Activo")
   observaciones  String?
   fiscal         String?
   emailRespuesta String?
-  visto          Boolean         @default(false)
+  visto          Boolean            @default(false)
   origenTipo     String?
   origenId       String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
   usuarioId      String
-  usuario        Usuario         @relation(fields: [usuarioId], references: [id])
+  usuario        Usuario            @relation(fields: [usuarioId], references: [id])
   victimas       Victima[]
   dispositivos   Dispositivo[]
   oficios        Oficio[]
   archivos       ArchivoLegajo[]
+  comentarios    ComentarioLegajo[]
 }
 
 model Victima {
@@ -200,6 +202,18 @@ model RegistroEstafa {
   @@index([cbu])
   @@index([fechaHecho])
   @@index([filaExcel])
+}
+
+model ComentarioLegajo {
+  id        String   @id @default(cuid())
+  legajoId  String
+  legajo    Legajo   @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  usuarioId String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  texto     String
+  createdAt DateTime @default(now())
+
+  @@index([legajoId])
 }
 
 model ArchivoLegajo {

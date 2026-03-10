@@ -18,6 +18,7 @@ model Usuario {
   createdAt DateTime @default(now())
   legajos   Legajo[]
   fiscales      Fiscal[]
+  comentarios   ComentarioLegajo[]
 }
 
 model Legajo {
@@ -42,6 +43,7 @@ model Legajo {
   dispositivos  Dispositivo[]
   oficios       Oficio[]
   archivos    ArchivoLegajo[]
+  comentarios ComentarioLegajo[]
 }
 
 model Victima {
@@ -198,6 +200,18 @@ model RegistroEstafa {
   @@index([fechaHecho])
   @@index([filaExcel])
 }
+model ComentarioLegajo {
+  id        String   @id @default(cuid())
+  legajoId  String
+  legajo    Legajo   @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  usuarioId String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  texto     String
+  createdAt DateTime @default(now())
+
+  @@index([legajoId])
+}
+
 model ArchivoLegajo {
   id          String   @id @default(cuid())
   legajoId    String

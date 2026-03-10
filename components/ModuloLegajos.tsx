@@ -5,6 +5,7 @@ import { Plus, Search, FolderOpen, Calendar, User, Smartphone, FileText, Chevron
 import { toast } from "sonner";
 import FormularioLegajo from "./FormularioLegajo";
 import SeccionArchivos from "./SeccionArchivos";
+import SeccionComentarios from "./SeccionComentarios";
 import { useAuth } from "@/lib/auth-context";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
@@ -301,6 +302,7 @@ export default function ModuloLegajos() {
           <div>
             <p style={{ color: "var(--text-muted)" }} className="text-xs font-semibold mb-2 uppercase tracking-wide">Archivos y análisis</p>
             <SeccionArchivos legajoId={legajoSeleccionado.id} nroLegajo={legajoSeleccionado.numero} />
+            <SeccionComentarios legajoId={legajoSeleccionado.id} />
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Upload, FileText, Image, File, Trash2, Eye, Zap,
-  X, Loader2, Download, FolderOpen, ChevronDown, ChevronUp, CheckCircle
+  X, Loader2, Download, FolderOpen, ChevronDown, ChevronUp, CheckCircle, AlertTriangle
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -97,14 +97,60 @@ function AnalisisModal({ analisis, onClose, cached }: { analisis: string; onClos
   );
 }
 
+function ModalConfirmarEliminar({
+  nombre,
+  onConfirmar,
+  onCancelar,
+}: {
+  nombre: string;
+  onConfirmar: () => void;
+  onCancelar: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-red-400" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold text-sm">Eliminar archivo</h3>
+            <p className="text-gray-400 text-xs mt-0.5">Esta acción no se puede deshacer</p>
+          </div>
+        </div>
+        <p className="text-gray-300 text-sm bg-gray-800 rounded-lg px-3 py-2 truncate mb-5">
+          📄 {nombre}
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={onCancelar}
+            className="flex-1 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={onConfirmar}
+            className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivosProps) {
   const [archivos, setArchivos] = useState<Archivo[]>([]);
   const [cargando, setCargando] = useState(false);
   const [subiendo, setSubiendo] = useState(false);
+  const [progreso, setProgreso] = useState(0);
   const [analizando, setAnalizando] = useState<string | null>(null);
   const [analisisActual, setAnalisisActual] = useState<{ texto: string; cached: boolean } | null>(null);
   const [expandido, setExpandido] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [confirmarEliminar, setConfirmarEliminar] = useState<Archivo | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const cargarArchivos = useCallback(async () => {
@@ -132,6 +178,13 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
       return;
     }
     setSubiendo(true);
+    setProgreso(0);
+
+    // Simular progreso mientras sube
+    const intervalo = setInterval(() => {
+      setProgreso((prev) => (prev < 85 ? prev + Math.random() * 15 : prev));
+    }, 300);
+
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -139,6 +192,8 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
         method: "POST",
         body: formData,
       });
+      clearInterval(intervalo);
+      setProgreso(100);
       if (res.ok) {
         const nuevo = await res.json();
         setArchivos(prev => [nuevo, ...prev]);
@@ -147,9 +202,10 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
         toast.error("Error al subir el archivo");
       }
     } catch {
+      clearInterval(intervalo);
       toast.error("Error al subir el archivo");
     } finally {
-      setSubiendo(false);
+      setTimeout(() => { setSubiendo(false); setProgreso(0); }, 400);
     }
   };
 
@@ -159,7 +215,6 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
   };
 
   const eliminarArchivo = async (archivo: Archivo) => {
-    if (!confirm(`¿Eliminar "${archivo.nombre}"?`)) return;
     try {
       const res = await fetch(`/api/legajos/${legajoId}/archivos/${archivo.id}`, { method: "DELETE" });
       if (res.ok) {
@@ -170,6 +225,8 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
       }
     } catch {
       toast.error("Error al eliminar");
+    } finally {
+      setConfirmarEliminar(null);
     }
   };
 
@@ -213,6 +270,13 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
 
   return (
     <>
+      {confirmarEliminar && (
+        <ModalConfirmarEliminar
+          nombre={confirmarEliminar.nombre}
+          onConfirmar={() => eliminarArchivo(confirmarEliminar)}
+          onCancelar={() => setConfirmarEliminar(null)}
+        />
+      )}
       {analisisActual && (
         <AnalisisModal
           analisis={analisisActual.texto}
@@ -268,9 +332,16 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                 accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx,.zip,.rar"
               />
               {subiendo ? (
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-3">
                   <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
                   <p className="text-gray-400 text-sm">Subiendo archivo...</p>
+                  <div className="w-full max-w-xs bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-blue-500 h-full rounded-full transition-all duration-300"
+                      style={{ width: `${progreso}%` }}
+                    />
+                  </div>
+                  <p className="text-gray-600 text-xs">{Math.round(progreso)}%</p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2">
@@ -353,7 +424,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                         <Download className="w-4 h-4" />
                       </a>
                       <button
-                        onClick={() => eliminarArchivo(archivo)}
+                        onClick={() => setConfirmarEliminar(archivo)}
                         title="Eliminar"
                         className="p-1.5 rounded-lg text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-colors"
                       >
