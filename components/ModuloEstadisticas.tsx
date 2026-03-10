@@ -5,6 +5,7 @@ import {
   CheckCircle, Clock, XCircle, RefreshCw, Database, Users,
   Phone, ShieldAlert, Activity, ChevronRight
 } from "lucide-react";
+import { fetchConCache, cache, TTL } from "@/lib/cache";
 
 interface EstadisticasData {
   legajos: {
@@ -264,11 +265,9 @@ export default function ModuloEstadisticas() {
   const cargar = useCallback(async () => {
     setCargando(true);
     try {
-      const res = await fetch('/api/estadisticas');
-      if (res.ok) {
-        setDatos(await res.json());
-        setUltimaActualizacion(new Date());
-      }
+      const data = await fetchConCache<EstadisticasData>('/api/estadisticas', TTL.ESTADISTICAS);
+      setDatos(data);
+      setUltimaActualizacion(new Date());
     } catch {}
     finally { setCargando(false); }
   }, []);
@@ -327,7 +326,7 @@ export default function ModuloEstadisticas() {
           </p>
         </div>
         <button
-          onClick={cargar}
+          onClick={() => { cache.invalidar('/api/estadisticas'); cargar(); }}
           disabled={cargando}
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all"
           style={{ background: 'var(--bg-secondary)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}

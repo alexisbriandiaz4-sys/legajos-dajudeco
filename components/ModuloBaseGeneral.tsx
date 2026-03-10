@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Search, Upload, Plus, ChevronLeft, ChevronRight, X, Eye, Trash2, Phone, AlertTriangle, Database } from "lucide-react";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
+import { fetchConCache, cache, TTL } from "@/lib/cache";
 import { useAuth } from "@/lib/auth-context";
 
 // ─── TIPOS ───────────────────────────────────────────────────────────────────
@@ -51,8 +52,7 @@ const formatFecha = (f?: string | null) => {
 function useUsuarios() {
   const [usuarios, setUsuarios] = useState<UsuarioSimple[]>([]);
   useEffect(() => {
-    fetch('/api/usuarios')
-      .then(r => r.ok ? r.json() : [])
+    fetchConCache<any[]>('/api/usuarios', TTL.USUARIOS)
       .then(data => setUsuarios(data.filter((u: any) => u.rol !== 'admin')))
       .catch(() => {});
   }, []);
@@ -158,6 +158,8 @@ function TabTelefonia({ esAdmin }: { esAdmin: boolean }) {
       });
       if (res.ok) {
         const json = await res.json();
+        cache.invalidarPrefijo('/api/telefonia');
+        cache.invalidar('/api/estadisticas');
         toast.success(`✓ ${json.insertados} registros importados`);
         setPage(1); setRecargar(r => r + 1);
       } else { const err = await res.json(); toast.error(err.error || "Error al importar"); }
@@ -326,6 +328,8 @@ function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
       });
       if (res.ok) {
         const json = await res.json();
+        cache.invalidarPrefijo('/api/estafas');
+        cache.invalidar('/api/estadisticas');
         toast.success(`✓ ${json.insertados} registros importados`);
         setPage(1); setRecargar(r => r + 1);
       } else { const err = await res.json(); toast.error(err.error || "Error al importar"); }

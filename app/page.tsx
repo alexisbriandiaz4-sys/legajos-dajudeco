@@ -13,6 +13,7 @@ import ModuloConfiguracion from "@/components/ModuloConfiguracion";
 import ModuloAlertas from "@/components/ModuloAlertas";
 import ModuloBaseGeneral from "@/components/ModuloBaseGeneral";
 import ModuloEstadisticas from "@/components/ModuloEstadisticas";
+import { fetchConCache, cache, TTL } from "@/lib/cache";
 
 type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia' | 'estadisticas';
 
@@ -38,11 +39,8 @@ export default function Home() {
     if (!usuario || usuario.rol === 'admin') return;
     const cargarNovedades = async () => {
       try {
-        const res = await fetch('/api/novedades');
-        if (res.ok) {
-          const data = await res.json();
-          setNovedades(data.total ?? 0);
-        }
+        const data = await fetchConCache<any>('/api/novedades', TTL.NOVEDADES);
+        setNovedades(data.total ?? 0);
       } catch {}
     };
     cargarNovedades();
@@ -52,7 +50,10 @@ export default function Home() {
 
   const handleNavegar = (id: Vista) => {
     setVista(id);
-    if (id === 'telefonia') setNovedades(0);
+    if (id === 'telefonia') {
+      setNovedades(0);
+      cache.invalidar('/api/novedades');
+    }
   };
 
   if (cargando) {

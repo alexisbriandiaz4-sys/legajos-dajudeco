@@ -7,6 +7,7 @@ import FormularioLegajo from "./FormularioLegajo";
 import SeccionArchivos from "./SeccionArchivos";
 import SeccionComentarios from "./SeccionComentarios";
 import { useAuth } from "@/lib/auth-context";
+import { cache, TTL, fetchConCache } from "@/lib/cache";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
 interface Dispositivo { id: string; tipo: string; marca?: string; modelo?: string; imei?: string; }
@@ -54,9 +55,8 @@ export default function ModuloLegajos() {
   // Cargar lista de usuarios si es admin
   useEffect(() => {
     if (!esAdmin) return;
-    fetch('/api/usuarios')
-      .then(r => r.ok ? r.json() : [])
-      .then(data => setUsuarios(data))
+    fetchConCache('/api/usuarios', TTL.USUARIOS)
+      .then((data: any) => setUsuarios(data))
       .catch(() => {});
   }, [esAdmin]);
 
@@ -68,15 +68,11 @@ export default function ModuloLegajos() {
       if (filtroEstado)     params.set('estado', filtroEstado);
       if (filtroFechaDesde) params.set('desde', filtroFechaDesde);
       if (filtroFechaHasta) params.set('hasta', filtroFechaHasta);
-      // Si admin y hay tab activa (no "todos"), filtrar por usuarioId
       if (esAdmin && tabActiva !== 'todos') params.set('usuarioId', tabActiva);
 
-      const res = await fetch(`/api/legajos?${params}`);
-      if (res.ok) {
-        setDatos(await res.json());
-      } else {
-        toast.error("Error al cargar los legajos");
-      }
+      const url = `/api/legajos?${params}`;
+      const data = await fetchConCache<any>(url, TTL.LEGAJOS);
+      setDatos(data);
     } catch {
       toast.error("Error de conexión al cargar legajos");
     } finally {
@@ -114,6 +110,8 @@ export default function ModuloLegajos() {
         body: JSON.stringify({ estado: nuevoEstado }),
       });
       if (res.ok) {
+        cache.invalidarPrefijo('/api/legajos');
+        cache.invalidarPrefijo('/api/estadisticas');
         toast.success(`Legajo marcado como "${nuevoEstado}"`);
         await cargarLegajos(page);
         if (legajoSeleccionado?.id === legajo.id) {
@@ -136,6 +134,8 @@ export default function ModuloLegajos() {
     try {
       const res = await fetch(`/api/legajos/${legajo.id}`, { method: "DELETE" });
       if (res.ok) {
+        cache.invalidarPrefijo('/api/legajos');
+        cache.invalidarPrefijo('/api/estadisticas');
         toast.success(`Legajo #${legajo.numero} eliminado`);
         setConfirmarBorrar(null);
         setLegajoSeleccionado(null);
