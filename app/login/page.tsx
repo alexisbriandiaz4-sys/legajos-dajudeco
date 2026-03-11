@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import Image from "next/image";
+
 export default function LoginPage() {
   const [form, setForm] = useState({ usuario: "", password: "" });
   const [error, setError] = useState("");
@@ -59,14 +61,19 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-sm">
 
-        {/* Título */}
-        <div className="text-center mb-10">
-          <h1 className="text-2xl font-semibold text-white">
-            S.A.P
-          </h1>
-
-          <p className="text-slate-400 text-sm mt-1">
-            Análisis Inteligente de Legajos
+        {/* Logo Superior */}
+        <div className="flex flex-col items-center justify-center mb-10 space-y-4">
+          <div className="relative w-32 h-32 md:w-40 md:h-40 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+            <Image 
+              src="/logo.png" 
+              alt="Logo S.A.P" 
+              fill 
+              className="object-contain"
+              priority
+            />
+          </div>
+          <p className="text-slate-400 text-sm font-medium tracking-wide">
+            SISTEMA DE ANÁLISIS POLICIAL
           </p>
         </div>
 
