@@ -42,13 +42,13 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     const result = await new Promise<any>((resolve, reject) => {
       const isPdf = file.type === 'application/pdf'
-cloudinary.uploader.upload_stream(
-  {
-    folder: `legajos/${id}`,
-    resource_type: isPdf ? 'image' : 'auto',
-    access_mode: 'public',
-    public_id: `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`,
-  },
+      cloudinary.uploader.upload_stream(
+        {
+          folder: `legajos/${id}`,
+          resource_type: isPdf ? 'image' : 'auto',
+          access_mode: 'public',
+          public_id: `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`,
+        },
         (error, result) => {
           if (error) reject(error)
           else resolve(result)
@@ -70,6 +70,47 @@ cloudinary.uploader.upload_stream(
         esAnalizable,
       }
     })
+
+    // Enviar al backend IA de forma asíncrona (no bloquea la respuesta al usuario)
+    console.log('🔍 esAnalizable:', esAnalizable, '| tipo:', file.type)
+
+    if (esAnalizable) {
+      const backendUrl = process.env.IA_BACKEND_URL
+      const backendSecret = process.env.IA_BACKEND_SECRET
+
+      console.log('🔍 backendUrl:', backendUrl)
+      console.log('🔍 backendSecret:', backendSecret ? 'OK' : 'FALTA')
+
+      if (backendUrl && backendSecret) {
+        console.log('📤 Enviando al backend IA...')
+        fetch(`${backendUrl}/analizar`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': backendSecret,
+          },
+          body: JSON.stringify({
+            url:       result.secure_url,
+            tipo:      file.type,
+            nombre:    file.name,
+            legajoId:  id,
+            archivoId: archivo.id,
+          }),
+        })
+        .then(async (res) => {
+          console.log('📥 Respuesta backend IA:', res.status)
+          if (res.ok) {
+            const data = await res.json()
+            console.log('✅ Informe recibido:', data.informe?.substring(0, 100))
+            await prisma.archivoLegajo.update({
+              where: { id: archivo.id },
+              data:  { analisis: data.informe }
+            })
+          }
+        })
+        .catch((err) => console.error('❌ Error backend IA:', err))
+      }
+    }
 
     return NextResponse.json(archivo)
   } catch (error) {
