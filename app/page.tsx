@@ -181,7 +181,16 @@ export default function Home() {
       </aside>
 
       {/* Contenido */}
-      <main className="flex-1 overflow-auto p-6">
+      <main className="flex-1 overflow-auto flex flex-col">
+        {/* Header global */}
+        <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="flex items-center gap-4 px-6 py-3 border-b flex-shrink-0">
+          <img src="/logo-sap.png" alt="S.A.P." style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+          <div>
+            <p style={{ color: 'var(--text-primary)' }} className="text-lg font-bold leading-tight tracking-wide">S.A.P.</p>
+            <p style={{ color: 'var(--text-muted)' }} className="text-xs">Análisis Inteligente de Legajos</p>
+          </div>
+        </div>
+        <div className="flex-1 overflow-auto p-6">
         <div key={vista} style={{ animation: 'fadeSlideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
           {vista === 'legajos'       && <ModuloLegajos />}
           {vista === 'oficios'       && <ModuloOficios />}
@@ -191,6 +200,7 @@ export default function Home() {
           {vista === 'configuracion' && <ModuloConfiguracion />}
           {vista === 'auditoria'      && <ModuloAuditoria />}
         </div>
+      </div>
       </main>
     </div>
   );
