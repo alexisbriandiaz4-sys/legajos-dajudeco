@@ -46,7 +46,7 @@ export const OficioSchema = z.object({
   numeroLinea:      z.string().max(30).optional().or(z.literal('')),
   imeiSeleccionado: z.string().max(20).optional().or(z.literal('')),
   fechaEnvio:       z.string().optional().or(z.literal('')),
-  estado:           z.enum(['Pendiente', 'Enviado', 'Respondido', 'Vencido']).optional(),
+  estado:           z.enum(['Pendiente', 'Enviado', 'Respondido', 'Vencido', 'Sin respuesta']).optional(),
   fechaRespuesta:   z.string().optional().or(z.literal('')),
 })
 
@@ -72,8 +72,8 @@ export const UsuarioSchema = z.object({
   password: z.string().min(6, 'Mínimo 6 caracteres').max(100),
   rol:      z.enum(['admin', 'usuario']).default('usuario'),
   activo:   z.boolean().default(true),
-  
 })
+
 // ── Manejo de errores de Prisma ──
 import { Prisma } from '@/lib/generated/prisma'
 

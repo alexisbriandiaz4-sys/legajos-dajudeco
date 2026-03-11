@@ -17,11 +17,10 @@ export async function GET(request: Request) {
     const where: any = { legajo: { usuarioId } }
     if (estado) where.estado = estado
     if (busqueda) {
-      const q = busqueda.toLowerCase()
       where.OR = [
-        { operadora: { contains: q } },
-        { legajo: { numero:   { contains: q } } },
-        { legajo: { caratula: { contains: q } } },
+        { operadora: { contains: busqueda, mode: 'insensitive' } },
+        { legajo: { numero:   { contains: busqueda, mode: 'insensitive' } } },
+        { legajo: { caratula: { contains: busqueda, mode: 'insensitive' } } },
       ]
     }
 

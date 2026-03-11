@@ -40,14 +40,13 @@ export async function GET(request: Request) {
     }
 
     if (busqueda) {
-      const q = busqueda.toLowerCase()
       where.OR = [
-        { numero:   { contains: q } },
-        { caratula: { contains: q } },
-        { delito:   { contains: q } },
-        { fiscal:   { contains: q } },
-        { cuij:     { contains: q } },
-        { victimas: { some: { nombre: { contains: q } } } },
+        { numero:   { contains: busqueda, mode: 'insensitive' } },
+        { caratula: { contains: busqueda, mode: 'insensitive' } },
+        { delito:   { contains: busqueda, mode: 'insensitive' } },
+        { fiscal:   { contains: busqueda, mode: 'insensitive' } },
+        { cuij:     { contains: busqueda, mode: 'insensitive' } },
+        { victimas: { some: { nombre: { contains: busqueda, mode: 'insensitive' } } } },
       ]
     }
 

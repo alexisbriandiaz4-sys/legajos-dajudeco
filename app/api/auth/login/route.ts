@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
+import { logger } from '@/lib/logger'
 
 const loginAttempts = new Map<string, { count: number; firstAttempt: number }>()
 const MAX_INTENTOS = 10
@@ -57,10 +58,12 @@ export async function POST(request: Request) {
 
     const ok = await bcrypt.compare(password, user.password)
     if (!ok) {
+      logger.audit('LOGIN_FALLIDO', user.id, 'auth', { usuario }, ip)
       return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 })
     }
 
     loginAttempts.delete(ip)
+    logger.audit('LOGIN_EXITOSO', user.id, 'auth', { usuario: user.usuario, rol: user.rol }, ip)
 
     const token = jwt.sign(
       { id: user.id, usuario: user.usuario, rol: user.rol, nombre: user.nombre },
