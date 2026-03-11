@@ -30,7 +30,8 @@ function formatBytes(bytes?: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function getIcono(tipo: string) {
+function getIcono(tipo?: string) {
+  if (!tipo) return <File className="w-5 h-5 text-gray-400" />;
   if (tipo.includes("image")) return <Image className="w-5 h-5 text-blue-400" />;
   if (tipo.includes("pdf")) return <FileText className="w-5 h-5 text-red-400" />;
   return <File className="w-5 h-5 text-gray-400" />;
