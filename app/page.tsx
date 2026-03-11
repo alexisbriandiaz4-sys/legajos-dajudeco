@@ -97,19 +97,19 @@ export default function Home() {
         }}
         className="border-r flex flex-col overflow-hidden"
       >
-        {/* Logo + toggle */}
-        <div style={{ borderColor: 'var(--border)' }} className="flex items-center justify-between p-3 border-b min-h-[56px]">
-          <div className="flex items-center gap-2 overflow-hidden">
-           <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 object-contain" style={{ width: sidebarAbierto ? '40px' : '52px', height: sidebarAbierto ? '40px' : '52px', transition: 'width 0.3s, height 0.3s' }} />
-<div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', whiteSpace: 'nowrap' }}>
-  <p style={{ color: 'var(--text-primary)' }} className="text-xs font-bold leading-tight">S.A.P.</p>
-  <p style={{ color: 'var(--text-muted)' }} className="text-[10px]">Análisis Inteligente de Legajos</p>
+       {/* Logo + toggle */}
+<div style={{ borderColor: 'var(--border)', minHeight: sidebarAbierto ? '120px' : '72px', transition: 'min-height 0.3s' }} className="flex items-center justify-between p-3 border-b">
+  <div className="flex items-center gap-2 overflow-hidden">
+    <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 object-contain" style={{ width: sidebarAbierto ? '90px' : '48px', height: sidebarAbierto ? '90px' : '48px', transition: 'width 0.3s, height 0.3s' }} />
+    <div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <p style={{ color: 'var(--text-primary)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.15em' }} className="text-sm font-bold">S.A.P.</p>
+      <p style={{ color: 'var(--text-muted)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.1em' }} className="text-[10px]">Análisis Inteligente de Legajos</p>
+    </div>
+  </div>
+  <button onClick={toggleSidebar} className="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80 transition-opacity" style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }} title={sidebarAbierto ? 'Contraer' : 'Expandir'}>
+    {sidebarAbierto ? <ChevronLeft size={13} /> : <ChevronRight size={13} />}
+  </button>
 </div>
-          </div>
-          <button onClick={toggleSidebar} className="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80 transition-opacity" style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }} title={sidebarAbierto ? 'Contraer' : 'Expandir'}>
-            {sidebarAbierto ? <ChevronLeft size={13} /> : <ChevronRight size={13} />}
-          </button>
-        </div>
 
         {/* Nav */}
         <nav className="flex-1 p-2 space-y-0.5 overflow-hidden">
@@ -182,10 +182,6 @@ export default function Home() {
 
       {/* Contenido */}
       <main className="flex-1 overflow-auto flex flex-col">
-        {/* Header global */}
-        <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="flex items-center justify-center border-b flex-shrink-0 py-3">
-          <img src="/logo-sap.png" alt="S.A.P." style={{ height: '120px', objectFit: 'contain' }} />
-        </div>
         <div className="flex-1 overflow-auto p-6">
         <div key={vista} style={{ animation: 'fadeSlideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
           {vista === 'legajos'       && <ModuloLegajos />}
