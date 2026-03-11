@@ -41,6 +41,18 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[#020617] relative overflow-hidden">
 
+  {/* grid fondo */}
+  <div
+    className="absolute inset-0 opacity-[0.05]"
+    style={{
+      backgroundImage: `
+        linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+      `,
+      backgroundSize: "40px 40px"
+    }}
+  />
+
       {/* luces fondo */}
       <div className="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full -top-40 -left-40" />
       <div className="absolute w-[500px] h-[500px] bg-indigo-500/20 blur-[140px] rounded-full -bottom-40 -right-40" />
@@ -50,16 +62,16 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-10">
           <img
-            src="/logo-sap.png"
-            className="w-28 mx-auto mb-4"
-          />
+  src="/logo-sap-escudo.png"
+  className="w-32 mx-auto mb-5"
+/>
 
           <h1 className="text-2xl font-semibold text-white">
-            Sistema de Legajos
+            S.A.P
           </h1>
 
           <p className="text-slate-400 text-sm mt-1">
-            Departamento de Delitos Complejos
+            Análisis Inteligente de Legajos
           </p>
         </div>
 
