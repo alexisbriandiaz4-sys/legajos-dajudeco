@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Upload, FileText, Image, File, Trash2, Eye, Zap,
-  X, Loader2, Download, FolderOpen, ChevronDown, ChevronUp, CheckCircle, AlertTriangle
+  Upload, FileText, Image, File, Trash2, Eye,
+  Loader2, Download, FolderOpen, ChevronDown, ChevronUp, AlertTriangle
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -34,67 +34,6 @@ function getIcono(tipo: string) {
   if (tipo.includes("image")) return <Image className="w-5 h-5 text-blue-400" />;
   if (tipo.includes("pdf")) return <FileText className="w-5 h-5 text-red-400" />;
   return <File className="w-5 h-5 text-gray-400" />;
-}
-
-function AnalisisModal({ analisis, onClose, cached }: { analisis: string; onClose: () => void; cached?: boolean }) {
-  const lines = analisis.split("\n");
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-gray-700">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-purple-400" />
-            </div>
-            <div>
-              <h2 className="text-white font-semibold">Análisis de respuesta</h2>
-              <p className="text-gray-400 text-xs">
-                {cached ? "Análisis guardado · Gemini AI" : "Generado con Gemini AI"}
-              </p>
-            </div>
-          </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="overflow-y-auto p-5 flex-1">
-          <div className="prose prose-invert prose-sm max-w-none">
-            {lines.map((line, i) => {
-              if (line.startsWith("## ")) {
-                return (
-                  <h3 key={i} className="text-purple-300 font-semibold text-sm mt-5 mb-2 flex items-center gap-2">
-                    {line.replace("## ", "")}
-                  </h3>
-                );
-              }
-              if (line.startsWith("- ")) {
-                return (
-                  <div key={i} className="flex gap-2 text-gray-300 text-sm mb-1">
-                    <span className="text-purple-400 mt-0.5">•</span>
-                    <span>{line.replace("- ", "")}</span>
-                  </div>
-                );
-              }
-              if (line.startsWith("**") && line.endsWith("**")) {
-                return <p key={i} className="text-white font-semibold text-sm mb-1">{line.replace(/\*\*/g, "")}</p>;
-              }
-              if (line.trim() === "") return <div key={i} className="h-1" />;
-              return <p key={i} className="text-gray-300 text-sm mb-1">{line}</p>;
-            })}
-          </div>
-        </div>
-        <div className="p-4 border-t border-gray-700">
-          <button
-            onClick={onClose}
-            className="w-full py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm transition-colors"
-          >
-            Cerrar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function ModalConfirmarEliminar({
@@ -140,14 +79,11 @@ function ModalConfirmarEliminar({
   );
 }
 
-
 export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivosProps) {
   const [archivos, setArchivos] = useState<Archivo[]>([]);
   const [cargando, setCargando] = useState(false);
   const [subiendo, setSubiendo] = useState(false);
   const [progreso, setProgreso] = useState(0);
-  const [analizando, setAnalizando] = useState<string | null>(null);
-  const [analisisActual, setAnalisisActual] = useState<{ texto: string; cached: boolean } | null>(null);
   const [expandido, setExpandido] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [confirmarEliminar, setConfirmarEliminar] = useState<Archivo | null>(null);
@@ -180,7 +116,6 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
     setSubiendo(true);
     setProgreso(0);
 
-    // Simular progreso mientras sube
     const intervalo = setInterval(() => {
       setProgreso((prev) => (prev < 85 ? prev + Math.random() * 15 : prev));
     }, 300);
@@ -230,44 +165,6 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
     }
   };
 
-  const analizarArchivo = async (archivo: Archivo) => {
-    // Si ya tiene análisis guardado, mostrarlo directamente sin llamar a Gemini
-    if (archivo.analisis) {
-      setAnalisisActual({ texto: archivo.analisis, cached: true });
-      return;
-    }
-
-    setAnalizando(archivo.id);
-    toast.info("Analizando con Gemini AI...");
-    try {
-      const res = await fetch(`/api/legajos/${legajoId}/analizar`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: archivo.url,
-          nombre: archivo.nombre,
-          archivoId: archivo.id,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        // Actualizar el archivo en el estado local con el análisis guardado
-        setArchivos(prev =>
-          prev.map(a => a.id === archivo.id ? { ...a, analisis: data.analisis } : a)
-        );
-        setAnalisisActual({ texto: data.analisis, cached: data.cached });
-        if (!data.cached) toast.success("Análisis completado y guardado");
-      } else {
-        const err = await res.json();
-        toast.error(err.error || "Error al analizar");
-      }
-    } catch {
-      toast.error("Error al analizar");
-    } finally {
-      setAnalizando(null);
-    }
-  };
-
   return (
     <>
       {confirmarEliminar && (
@@ -277,16 +174,8 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
           onCancelar={() => setConfirmarEliminar(null)}
         />
       )}
-      {analisisActual && (
-        <AnalisisModal
-          analisis={analisisActual.texto}
-          cached={analisisActual.cached}
-          onClose={() => setAnalisisActual(null)}
-        />
-      )}
 
       <div className="mt-4 border border-gray-700 rounded-xl overflow-hidden">
-        {/* Header colapsable */}
         <button
           onClick={() => setExpandido(!expandido)}
           className="w-full flex items-center justify-between px-4 py-3 bg-gray-800/50 hover:bg-gray-800 transition-colors"
@@ -311,7 +200,6 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
 
         {expandido && (
           <div className="p-4 bg-gray-900/50 space-y-4">
-            {/* Zona de drop */}
             <div
               onDragOver={e => { e.preventDefault(); setDragOver(true); }}
               onDragLeave={() => setDragOver(false)}
@@ -347,14 +235,14 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                 <div className="flex flex-col items-center gap-2">
                   <Upload className="w-8 h-8 text-gray-500" />
                   <p className="text-gray-400 text-sm">
-                    Arrastrá archivos acá o <span className="text-blue-400">hacé click para seleccionar</span>
+                    Arrastrá archivos acá o{" "}
+                    <span className="text-blue-400">hacé click para seleccionar</span>
                   </p>
                   <p className="text-gray-600 text-xs">PDF, imágenes, Word, Excel, ZIP, RAR — máx. 20MB</p>
                 </div>
               )}
             </div>
 
-            {/* Lista de archivos */}
             {cargando ? (
               <div className="flex justify-center py-4">
                 <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
@@ -365,7 +253,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
               </p>
             ) : (
               <div className="space-y-2">
-                {archivos.map(archivo => (
+                {archivos.map((archivo) => (
                   <div
                     key={archivo.id}
                     className="flex items-center gap-3 p-3 rounded-lg bg-gray-800 border border-gray-700 group"
@@ -377,35 +265,9 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                       <p className="text-white text-sm font-medium truncate">{archivo.nombre}</p>
                       <p className="text-gray-500 text-xs">
                         {formatBytes(archivo.tamano)} · {new Date(archivo.createdAt).toLocaleDateString("es-AR")}
-                        {archivo.esAnalizable && !archivo.analisis && (
-                          <span className="ml-2 text-purple-400">· Analizable con IA</span>
-                        )}
-                        {archivo.analisis && (
-                          <span className="ml-2 text-green-400">· Análisis guardado</span>
-                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      {archivo.esAnalizable && (
-                        <button
-                          onClick={() => analizarArchivo(archivo)}
-                          disabled={!!analizando}
-                          title={archivo.analisis ? "Ver análisis guardado" : "Analizar con IA"}
-                          className={`p-1.5 rounded-lg transition-colors disabled:opacity-50 ${
-                            archivo.analisis
-                              ? "text-green-400 hover:bg-green-500/20"
-                              : "text-purple-400 hover:bg-purple-500/20"
-                          }`}
-                        >
-                          {analizando === archivo.id ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : archivo.analisis ? (
-                            <CheckCircle className="w-4 h-4" />
-                          ) : (
-                            <Zap className="w-4 h-4" />
-                          )}
-                        </button>
-                      )}
                       <a
                         href={archivo.url}
                         target="_blank"
