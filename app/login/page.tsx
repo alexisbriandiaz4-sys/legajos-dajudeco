@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image"
+import Image from "next/image";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ usuario: "", password: "" });
@@ -9,9 +9,9 @@ export default function LoginPage() {
   const [cargando, setCargando] = useState(false);
 
   async function handleLogin() {
-    if (!form.usuario || !form.password) { 
-      setError("Completá todos los campos"); 
-      return; 
+    if (!form.usuario || !form.password) {
+      setError("Completá todos los campos");
+      return;
     }
 
     setCargando(true);
@@ -42,17 +42,17 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[#020617] relative overflow-hidden">
 
-  {/* grid fondo */}
-  <div
-    className="absolute inset-0 opacity-[0.05]"
-    style={{
-      backgroundImage: `
-        linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
-      `,
-      backgroundSize: "40px 40px"
-    }}
-  />
+      {/* grid fondo */}
+      <div
+        className="absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px"
+        }}
+      />
 
       {/* luces fondo */}
       <div className="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full -top-40 -left-40" />
@@ -60,14 +60,26 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-sm">
 
-       {/* Logo */}
-<Image
-  src="/logo.png"
-  alt="SAP"
-  width={120}
-  height={120}
-  className="mx-auto mb-5"
-/>
+        {/* Logo */}
+        <div className="text-center mb-10">
+
+          <Image
+            src="/logo.png"
+            alt="SAP"
+            width={120}
+            height={120}
+            className="mx-auto mb-5"
+          />
+
+          <h1 className="text-2xl font-semibold text-white">
+            S.A.P
+          </h1>
+
+          <p className="text-slate-400 text-sm mt-1">
+            Análisis Inteligente de Legajos
+          </p>
+
+        </div>
 
         {/* Caja login */}
         <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
@@ -116,6 +128,7 @@ export default function LoginPage() {
           >
             {cargando ? "Ingresando..." : "Acceder al sistema"}
           </button>
+
         </div>
 
         <p className="text-center text-slate-500 text-xs mt-6">
