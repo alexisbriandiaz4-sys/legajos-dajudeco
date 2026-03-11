@@ -100,7 +100,7 @@ export default function Home() {
        {/* Header / Logo */}
 <div
   style={{ borderColor: 'var(--border)' }}
-  className="border-b p-4 flex flex-col items-center relative"
+  className="border-b flex items-center justify-center relative"
 >
 
   {/* Botón contraer */}
@@ -112,35 +112,17 @@ export default function Home() {
     {sidebarAbierto ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
   </button>
 
-  {/* Logo */}
   <img
     src="/logo-sap.png"
     alt="SAP"
     className="object-contain transition-all duration-300"
     style={{
-      width: sidebarAbierto ? '80px' : '40px',
-      height: sidebarAbierto ? '80px' : '40px'
+      width: sidebarAbierto ? '150px' : '40px',
+      height: sidebarAbierto ? '120px' : '40px',
+      padding: sidebarAbierto ? '10px' : '0'
     }}
   />
 
-  {/* Texto */}
-  {sidebarAbierto && (
-    <div className="text-center mt-2">
-      <p
-        className="text-sm font-bold tracking-widest"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        S.A.P
-      </p>
-
-      <p
-        className="text-[11px]"
-        style={{ color: 'var(--text-muted)' }}
-      >
-        Sistema de Análisis de Legajos
-      </p>
-    </div>
-  )}
 </div>
 
         {/* Nav */}
