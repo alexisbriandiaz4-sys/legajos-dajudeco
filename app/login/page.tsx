@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image"
 
 export default function LoginPage() {
   const [form, setForm] = useState({ usuario: "", password: "" });
@@ -60,9 +61,13 @@ export default function LoginPage() {
       <div className="relative w-full max-w-sm">
 
        {/* Logo */}
-<div className="text-center mb-10">
-  <img src="/logo.png?v=1" alt="S.A.P." className="mx-auto mb-5 object-contain" />
-</div>
+<Image
+  src="/logo.png"
+  alt="SAP"
+  width={120}
+  height={120}
+  className="mx-auto mb-5"
+/>
 
         {/* Caja login */}
         <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
