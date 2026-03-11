@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Victima {
   id?: string;
@@ -135,8 +136,21 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
   const labelStyle = { color: "var(--text-muted)" };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.6)" }}>
-      <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="w-full max-w-2xl rounded-2xl max-h-[90vh] overflow-y-auto">
+    <AnimatePresence>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/50"
+      >
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0, y: 15 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.95, opacity: 0, y: 15 }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} 
+          className="w-full max-w-2xl rounded-2xl max-h-[90vh] overflow-y-auto glass-panel shadow-2xl"
+        >
 
         <div className="flex items-center justify-between p-5 sticky top-0 z-10" style={{ background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)" }}>
           <h3 style={{ color: "var(--text-primary)" }} className="font-bold text-lg">
@@ -289,13 +303,14 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
             <button onClick={onCerrar} style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)" }} className="flex-1 py-2.5 rounded-lg text-sm font-medium hover:opacity-80 transition">
               Cancelar
             </button>
-            <button onClick={guardar} disabled={guardando} style={{ background: "var(--accent)" }} className="flex-1 py-2.5 rounded-lg text-sm font-medium text-white hover:opacity-90 transition disabled:opacity-50">
+            <button onClick={guardar} disabled={guardando} style={{ background: "var(--accent)" }} className="flex-1 py-2.5 rounded-lg text-sm font-medium text-white hover:opacity-90 transition disabled:opacity-50 shadow-lg shadow-blue-500/20">
               {guardando ? "Guardando..." : legajoEditar ? "Guardar cambios" : "Crear legajo"}
             </button>
           </div>
 
         </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

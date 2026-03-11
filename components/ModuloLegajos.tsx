@@ -8,6 +8,10 @@ import SeccionArchivos from "./SeccionArchivos";
 import SeccionComentarios from "./SeccionComentarios";
 import { useAuth } from "@/lib/auth-context";
 import { cache, TTL, fetchConCache } from "@/lib/cache";
+import { motion, AnimatePresence } from "framer-motion";
+import { SkeletonLoader } from "./ui/SkeletonLoader";
+import ModuloGrafo from "./ModuloGrafo";
+import ModuloLineaTiempo from "./ModuloLineaTiempo";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
 interface Dispositivo { id: string; tipo: string; marca?: string; modelo?: string; imei?: string; }
@@ -304,6 +308,11 @@ export default function ModuloLegajos() {
             <SeccionArchivos legajoId={legajoSeleccionado.id} nroLegajo={legajoSeleccionado.numero} />
             <SeccionComentarios legajoId={legajoSeleccionado.id} />
           </div>
+
+          <div>
+             <ModuloGrafo legajoId={legajoSeleccionado.id} />
+             <ModuloLineaTiempo legajoId={legajoSeleccionado.id} fechaHechoBase={legajoSeleccionado.fechaHecho} />
+          </div>
         </div>
 
         {legajoEditar && (
@@ -473,7 +482,12 @@ export default function ModuloLegajos() {
 
       {/* Lista */}
       {cargando ? (
-        <p style={{ color: "var(--text-muted)" }} className="text-sm text-center py-8">Cargando legajos...</p>
+        <div className="space-y-3 pt-4">
+          <SkeletonLoader height="80px" borderRadius="12px" />
+          <SkeletonLoader height="80px" borderRadius="12px" />
+          <SkeletonLoader height="80px" borderRadius="12px" />
+          <SkeletonLoader height="80px" borderRadius="12px" />
+        </div>
       ) : datos.legajos.length === 0 ? (
         <div className="text-center py-16">
           <FolderOpen size={40} style={{ color: "var(--text-muted)" }} className="mx-auto mb-3" />
@@ -487,51 +501,69 @@ export default function ModuloLegajos() {
           )}
         </div>
       ) : (
-        <div className="space-y-2">
+        <motion.div 
+          className="space-y-3 mt-4"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.05 }
+            }
+          }}
+        >
           {datos.legajos.map(legajo => (
-            <div key={legajo.id}
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 15 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              key={legajo.id}
               style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", opacity: legajo.estado === "Inactivo" ? 0.5 : 1 }}
-              className="rounded-xl p-4 hover:border-[var(--accent)] transition-all group">
+              className="rounded-xl glass-panel glass-panel-hover p-4 transition-all group cursor-pointer"
+            >
               <div className="flex items-start justify-between">
-                <button className="flex-1 min-w-0 text-left" onClick={() => setLegajoSeleccionado(legajo)}>
+                <button className="flex-1 min-w-0 text-left outline-none" onClick={() => setLegajoSeleccionado(legajo)}>
                   <div className="flex items-center gap-2 mb-1">
-                    <span style={{ color: "var(--accent)" }} className="text-sm font-bold">#{legajo.numero}</span>
-                    <span style={colorEstado(legajo.estado)} className="text-xs px-2 py-0.5 rounded-full">{legajo.estado}</span>
+                    <span style={{ color: "var(--text-primary)" }} className="text-sm font-bold tracking-wide">LEGAJO #{legajo.numero}</span>
+                    <span style={colorEstado(legajo.estado)} className="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border border-current">{legajo.estado}</span>
                   </div>
-                  <p style={{ color: "var(--text-primary)" }} className="text-sm font-medium truncate">{legajo.caratula}</p>
-                  <p style={{ color: "var(--text-muted)" }} className="text-xs mt-0.5">{legajo.delito}</p>
-                  <div className="flex items-center gap-4 mt-2 flex-wrap">
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
-                      <User size={11} /> {legajo.victimas.length} víctima{legajo.victimas.length !== 1 ? "s" : ""}
+                  <p style={{ color: "var(--text-primary)" }} className="text-sm font-semibold truncate leading-relaxed">{legajo.caratula}</p>
+                  <p style={{ color: "var(--accent)" }} className="text-xs mt-0.5 font-medium">{legajo.delito}</p>
+                  
+                  <div className="flex items-center gap-4 mt-3 flex-wrap">
+                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
+                      <User size={13} className="opacity-70" /> {legajo.victimas.length} {legajo.victimas.length !== 1 ? "Víctimas" : "Víctima"}
                     </span>
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
-                      <Smartphone size={11} /> {legajo.dispositivos.length} dispositivo{legajo.dispositivos.length !== 1 ? "s" : ""}
+                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
+                      <Smartphone size={13} className="opacity-70" /> {legajo.dispositivos.length} {legajo.dispositivos.length !== 1 ? "Dispositivos" : "Dispositivo"}
                     </span>
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
-                      <Calendar size={11} /> {new Date(legajo.fechaHecho).toLocaleDateString("es-AR")}
+                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
+                      <Calendar size={13} className="opacity-70" /> {new Date(legajo.fechaHecho).toLocaleDateString("es-AR")}
                     </span>
                     {legajo.fiscal && (
-                      <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1">
-                        <User size={11} /> {legajo.fiscal}
+                      <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
+                        <User size={13} className="opacity-70" /> {legajo.fiscal}
                       </span>
                     )}
                   </div>
                 </button>
-                <div className="flex items-center gap-1 ml-2">
-                  {btnAccion(() => setLegajoEditar(legajo), <Pencil size={14} />, "Editar", "var(--accent)")}
+                <div className="flex items-center gap-1.5 ml-2 opacity-50 space-x-1 group-hover:opacity-100 transition-opacity">
+                  {btnAccion(() => setLegajoEditar(legajo), <Pencil size={14} />, "Editar", "var(--text-muted)")}
                   {btnAccion(
                     () => cambiarEstado(legajo, legajo.estado === "Inactivo" ? "Activo" : "Inactivo"),
                     <PowerOff size={14} />,
                     legajo.estado === "Inactivo" ? "Activar" : "Desactivar",
-                    legajo.estado === "Inactivo" ? "var(--success)" : "var(--warning)"
+                    "var(--text-muted)"
                   )}
-                  {btnAccion(() => setConfirmarBorrar(legajo), <Trash2 size={14} />, "Eliminar", "var(--danger)")}
-                  <ChevronRight size={16} style={{ color: "var(--text-muted)" }} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
+                  {btnAccion(() => setConfirmarBorrar(legajo), <Trash2 size={14} />, "Eliminar", "var(--text-muted)")}
+                  <ChevronRight size={18} style={{ color: "var(--text-secondary)" }} className="ml-2 group-hover:translate-x-1 group-hover:text-blue-500 transition-all font-bold" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       {/* Paginación */}

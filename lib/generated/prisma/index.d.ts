@@ -78,6 +78,11 @@ export type ArchivoLegajo = $Result.DefaultSelection<Prisma.$ArchivoLegajoPayloa
  * 
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
+/**
+ * Model RedConexiones
+ * 
+ */
+export type RedConexiones = $Result.DefaultSelection<Prisma.$RedConexionesPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -331,6 +336,16 @@ export class PrismaClient<
     * ```
     */
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.redConexiones`: Exposes CRUD operations for the **RedConexiones** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RedConexiones
+    * const redConexiones = await prisma.redConexiones.findMany()
+    * ```
+    */
+  get redConexiones(): Prisma.RedConexionesDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -784,7 +799,8 @@ export namespace Prisma {
     RegistroEstafa: 'RegistroEstafa',
     ComentarioLegajo: 'ComentarioLegajo',
     ArchivoLegajo: 'ArchivoLegajo',
-    AuditLog: 'AuditLog'
+    AuditLog: 'AuditLog',
+    RedConexiones: 'RedConexiones'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -800,7 +816,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa" | "comentarioLegajo" | "archivoLegajo" | "auditLog"
+      modelProps: "usuario" | "legajo" | "victima" | "dispositivo" | "oficio" | "respuesta" | "fiscal" | "configuracion" | "registroTelefonia" | "registroEstafa" | "comentarioLegajo" | "archivoLegajo" | "auditLog" | "redConexiones"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1714,6 +1730,76 @@ export namespace Prisma {
           }
         }
       }
+      RedConexiones: {
+        payload: Prisma.$RedConexionesPayload<ExtArgs>
+        fields: Prisma.RedConexionesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RedConexionesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RedConexionesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          findFirst: {
+            args: Prisma.RedConexionesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RedConexionesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          findMany: {
+            args: Prisma.RedConexionesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>[]
+          }
+          create: {
+            args: Prisma.RedConexionesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          createMany: {
+            args: Prisma.RedConexionesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RedConexionesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>[]
+          }
+          delete: {
+            args: Prisma.RedConexionesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          update: {
+            args: Prisma.RedConexionesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          deleteMany: {
+            args: Prisma.RedConexionesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RedConexionesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RedConexionesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RedConexionesPayload>
+          }
+          aggregate: {
+            args: Prisma.RedConexionesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRedConexiones>
+          }
+          groupBy: {
+            args: Prisma.RedConexionesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RedConexionesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RedConexionesCountArgs<ExtArgs>
+            result: $Utils.Optional<RedConexionesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1929,6 +2015,7 @@ export namespace Prisma {
     oficios: number
     archivos: number
     comentarios: number
+    conexiones: number
   }
 
   export type LegajoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1937,6 +2024,7 @@ export namespace Prisma {
     oficios?: boolean | LegajoCountOutputTypeCountOficiosArgs
     archivos?: boolean | LegajoCountOutputTypeCountArchivosArgs
     comentarios?: boolean | LegajoCountOutputTypeCountComentariosArgs
+    conexiones?: boolean | LegajoCountOutputTypeCountConexionesArgs
   }
 
   // Custom InputTypes
@@ -1983,6 +2071,13 @@ export namespace Prisma {
    */
   export type LegajoCountOutputTypeCountComentariosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ComentarioLegajoWhereInput
+  }
+
+  /**
+   * LegajoCountOutputType without action
+   */
+  export type LegajoCountOutputTypeCountConexionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RedConexionesWhereInput
   }
 
 
@@ -3299,6 +3394,7 @@ export namespace Prisma {
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
     archivos?: boolean | Legajo$archivosArgs<ExtArgs>
     comentarios?: boolean | Legajo$comentariosArgs<ExtArgs>
+    conexiones?: boolean | Legajo$conexionesArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["legajo"]>
 
@@ -3348,6 +3444,7 @@ export namespace Prisma {
     oficios?: boolean | Legajo$oficiosArgs<ExtArgs>
     archivos?: boolean | Legajo$archivosArgs<ExtArgs>
     comentarios?: boolean | Legajo$comentariosArgs<ExtArgs>
+    conexiones?: boolean | Legajo$conexionesArgs<ExtArgs>
     _count?: boolean | LegajoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LegajoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3363,6 +3460,7 @@ export namespace Prisma {
       oficios: Prisma.$OficioPayload<ExtArgs>[]
       archivos: Prisma.$ArchivoLegajoPayload<ExtArgs>[]
       comentarios: Prisma.$ComentarioLegajoPayload<ExtArgs>[]
+      conexiones: Prisma.$RedConexionesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3751,6 +3849,7 @@ export namespace Prisma {
     oficios<T extends Legajo$oficiosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$oficiosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OficioPayload<ExtArgs>, T, "findMany"> | Null>
     archivos<T extends Legajo$archivosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$archivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivoLegajoPayload<ExtArgs>, T, "findMany"> | Null>
     comentarios<T extends Legajo$comentariosArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$comentariosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComentarioLegajoPayload<ExtArgs>, T, "findMany"> | Null>
+    conexiones<T extends Legajo$conexionesArgs<ExtArgs> = {}>(args?: Subset<T, Legajo$conexionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4211,6 +4310,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ComentarioLegajoScalarFieldEnum | ComentarioLegajoScalarFieldEnum[]
+  }
+
+  /**
+   * Legajo.conexiones
+   */
+  export type Legajo$conexionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    where?: RedConexionesWhereInput
+    orderBy?: RedConexionesOrderByWithRelationInput | RedConexionesOrderByWithRelationInput[]
+    cursor?: RedConexionesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RedConexionesScalarFieldEnum | RedConexionesScalarFieldEnum[]
   }
 
   /**
@@ -15452,6 +15571,1033 @@ export namespace Prisma {
 
 
   /**
+   * Model RedConexiones
+   */
+
+  export type AggregateRedConexiones = {
+    _count: RedConexionesCountAggregateOutputType | null
+    _avg: RedConexionesAvgAggregateOutputType | null
+    _sum: RedConexionesSumAggregateOutputType | null
+    _min: RedConexionesMinAggregateOutputType | null
+    _max: RedConexionesMaxAggregateOutputType | null
+  }
+
+  export type RedConexionesAvgAggregateOutputType = {
+    confianza: number | null
+  }
+
+  export type RedConexionesSumAggregateOutputType = {
+    confianza: number | null
+  }
+
+  export type RedConexionesMinAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    entidad1: string | null
+    tipoEntidad1: string | null
+    relacion: string | null
+    entidad2: string | null
+    tipoEntidad2: string | null
+    confianza: number | null
+    evidenciaId: string | null
+    createdAt: Date | null
+  }
+
+  export type RedConexionesMaxAggregateOutputType = {
+    id: string | null
+    legajoId: string | null
+    entidad1: string | null
+    tipoEntidad1: string | null
+    relacion: string | null
+    entidad2: string | null
+    tipoEntidad2: string | null
+    confianza: number | null
+    evidenciaId: string | null
+    createdAt: Date | null
+  }
+
+  export type RedConexionesCountAggregateOutputType = {
+    id: number
+    legajoId: number
+    entidad1: number
+    tipoEntidad1: number
+    relacion: number
+    entidad2: number
+    tipoEntidad2: number
+    confianza: number
+    evidenciaId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RedConexionesAvgAggregateInputType = {
+    confianza?: true
+  }
+
+  export type RedConexionesSumAggregateInputType = {
+    confianza?: true
+  }
+
+  export type RedConexionesMinAggregateInputType = {
+    id?: true
+    legajoId?: true
+    entidad1?: true
+    tipoEntidad1?: true
+    relacion?: true
+    entidad2?: true
+    tipoEntidad2?: true
+    confianza?: true
+    evidenciaId?: true
+    createdAt?: true
+  }
+
+  export type RedConexionesMaxAggregateInputType = {
+    id?: true
+    legajoId?: true
+    entidad1?: true
+    tipoEntidad1?: true
+    relacion?: true
+    entidad2?: true
+    tipoEntidad2?: true
+    confianza?: true
+    evidenciaId?: true
+    createdAt?: true
+  }
+
+  export type RedConexionesCountAggregateInputType = {
+    id?: true
+    legajoId?: true
+    entidad1?: true
+    tipoEntidad1?: true
+    relacion?: true
+    entidad2?: true
+    tipoEntidad2?: true
+    confianza?: true
+    evidenciaId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RedConexionesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RedConexiones to aggregate.
+     */
+    where?: RedConexionesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RedConexiones to fetch.
+     */
+    orderBy?: RedConexionesOrderByWithRelationInput | RedConexionesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RedConexionesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RedConexiones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RedConexiones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RedConexiones
+    **/
+    _count?: true | RedConexionesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RedConexionesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RedConexionesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RedConexionesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RedConexionesMaxAggregateInputType
+  }
+
+  export type GetRedConexionesAggregateType<T extends RedConexionesAggregateArgs> = {
+        [P in keyof T & keyof AggregateRedConexiones]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRedConexiones[P]>
+      : GetScalarType<T[P], AggregateRedConexiones[P]>
+  }
+
+
+
+
+  export type RedConexionesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RedConexionesWhereInput
+    orderBy?: RedConexionesOrderByWithAggregationInput | RedConexionesOrderByWithAggregationInput[]
+    by: RedConexionesScalarFieldEnum[] | RedConexionesScalarFieldEnum
+    having?: RedConexionesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RedConexionesCountAggregateInputType | true
+    _avg?: RedConexionesAvgAggregateInputType
+    _sum?: RedConexionesSumAggregateInputType
+    _min?: RedConexionesMinAggregateInputType
+    _max?: RedConexionesMaxAggregateInputType
+  }
+
+  export type RedConexionesGroupByOutputType = {
+    id: string
+    legajoId: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza: number
+    evidenciaId: string | null
+    createdAt: Date
+    _count: RedConexionesCountAggregateOutputType | null
+    _avg: RedConexionesAvgAggregateOutputType | null
+    _sum: RedConexionesSumAggregateOutputType | null
+    _min: RedConexionesMinAggregateOutputType | null
+    _max: RedConexionesMaxAggregateOutputType | null
+  }
+
+  type GetRedConexionesGroupByPayload<T extends RedConexionesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RedConexionesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RedConexionesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RedConexionesGroupByOutputType[P]>
+            : GetScalarType<T[P], RedConexionesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RedConexionesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    entidad1?: boolean
+    tipoEntidad1?: boolean
+    relacion?: boolean
+    entidad2?: boolean
+    tipoEntidad2?: boolean
+    confianza?: boolean
+    evidenciaId?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["redConexiones"]>
+
+  export type RedConexionesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legajoId?: boolean
+    entidad1?: boolean
+    tipoEntidad1?: boolean
+    relacion?: boolean
+    entidad2?: boolean
+    tipoEntidad2?: boolean
+    confianza?: boolean
+    evidenciaId?: boolean
+    createdAt?: boolean
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["redConexiones"]>
+
+  export type RedConexionesSelectScalar = {
+    id?: boolean
+    legajoId?: boolean
+    entidad1?: boolean
+    tipoEntidad1?: boolean
+    relacion?: boolean
+    entidad2?: boolean
+    tipoEntidad2?: boolean
+    confianza?: boolean
+    evidenciaId?: boolean
+    createdAt?: boolean
+  }
+
+  export type RedConexionesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+  export type RedConexionesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    legajo?: boolean | LegajoDefaultArgs<ExtArgs>
+  }
+
+  export type $RedConexionesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RedConexiones"
+    objects: {
+      legajo: Prisma.$LegajoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      legajoId: string
+      entidad1: string
+      tipoEntidad1: string
+      relacion: string
+      entidad2: string
+      tipoEntidad2: string
+      confianza: number
+      evidenciaId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["redConexiones"]>
+    composites: {}
+  }
+
+  type RedConexionesGetPayload<S extends boolean | null | undefined | RedConexionesDefaultArgs> = $Result.GetResult<Prisma.$RedConexionesPayload, S>
+
+  type RedConexionesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RedConexionesFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RedConexionesCountAggregateInputType | true
+    }
+
+  export interface RedConexionesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RedConexiones'], meta: { name: 'RedConexiones' } }
+    /**
+     * Find zero or one RedConexiones that matches the filter.
+     * @param {RedConexionesFindUniqueArgs} args - Arguments to find a RedConexiones
+     * @example
+     * // Get one RedConexiones
+     * const redConexiones = await prisma.redConexiones.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RedConexionesFindUniqueArgs>(args: SelectSubset<T, RedConexionesFindUniqueArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RedConexiones that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RedConexionesFindUniqueOrThrowArgs} args - Arguments to find a RedConexiones
+     * @example
+     * // Get one RedConexiones
+     * const redConexiones = await prisma.redConexiones.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RedConexionesFindUniqueOrThrowArgs>(args: SelectSubset<T, RedConexionesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RedConexiones that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesFindFirstArgs} args - Arguments to find a RedConexiones
+     * @example
+     * // Get one RedConexiones
+     * const redConexiones = await prisma.redConexiones.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RedConexionesFindFirstArgs>(args?: SelectSubset<T, RedConexionesFindFirstArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RedConexiones that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesFindFirstOrThrowArgs} args - Arguments to find a RedConexiones
+     * @example
+     * // Get one RedConexiones
+     * const redConexiones = await prisma.redConexiones.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RedConexionesFindFirstOrThrowArgs>(args?: SelectSubset<T, RedConexionesFindFirstOrThrowArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RedConexiones that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RedConexiones
+     * const redConexiones = await prisma.redConexiones.findMany()
+     * 
+     * // Get first 10 RedConexiones
+     * const redConexiones = await prisma.redConexiones.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const redConexionesWithIdOnly = await prisma.redConexiones.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RedConexionesFindManyArgs>(args?: SelectSubset<T, RedConexionesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RedConexiones.
+     * @param {RedConexionesCreateArgs} args - Arguments to create a RedConexiones.
+     * @example
+     * // Create one RedConexiones
+     * const RedConexiones = await prisma.redConexiones.create({
+     *   data: {
+     *     // ... data to create a RedConexiones
+     *   }
+     * })
+     * 
+     */
+    create<T extends RedConexionesCreateArgs>(args: SelectSubset<T, RedConexionesCreateArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RedConexiones.
+     * @param {RedConexionesCreateManyArgs} args - Arguments to create many RedConexiones.
+     * @example
+     * // Create many RedConexiones
+     * const redConexiones = await prisma.redConexiones.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RedConexionesCreateManyArgs>(args?: SelectSubset<T, RedConexionesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RedConexiones and returns the data saved in the database.
+     * @param {RedConexionesCreateManyAndReturnArgs} args - Arguments to create many RedConexiones.
+     * @example
+     * // Create many RedConexiones
+     * const redConexiones = await prisma.redConexiones.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RedConexiones and only return the `id`
+     * const redConexionesWithIdOnly = await prisma.redConexiones.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RedConexionesCreateManyAndReturnArgs>(args?: SelectSubset<T, RedConexionesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RedConexiones.
+     * @param {RedConexionesDeleteArgs} args - Arguments to delete one RedConexiones.
+     * @example
+     * // Delete one RedConexiones
+     * const RedConexiones = await prisma.redConexiones.delete({
+     *   where: {
+     *     // ... filter to delete one RedConexiones
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RedConexionesDeleteArgs>(args: SelectSubset<T, RedConexionesDeleteArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RedConexiones.
+     * @param {RedConexionesUpdateArgs} args - Arguments to update one RedConexiones.
+     * @example
+     * // Update one RedConexiones
+     * const redConexiones = await prisma.redConexiones.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RedConexionesUpdateArgs>(args: SelectSubset<T, RedConexionesUpdateArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RedConexiones.
+     * @param {RedConexionesDeleteManyArgs} args - Arguments to filter RedConexiones to delete.
+     * @example
+     * // Delete a few RedConexiones
+     * const { count } = await prisma.redConexiones.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RedConexionesDeleteManyArgs>(args?: SelectSubset<T, RedConexionesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RedConexiones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RedConexiones
+     * const redConexiones = await prisma.redConexiones.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RedConexionesUpdateManyArgs>(args: SelectSubset<T, RedConexionesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RedConexiones.
+     * @param {RedConexionesUpsertArgs} args - Arguments to update or create a RedConexiones.
+     * @example
+     * // Update or create a RedConexiones
+     * const redConexiones = await prisma.redConexiones.upsert({
+     *   create: {
+     *     // ... data to create a RedConexiones
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RedConexiones we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RedConexionesUpsertArgs>(args: SelectSubset<T, RedConexionesUpsertArgs<ExtArgs>>): Prisma__RedConexionesClient<$Result.GetResult<Prisma.$RedConexionesPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RedConexiones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesCountArgs} args - Arguments to filter RedConexiones to count.
+     * @example
+     * // Count the number of RedConexiones
+     * const count = await prisma.redConexiones.count({
+     *   where: {
+     *     // ... the filter for the RedConexiones we want to count
+     *   }
+     * })
+    **/
+    count<T extends RedConexionesCountArgs>(
+      args?: Subset<T, RedConexionesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RedConexionesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RedConexiones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RedConexionesAggregateArgs>(args: Subset<T, RedConexionesAggregateArgs>): Prisma.PrismaPromise<GetRedConexionesAggregateType<T>>
+
+    /**
+     * Group by RedConexiones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RedConexionesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RedConexionesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RedConexionesGroupByArgs['orderBy'] }
+        : { orderBy?: RedConexionesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RedConexionesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRedConexionesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RedConexiones model
+   */
+  readonly fields: RedConexionesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RedConexiones.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RedConexionesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    legajo<T extends LegajoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LegajoDefaultArgs<ExtArgs>>): Prisma__LegajoClient<$Result.GetResult<Prisma.$LegajoPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RedConexiones model
+   */ 
+  interface RedConexionesFieldRefs {
+    readonly id: FieldRef<"RedConexiones", 'String'>
+    readonly legajoId: FieldRef<"RedConexiones", 'String'>
+    readonly entidad1: FieldRef<"RedConexiones", 'String'>
+    readonly tipoEntidad1: FieldRef<"RedConexiones", 'String'>
+    readonly relacion: FieldRef<"RedConexiones", 'String'>
+    readonly entidad2: FieldRef<"RedConexiones", 'String'>
+    readonly tipoEntidad2: FieldRef<"RedConexiones", 'String'>
+    readonly confianza: FieldRef<"RedConexiones", 'Int'>
+    readonly evidenciaId: FieldRef<"RedConexiones", 'String'>
+    readonly createdAt: FieldRef<"RedConexiones", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RedConexiones findUnique
+   */
+  export type RedConexionesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter, which RedConexiones to fetch.
+     */
+    where: RedConexionesWhereUniqueInput
+  }
+
+  /**
+   * RedConexiones findUniqueOrThrow
+   */
+  export type RedConexionesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter, which RedConexiones to fetch.
+     */
+    where: RedConexionesWhereUniqueInput
+  }
+
+  /**
+   * RedConexiones findFirst
+   */
+  export type RedConexionesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter, which RedConexiones to fetch.
+     */
+    where?: RedConexionesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RedConexiones to fetch.
+     */
+    orderBy?: RedConexionesOrderByWithRelationInput | RedConexionesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RedConexiones.
+     */
+    cursor?: RedConexionesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RedConexiones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RedConexiones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RedConexiones.
+     */
+    distinct?: RedConexionesScalarFieldEnum | RedConexionesScalarFieldEnum[]
+  }
+
+  /**
+   * RedConexiones findFirstOrThrow
+   */
+  export type RedConexionesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter, which RedConexiones to fetch.
+     */
+    where?: RedConexionesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RedConexiones to fetch.
+     */
+    orderBy?: RedConexionesOrderByWithRelationInput | RedConexionesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RedConexiones.
+     */
+    cursor?: RedConexionesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RedConexiones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RedConexiones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RedConexiones.
+     */
+    distinct?: RedConexionesScalarFieldEnum | RedConexionesScalarFieldEnum[]
+  }
+
+  /**
+   * RedConexiones findMany
+   */
+  export type RedConexionesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter, which RedConexiones to fetch.
+     */
+    where?: RedConexionesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RedConexiones to fetch.
+     */
+    orderBy?: RedConexionesOrderByWithRelationInput | RedConexionesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RedConexiones.
+     */
+    cursor?: RedConexionesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RedConexiones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RedConexiones.
+     */
+    skip?: number
+    distinct?: RedConexionesScalarFieldEnum | RedConexionesScalarFieldEnum[]
+  }
+
+  /**
+   * RedConexiones create
+   */
+  export type RedConexionesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RedConexiones.
+     */
+    data: XOR<RedConexionesCreateInput, RedConexionesUncheckedCreateInput>
+  }
+
+  /**
+   * RedConexiones createMany
+   */
+  export type RedConexionesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RedConexiones.
+     */
+    data: RedConexionesCreateManyInput | RedConexionesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RedConexiones createManyAndReturn
+   */
+  export type RedConexionesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RedConexiones.
+     */
+    data: RedConexionesCreateManyInput | RedConexionesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RedConexiones update
+   */
+  export type RedConexionesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RedConexiones.
+     */
+    data: XOR<RedConexionesUpdateInput, RedConexionesUncheckedUpdateInput>
+    /**
+     * Choose, which RedConexiones to update.
+     */
+    where: RedConexionesWhereUniqueInput
+  }
+
+  /**
+   * RedConexiones updateMany
+   */
+  export type RedConexionesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RedConexiones.
+     */
+    data: XOR<RedConexionesUpdateManyMutationInput, RedConexionesUncheckedUpdateManyInput>
+    /**
+     * Filter which RedConexiones to update
+     */
+    where?: RedConexionesWhereInput
+  }
+
+  /**
+   * RedConexiones upsert
+   */
+  export type RedConexionesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RedConexiones to update in case it exists.
+     */
+    where: RedConexionesWhereUniqueInput
+    /**
+     * In case the RedConexiones found by the `where` argument doesn't exist, create a new RedConexiones with this data.
+     */
+    create: XOR<RedConexionesCreateInput, RedConexionesUncheckedCreateInput>
+    /**
+     * In case the RedConexiones was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RedConexionesUpdateInput, RedConexionesUncheckedUpdateInput>
+  }
+
+  /**
+   * RedConexiones delete
+   */
+  export type RedConexionesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+    /**
+     * Filter which RedConexiones to delete.
+     */
+    where: RedConexionesWhereUniqueInput
+  }
+
+  /**
+   * RedConexiones deleteMany
+   */
+  export type RedConexionesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RedConexiones to delete
+     */
+    where?: RedConexionesWhereInput
+  }
+
+  /**
+   * RedConexiones without action
+   */
+  export type RedConexionesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RedConexiones
+     */
+    select?: RedConexionesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RedConexionesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15704,6 +16850,22 @@ export namespace Prisma {
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
+  export const RedConexionesScalarFieldEnum: {
+    id: 'id',
+    legajoId: 'legajoId',
+    entidad1: 'entidad1',
+    tipoEntidad1: 'tipoEntidad1',
+    relacion: 'relacion',
+    entidad2: 'entidad2',
+    tipoEntidad2: 'tipoEntidad2',
+    confianza: 'confianza',
+    evidenciaId: 'evidenciaId',
+    createdAt: 'createdAt'
+  };
+
+  export type RedConexionesScalarFieldEnum = (typeof RedConexionesScalarFieldEnum)[keyof typeof RedConexionesScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -15896,6 +17058,7 @@ export namespace Prisma {
     oficios?: OficioListRelationFilter
     archivos?: ArchivoLegajoListRelationFilter
     comentarios?: ComentarioLegajoListRelationFilter
+    conexiones?: RedConexionesListRelationFilter
   }
 
   export type LegajoOrderByWithRelationInput = {
@@ -15921,6 +17084,7 @@ export namespace Prisma {
     oficios?: OficioOrderByRelationAggregateInput
     archivos?: ArchivoLegajoOrderByRelationAggregateInput
     comentarios?: ComentarioLegajoOrderByRelationAggregateInput
+    conexiones?: RedConexionesOrderByRelationAggregateInput
   }
 
   export type LegajoWhereUniqueInput = Prisma.AtLeast<{
@@ -15949,6 +17113,7 @@ export namespace Prisma {
     oficios?: OficioListRelationFilter
     archivos?: ArchivoLegajoListRelationFilter
     comentarios?: ComentarioLegajoListRelationFilter
+    conexiones?: RedConexionesListRelationFilter
   }, "id" | "numero">
 
   export type LegajoOrderByWithAggregationInput = {
@@ -17017,6 +18182,88 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
+  export type RedConexionesWhereInput = {
+    AND?: RedConexionesWhereInput | RedConexionesWhereInput[]
+    OR?: RedConexionesWhereInput[]
+    NOT?: RedConexionesWhereInput | RedConexionesWhereInput[]
+    id?: StringFilter<"RedConexiones"> | string
+    legajoId?: StringFilter<"RedConexiones"> | string
+    entidad1?: StringFilter<"RedConexiones"> | string
+    tipoEntidad1?: StringFilter<"RedConexiones"> | string
+    relacion?: StringFilter<"RedConexiones"> | string
+    entidad2?: StringFilter<"RedConexiones"> | string
+    tipoEntidad2?: StringFilter<"RedConexiones"> | string
+    confianza?: IntFilter<"RedConexiones"> | number
+    evidenciaId?: StringNullableFilter<"RedConexiones"> | string | null
+    createdAt?: DateTimeFilter<"RedConexiones"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }
+
+  export type RedConexionesOrderByWithRelationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    entidad1?: SortOrder
+    tipoEntidad1?: SortOrder
+    relacion?: SortOrder
+    entidad2?: SortOrder
+    tipoEntidad2?: SortOrder
+    confianza?: SortOrder
+    evidenciaId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    legajo?: LegajoOrderByWithRelationInput
+  }
+
+  export type RedConexionesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RedConexionesWhereInput | RedConexionesWhereInput[]
+    OR?: RedConexionesWhereInput[]
+    NOT?: RedConexionesWhereInput | RedConexionesWhereInput[]
+    legajoId?: StringFilter<"RedConexiones"> | string
+    entidad1?: StringFilter<"RedConexiones"> | string
+    tipoEntidad1?: StringFilter<"RedConexiones"> | string
+    relacion?: StringFilter<"RedConexiones"> | string
+    entidad2?: StringFilter<"RedConexiones"> | string
+    tipoEntidad2?: StringFilter<"RedConexiones"> | string
+    confianza?: IntFilter<"RedConexiones"> | number
+    evidenciaId?: StringNullableFilter<"RedConexiones"> | string | null
+    createdAt?: DateTimeFilter<"RedConexiones"> | Date | string
+    legajo?: XOR<LegajoRelationFilter, LegajoWhereInput>
+  }, "id">
+
+  export type RedConexionesOrderByWithAggregationInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    entidad1?: SortOrder
+    tipoEntidad1?: SortOrder
+    relacion?: SortOrder
+    entidad2?: SortOrder
+    tipoEntidad2?: SortOrder
+    confianza?: SortOrder
+    evidenciaId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RedConexionesCountOrderByAggregateInput
+    _avg?: RedConexionesAvgOrderByAggregateInput
+    _max?: RedConexionesMaxOrderByAggregateInput
+    _min?: RedConexionesMinOrderByAggregateInput
+    _sum?: RedConexionesSumOrderByAggregateInput
+  }
+
+  export type RedConexionesScalarWhereWithAggregatesInput = {
+    AND?: RedConexionesScalarWhereWithAggregatesInput | RedConexionesScalarWhereWithAggregatesInput[]
+    OR?: RedConexionesScalarWhereWithAggregatesInput[]
+    NOT?: RedConexionesScalarWhereWithAggregatesInput | RedConexionesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RedConexiones"> | string
+    legajoId?: StringWithAggregatesFilter<"RedConexiones"> | string
+    entidad1?: StringWithAggregatesFilter<"RedConexiones"> | string
+    tipoEntidad1?: StringWithAggregatesFilter<"RedConexiones"> | string
+    relacion?: StringWithAggregatesFilter<"RedConexiones"> | string
+    entidad2?: StringWithAggregatesFilter<"RedConexiones"> | string
+    tipoEntidad2?: StringWithAggregatesFilter<"RedConexiones"> | string
+    confianza?: IntWithAggregatesFilter<"RedConexiones"> | number
+    evidenciaId?: StringNullableWithAggregatesFilter<"RedConexiones"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RedConexiones"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
@@ -17121,6 +18368,7 @@ export namespace Prisma {
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateInput = {
@@ -17145,6 +18393,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUpdateInput = {
@@ -17169,6 +18418,7 @@ export namespace Prisma {
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateInput = {
@@ -17193,6 +18443,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateManyInput = {
@@ -18444,6 +19695,96 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RedConexionesCreateInput = {
+    id?: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
+    createdAt?: Date | string
+    legajo: LegajoCreateNestedOneWithoutConexionesInput
+  }
+
+  export type RedConexionesUncheckedCreateInput = {
+    id?: string
+    legajoId: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RedConexionesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    legajo?: LegajoUpdateOneRequiredWithoutConexionesNestedInput
+  }
+
+  export type RedConexionesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RedConexionesCreateManyInput = {
+    id?: string
+    legajoId: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RedConexionesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RedConexionesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    legajoId?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -18619,6 +19960,12 @@ export namespace Prisma {
     none?: ArchivoLegajoWhereInput
   }
 
+  export type RedConexionesListRelationFilter = {
+    every?: RedConexionesWhereInput
+    some?: RedConexionesWhereInput
+    none?: RedConexionesWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -18637,6 +19984,10 @@ export namespace Prisma {
   }
 
   export type ArchivoLegajoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RedConexionesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19367,6 +20718,53 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type RedConexionesCountOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    entidad1?: SortOrder
+    tipoEntidad1?: SortOrder
+    relacion?: SortOrder
+    entidad2?: SortOrder
+    tipoEntidad2?: SortOrder
+    confianza?: SortOrder
+    evidenciaId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RedConexionesAvgOrderByAggregateInput = {
+    confianza?: SortOrder
+  }
+
+  export type RedConexionesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    entidad1?: SortOrder
+    tipoEntidad1?: SortOrder
+    relacion?: SortOrder
+    entidad2?: SortOrder
+    tipoEntidad2?: SortOrder
+    confianza?: SortOrder
+    evidenciaId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RedConexionesMinOrderByAggregateInput = {
+    id?: SortOrder
+    legajoId?: SortOrder
+    entidad1?: SortOrder
+    tipoEntidad1?: SortOrder
+    relacion?: SortOrder
+    entidad2?: SortOrder
+    tipoEntidad2?: SortOrder
+    confianza?: SortOrder
+    evidenciaId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RedConexionesSumOrderByAggregateInput = {
+    confianza?: SortOrder
+  }
+
   export type LegajoCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<LegajoCreateWithoutUsuarioInput, LegajoUncheckedCreateWithoutUsuarioInput> | LegajoCreateWithoutUsuarioInput[] | LegajoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: LegajoCreateOrConnectWithoutUsuarioInput | LegajoCreateOrConnectWithoutUsuarioInput[]
@@ -19546,6 +20944,13 @@ export namespace Prisma {
     connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
   }
 
+  export type RedConexionesCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput> | RedConexionesCreateWithoutLegajoInput[] | RedConexionesUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: RedConexionesCreateOrConnectWithoutLegajoInput | RedConexionesCreateOrConnectWithoutLegajoInput[]
+    createMany?: RedConexionesCreateManyLegajoInputEnvelope
+    connect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+  }
+
   export type VictimaUncheckedCreateNestedManyWithoutLegajoInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -19579,6 +20984,13 @@ export namespace Prisma {
     connectOrCreate?: ComentarioLegajoCreateOrConnectWithoutLegajoInput | ComentarioLegajoCreateOrConnectWithoutLegajoInput[]
     createMany?: ComentarioLegajoCreateManyLegajoInputEnvelope
     connect?: ComentarioLegajoWhereUniqueInput | ComentarioLegajoWhereUniqueInput[]
+  }
+
+  export type RedConexionesUncheckedCreateNestedManyWithoutLegajoInput = {
+    create?: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput> | RedConexionesCreateWithoutLegajoInput[] | RedConexionesUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: RedConexionesCreateOrConnectWithoutLegajoInput | RedConexionesCreateOrConnectWithoutLegajoInput[]
+    createMany?: RedConexionesCreateManyLegajoInputEnvelope
+    connect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -19663,6 +21075,20 @@ export namespace Prisma {
     deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
   }
 
+  export type RedConexionesUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput> | RedConexionesCreateWithoutLegajoInput[] | RedConexionesUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: RedConexionesCreateOrConnectWithoutLegajoInput | RedConexionesCreateOrConnectWithoutLegajoInput[]
+    upsert?: RedConexionesUpsertWithWhereUniqueWithoutLegajoInput | RedConexionesUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: RedConexionesCreateManyLegajoInputEnvelope
+    set?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    disconnect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    delete?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    connect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    update?: RedConexionesUpdateWithWhereUniqueWithoutLegajoInput | RedConexionesUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: RedConexionesUpdateManyWithWhereWithoutLegajoInput | RedConexionesUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: RedConexionesScalarWhereInput | RedConexionesScalarWhereInput[]
+  }
+
   export type VictimaUncheckedUpdateManyWithoutLegajoNestedInput = {
     create?: XOR<VictimaCreateWithoutLegajoInput, VictimaUncheckedCreateWithoutLegajoInput> | VictimaCreateWithoutLegajoInput[] | VictimaUncheckedCreateWithoutLegajoInput[]
     connectOrCreate?: VictimaCreateOrConnectWithoutLegajoInput | VictimaCreateOrConnectWithoutLegajoInput[]
@@ -19731,6 +21157,20 @@ export namespace Prisma {
     update?: ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput | ComentarioLegajoUpdateWithWhereUniqueWithoutLegajoInput[]
     updateMany?: ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput | ComentarioLegajoUpdateManyWithWhereWithoutLegajoInput[]
     deleteMany?: ComentarioLegajoScalarWhereInput | ComentarioLegajoScalarWhereInput[]
+  }
+
+  export type RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput = {
+    create?: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput> | RedConexionesCreateWithoutLegajoInput[] | RedConexionesUncheckedCreateWithoutLegajoInput[]
+    connectOrCreate?: RedConexionesCreateOrConnectWithoutLegajoInput | RedConexionesCreateOrConnectWithoutLegajoInput[]
+    upsert?: RedConexionesUpsertWithWhereUniqueWithoutLegajoInput | RedConexionesUpsertWithWhereUniqueWithoutLegajoInput[]
+    createMany?: RedConexionesCreateManyLegajoInputEnvelope
+    set?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    disconnect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    delete?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    connect?: RedConexionesWhereUniqueInput | RedConexionesWhereUniqueInput[]
+    update?: RedConexionesUpdateWithWhereUniqueWithoutLegajoInput | RedConexionesUpdateWithWhereUniqueWithoutLegajoInput[]
+    updateMany?: RedConexionesUpdateManyWithWhereWithoutLegajoInput | RedConexionesUpdateManyWithWhereWithoutLegajoInput[]
+    deleteMany?: RedConexionesScalarWhereInput | RedConexionesScalarWhereInput[]
   }
 
   export type LegajoCreateNestedOneWithoutVictimasInput = {
@@ -19905,6 +21345,20 @@ export namespace Prisma {
     upsert?: LegajoUpsertWithoutArchivosInput
     connect?: LegajoWhereUniqueInput
     update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutArchivosInput, LegajoUpdateWithoutArchivosInput>, LegajoUncheckedUpdateWithoutArchivosInput>
+  }
+
+  export type LegajoCreateNestedOneWithoutConexionesInput = {
+    create?: XOR<LegajoCreateWithoutConexionesInput, LegajoUncheckedCreateWithoutConexionesInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutConexionesInput
+    connect?: LegajoWhereUniqueInput
+  }
+
+  export type LegajoUpdateOneRequiredWithoutConexionesNestedInput = {
+    create?: XOR<LegajoCreateWithoutConexionesInput, LegajoUncheckedCreateWithoutConexionesInput>
+    connectOrCreate?: LegajoCreateOrConnectWithoutConexionesInput
+    upsert?: LegajoUpsertWithoutConexionesInput
+    connect?: LegajoWhereUniqueInput
+    update?: XOR<XOR<LegajoUpdateToOneWithWhereWithoutConexionesInput, LegajoUpdateWithoutConexionesInput>, LegajoUncheckedUpdateWithoutConexionesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -20129,6 +21583,7 @@ export namespace Prisma {
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutUsuarioInput = {
@@ -20152,6 +21607,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutUsuarioInput = {
@@ -20523,6 +21979,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RedConexionesCreateWithoutLegajoInput = {
+    id?: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RedConexionesUncheckedCreateWithoutLegajoInput = {
+    id?: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RedConexionesCreateOrConnectWithoutLegajoInput = {
+    where: RedConexionesWhereUniqueInput
+    create: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type RedConexionesCreateManyLegajoInputEnvelope = {
+    data: RedConexionesCreateManyLegajoInput | RedConexionesCreateManyLegajoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutLegajosInput = {
     update: XOR<UsuarioUpdateWithoutLegajosInput, UsuarioUncheckedUpdateWithoutLegajosInput>
     create: XOR<UsuarioCreateWithoutLegajosInput, UsuarioUncheckedCreateWithoutLegajosInput>
@@ -20701,6 +22191,38 @@ export namespace Prisma {
     data: XOR<ComentarioLegajoUpdateManyMutationInput, ComentarioLegajoUncheckedUpdateManyWithoutLegajoInput>
   }
 
+  export type RedConexionesUpsertWithWhereUniqueWithoutLegajoInput = {
+    where: RedConexionesWhereUniqueInput
+    update: XOR<RedConexionesUpdateWithoutLegajoInput, RedConexionesUncheckedUpdateWithoutLegajoInput>
+    create: XOR<RedConexionesCreateWithoutLegajoInput, RedConexionesUncheckedCreateWithoutLegajoInput>
+  }
+
+  export type RedConexionesUpdateWithWhereUniqueWithoutLegajoInput = {
+    where: RedConexionesWhereUniqueInput
+    data: XOR<RedConexionesUpdateWithoutLegajoInput, RedConexionesUncheckedUpdateWithoutLegajoInput>
+  }
+
+  export type RedConexionesUpdateManyWithWhereWithoutLegajoInput = {
+    where: RedConexionesScalarWhereInput
+    data: XOR<RedConexionesUpdateManyMutationInput, RedConexionesUncheckedUpdateManyWithoutLegajoInput>
+  }
+
+  export type RedConexionesScalarWhereInput = {
+    AND?: RedConexionesScalarWhereInput | RedConexionesScalarWhereInput[]
+    OR?: RedConexionesScalarWhereInput[]
+    NOT?: RedConexionesScalarWhereInput | RedConexionesScalarWhereInput[]
+    id?: StringFilter<"RedConexiones"> | string
+    legajoId?: StringFilter<"RedConexiones"> | string
+    entidad1?: StringFilter<"RedConexiones"> | string
+    tipoEntidad1?: StringFilter<"RedConexiones"> | string
+    relacion?: StringFilter<"RedConexiones"> | string
+    entidad2?: StringFilter<"RedConexiones"> | string
+    tipoEntidad2?: StringFilter<"RedConexiones"> | string
+    confianza?: IntFilter<"RedConexiones"> | number
+    evidenciaId?: StringNullableFilter<"RedConexiones"> | string | null
+    createdAt?: DateTimeFilter<"RedConexiones"> | Date | string
+  }
+
   export type LegajoCreateWithoutVictimasInput = {
     id?: string
     numero: string
@@ -20722,6 +22244,7 @@ export namespace Prisma {
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutVictimasInput = {
@@ -20745,6 +22268,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutVictimasInput = {
@@ -20784,6 +22308,7 @@ export namespace Prisma {
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutVictimasInput = {
@@ -20807,6 +22332,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutDispositivosInput = {
@@ -20830,6 +22356,7 @@ export namespace Prisma {
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutDispositivosInput = {
@@ -20853,6 +22380,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutDispositivosInput = {
@@ -20892,6 +22420,7 @@ export namespace Prisma {
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutDispositivosInput = {
@@ -20915,6 +22444,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoCreateWithoutOficiosInput = {
@@ -20938,6 +22468,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutOficiosInput = {
@@ -20961,6 +22492,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutOficiosInput = {
@@ -21022,6 +22554,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutOficiosInput = {
@@ -21045,6 +22578,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type RespuestaUpsertWithWhereUniqueWithoutOficioInput = {
@@ -21246,6 +22780,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutComentariosInput = {
@@ -21269,6 +22804,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutComentariosInput = {
@@ -21337,6 +22873,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutComentariosInput = {
@@ -21360,6 +22897,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type UsuarioUpsertWithoutComentariosInput = {
@@ -21418,6 +22956,7 @@ export namespace Prisma {
     dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
     oficios?: OficioCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoUncheckedCreateWithoutArchivosInput = {
@@ -21441,6 +22980,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
     oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
     comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    conexiones?: RedConexionesUncheckedCreateNestedManyWithoutLegajoInput
   }
 
   export type LegajoCreateOrConnectWithoutArchivosInput = {
@@ -21480,6 +23020,7 @@ export namespace Prisma {
     dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutArchivosInput = {
@@ -21502,6 +23043,119 @@ export namespace Prisma {
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
     dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoCreateWithoutConexionesInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    visto?: boolean
+    origenTipo?: string | null
+    origenId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutLegajosInput
+    victimas?: VictimaCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoCreateNestedManyWithoutLegajoInput
+    oficios?: OficioCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoUncheckedCreateWithoutConexionesInput = {
+    id?: string
+    numero: string
+    caratula: string
+    cuij?: string | null
+    delito: string
+    fechaHecho: Date | string
+    estado?: string
+    observaciones?: string | null
+    fiscal?: string | null
+    emailRespuesta?: string | null
+    visto?: boolean
+    origenTipo?: string | null
+    origenId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioId: string
+    victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
+    dispositivos?: DispositivoUncheckedCreateNestedManyWithoutLegajoInput
+    oficios?: OficioUncheckedCreateNestedManyWithoutLegajoInput
+    archivos?: ArchivoLegajoUncheckedCreateNestedManyWithoutLegajoInput
+    comentarios?: ComentarioLegajoUncheckedCreateNestedManyWithoutLegajoInput
+  }
+
+  export type LegajoCreateOrConnectWithoutConexionesInput = {
+    where: LegajoWhereUniqueInput
+    create: XOR<LegajoCreateWithoutConexionesInput, LegajoUncheckedCreateWithoutConexionesInput>
+  }
+
+  export type LegajoUpsertWithoutConexionesInput = {
+    update: XOR<LegajoUpdateWithoutConexionesInput, LegajoUncheckedUpdateWithoutConexionesInput>
+    create: XOR<LegajoCreateWithoutConexionesInput, LegajoUncheckedCreateWithoutConexionesInput>
+    where?: LegajoWhereInput
+  }
+
+  export type LegajoUpdateToOneWithWhereWithoutConexionesInput = {
+    where?: LegajoWhereInput
+    data: XOR<LegajoUpdateWithoutConexionesInput, LegajoUncheckedUpdateWithoutConexionesInput>
+  }
+
+  export type LegajoUpdateWithoutConexionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    visto?: BoolFieldUpdateOperationsInput | boolean
+    origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
+    origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
+    victimas?: VictimaUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
+    comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+  }
+
+  export type LegajoUncheckedUpdateWithoutConexionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    caratula?: StringFieldUpdateOperationsInput | string
+    cuij?: NullableStringFieldUpdateOperationsInput | string | null
+    delito?: StringFieldUpdateOperationsInput | string
+    fechaHecho?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fiscal?: NullableStringFieldUpdateOperationsInput | string | null
+    emailRespuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    visto?: BoolFieldUpdateOperationsInput | boolean
+    origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
+    origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
+    dispositivos?: DispositivoUncheckedUpdateManyWithoutLegajoNestedInput
+    oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
+    archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
@@ -21568,6 +23222,7 @@ export namespace Prisma {
     oficios?: OficioUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateWithoutUsuarioInput = {
@@ -21591,6 +23246,7 @@ export namespace Prisma {
     oficios?: OficioUncheckedUpdateManyWithoutLegajoNestedInput
     archivos?: ArchivoLegajoUncheckedUpdateManyWithoutLegajoNestedInput
     comentarios?: ComentarioLegajoUncheckedUpdateManyWithoutLegajoNestedInput
+    conexiones?: RedConexionesUncheckedUpdateManyWithoutLegajoNestedInput
   }
 
   export type LegajoUncheckedUpdateManyWithoutUsuarioInput = {
@@ -21734,6 +23390,18 @@ export namespace Prisma {
     id?: string
     usuarioId: string
     texto: string
+    createdAt?: Date | string
+  }
+
+  export type RedConexionesCreateManyLegajoInput = {
+    id?: string
+    entidad1: string
+    tipoEntidad1: string
+    relacion: string
+    entidad2: string
+    tipoEntidad2: string
+    confianza?: number
+    evidenciaId?: string | null
     createdAt?: Date | string
   }
 
@@ -21901,6 +23569,42 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RedConexionesUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RedConexionesUncheckedUpdateWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RedConexionesUncheckedUpdateManyWithoutLegajoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entidad1?: StringFieldUpdateOperationsInput | string
+    tipoEntidad1?: StringFieldUpdateOperationsInput | string
+    relacion?: StringFieldUpdateOperationsInput | string
+    entidad2?: StringFieldUpdateOperationsInput | string
+    tipoEntidad2?: StringFieldUpdateOperationsInput | string
+    confianza?: IntFieldUpdateOperationsInput | number
+    evidenciaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RespuestaCreateManyOficioInput = {
     id?: string
     datos: string
@@ -21994,6 +23698,10 @@ export namespace Prisma {
      * @deprecated Use AuditLogDefaultArgs instead
      */
     export type AuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AuditLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RedConexionesDefaultArgs instead
+     */
+    export type RedConexionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RedConexionesDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

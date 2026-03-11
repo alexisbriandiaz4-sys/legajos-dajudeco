@@ -44,6 +44,7 @@ model Legajo {
   oficios        Oficio[]
   archivos       ArchivoLegajo[]
   comentarios    ComentarioLegajo[]
+  conexiones     RedConexiones[]
 
   @@index([usuarioId])
   @@index([estado])
@@ -251,4 +252,22 @@ model AuditLog {
   @@index([accion])
   @@index([createdAt])
   @@index([nivel])
+}
+
+model RedConexiones {
+  id           String   @id @default(cuid())
+  legajoId     String
+  legajo       Legajo   @relation(fields: [legajoId], references: [id], onDelete: Cascade)
+  entidad1     String // e.g. "JUAN PEREZ"
+  tipoEntidad1 String // e.g. "PERSONA", "DNI", "TELEFONO"
+  relacion     String // e.g. "TITULAR DE LINEA", "ASOCIADO A"
+  entidad2     String // e.g. "3492543211"
+  tipoEntidad2 String // e.g. "TELEFONO"
+  confianza    Int      @default(100)
+  evidenciaId  String? // Opcional: ID del ArchivoLegajo de donde surgió
+  createdAt    DateTime @default(now())
+
+  @@index([legajoId])
+  @@index([entidad1])
+  @@index([entidad2])
 }

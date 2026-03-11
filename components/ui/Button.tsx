@@ -1,6 +1,7 @@
 "use client"
 import { Loader2 } from "lucide-react"
 import { ButtonHTMLAttributes } from "react"
+import { motion } from "framer-motion"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variante?: 'primario' | 'secundario' | 'peligro' | 'exito' | 'ghost'
@@ -10,11 +11,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const estilosVariante = {
-  primario:   'bg-blue-600 hover:bg-blue-700 text-white',
-  secundario: 'bg-[var(--bg-tertiary)] hover:opacity-80 text-[var(--text-primary)] border border-[var(--border)]',
-  peligro:    'bg-red-600 hover:bg-red-700 text-white',
-  exito:      'bg-green-600 hover:bg-green-700 text-white',
-  ghost:      'bg-transparent hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)]',
+  primario:   'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/25 border border-blue-500/50',
+  secundario: 'glass-panel glass-panel-hover text-[var(--text-primary)]',
+  peligro:    'bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-500/25 border border-red-500/50',
+  exito:      'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/25 border border-emerald-500/50',
+  ghost:      'bg-transparent hover:bg-white/5 text-[var(--text-secondary)]',
 }
 
 const estilosTamanio = {
@@ -34,19 +35,21 @@ export function Button({
   ...props
 }: ButtonProps) {
   return (
-    <button
-      {...props}
+    <motion.button
+      whileHover={{ scale: disabled || cargando ? 1 : 1.02 }}
+      whileTap={{ scale: disabled || cargando ? 1 : 0.98 }}
+      {...props as any}
       disabled={disabled || cargando}
       className={`
-        inline-flex items-center gap-2 rounded-lg font-medium
-        transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed
+        inline-flex items-center justify-center gap-2 rounded-xl font-medium
+        transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed
         ${estilosVariante[variante]}
         ${estilosTamanio[tamanio]}
         ${className}
       `}
     >
-      {cargando ? <Loader2 size={14} className="animate-spin" /> : icono}
+      {cargando ? <Loader2 size={16} className="animate-spin" /> : icono}
       {children}
-    </button>
+    </motion.button>
   )
 }

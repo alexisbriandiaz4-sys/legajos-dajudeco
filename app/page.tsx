@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LogOut, FolderOpen, FileText, Bell, User, Sun, Moon,
   Monitor, Settings, Database, BarChart3, ChevronLeft, ChevronRight, Shield
@@ -60,10 +61,14 @@ export default function Home() {
   if (cargando) {
     return (
       <div style={{ background: 'var(--bg-primary)' }} className="flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Cargando sistema...</p>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          className="flex flex-col items-center gap-3"
+        >
+          <div className="w-10 h-10 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
+          <p style={{ color: 'var(--text-secondary)' }} className="text-sm font-medium tracking-wide">Iniciando Motor Forense...</p>
+        </motion.div>
       </div>
     );
   }
@@ -131,35 +136,41 @@ export default function Home() {
 </div>
 
         {/* Nav */}
-        <nav className="flex-1 p-2 space-y-0.5 overflow-hidden">
-          {navegacion.map(({ id, label, icono: Icono, badge }) => {
+        <nav className="flex-1 p-2 space-y-1 overflow-hidden">
+          <AnimatePresence>
+          {navegacion.map(({ id, label, icono: Icono, badge }, index) => {
             const activo = vista === id;
             return (
-              <button key={id} onClick={() => handleNavegar(id)} title={!sidebarAbierto ? label : undefined}
-                style={{ background: activo ? 'var(--accent)' : 'transparent', color: activo ? '#fff' : 'var(--text-secondary)', transition: 'background 0.15s, color 0.15s' }}
-                className="w-full flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-sm hover:opacity-90"
+              <motion.button 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                key={id} onClick={() => handleNavegar(id)} title={!sidebarAbierto ? label : undefined}
+                style={{ background: activo ? 'var(--bg-tertiary)' : 'transparent', color: activo ? 'var(--text-primary)' : 'var(--text-muted)', border: activo ? '1px solid var(--border)' : '1px solid transparent', transition: 'background 0.2s, color 0.2s, border 0.2s' }}
+                className={`w-full flex items-center gap-3 px-2.5 py-2.5 rounded-xl text-sm hover:bg-[var(--bg-tertiary)] transition-colors ${activo ? 'shadow-sm' : ''}`}
               >
-                <div className="relative flex-shrink-0">
+                <div className={`relative flex-shrink-0 ${activo ? 'text-blue-500' : ''}`}>
                   <Icono size={18} />
                   {/* Mostrar badge sobre ícono SOLO si el menú está contraído */}
                   {(badge ?? 0) > 0 && !sidebarAbierto && (
-                    <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center shadow-lg shadow-red-500/40">
                       {(badge ?? 0) > 99 ? '99+' : badge}
                     </span>
                   )}
                 </div>
-                <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s', flex: 1, textAlign: 'left' as const }}>
+                <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s', flex: 1, textAlign: 'left' as const }} className={activo ? 'font-medium' : ''}>
                   {label}
                 </span>
                 {/* Mostrar badge al lado del texto SOLO si el menú está expandido */}
                 {(badge ?? 0) > 0 && sidebarAbierto && (
-                  <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+                  <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 shadow-lg shadow-red-500/40 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 animate-pulse">
                     {(badge ?? 0) > 99 ? '99+' : badge}
                   </span>
                 )}
-              </button>
+              </motion.button>
             );
           })}
+          </AnimatePresence>
         </nav>
 
         {/* Temas */}
@@ -203,16 +214,25 @@ export default function Home() {
 
       {/* Contenido */}
       <main className="flex-1 overflow-auto flex flex-col">
-        <div className="flex-1 overflow-auto p-6">
-        <div key={vista} style={{ animation: 'fadeSlideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
-          {vista === 'legajos'       && <ModuloLegajos />}
-          {vista === 'oficios'       && <ModuloOficios />}
-          {vista === 'alertas'       && <ModuloAlertas />}
-          {vista === 'telefonia'     && <ModuloBaseGeneral />}
-          {vista === 'estadisticas'  && <ModuloEstadisticas />}
-          {vista === 'configuracion' && <ModuloConfiguracion />}
-          {vista === 'auditoria'      && <ModuloAuditoria />}
-        </div>
+        <div className="flex-1 overflow-auto p-4 md:p-8">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={vista} 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="h-full"
+            >
+              {vista === 'legajos'       && <ModuloLegajos />}
+              {vista === 'oficios'       && <ModuloOficios />}
+              {vista === 'alertas'       && <ModuloAlertas />}
+              {vista === 'telefonia'     && <ModuloBaseGeneral />}
+              {vista === 'estadisticas'  && <ModuloEstadisticas />}
+              {vista === 'configuracion' && <ModuloConfiguracion />}
+              {vista === 'auditoria'      && <ModuloAuditoria />}
+            </motion.div>
+          </AnimatePresence>
       </div>
       </main>
     </div>

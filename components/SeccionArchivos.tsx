@@ -5,6 +5,8 @@ import {
   Loader2, Download, FolderOpen, ChevronDown, ChevronUp, AlertTriangle, Brain, X
 } from "lucide-react";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import { SkeletonLoader } from "./ui/SkeletonLoader";
 
 interface Archivo {
   id: string;
@@ -42,33 +44,48 @@ function getIcono(tipo?: string, nombre?: string) {
 
 function ModalAnalisis({ archivo, onCerrar }: { archivo: Archivo; onCerrar: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
-          <div className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-purple-400" />
-            <span className="text-white font-semibold text-sm">Análisis IA</span>
+    <AnimatePresence>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+      >
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0, y: 10 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.95, opacity: 0, y: 10 }}
+          className="glass-panel border border-[var(--border)] rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl"
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)] bg-gray-900/40">
+            <div className="flex items-center gap-2">
+              <Brain className="w-5 h-5 text-purple-400" />
+              <span className="text-white font-semibold text-sm tracking-wide">Reporte Forense IA</span>
+            </div>
+            <p className="text-gray-400 text-xs truncate max-w-xs">{archivo.nombre}</p>
+            <button onClick={onCerrar} className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 transition-colors">
+              <X className="w-4 h-4" />
+            </button>
           </div>
-          <p className="text-gray-400 text-xs truncate max-w-xs">{archivo.nombre}</p>
-          <button onClick={onCerrar} className="p-1.5 rounded-lg hover:bg-gray-700 text-gray-400 transition-colors">
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="overflow-y-auto p-5 flex-1">
-          {archivo.analisis ? (
-            <div className="text-gray-300 text-sm whitespace-pre-wrap leading-relaxed">
-              {archivo.analisis}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-10 gap-3">
-              <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
-              <p className="text-gray-400 text-sm">El análisis está siendo procesado...</p>
-              <p className="text-gray-600 text-xs">Actualizando automáticamente...</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+          <div className="overflow-y-auto p-6 flex-1 bg-[var(--bg-secondary)]">
+            {archivo.analisis ? (
+              <div className="text-gray-300 text-sm whitespace-pre-wrap leading-relaxed prose prose-invert max-w-none">
+                {archivo.analisis}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 gap-4">
+                <Loader2 className="w-10 h-10 text-purple-400 animate-spin" />
+                <p className="text-gray-300 text-sm font-medium">Motor de Inteligencia Artificial procesando evidencias...</p>
+                <div className="w-64">
+                  <SkeletonLoader height="6px" borderRadius="10px" />
+                </div>
+                <p className="text-gray-500 text-xs">Esto puede demorar unos segundos dependiendo del tamaño. La vista se actualizará sola.</p>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -140,7 +157,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
     if (expandido) cargarArchivos();
   }, [expandido, cargarArchivos]);
 
-  // Polling: si hay archivos analizables sin análisis, consultar cada 4 segundos
+  // Vercel Free-Tier friendly "Smart Polling" con Backoff
   useEffect(() => {
     const pendientes = archivos.filter(a => a.esAnalizable && !a.analisis);
 
@@ -152,11 +169,14 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
       return;
     }
 
-    // Refrescar el intervalo siempre para capturar el closure moderno de 'pendientes'
     if (pollingRef.current) clearInterval(pollingRef.current);
 
-    pollingRef.current = setInterval(async () => {
-      const actualizados = await Promise.all(
+    // Dynamic Interval (empieza en 6s y si sigue pendiente estresará menos la DB)
+    let intentos = 0;
+    
+    const ejecutarPolling = async () => {
+      intentos++;
+      const resueltos = await Promise.all(
         pendientes.map(async (archivo) => {
           try {
             const res = await fetch(`/api/legajos/${legajoId}/archivos/${archivo.id}`);
@@ -173,26 +193,38 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
 
       setArchivos(prev =>
         prev.map(a => {
-          const actualizado = actualizados.find(u => u.id === a.id);
+          const actualizado = resueltos.find(u => u.id === a.id);
           return actualizado ?? a;
         })
       );
 
-      // Si el modal está abierto y llegó el análisis, actualizarlo también
       setVerAnalisis(prev => {
         if (!prev) return prev;
-        const actualizado = actualizados.find(u => u.id === prev.id);
+        const actualizado = resueltos.find(u => u.id === prev.id);
         if (actualizado?.analisis && !prev.analisis) {
-          toast.success("✅ Análisis IA completado");
+          toast.success("✨ Inteligencia Artificial completó el análisis");
           return { ...prev, analisis: actualizado.analisis };
         }
         return prev;
       });
-    }, 4000);
+      
+      const haySolucionados = resueltos.some(r => r.analisis);
+      if(!haySolucionados) {
+          // Incrementa el intervalo de poll cada vez si no encuentra resultados para salvar requests Vercel
+          const nextInterval = Math.min(6000 + (intentos * 2000), 20000); // MAX 20s
+          if (pollingRef.current) clearInterval(pollingRef.current);
+          pollingRef.current = setTimeout(ejecutarPolling, nextInterval);
+      } else {
+          if (pollingRef.current) clearInterval(pollingRef.current);
+          pollingRef.current = setTimeout(ejecutarPolling, 6000);
+      }
+    };
+
+    pollingRef.current = setTimeout(ejecutarPolling, 6000);
 
     return () => {
       if (pollingRef.current) {
-        clearInterval(pollingRef.current);
+        clearInterval(pollingRef.current as any);
         pollingRef.current = null;
       }
     };
@@ -333,56 +365,72 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
             </div>
 
             {cargando ? (
-              <div className="flex justify-center py-4">
-                <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+              <div className="space-y-3 py-4">
+                <SkeletonLoader height="70px" borderRadius="12px" />
+                <SkeletonLoader height="70px" borderRadius="12px" />
               </div>
             ) : archivos.length === 0 ? (
-              <p className="text-center text-gray-600 text-sm py-2">No hay archivos en esta carpeta</p>
+              <p className="text-center text-gray-500 text-sm py-4">Directorio digital vacío</p>
             ) : (
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-3 mt-4"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+                }}
+              >
                 {archivos.map((archivo) => (
-                  <div key={archivo.id} className="flex items-center gap-3 p-3 rounded-lg bg-gray-800 border border-gray-700 group">
-                    <div className="flex-shrink-0">{getIcono(archivo.tipo, archivo.nombre)}</div>
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.98, x: -10 },
+                      visible: { opacity: 1, scale: 1, x: 0 }
+                    }}
+                    key={archivo.id} 
+                    className="flex items-center gap-3 p-3.5 rounded-xl glass-panel glass-panel-hover border-[var(--border)] group"
+                  >
+                    <div className="flex-shrink-0 bg-black/20 p-2 rounded-lg">{getIcono(archivo.tipo, archivo.nombre)}</div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-medium truncate">{archivo.nombre}</p>
-                      <div className="flex items-center gap-2">
-                        <p className="text-gray-500 text-xs">
+                      <p className="text-white text-sm font-medium truncate tracking-wide">{archivo.nombre}</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <p className="text-gray-500 text-xs font-mono">
                           {formatBytes(archivo.tamano)} · {new Date(archivo.createdAt).toLocaleDateString("es-AR")}
                         </p>
                         {archivo.esAnalizable && (
-                          <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                          <span className={`text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full border ${
                             archivo.analisis
-                              ? "bg-purple-500/20 text-purple-400"
-                              : "bg-yellow-500/20 text-yellow-400"
+                              ? "bg-purple-500/10 text-purple-400 border-purple-500/20"
+                              : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20 animate-pulse"
                           }`}>
-                            {archivo.analisis ? "✓ Analizado" : "⏳ Analizando..."}
+                            {archivo.analisis ? "Analizado IA" : "Analizando..."}
                           </span>
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
+                    <div className="flex items-center gap-1 flex-shrink-0 opacity-40 group-hover:opacity-100 transition-opacity">
                       {archivo.esAnalizable && (
                         <button
                           onClick={() => setVerAnalisis(archivo)}
                           title="Ver análisis IA"
-                          className="p-1.5 rounded-lg text-purple-400 hover:bg-purple-500/20 transition-colors"
+                          className="p-2 rounded-lg text-purple-400 hover:bg-purple-500/20 transition-colors tooltip"
                         >
                           <Brain className="w-4 h-4" />
                         </button>
                       )}
-                      <a href={archivo.url} target="_blank" rel="noopener noreferrer" title="Ver archivo" className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors">
+                      <a href={archivo.url} target="_blank" rel="noopener noreferrer" title="Ver archivo" className="p-2 rounded-lg text-gray-400 hover:bg-white/10 transition-colors">
                         <Eye className="w-4 h-4" />
                       </a>
-                      <a href={archivo.url} download={archivo.nombre} title="Descargar" className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors">
+                      <a href={archivo.url} download={archivo.nombre} title="Descargar" className="p-2 rounded-lg text-gray-400 hover:bg-white/10 transition-colors">
                         <Download className="w-4 h-4" />
                       </a>
-                      <button onClick={() => setConfirmarEliminar(archivo)} title="Eliminar" className="p-1.5 rounded-lg text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-colors">
+                      <button onClick={() => setConfirmarEliminar(archivo)} title="Eliminar" className="p-2 rounded-lg text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             )}
           </div>
         )}
