@@ -27,6 +27,7 @@ export interface RegistroGeneral {
   id: string; tipo: "telefonia" | "estafa"; victima?: string; nroLegajo?: string;
   fiscal?: string; fechaHecho?: string; fechaIngreso?: string; causa?: string;
   ardid?: string; aparato?: string; imei?: string; estadoLegajo?: string;
+  causaOcaratula?: string; datoClave?: string;
   asignadoA?: string | null; visto?: boolean; createdAt: string;
   original: RegistroTelefonia | RegistroEstafa;
 }

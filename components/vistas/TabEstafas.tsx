@@ -1,52 +1,34 @@
 "use client";
-import { useState, useEffect, useCallback } from 'react';
-import { Search, Upload, Plus, X } from 'lucide-react';
+import { useEffect } from 'react';
+import { Upload, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import * as XLSX from 'xlsx';
 import { cache } from '@/lib/cache';
-import { LIMIT, DATOS_INICIALES, formatFecha, useUsuarios, RegistroEstafa } from './types';
+import { LIMIT, formatFecha, useUsuarios, RegistroEstafa } from './types';
 import { TablaConPaginacion, ModalEliminar, ModalDetalleEstafa } from './SharedComponents';
 import { FormularioEstafa } from './Formularios';
-
-
+import { useFiltrosBase } from '@/hooks/useFiltrosBase';
+import { useDatosBase } from '@/hooks/useDatosBase';
+import { FiltrosBase } from './FiltrosBase';
 
 export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
-  const [datos, setDatos] = useState(DATOS_INICIALES);
-  const [page, setPage] = useState(1);
-  const [busqueda, setBusqueda] = useState("");
-  const [filtroArdid, setFiltroArdid] = useState("");
-  const [filtroDesde, setFiltroDesde] = useState("");
-  const [filtroHasta, setFiltroHasta] = useState("");
-  const [cargando, setCargando] = useState(false);
-  const [importando, setImportando] = useState(false);
-  const [detalle, setDetalle] = useState<RegistroEstafa | null>(null);
-  const [eliminar, setEliminar] = useState<string | null>(null);
-  const [recargar, setRecargar] = useState(0);
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const {
+    page, setPage, busqueda, setBusqueda, filtroDesde, setFiltroDesde,
+    filtroHasta, setFiltroHasta, filtrosAdicionales, setFiltrosAdicionales,
+    recargar, setRecargar, limpiarFiltros, hayFiltrosActivos
+  } = useFiltrosBase({ ardid: "" });
+
+  const {
+    datos, cargando, importando, setImportando, detalle, setDetalle,
+    eliminar, setEliminar, mostrarFormulario, setMostrarFormulario,
+    cargar, confirmarEliminar, marcarVisto
+  } = useDatosBase<RegistroEstafa>("/api/estafas", LIMIT);
+
   const usuarios = useUsuarios();
 
-  const cargar = useCallback(async (p: number) => {
-    setCargando(true);
-    try {
-      const params = new URLSearchParams({ page: String(p), limit: String(LIMIT) });
-      if (busqueda) params.set("q", busqueda);
-      if (filtroArdid) params.set("ardid", filtroArdid);
-      if (filtroDesde) params.set("desde", filtroDesde);
-      if (filtroHasta) params.set("hasta", filtroHasta);
-      const res = await fetch(`/api/estafas?${params}`);
-      if (res.ok) {
-        const json = await res.json();
-        setDatos({ registros: json.registros ?? [], total: json.total ?? 0, page: json.page ?? 1, totalPages: json.totalPages ?? 0 });
-      } else { toast.error("Error al cargar registros"); setDatos(DATOS_INICIALES); }
-    } catch { toast.error("Error de conexión"); setDatos(DATOS_INICIALES); }
-    finally { setCargando(false); }
-  }, [busqueda, filtroArdid, filtroDesde, filtroHasta]);
-
-  useEffect(() => { cargar(page); }, [page, recargar, cargar]);
-  useEffect(() => {
-    const t = setTimeout(() => { setPage(1); setRecargar(r => r + 1); }, 400);
-    return () => clearTimeout(t);
-  }, [busqueda, filtroArdid, filtroDesde, filtroHasta]);
+  useEffect(() => { 
+    cargar(page, { q: busqueda, ardid: filtrosAdicionales.ardid, desde: filtroDesde, hasta: filtroHasta }); 
+  }, [page, recargar, cargar, busqueda, filtrosAdicionales.ardid, filtroDesde, filtroHasta]);
 
   const handleImportar = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -75,23 +57,6 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
     finally { setImportando(false); e.target.value = ""; }
   };
 
-  const confirmarEliminar = async () => {
-    if (!eliminar) return;
-    try {
-      const res = await fetch(`/api/estafas/${eliminar}`, { method: "DELETE" });
-      if (res.ok) { toast.success("Registro eliminado"); setEliminar(null); setRecargar(r => r + 1); }
-      else toast.error("Error al eliminar");
-    } catch { toast.error("Error de conexión"); }
-  };
-
-  const marcarVisto = async (id: string) => {
-    await fetch(`/api/estafas/${id}`, { method: "PATCH" });
-    setDatos(prev => ({
-      ...prev,
-      registros: prev.registros.map((r: any) => r.id === id ? { ...r, visto: true } : r)
-    }));
-  };
-
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -112,29 +77,16 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="relative lg:col-span-2">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
-          <input type="text" placeholder="Buscar por víctima, CBU, ardid, legajo, IMEI..." value={busqueda} onChange={e => setBusqueda(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500" />
-        </div>
-        <input type="text" placeholder="Filtrar por ardid/modalidad..." value={filtroArdid} onChange={e => setFiltroArdid(e.target.value)}
+      <FiltrosBase
+        busqueda={busqueda} setBusqueda={setBusqueda}
+        filtroDesde={filtroDesde} setFiltroDesde={setFiltroDesde}
+        filtroHasta={filtroHasta} setFiltroHasta={setFiltroHasta}
+        limpiarFiltros={limpiarFiltros} hayFiltrosActivos={hayFiltrosActivos}
+        placeholderBusqueda="Buscar por víctima, CBU, ardid, legajo, IMEI..."
+      >
+        <input type="text" placeholder="Filtrar por ardid/modalidad..." value={filtrosAdicionales.ardid} onChange={e => setFiltrosAdicionales(prev => ({...prev, ardid: e.target.value}))}
           className="px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500" />
-        <div className="flex gap-2 items-center">
-          <span className="text-[var(--text-muted)] text-sm whitespace-nowrap">Desde</span>
-          <input type="date" value={filtroDesde} onChange={e => setFiltroDesde(e.target.value)} className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm focus:outline-none focus:border-blue-500" />
-        </div>
-        <div className="flex gap-2 items-center">
-          <span className="text-[var(--text-muted)] text-sm whitespace-nowrap">Hasta</span>
-          <input type="date" value={filtroHasta} onChange={e => setFiltroHasta(e.target.value)} className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm focus:outline-none focus:border-blue-500" />
-        </div>
-        {(busqueda || filtroArdid || filtroDesde || filtroHasta) && (
-          <button onClick={() => { setBusqueda(""); setFiltroArdid(""); setFiltroDesde(""); setFiltroHasta(""); }}
-            className="flex items-center gap-1 px-3 py-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">
-            <X className="w-4 h-4" /> Limpiar
-          </button>
-        )}
-      </div>
+      </FiltrosBase>
 
       <TablaConPaginacion
         cargando={cargando} datos={datos} page={page} setPage={setPage} esAdmin={esAdmin} usuarios={usuarios}
@@ -163,7 +115,7 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
       />
 
       {detalle && <ModalDetalleEstafa registro={detalle} onCerrar={() => setDetalle(null)} usuarios={usuarios} />}
-      {eliminar && <ModalEliminar onCancelar={() => setEliminar(null)} onConfirmar={confirmarEliminar} />}
+      {eliminar && <ModalEliminar onCancelar={() => setEliminar(null)} onConfirmar={() => confirmarEliminar(() => setRecargar(r => r + 1))} />}
       {mostrarFormulario && (
         <FormularioEstafa usuarios={usuarios}
           onCerrar={() => setMostrarFormulario(false)}
@@ -173,4 +125,3 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
     </div>
   );
 }
-
