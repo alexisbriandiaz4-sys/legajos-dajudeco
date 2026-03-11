@@ -68,6 +68,11 @@ export default function Home() {
     );
   }
 
+  if (!usuario) {
+    if (typeof window !== 'undefined') window.location.href = '/login';
+    return null;
+  }
+
   const navegacion: { id: Vista; label: string; icono: any; badge?: number }[] = [
     { id: 'legajos',       label: 'Legajos',       icono: FolderOpen },
     { id: 'oficios',       label: 'Oficios',        icono: FileText },
@@ -136,7 +141,8 @@ export default function Home() {
               >
                 <div className="relative flex-shrink-0">
                   <Icono size={18} />
-                  {(badge ?? 0) > 0 && (
+                  {/* Mostrar badge sobre ícono SOLO si el menú está contraído */}
+                  {(badge ?? 0) > 0 && !sidebarAbierto && (
                     <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
                       {(badge ?? 0) > 99 ? '99+' : badge}
                     </span>
@@ -145,6 +151,7 @@ export default function Home() {
                 <span style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', whiteSpace: 'nowrap', transition: 'opacity 0.2s, width 0.3s', flex: 1, textAlign: 'left' as const }}>
                   {label}
                 </span>
+                {/* Mostrar badge al lado del texto SOLO si el menú está expandido */}
                 {(badge ?? 0) > 0 && sidebarAbierto && (
                   <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
                     {(badge ?? 0) > 99 ? '99+' : badge}

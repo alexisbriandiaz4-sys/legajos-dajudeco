@@ -86,7 +86,7 @@ export default function ModuloAlertas() {
     setCargando(true);
     try {
       const [oficiosRes, configRes] = await Promise.all([
-        fetch('/api/oficios?limit=500'),
+        fetch('/api/oficios?estados=Enviado,Pendiente&limit=1000'), // Optimizacion: Solo carga lo estrictamente necesario para alertas y evita OOM
         fetch('/api/configuracion'),
       ]);
       if (oficiosRes.ok) {

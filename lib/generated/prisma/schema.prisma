@@ -44,6 +44,10 @@ model Legajo {
   oficios        Oficio[]
   archivos       ArchivoLegajo[]
   comentarios    ComentarioLegajo[]
+
+  @@index([usuarioId])
+  @@index([estado])
+  @@index([createdAt])
 }
 
 model Victima {
@@ -230,4 +234,21 @@ model ArchivoLegajo {
   createdAt    DateTime @default(now())
 
   @@index([legajoId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  nivel     String // INFO | WARN | ERROR | AUDIT
+  accion    String // LOGIN_EXITOSO | LEGAJO_ELIMINADO | etc.
+  usuarioId String?
+  ip        String?
+  recurso   String?
+  detalles  String? // JSON string
+  error     String?
+  createdAt DateTime @default(now())
+
+  @@index([usuarioId])
+  @@index([accion])
+  @@index([createdAt])
+  @@index([nivel])
 }

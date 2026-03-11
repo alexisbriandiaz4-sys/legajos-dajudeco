@@ -44,6 +44,10 @@ model Legajo {
   oficios       Oficio[]
   archivos    ArchivoLegajo[]
   comentarios ComentarioLegajo[]
+
+  @@index([usuarioId])
+  @@index([estado])
+  @@index([createdAt])
 }
 
 model Victima {

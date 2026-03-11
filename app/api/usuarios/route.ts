@@ -1,22 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
-import { cookies } from 'next/headers'
-import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
-import { getUsuarioId } from '@/lib/server-auth'
-
-const SECRET = process.env.JWT_SECRET!
-
-async function getUsuario() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('auth')?.value
-  if (!token) return null
-  try {
-    const payload = jwt.verify(token, SECRET) as any
-    return payload
-  } catch { return null }
-}
+import { getUsuario } from '@/lib/server-auth'
 
 const UsuarioCreateSchema = z.object({
   nombre:   z.string().min(1, 'El nombre es requerido').max(100),
@@ -67,7 +53,7 @@ export async function POST(request: Request) {
       },
       select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true }
     })
-    return NextResponse.json(nuevo)
+    return NextResponse.json(nuevo, { status: 201 })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Error al crear usuario' }, { status: 500 })

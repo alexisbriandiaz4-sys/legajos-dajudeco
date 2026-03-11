@@ -46,6 +46,7 @@ export const logger = {
       timestamp: new Date().toISOString(),
     }
     console.log(formatearLog(entrada))
+    guardarEnDB(entrada)
   },
 
   warn(accion: string, detalles?: Record<string, any>) {

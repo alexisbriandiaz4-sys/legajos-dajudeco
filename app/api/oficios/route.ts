@@ -5,17 +5,22 @@ import { OficioSchema, handlePrismaError } from '@/lib/validators'
 
 export async function GET(request: Request) {
   try {
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const { getUsuario } = await import('@/lib/server-auth')
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const usuarioId = usuario.id
 
     const { searchParams } = new URL(request.url)
     const page     = Math.max(1, parseInt(searchParams.get('page')  ?? '1'))
     const limit    = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') ?? '20')))
     const busqueda = searchParams.get('q')      ?? ''
     const estado   = searchParams.get('estado') ?? ''
+    const estados  = searchParams.get('estados') ?? ''
 
-    const where: any = { legajo: { usuarioId } }
+    const esAdmin = usuario.rol === 'admin'
+    const where: any = esAdmin ? {} : { legajo: { usuarioId } }
     if (estado) where.estado = estado
+    if (estados) where.estado = { in: estados.split(',') }
     if (busqueda) {
       where.OR = [
         { operadora: { contains: busqueda, mode: 'insensitive' } },

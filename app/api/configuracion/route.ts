@@ -27,6 +27,13 @@ export async function PUT(req: Request) {
   const usuarioId = await getUsuarioId();
   if (!usuarioId) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
 
+  // Importar y usar getUsuario para verificar el rol
+  const { getUsuario } = await import("@/lib/server-auth");
+  const usuario = await getUsuario();
+  if (!usuario || usuario.rol !== "admin") {
+    return NextResponse.json({ error: "No autorizado. Se requiere rol de administrador." }, { status: 403 });
+  }
+
   const body = await req.json();
   const parsed = ConfiguracionSchema.safeParse(body);
   if (!parsed.success) {

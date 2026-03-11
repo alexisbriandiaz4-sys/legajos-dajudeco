@@ -9,6 +9,16 @@ const loginAttempts = new Map<string, { count: number; firstAttempt: number }>()
 const MAX_INTENTOS = 10
 const VENTANA_MS = 15 * 60 * 1000
 
+// Mecanismo Garbage Collector asíncrono que limpia la memoria de rate-limits muertos cada 5 minutos
+setInterval(() => {
+  const ahora = Date.now()
+  for (const [ip, ipData] of loginAttempts.entries()) {
+    if (ahora - ipData.firstAttempt > VENTANA_MS) {
+      loginAttempts.delete(ip)
+    }
+  }
+}, 5 * 60 * 1000).unref() // unref() para no evitar la salida del proceso node
+
 function checkRateLimit(ip: string): boolean {
   const ahora = Date.now()
   const registro = loginAttempts.get(ip)

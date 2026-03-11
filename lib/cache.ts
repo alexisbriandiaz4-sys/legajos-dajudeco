@@ -10,8 +10,22 @@ interface CacheEntry<T> {
 
 export class ClientCache {
   private store = new Map<string, CacheEntry<any>>();
+  private maxEntries = 150; // Límite estricto superior de claves para evitar Memory Leak (OOM)
 
   set<T>(key: string, data: T, ttlSegundos = 30) {
+    // Implementación manual de LRU eviction (si excede límite de mapa)
+    if (this.store.size >= this.maxEntries && !this.store.has(key)) {
+      let oldestKey = '';
+      let oldestTime = Infinity;
+      for (const [k, v] of this.store.entries()) {
+        if (v.timestamp < oldestTime) {
+          oldestTime = v.timestamp;
+          oldestKey = k;
+        }
+      }
+      if (oldestKey) this.store.delete(oldestKey);
+    }
+
     this.store.set(key, {
       data,
       timestamp: Date.now(),
@@ -26,6 +40,8 @@ export class ClientCache {
       this.store.delete(key);
       return null;
     }
+    // Update timestamp (LRU behavior) update touch
+    entry.timestamp = Date.now();
     return entry.data as T;
   }
 

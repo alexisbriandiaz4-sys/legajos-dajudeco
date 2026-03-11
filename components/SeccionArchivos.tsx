@@ -152,7 +152,8 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
       return;
     }
 
-    if (pollingRef.current) return; // ya hay polling activo
+    // Refrescar el intervalo siempre para capturar el closure moderno de 'pendientes'
+    if (pollingRef.current) clearInterval(pollingRef.current);
 
     pollingRef.current = setInterval(async () => {
       const actualizados = await Promise.all(
@@ -293,12 +294,14 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
         {expandido && (
           <div className="p-4 bg-gray-900/50 space-y-4">
             <div
-              onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+              onDragOver={e => { e.preventDefault(); if (!subiendo) setDragOver(true); }}
               onDragLeave={() => setDragOver(false)}
-              onDrop={e => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
-              onClick={() => inputRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
-                dragOver ? "border-blue-500 bg-blue-500/10" : "border-gray-600 hover:border-gray-500 hover:bg-gray-800/50"
+              onDrop={e => { e.preventDefault(); setDragOver(false); if (!subiendo) handleFiles(e.dataTransfer.files); }}
+              onClick={() => { if (!subiendo) inputRef.current?.click(); }}
+              className={`border-2 border-dashed rounded-xl p-6 text-center transition-all ${
+                subiendo 
+                  ? "border-gray-700 bg-gray-900/50 opacity-50 cursor-not-allowed" 
+                  : dragOver ? "border-blue-500 bg-blue-500/10 cursor-pointer" : "border-gray-600 hover:border-gray-500 hover:bg-gray-800/50 cursor-pointer"
               }`}
             >
               <input
