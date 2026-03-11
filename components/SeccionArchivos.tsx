@@ -59,7 +59,7 @@ function ModalAnalisis({ archivo, onCerrar }: { archivo: Archivo; onCerrar: () =
             <div className="flex flex-col items-center justify-center py-10 gap-3">
               <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
               <p className="text-gray-400 text-sm">El análisis está siendo procesado...</p>
-              <p className="text-gray-600 text-xs">Puede tardar unos segundos. Cerrá y volvé a abrir el legajo.</p>
+              <p className="text-gray-600 text-xs">Actualizando automáticamente...</p>
             </div>
           )}
         </div>
@@ -114,6 +114,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
   const [dragOver, setDragOver] = useState(false);
   const [confirmarEliminar, setConfirmarEliminar] = useState<Archivo | null>(null);
   const [verAnalisis, setVerAnalisis] = useState<Archivo | null>(null);
+  const pollingRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const cargarArchivos = useCallback(async () => {
@@ -134,6 +135,63 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
   useEffect(() => {
     if (expandido) cargarArchivos();
   }, [expandido, cargarArchivos]);
+
+  // Polling: si hay archivos analizables sin análisis, consultar cada 4 segundos
+  useEffect(() => {
+    const pendientes = archivos.filter(a => a.esAnalizable && !a.analisis);
+
+    if (pendientes.length === 0) {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+      return;
+    }
+
+    if (pollingRef.current) return; // ya hay polling activo
+
+    pollingRef.current = setInterval(async () => {
+      const actualizados = await Promise.all(
+        pendientes.map(async (archivo) => {
+          try {
+            const res = await fetch(`/api/legajos/${legajoId}/archivos/${archivo.id}`);
+            if (res.ok) {
+              const data = await res.json();
+              return data;
+            }
+          } catch {
+            // silencioso
+          }
+          return archivo;
+        })
+      );
+
+      setArchivos(prev =>
+        prev.map(a => {
+          const actualizado = actualizados.find(u => u.id === a.id);
+          return actualizado ?? a;
+        })
+      );
+
+      // Si el modal está abierto y llegó el análisis, actualizarlo también
+      setVerAnalisis(prev => {
+        if (!prev) return prev;
+        const actualizado = actualizados.find(u => u.id === prev.id);
+        if (actualizado?.analisis && !prev.analisis) {
+          toast.success("✅ Análisis IA completado");
+          return { ...prev, analisis: actualizado.analisis };
+        }
+        return prev;
+      });
+    }, 4000);
+
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+    };
+  }, [archivos, legajoId]);
 
   const subirArchivo = async (file: File) => {
     if (file.size > 20 * 1024 * 1024) {

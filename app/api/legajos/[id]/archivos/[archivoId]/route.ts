@@ -36,3 +36,25 @@ export async function DELETE(
     return NextResponse.json({ error: message }, { status })
   }
 }
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string; archivoId: string }> }
+) {
+  try {
+    const { archivoId } = await params
+    const usuarioId = await getUsuarioId()
+    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    const archivo = await prisma.archivoLegajo.findUnique({
+      where: { id: archivoId },
+      select: { id: true, analisis: true, esAnalizable: true }
+    })
+
+    if (!archivo) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
+
+    return NextResponse.json(archivo)
+  } catch (error) {
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
+  }
+}
