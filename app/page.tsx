@@ -184,7 +184,7 @@ export default function Home() {
       <main className="flex-1 overflow-auto flex flex-col">
         {/* Header global */}
         <div style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }} className="flex items-center justify-center border-b flex-shrink-0 py-3">
-          <img src="/logo-sap.png" alt="S.A.P." style={{ height: '64px', objectFit: 'contain' }} />
+          <img src="/logo-sap.png" alt="S.A.P." style={{ height: '120px', objectFit: 'contain' }} />
         </div>
         <div className="flex-1 overflow-auto p-6">
         <div key={vista} style={{ animation: 'fadeSlideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
