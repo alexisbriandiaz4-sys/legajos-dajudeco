@@ -61,22 +61,8 @@ export default function LoginPage() {
 
        {/* Logo */}
 <div className="text-center mb-10">
-  <img
-    src="/logo.png"
-    alt="S.A.P."
-    width={128}
-    height={128}
-    className="mx-auto mb-5 object-contain"
-  />
-
-          <h1 className="text-2xl font-semibold text-white">
-            S.A.P
-          </h1>
-
-          <p className="text-slate-400 text-sm mt-1">
-            Análisis Inteligente de Legajos
-          </p>
-        </div>
+  <img src="/logo.png" alt="S.A.P." className="mx-auto w-32" />
+</div>
 
         {/* Caja login */}
         <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
