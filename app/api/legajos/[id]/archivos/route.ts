@@ -57,7 +57,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     })
 
     const tiposAnalizables = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp']
+    const extArchivo = file.name.split('.').pop()?.toLowerCase() ?? ''
     const esAnalizable = tiposAnalizables.includes(file.type)
+      || file.type === 'application/zip'
+      || file.type === 'application/x-zip-compressed'
+      || file.type === 'application/x-rar-compressed'
+      || file.type === 'application/vnd.rar'
+      || extArchivo === 'zip'
+      || extArchivo === 'rar'
 
     const archivo = await prisma.archivoLegajo.create({
       data: {

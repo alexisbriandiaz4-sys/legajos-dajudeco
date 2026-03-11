@@ -30,10 +30,13 @@ function formatBytes(bytes?: number) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function getIcono(tipo?: string) {
-  if (!tipo) return <File className="w-5 h-5 text-gray-400" />;
-  if (tipo.includes("image")) return <Image className="w-5 h-5 text-blue-400" />;
-  if (tipo.includes("pdf")) return <FileText className="w-5 h-5 text-red-400" />;
+function getIcono(tipo?: string, nombre?: string) {
+  const ext = nombre?.split('.').pop()?.toLowerCase() ?? ''
+  if (!tipo && !ext) return <File className="w-5 h-5 text-gray-400" />;
+  if (tipo?.includes("image")) return <Image className="w-5 h-5 text-blue-400" />;
+  if (tipo?.includes("pdf")) return <FileText className="w-5 h-5 text-red-400" />;
+  if (ext === 'zip' || tipo?.includes('zip')) return <File className="w-5 h-5 text-yellow-400" />;
+  if (ext === 'rar' || tipo?.includes('rar')) return <File className="w-5 h-5 text-orange-400" />;
   return <File className="w-5 h-5 text-gray-400" />;
 }
 
@@ -336,7 +339,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
               <div className="space-y-2">
                 {archivos.map((archivo) => (
                   <div key={archivo.id} className="flex items-center gap-3 p-3 rounded-lg bg-gray-800 border border-gray-700 group">
-                    <div className="flex-shrink-0">{getIcono(archivo.tipo)}</div>
+                    <div className="flex-shrink-0">{getIcono(archivo.tipo, archivo.nombre)}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white text-sm font-medium truncate">{archivo.nombre}</p>
                       <div className="flex items-center gap-2">
