@@ -88,6 +88,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       console.log('🔍 backendUrl:', backendUrl)
       console.log('🔍 backendSecret:', backendSecret ? 'OK' : 'FALTA')
 
+      const urlObj = new URL(request.url)
+      const dynamicWebhookUrl = `${urlObj.protocol}//${urlObj.host}`
+
       if (backendUrl && backendSecret) {
         console.log('📤 Enviando al backend IA...')
         fetch(`${backendUrl}/analizar`, {
@@ -97,11 +100,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
             'x-api-key': backendSecret,
           },
           body: JSON.stringify({
-            url:       result.secure_url,
-            tipo:      file.type,
-            nombre:    file.name,
-            legajoId:  id,
-            archivoId: archivo.id,
+            url:        result.secure_url,
+            tipo:       file.type,
+            nombre:     file.name,
+            legajoId:   id,
+            archivoId:  archivo.id,
+            webhookUrl: dynamicWebhookUrl
           }),
         })
         .then(async (res) => {
