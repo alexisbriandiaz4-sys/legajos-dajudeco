@@ -62,7 +62,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-10">
           <img
-  src="/logo-sap-escudo.png"
+  src="/logo.png"
   className="w-32 mx-auto mb-5"
 />
 
