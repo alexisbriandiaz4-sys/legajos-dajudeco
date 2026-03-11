@@ -88,8 +88,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       console.log('🔍 backendUrl:', backendUrl)
       console.log('🔍 backendSecret:', backendSecret ? 'OK' : 'FALTA')
 
-      const urlObj = new URL(request.url)
-      const dynamicWebhookUrl = `${urlObj.protocol}//${urlObj.host}`
+      const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
+      const protocol = request.headers.get('x-forwarded-proto') || 'https'
+      const dynamicWebhookUrl = host ? `${protocol}://${host}` : (process.env.SAP_WEBHOOK_URL || 'http://localhost:3000')
+      
+      console.log('🔗 URL detectada para el Webhook de retorno:', dynamicWebhookUrl)
 
       if (backendUrl && backendSecret) {
         console.log('📤 Enviando al backend IA...')
