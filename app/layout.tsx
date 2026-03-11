@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Sistema de Análisis Policial - Departamento de Delitos Complejos - Fiscalía de Rafaela",
 };
 
+import { CsrfInterceptor } from "@/components/CsrfInterceptor";
+
 export default function RootLayout({
   children,
 }: {
@@ -30,9 +32,11 @@ export default function RootLayout({
       </head>
       <body className={geist.className}>
         <ThemeProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
+          <CsrfInterceptor>
+            <AuthProvider>
+              {children}
+            </AuthProvider>
+          </CsrfInterceptor>
         </ThemeProvider>
         <Toaster position="bottom-right" richColors />
       </body>
