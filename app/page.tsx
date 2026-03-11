@@ -113,7 +113,7 @@ export default function Home() {
   </button>
 
   <img
-    src="/logo-sap.png"
+    src="/logo.png"
     alt="SAP"
     className="object-contain transition-all duration-300"
     style={{
