@@ -1,51 +1,86 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { z } from 'zod';
+
+const GrafoSchema = z.object({
+  entidad1: z.string().min(1).max(255),
+  tipoEntidad1: z.string().min(1).max(100),
+  relacion: z.string().min(1).max(255),
+  entidad2: z.string().min(1).max(255),
+  tipoEntidad2: z.string().max(100).optional(),
+  confianza: z.number().min(0).max(100).optional()
+});
+
+const WebhookPayloadSchema = z.object({
+  ok: z.boolean(),
+  error: z.string().optional(),
+  legajoId: z.string().optional(),
+  archivoId: z.string().optional(),
+  informe: z.string().optional(),
+  grafos: z.array(GrafoSchema).optional()
+});
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const rawData = await req.json();
     const apiKey = req.headers.get('x-api-key');
     
-    // Verificación de Autenticidad (Webhook Seguro)
-    if (apiKey !== (process.env.API_SECRET || 'sap-secret-key-123')) {
+    // Verificación de Autenticidad Estricta
+    if (!process.env.API_SECRET) {
+      console.error("[Webhook IA] CRÍTICO: API_SECRET no configurado en entorno.");
+      return NextResponse.json({ error: 'Configuración de servidor inválida' }, { status: 500 });
+    }
+
+    if (!apiKey || apiKey !== process.env.API_SECRET) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
+
+    // Validación y sanitización utilizando Zod
+    const parsed = WebhookPayloadSchema.safeParse(rawData);
+    if (!parsed.success) {
+      console.error(`[Webhook IA] Payload inválido:`, parsed.error);
+      return NextResponse.json({ error: 'Payload mal formado' }, { status: 400 });
+    }
+
+    const data = parsed.data;
 
     if (!data.ok) {
        console.error(`[Webhook IA] Análisis falló para legajo ${data.legajoId}: ${data.error}`);
        return NextResponse.json({ ok: true });
     }
 
-    // 1. Actualizar reporte textual del archivo (IA Summary)
-    await prisma.archivoLegajo.update({
-      where: { id: data.archivoId },
-      data: { analisis: data.informe }
-    });
+    if (!data.archivoId) {
+      console.error(`[Webhook IA] archivoId faltante en respuesta exitosa`);
+      return NextResponse.json({ error: 'archivoId obligatorio' }, { status: 400 });
+    }
 
-    // 2. Inyectar Entidades Extractadas (Motor de Grafo - NPL)
-    if (data.grafos && Array.isArray(data.grafos)) {
-      // Filtrar nodos corruptos (alucinaciones de IA)
-      const nodosValidos = data.grafos.filter((c: any) => c.entidad1 && c.entidad2 && c.relacion && c.tipoEntidad1);
-      
-      const conexiones = nodosValidos.map((c: any) => ({
-        legajoId: data.legajoId,
-        entidad1: String(c.entidad1).toUpperCase().trim(),
-        tipoEntidad1: String(c.tipoEntidad1).toUpperCase().trim(),
-        relacion: String(c.relacion).toUpperCase().trim(),
-        entidad2: String(c.entidad2).toUpperCase().trim(),
-        tipoEntidad2: String(c.tipoEntidad2 || 'DESCONOCIDO').toUpperCase().trim(),
-        confianza: typeof c.confianza === 'number' ? c.confianza : 100,
-        evidenciaId: data.archivoId
+    // 1. Actualizar reporte textual del archivo (IA Summary)
+    if (data.informe) {
+      await prisma.archivoLegajo.update({
+        where: { id: data.archivoId },
+        data: { analisis: data.informe }
+      });
+    }
+
+    // 2. Inyectar Entidades Extractadas (Motor de Grafo - NPL) - Sanitizadas por Zod
+    if (data.grafos && data.grafos.length > 0) {
+      const conexiones = data.grafos.map((c) => ({
+        legajoId: data.legajoId as string,
+        entidad1: c.entidad1.toUpperCase().trim(),
+        tipoEntidad1: c.tipoEntidad1.toUpperCase().trim(),
+        relacion: c.relacion.toUpperCase().trim(),
+        entidad2: c.entidad2.toUpperCase().trim(),
+        tipoEntidad2: (c.tipoEntidad2 || 'DESCONOCIDO').toUpperCase().trim(),
+        confianza: c.confianza ?? 100,
+        evidenciaId: data.archivoId as string
       }));
 
       // Inyección Masiva (High Performance)
-      if (conexiones.length > 0) {
-        await prisma.redConexiones.createMany({
-          data: conexiones,
-          skipDuplicates: true
-        });
-        console.log(`[Webhook IA] Se inyectaron ${conexiones.length} nuevos vectores de relación forense en el Legajo ${data.legajoId}`);
-      }
+      await prisma.redConexiones.createMany({
+        data: conexiones,
+        skipDuplicates: true
+      });
+      console.log(`[Webhook IA] Se inyectaron ${conexiones.length} nuevos vectores de relación forense en el Legajo ${data.legajoId}`);
     }
 
     return NextResponse.json({ ok: true, msg: 'Vector processing and Summary successful' });

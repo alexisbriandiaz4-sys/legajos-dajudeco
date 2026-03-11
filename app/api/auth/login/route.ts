@@ -4,35 +4,49 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
 import { logger } from '@/lib/logger'
+import { Redis } from '@upstash/redis'
 
-const loginAttempts = new Map<string, { count: number; firstAttempt: number }>()
 const MAX_INTENTOS = 10
-const VENTANA_MS = 15 * 60 * 1000
+const VENTANA_SEGUNDOS = 15 * 60 // 15 minutos
 
-// Mecanismo Garbage Collector asíncrono que limpia la memoria de rate-limits muertos cada 5 minutos
-setInterval(() => {
-  const ahora = Date.now()
-  for (const [ip, ipData] of loginAttempts.entries()) {
-    if (ahora - ipData.firstAttempt > VENTANA_MS) {
-      loginAttempts.delete(ip)
+// Instanciar Redis si están las variables (URL y TOKEN) o proveer fallback de memoria
+let redis: Redis | null = null;
+try {
+  redis = Redis.fromEnv();
+} catch (e) {
+  console.warn("[Rate Limiter] UPSTASH_REDIS_REST_URL/TOKEN no definidos. Usando fallback en memoria local (No apto para multi-instance).");
+}
+
+const fallbackMap = new Map<string, { count: number; firstAttempt: number }>();
+
+async function checkRateLimit(ip: string): Promise<boolean> {
+  if (redis) {
+    const key = `ratelimit:login:${ip}`;
+    try {
+      const current = await redis.incr(key);
+      if (current === 1) {
+        await redis.expire(key, VENTANA_SEGUNDOS);
+      }
+      return current <= MAX_INTENTOS;
+    } catch (error) {
+      console.error("[Rate Limiter] Error contactando a Redis:", error);
+      return true; // Fail-open para evitar denegación de servicio si cae Redis
     }
+  } else {
+    const ahora = Date.now();
+    const registro = fallbackMap.get(ip);
+    if (!registro) {
+      fallbackMap.set(ip, { count: 1, firstAttempt: ahora });
+      return true;
+    }
+    if (ahora - registro.firstAttempt > VENTANA_SEGUNDOS * 1000) {
+      fallbackMap.set(ip, { count: 1, firstAttempt: ahora });
+      return true;
+    }
+    if (registro.count >= MAX_INTENTOS) return false;
+    registro.count++;
+    return true;
   }
-}, 5 * 60 * 1000).unref() // unref() para no evitar la salida del proceso node
-
-function checkRateLimit(ip: string): boolean {
-  const ahora = Date.now()
-  const registro = loginAttempts.get(ip)
-  if (!registro) {
-    loginAttempts.set(ip, { count: 1, firstAttempt: ahora })
-    return true
-  }
-  if (ahora - registro.firstAttempt > VENTANA_MS) {
-    loginAttempts.set(ip, { count: 1, firstAttempt: ahora })
-    return true
-  }
-  if (registro.count >= MAX_INTENTOS) return false
-  registro.count++
-  return true
 }
 
 const LoginSchema = z.object({
@@ -49,7 +63,8 @@ export async function POST(request: Request) {
     }
 
     const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'unknown'
-    if (!checkRateLimit(ip)) {
+    const limitsOk = await checkRateLimit(ip);
+    if (!limitsOk) {
       return NextResponse.json({ error: 'Demasiados intentos. Esperá 15 minutos.' }, { status: 429 })
     }
 
@@ -72,23 +87,55 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 })
     }
 
-    loginAttempts.delete(ip)
+    if (redis) {
+      try {
+        await redis.del(`ratelimit:login:${ip}`);
+      } catch (e) { /* ignore */ }
+    } else {
+      fallbackMap.delete(ip);
+    }
+    
     logger.audit('LOGIN_EXITOSO', user.id, 'auth', { usuario: user.usuario, rol: user.rol }, ip)
 
     const token = jwt.sign(
       { id: user.id, usuario: user.usuario, rol: user.rol, nombre: user.nombre },
       SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '1h' }
     )
 
+    // Crear Refresh Token
+    const c = await import('crypto')
+    const refreshToken = c.randomBytes(32).toString('hex')
+    const expiresIn7Days = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+    await prisma.session.create({
+      data: {
+        sessionToken: refreshToken,
+        userId: user.id,
+        expires: expiresIn7Days
+      }
+    })
+
     const res = NextResponse.json({ ok: true, nombre: user.nombre, rol: user.rol })
+    
+    // Cookie de Access Token
     res.cookies.set('auth', token, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: 60 * 60, // 1 hora
       path: '/',
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     })
+
+    // Cookie de Refresh Token
+    res.cookies.set('refresh', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60, // 7 días
+      path: '/api/auth/refresh', // Solo se envía a esta ruta
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    })
+
     return res
 
   } catch (error) {

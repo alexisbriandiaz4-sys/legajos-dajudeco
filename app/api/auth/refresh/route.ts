@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 import { prisma } from '@/lib/db'
 import { logger } from '@/lib/logger'
+import crypto from 'crypto'
 
 function getSecret(): string {
   const secret = process.env.JWT_SECRET
@@ -10,66 +11,71 @@ function getSecret(): string {
   return secret
 }
 
-const TOKEN_DURACION    = '7d'
-const REFRESH_UMBRAL_MS = 24 * 60 * 60 * 1000 // renovar si le quedan menos de 24hs
-
 export async function POST() {
   try {
     const cookieStore = await cookies()
-    const token = cookieStore.get('auth')?.value
-    if (!token) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const refreshToken = cookieStore.get('refresh')?.value
 
-    const SECRET = getSecret()
-    let payload: any
-
-    try {
-      payload = jwt.verify(token, SECRET) as any
-    } catch (err: any) {
-      // Token expirado — intentar decodificar igual para obtener el id
-      if (err.name === 'TokenExpiredError') {
-        payload = jwt.decode(token) as any
-      } else {
-        return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
-      }
+    if (!refreshToken) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    if (!payload?.id) return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
-
-    // Verificar que el usuario aún existe y está activo
-    const usuario = await prisma.usuario.findUnique({
-      where: { id: payload.id },
-      select: { id: true, usuario: true, rol: true, nombre: true, activo: true }
+    // Buscar la sesión en base de datos
+    const session = await prisma.session.findUnique({
+      where: { sessionToken: refreshToken },
+      include: { usuario: true }
     })
 
-    if (!usuario || !usuario.activo) {
-      return NextResponse.json({ error: 'Usuario no encontrado o inactivo' }, { status: 401 })
+    if (!session || session.expires < new Date() || !session.usuario.activo) {
+      return NextResponse.json({ error: 'Sesión expirada o inválida' }, { status: 401 })
     }
 
-    // Si el token aún es válido y le queda más de 24hs, no renovar
-    if (payload.exp) {
-      const msRestantes = payload.exp * 1000 - Date.now()
-      if (msRestantes > REFRESH_UMBRAL_MS) {
-        return NextResponse.json({ ok: true, renovado: false })
-      }
-    }
+    const { usuario } = session
 
-    // Generar nuevo token
+    // Rotación: Borrar la vieja sesión y generar una nueva
+    await prisma.session.delete({ where: { id: session.id } })
+
+    const SECRET = getSecret()
+    
+    // Auto-login (Access Token)
     const nuevoToken = jwt.sign(
       { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, nombre: usuario.nombre },
       SECRET,
-      { expiresIn: TOKEN_DURACION }
+      { expiresIn: '1h' }
     )
+
+    // Nuevo Refresh Token (RTR)
+    const newRefreshToken = crypto.randomBytes(32).toString('hex')
+    const expiresIn7Days = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+    await prisma.session.create({
+      data: {
+        sessionToken: newRefreshToken,
+        userId: usuario.id,
+        expires: expiresIn7Days
+      }
+    })
 
     logger.audit('TOKEN_RENOVADO', usuario.id, 'auth', { usuario: usuario.usuario })
 
     const res = NextResponse.json({ ok: true, renovado: true })
+    
     res.cookies.set('auth', nuevoToken, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7, // 7 días
+      maxAge: 60 * 60, // 1h
       path: '/',
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     })
+
+    res.cookies.set('refresh', newRefreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60, // 7 días
+      path: '/api/auth/refresh',
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    })
+
     return res
 
   } catch (error) {

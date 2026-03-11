@@ -1,0 +1,31 @@
+﻿node.exe : npm warn Unknown env config "msvs-version". This will stop working in 
+the next major version of npm.
+En línea: 1 Carácter: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...version of npm.:Stri 
+   ng) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+> legajos-dajudeco@0.1.0 build
+> prisma generate && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Ô£ö Generated Prisma Client (v5.22.0) to .\lib\generated\prisma in 86ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want real-time updates to your database without manual polling? Discover how with Pulse: https://pris.ly/tip-0-pulse
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local, .env
+
+
+> Build error occurred
+Error: Both middleware file "./middleware.ts" and proxy file "./proxy.ts" are 
+detected. Please use "./proxy.ts" only. Learn more: 
+https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames

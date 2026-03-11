@@ -34,8 +34,14 @@ async function guardarEnDB(entrada: EntradaLog) {
         error:     entrada.error,
       }
     })
-  } catch {
-    // Si falla guardar en DB, al menos queda en consola — no interrumpir el flujo
+  } catch (err) {
+    // Reportar el fallo del AuditLog en la infraestructura para ser levantado por Datadog/Sentry
+    console.error(JSON.stringify({
+      nivel: 'ERROR',
+      accion: 'AUDIT_LOG_FAILURE',
+      timestamp: new Date().toISOString(),
+      error: err instanceof Error ? err.message : String(err)
+    }));
   }
 }
 
