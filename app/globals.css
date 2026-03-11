@@ -48,14 +48,51 @@
   --warning: #d97706;
 }
 
+/* ===== FONDO GLOBAL ESTILO LOGIN ===== */
 body {
-  background: var(--bg-primary);
+  background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(59,130,246,0.12), transparent 40%),
+              var(--bg-primary);
+
   color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
   transition: background 0.2s, color 0.2s;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ===== ANIMACIONES GLOBALES ===== */
+/* GRID TECNOLÓGICO */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* GLOW SUAVE */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(59,130,246,0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TODO EL CONTENIDO SOBRE EL FONDO */
+#root, main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== ANIMACIONES ===== */
+
 @keyframes fadeSlideIn {
   from {
     opacity: 0;
@@ -87,22 +124,20 @@ body {
   animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Transición suave en modales/formularios */
 [data-modal], .modal-overlay {
   animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth hover en todos los botones */
 button {
   transition: opacity 0.15s, background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
-/* Smooth en inputs */
 input, textarea, select {
   transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
-/* ===== DARK MODE NATIVO DEL SISTEMA ===== */
-/* Si el usuario no eligió tema manualmente, respetar preferencia del OS */
+
+/* ===== DARK MODE NATIVO ===== */
+
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-light) {
     --bg-primary: #0f172a;
