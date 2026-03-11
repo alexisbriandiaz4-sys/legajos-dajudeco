@@ -4,7 +4,7 @@ import { getUsuario } from '@/lib/server-auth';
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const usuario = await getUsuario();
@@ -12,7 +12,7 @@ export async function GET(
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Buscar todas las conexiones guardadas para este legajo
     const relaciones = await prisma.redConexiones.findMany({
