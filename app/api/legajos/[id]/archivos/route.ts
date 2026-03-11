@@ -56,7 +56,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       ).end(buffer)
     })
 
-    const tiposAnalizables = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp']
+    const tiposAnalizables = [
+      'application/pdf', 'image/jpeg', 'image/png', 'image/webp',
+      'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/x-m4a', 'audio/mp4', 'video/mp4'
+    ]
     const extArchivo = file.name.split('.').pop()?.toLowerCase() ?? ''
     const esAnalizable = tiposAnalizables.includes(file.type)
       || file.type === 'application/zip'
@@ -65,6 +68,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       || file.type === 'application/vnd.rar'
       || extArchivo === 'zip'
       || extArchivo === 'rar'
+      || ['mp3', 'wav', 'ogg', 'm4a', 'mp4'].includes(extArchivo)
 
     const archivo = await prisma.archivoLegajo.create({
       data: {

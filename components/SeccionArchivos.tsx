@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Upload, FileText, Image, File, Trash2, Eye,
-  Loader2, Download, FolderOpen, ChevronDown, ChevronUp, AlertTriangle, Brain, X
+  Loader2, Download, FolderOpen, ChevronDown, ChevronUp, AlertTriangle, Brain, X, Music
 } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,6 +39,7 @@ function getIcono(tipo?: string, nombre?: string) {
   if (tipo?.includes("pdf")) return <FileText className="w-5 h-5 text-red-400" />;
   if (ext === 'zip' || tipo?.includes('zip')) return <File className="w-5 h-5 text-yellow-400" />;
   if (ext === 'rar' || tipo?.includes('rar')) return <File className="w-5 h-5 text-orange-400" />;
+  if (tipo?.includes("audio") || ['mp3', 'wav', 'ogg', 'm4a'].includes(ext)) return <Music className="w-5 h-5 text-pink-400" />;
   return <File className="w-5 h-5 text-gray-400" />;
 }
 
@@ -342,7 +343,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                 multiple
                 className="hidden"
                 onChange={e => handleFiles(e.target.files)}
-                accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx,.zip,.rar"
+                accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx,.zip,.rar,.mp3,.wav,.ogg,.m4a"
               />
               {subiendo ? (
                 <div className="flex flex-col items-center gap-3">
@@ -359,7 +360,7 @@ export default function SeccionArchivos({ legajoId, nroLegajo }: SeccionArchivos
                   <p className="text-gray-400 text-sm">
                     Arrastrá archivos acá o <span className="text-blue-400">hacé click para seleccionar</span>
                   </p>
-                  <p className="text-gray-600 text-xs">PDF, imágenes, Word, Excel, ZIP, RAR — máx. 20MB</p>
+                  <p className="text-gray-600 text-xs">PDF, imágenes, Word, Excel, ZIP, RAR, Audio — máx. 20MB</p>
                 </div>
               )}
             </div>
