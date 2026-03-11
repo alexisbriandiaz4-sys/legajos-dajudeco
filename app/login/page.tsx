@@ -61,7 +61,7 @@ export default function LoginPage() {
 
        {/* Logo */}
 <div className="text-center mb-10">
-  <img src="/logo.png" alt="S.A.P." className="mx-auto w-32" />
+  <img src="/logo.png?v=1" alt="S.A.P." className="mx-auto mb-5 object-contain" />
 </div>
 
         {/* Caja login */}
