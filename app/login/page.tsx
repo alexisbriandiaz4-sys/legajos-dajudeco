@@ -59,12 +59,15 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-sm">
 
-        {/* Logo */}
-        <div className="text-center mb-10">
-          <img
-  src="/logo.png"
-  className="w-32 mx-auto mb-5"
-/>
+       {/* Logo */}
+<div className="text-center mb-10">
+  <img
+    src="/logo.png"
+    alt="S.A.P."
+    width={128}
+    height={128}
+    className="mx-auto mb-5 object-contain"
+  />
 
           <h1 className="text-2xl font-semibold text-white">
             S.A.P
