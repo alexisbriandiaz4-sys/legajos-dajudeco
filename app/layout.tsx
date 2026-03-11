@@ -8,8 +8,8 @@ import { Toaster } from "sonner";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sistema de Legajos",
-  description: "Departamento de Delitos Complejos",
+  title: "S.A.P. - Análisis Inteligente de Legajos",
+  description: "Sistema de Análisis Policial - Departamento de Delitos Complejos - Fiscalía de Rafaela",
 };
 
 export default function RootLayout({

@@ -100,11 +100,11 @@ export default function Home() {
         {/* Logo + toggle */}
         <div style={{ borderColor: 'var(--border)' }} className="flex items-center justify-between p-3 border-b min-h-[56px]">
           <div className="flex items-center gap-2 overflow-hidden">
-            <span className="text-xl flex-shrink-0">🔍</span>
-            <div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', whiteSpace: 'nowrap' }}>
-              <p style={{ color: 'var(--text-primary)' }} className="text-xs font-bold leading-tight">Sistema de Legajos</p>
-              <p style={{ color: 'var(--text-muted)' }} className="text-[10px]">Delitos Complejos</p>
-            </div>
+           <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 w-8 h-8 object-contain" />
+<div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', whiteSpace: 'nowrap' }}>
+  <p style={{ color: 'var(--text-primary)' }} className="text-xs font-bold leading-tight">S.A.P.</p>
+  <p style={{ color: 'var(--text-muted)' }} className="text-[10px]">Análisis Inteligente de Legajos</p>
+</div>
           </div>
           <button onClick={toggleSidebar} className="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80 transition-opacity" style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }} title={sidebarAbierto ? 'Contraer' : 'Expandir'}>
             {sidebarAbierto ? <ChevronLeft size={13} /> : <ChevronRight size={13} />}
