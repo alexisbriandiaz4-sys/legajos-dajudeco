@@ -91,24 +91,56 @@ export default function Home() {
         style={{
           background: 'var(--bg-secondary)',
           borderColor: 'var(--border)',
-          width: sidebarAbierto ? '240px' : '72px',
+          width: sidebarAbierto ? '270px' : '72px',
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           flexShrink: 0,
         }}
         className="border-r flex flex-col overflow-hidden"
       >
-       {/* Logo + toggle */}
-<div style={{ borderColor: 'var(--border)', minHeight: sidebarAbierto ? '120px' : '72px', transition: 'min-height 0.3s' }} className="flex items-center justify-between p-3 border-b">
-  <div className="flex items-center gap-2 overflow-hidden">
-    <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 object-contain" style={{ width: sidebarAbierto ? '90px' : '48px', height: sidebarAbierto ? '90px' : '48px', transition: 'width 0.3s, height 0.3s' }} />
-    <div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <p style={{ color: 'var(--text-primary)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.15em' }} className="text-sm font-bold">S.A.P.</p>
-      <p style={{ color: 'var(--text-muted)', writingMode: 'vertical-rl', transform: 'rotate(180deg)', letterSpacing: '0.1em' }} className="text-[10px]">Análisis Inteligente de Legajos</p>
-    </div>
-  </div>
-  <button onClick={toggleSidebar} className="flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80 transition-opacity" style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }} title={sidebarAbierto ? 'Contraer' : 'Expandir'}>
-    {sidebarAbierto ? <ChevronLeft size={13} /> : <ChevronRight size={13} />}
+       {/* Header / Logo */}
+<div
+  style={{ borderColor: 'var(--border)' }}
+  className="border-b p-4 flex flex-col items-center relative"
+>
+
+  {/* Botón contraer */}
+  <button
+    onClick={toggleSidebar}
+    className="absolute top-3 right-3 w-6 h-6 rounded-md flex items-center justify-center hover:opacity-80"
+    style={{ background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }}
+  >
+    {sidebarAbierto ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
   </button>
+
+  {/* Logo */}
+  <img
+    src="/logo-sap.png"
+    alt="SAP"
+    className="object-contain transition-all duration-300"
+    style={{
+      width: sidebarAbierto ? '80px' : '40px',
+      height: sidebarAbierto ? '80px' : '40px'
+    }}
+  />
+
+  {/* Texto */}
+  {sidebarAbierto && (
+    <div className="text-center mt-2">
+      <p
+        className="text-sm font-bold tracking-widest"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        S.A.P
+      </p>
+
+      <p
+        className="text-[11px]"
+        style={{ color: 'var(--text-muted)' }}
+      >
+        Sistema de Análisis de Legajos
+      </p>
+    </div>
+  )}
 </div>
 
         {/* Nav */}
