@@ -8,17 +8,28 @@ export default function LoginPage() {
   const [cargando, setCargando] = useState(false);
 
   async function handleLogin() {
-    if (!form.usuario || !form.password) { setError("Completá todos los campos"); return; }
+    if (!form.usuario || !form.password) { 
+      setError("Completá todos los campos"); 
+      return; 
+    }
+
     setCargando(true);
     setError("");
+
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
       const data = await res.json();
-      if (!res.ok) { setError(data.error); return; }
+
+      if (!res.ok) {
+        setError(data.error);
+        return;
+      }
+
       window.location.href = "/";
     } catch {
       setError("Error al conectar con el servidor");
@@ -28,53 +39,83 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <span className="text-5xl mb-4 block">🔍</span>
-          <h1 className="text-2xl font-bold text-white">Sistema de Legajos</h1>
-          <p className="text-slate-400 text-sm mt-1">Departamento de Delitos Complejos</p>
+    <div className="min-h-screen flex items-center justify-center p-6 bg-[#020617] relative overflow-hidden">
+
+      {/* luces fondo */}
+      <div className="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full -top-40 -left-40" />
+      <div className="absolute w-[500px] h-[500px] bg-indigo-500/20 blur-[140px] rounded-full -bottom-40 -right-40" />
+
+      <div className="relative w-full max-w-sm">
+
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <img
+            src="/logo-sap.png"
+            className="w-28 mx-auto mb-4"
+          />
+
+          <h1 className="text-2xl font-semibold text-white">
+            Sistema de Legajos
+          </h1>
+
+          <p className="text-slate-400 text-sm mt-1">
+            Departamento de Delitos Complejos
+          </p>
         </div>
 
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+        {/* Caja login */}
+        <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
+
           <div>
-            <label className="text-sm text-slate-400 mb-1 block">Usuario</label>
+            <label className="text-sm text-slate-300 mb-1 block">
+              Usuario
+            </label>
+
             <input
               value={form.usuario}
               onChange={e => setForm({ ...form, usuario: e.target.value })}
               onKeyDown={e => e.key === "Enter" && handleLogin()}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-slate-400"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500"
               placeholder="tu usuario"
               autoComplete="username"
             />
           </div>
+
           <div>
-            <label className="text-sm text-slate-400 mb-1 block">Contraseña</label>
+            <label className="text-sm text-slate-300 mb-1 block">
+              Contraseña
+            </label>
+
             <input
               type="password"
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}
               onKeyDown={e => e.key === "Enter" && handleLogin()}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-slate-400"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500"
               placeholder="••••••••"
               autoComplete="current-password"
             />
           </div>
 
-          {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+          {error && (
+            <p className="text-red-400 text-sm text-center">
+              {error}
+            </p>
+          )}
 
           <button
             onClick={handleLogin}
             disabled={cargando}
             className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition disabled:opacity-50"
           >
-            {cargando ? "Ingresando..." : "Ingresar"}
+            {cargando ? "Ingresando..." : "Acceder al sistema"}
           </button>
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-6">
-          Policía de Investigaciones · Uso exclusivo interno
+        <p className="text-center text-slate-500 text-xs mt-6">
+          Policía de Investigaciones · Acceso restringido
         </p>
+
       </div>
     </div>
   );
