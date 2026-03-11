@@ -91,7 +91,7 @@ export default function Home() {
         style={{
           background: 'var(--bg-secondary)',
           borderColor: 'var(--border)',
-          width: sidebarAbierto ? '224px' : '64px',
+          width: sidebarAbierto ? '240px' : '72px',
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           flexShrink: 0,
         }}
@@ -100,7 +100,7 @@ export default function Home() {
         {/* Logo + toggle */}
         <div style={{ borderColor: 'var(--border)' }} className="flex items-center justify-between p-3 border-b min-h-[56px]">
           <div className="flex items-center gap-2 overflow-hidden">
-           <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 w-8 h-8 object-contain" />
+           <img src="/logo-sap.png" alt="S.A.P." className="flex-shrink-0 object-contain" style={{ width: sidebarAbierto ? '40px' : '52px', height: sidebarAbierto ? '40px' : '52px', transition: 'width 0.3s, height 0.3s' }} />
 <div style={{ opacity: sidebarAbierto ? 1 : 0, width: sidebarAbierto ? 'auto' : 0, overflow: 'hidden', transition: 'opacity 0.2s, width 0.3s', whiteSpace: 'nowrap' }}>
   <p style={{ color: 'var(--text-primary)' }} className="text-xs font-bold leading-tight">S.A.P.</p>
   <p style={{ color: 'var(--text-muted)' }} className="text-[10px]">Análisis Inteligente de Legajos</p>
