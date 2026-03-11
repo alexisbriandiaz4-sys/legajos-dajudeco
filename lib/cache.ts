@@ -8,7 +8,7 @@ interface CacheEntry<T> {
   ttl: number;
 }
 
-class ClientCache {
+export class ClientCache {
   private store = new Map<string, CacheEntry<any>>();
 
   set<T>(key: string, data: T, ttlSegundos = 30) {

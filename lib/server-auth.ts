@@ -21,7 +21,7 @@ export async function getUsuarioId(): Promise<string | null> {
   }
 }
 
-export async function getUsuario(): Promise<{ id: string; usuario: string; rol: string; nombre: string } | null> {
+export async function getUsuario(): Promise<{ id: string; usuario: string; rol: 'admin' | 'investigador'; nombre: string } | null> {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('auth')?.value

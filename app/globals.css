@@ -101,3 +101,38 @@ button {
 input, textarea, select {
   transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
+/* ===== DARK MODE NATIVO DEL SISTEMA ===== */
+/* Si el usuario no eligió tema manualmente, respetar preferencia del OS */
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light) {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --border: #475569;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not(.theme-dark):not(.theme-dark-blue) {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --warning: #d97706;
+  }
+}

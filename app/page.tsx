@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
 import {
   LogOut, FolderOpen, FileText, Bell, User, Sun, Moon,
-  Monitor, Settings, Database, BarChart3, ChevronLeft, ChevronRight
+  Monitor, Settings, Database, BarChart3, ChevronLeft, ChevronRight, Shield
 } from "lucide-react";
 import ModuloLegajos from "@/components/ModuloLegajos";
 import ModuloOficios from "@/components/ModuloOficios";
@@ -13,9 +13,10 @@ import ModuloConfiguracion from "@/components/ModuloConfiguracion";
 import ModuloAlertas from "@/components/ModuloAlertas";
 import ModuloBaseGeneral from "@/components/ModuloBaseGeneral";
 import ModuloEstadisticas from "@/components/ModuloEstadisticas";
+import ModuloAuditoria from "@/components/ModuloAuditoria";
 import { fetchConCache, cache, TTL } from "@/lib/cache";
 
-type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia' | 'estadisticas';
+type Vista = 'legajos' | 'oficios' | 'alertas' | 'configuracion' | 'telefonia' | 'estadisticas' | 'auditoria';
 
 export default function Home() {
   const { usuario, cargando, logout } = useAuth();
@@ -74,6 +75,7 @@ export default function Home() {
     { id: 'telefonia',     label: 'Base General',   icono: Database, badge: novedades },
     { id: 'estadisticas',  label: 'Estadísticas',   icono: BarChart3 },
     { id: 'configuracion', label: 'Configuración',  icono: Settings },
+    ...(usuario?.rol === 'admin' ? [{ id: 'auditoria' as Vista, label: 'Auditoría', icono: Shield }] : []),
   ];
 
   const temas = [
@@ -187,6 +189,7 @@ export default function Home() {
           {vista === 'telefonia'     && <ModuloBaseGeneral />}
           {vista === 'estadisticas'  && <ModuloEstadisticas />}
           {vista === 'configuracion' && <ModuloConfiguracion />}
+          {vista === 'auditoria'      && <ModuloAuditoria />}
         </div>
       </main>
     </div>

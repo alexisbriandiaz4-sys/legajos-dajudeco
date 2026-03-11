@@ -57,8 +57,18 @@ function p(children: TextRun[], opts: Record<string, any> = {}) {
 function vacio() { return p([txt("")]); }
 
 async function generarDocumento(oficio: Oficio, operadora: string, emailRespuesta: string): Promise<Blob> {
-  const res = await fetch("/logo-mpa.png");
-  const logoBuffer = await res.arrayBuffer();
+  // Logo desde variable de entorno o fallback a /logo-mpa.png
+  const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL ?? "/logo-mpa.png"
+  let logoBuffer: ArrayBuffer | null = null
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000')
+    const logoRes = await fetch(logoUrl.startsWith('http') ? logoUrl : `${baseUrl}${logoUrl}`)
+    if (logoRes.ok) logoBuffer = await logoRes.arrayBuffer()
+  } catch {
+    console.warn('No se pudo cargar el logo del oficio')
+  }
 
   const op = OPERADORAS[operadora] || OPERADORAS["Claro"];
   const nombreFiscal = extraerNombre(oficio.legajo.fiscal);
@@ -100,7 +110,7 @@ async function generarDocumento(oficio: Oficio, operadora: string, emailRespuest
                       spacing: { after: 0, before: 0, line: 276 },
                       children: [
                         new ImageRun({
-                          data: logoBuffer,
+                          data: logoBuffer!,
                           transformation: { width: 75, height: 100 },
                           type: "png",
                         } as any)

@@ -70,7 +70,7 @@ export const UsuarioSchema = z.object({
   nombre:   z.string().min(1, 'El nombre es requerido').max(100),
   usuario:  z.string().min(3, 'Mínimo 3 caracteres').max(50),
   password: z.string().min(6, 'Mínimo 6 caracteres').max(100),
-  rol:      z.enum(['admin', 'usuario']).default('usuario'),
+  rol:      z.enum(['admin', 'investigador']).default('investigador'),
   activo:   z.boolean().default(true),
 })
 

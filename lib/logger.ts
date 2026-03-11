@@ -1,7 +1,8 @@
 /**
  * logger.ts — Sistema de logging estructurado para auditoría
- * Registra acciones críticas con usuario, IP, timestamp y detalles.
+ * Guarda en consola Y en base de datos PostgreSQL (tabla AuditLog)
  */
+import { prisma } from '@/lib/db'
 
 type NivelLog = 'INFO' | 'WARN' | 'ERROR' | 'AUDIT'
 
@@ -20,12 +21,28 @@ function formatearLog(entrada: EntradaLog): string {
   return JSON.stringify(entrada)
 }
 
+async function guardarEnDB(entrada: EntradaLog) {
+  try {
+    await prisma.auditLog.create({
+      data: {
+        nivel:     entrada.nivel,
+        accion:    entrada.accion,
+        usuarioId: entrada.usuarioId,
+        ip:        entrada.ip,
+        recurso:   entrada.recurso,
+        detalles:  entrada.detalles ? JSON.stringify(entrada.detalles) : null,
+        error:     entrada.error,
+      }
+    })
+  } catch {
+    // Si falla guardar en DB, al menos queda en consola — no interrumpir el flujo
+  }
+}
+
 export const logger = {
   info(accion: string, detalles?: Record<string, any>) {
     const entrada: EntradaLog = {
-      nivel: 'INFO',
-      accion,
-      detalles,
+      nivel: 'INFO', accion, detalles,
       timestamp: new Date().toISOString(),
     }
     console.log(formatearLog(entrada))
@@ -33,12 +50,11 @@ export const logger = {
 
   warn(accion: string, detalles?: Record<string, any>) {
     const entrada: EntradaLog = {
-      nivel: 'WARN',
-      accion,
-      detalles,
+      nivel: 'WARN', accion, detalles,
       timestamp: new Date().toISOString(),
     }
     console.warn(formatearLog(entrada))
+    guardarEnDB(entrada)
   },
 
   error(accion: string, error: unknown, detalles?: Record<string, any>) {
@@ -50,8 +66,13 @@ export const logger = {
       timestamp: new Date().toISOString(),
     }
     console.error(formatearLog(entrada))
+    guardarEnDB(entrada)
   },
 
+  /**
+   * Registra acciones críticas de auditoría:
+   * login, logout, crear/editar/borrar recursos sensibles
+   */
   audit(accion: string, usuarioId: string, recurso: string, detalles?: Record<string, any>, ip?: string) {
     const entrada: EntradaLog = {
       nivel: 'AUDIT',
@@ -63,5 +84,6 @@ export const logger = {
       timestamp: new Date().toISOString(),
     }
     console.log(formatearLog(entrada))
+    guardarEnDB(entrada)
   },
 }

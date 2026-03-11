@@ -1,16 +1,11 @@
 import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
-import { cookies } from 'next/headers'
-
-const SECRET = process.env.JWT_SECRET!
+import { getUsuario } from '@/lib/server-auth'
 
 export async function GET() {
   try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get('auth')?.value
-    if (!token) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
-    const payload = jwt.verify(token, SECRET) as any
-    return NextResponse.json({ id: payload.id, usuario: payload.usuario, rol: payload.rol, nombre: payload.nombre })
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    return NextResponse.json(usuario)
   } catch {
     return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
   }

@@ -1,27 +1,16 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
-import { cookies } from 'next/headers'
-import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
-
-const SECRET = process.env.JWT_SECRET!
-
-async function getUsuario() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('auth')?.value
-  if (!token) return null
-  try {
-    const payload = jwt.verify(token, SECRET) as any
-    return payload
-  } catch { return null }
-}
+import { getUsuario } from '@/lib/server-auth'
+import { handlePrismaError } from '@/lib/validators'
+import { logger } from '@/lib/logger'
 
 const UsuarioUpdateSchema = z.object({
   nombre:   z.string().min(1).max(100).optional(),
   usuario:  z.string().min(3).max(50).optional(),
   password: z.string().min(6).max(100).optional(),
-  rol:      z.enum(['admin', 'usuario']).optional(),
+  rol:      z.enum(['admin', 'investigador']).optional(),
   activo:   z.boolean().optional(),
 })
 
@@ -52,11 +41,11 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       data.usuario = parsed.data.usuario
     }
     if (parsed.data.password) {
-      data.password = await bcrypt.hash(parsed.data.password, 10)
+      data.password = await bcrypt.hash(parsed.data.password, 12)
     }
     if (usuario.rol === 'admin') {
-      if (parsed.data.rol !== undefined) data.rol = parsed.data.rol
-      if (parsed.data.activo !== undefined) data.activo = parsed.data.activo
+      if (parsed.data.rol     !== undefined) data.rol    = parsed.data.rol
+      if (parsed.data.activo  !== undefined) data.activo = parsed.data.activo
     }
 
     const actualizado = await prisma.usuario.update({
@@ -64,10 +53,13 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       data,
       select: { id: true, nombre: true, usuario: true, rol: true, activo: true, createdAt: true }
     })
+
+    logger.audit('USUARIO_ACTUALIZADO', usuario.id, `usuario:${id}`, { campos: Object.keys(data) })
     return NextResponse.json(actualizado)
   } catch (error) {
-    console.error(error)
-    return NextResponse.json({ error: 'Error al actualizar usuario' }, { status: 500 })
+    logger.error('[PUT /api/usuarios/[id]]', error)
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }
 
@@ -80,9 +72,11 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     if (usuario.id === id) return NextResponse.json({ error: 'No podés eliminarte a vos mismo' }, { status: 400 })
 
     await prisma.usuario.delete({ where: { id } })
+    logger.audit('USUARIO_ELIMINADO', usuario.id, `usuario:${id}`)
     return NextResponse.json({ ok: true })
   } catch (error) {
-    console.error(error)
-    return NextResponse.json({ error: 'Error al eliminar usuario' }, { status: 500 })
+    logger.error('[DELETE /api/usuarios/[id]]', error)
+    const { message, status } = handlePrismaError(error)
+    return NextResponse.json({ error: message }, { status })
   }
 }

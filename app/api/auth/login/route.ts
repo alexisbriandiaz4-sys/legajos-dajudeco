@@ -72,7 +72,13 @@ export async function POST(request: Request) {
     )
 
     const res = NextResponse.json({ ok: true, nombre: user.nombre, rol: user.rol })
-    res.cookies.set('auth', token, { httpOnly: true, maxAge: 60 * 60 * 24 * 7, path: '/' })
+    res.cookies.set('auth', token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    })
     return res
 
   } catch (error) {

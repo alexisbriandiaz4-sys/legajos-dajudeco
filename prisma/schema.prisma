@@ -227,3 +227,19 @@ model ArchivoLegajo {
 
   @@index([legajoId])
 }
+model AuditLog {
+  id         String   @id @default(cuid())
+  nivel      String   // INFO | WARN | ERROR | AUDIT
+  accion     String   // LOGIN_EXITOSO | LEGAJO_ELIMINADO | etc.
+  usuarioId  String?
+  ip         String?
+  recurso    String?
+  detalles   String?  // JSON string
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@index([usuarioId])
+  @@index([accion])
+  @@index([createdAt])
+  @@index([nivel])
+}
