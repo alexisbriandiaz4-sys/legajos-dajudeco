@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { rateLimit } from '@/lib/rate-limit';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const method = request.method.toUpperCase();
 
@@ -58,6 +59,24 @@ export function middleware(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     } else {
       return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+
+  // --- 3. RATE LIMITING DISTRIBUIDO (API) --- //
+  if (pathname.startsWith('/api/') && !pathname.startsWith('/api/ia/callback')) {
+    const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
+    const { success, limit, remaining, reset } = await rateLimit(ip, 120, 60); // 120 req / minuto
+    
+    if (!success) {
+      return new NextResponse(JSON.stringify({ error: 'Too Many Requests' }), { 
+        status: 429, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Limit': limit.toString(),
+          'X-RateLimit-Remaining': remaining.toString(),
+          'X-RateLimit-Reset': reset.toString()
+        } 
+      });
     }
   }
 

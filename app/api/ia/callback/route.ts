@@ -80,7 +80,6 @@ export async function POST(req: Request) {
         data: conexiones,
         skipDuplicates: true
       });
-      console.log(`[Webhook IA] Se inyectaron ${conexiones.length} nuevos vectores de relación forense en el Legajo ${data.legajoId}`);
     }
 
     return NextResponse.json({ ok: true, msg: 'Vector processing and Summary successful' });

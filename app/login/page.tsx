@@ -5,13 +5,19 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const [form, setForm] = useState({ usuario: "", password: "" });
+  const [form, setForm] = useState({ usuario: "", password: "", codigo2fa: "" });
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
+  const [pidiendo2fa, setPidiendo2fa] = useState(false);
 
   async function handleLogin() {
     if (!form.usuario || !form.password) {
       setError("Completá todos los campos");
+      return;
+    }
+
+    if (pidiendo2fa && !form.codigo2fa) {
+      setError("Ingrese el código 2FA");
       return;
     }
 
@@ -27,8 +33,14 @@ export default function LoginPage() {
 
       const data = await res.json();
 
+      if (data.require2FA) {
+        setPidiendo2fa(true);
+        setError("");
+        return;
+      }
+
       if (!res.ok) {
-        setError(data.error);
+        setError(data.error || "Error en autenticación");
         return;
       }
 
@@ -80,36 +92,61 @@ export default function LoginPage() {
         {/* Caja login */}
         <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
 
-          <div>
-            <label className="text-sm text-slate-300 mb-1 block">
-              Usuario
-            </label>
+          {!pidiendo2fa ? (
+            <>
+              <div>
+                <label className="text-sm text-slate-300 mb-1 block">
+                  Usuario
+                </label>
+                <input
+                  value={form.usuario}
+                  onChange={e => setForm({ ...form, usuario: e.target.value })}
+                  onKeyDown={e => e.key === "Enter" && handleLogin()}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="tu usuario"
+                  autoComplete="username"
+                  disabled={cargando}
+                />
+              </div>
 
-            <input
-              value={form.usuario}
-              onChange={e => setForm({ ...form, usuario: e.target.value })}
-              onKeyDown={e => e.key === "Enter" && handleLogin()}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500"
-              placeholder="tu usuario"
-              autoComplete="username"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-slate-300 mb-1 block">
-              Contraseña
-            </label>
-
-            <input
-              type="password"
-              value={form.password}
-              onChange={e => setForm({ ...form, password: e.target.value })}
-              onKeyDown={e => e.key === "Enter" && handleLogin()}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500"
-              placeholder="••••••••"
-              autoComplete="current-password"
-            />
-          </div>
+              <div>
+                <label className="text-sm text-slate-300 mb-1 block">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  value={form.password}
+                  onChange={e => setForm({ ...form, password: e.target.value })}
+                  onKeyDown={e => e.key === "Enter" && handleLogin()}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  disabled={cargando}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+              <label className="text-sm text-slate-300 mb-1 block font-medium">
+                Código de Autenticación (2FA)
+              </label>
+              <input
+                type="text"
+                maxLength={6}
+                value={form.codigo2fa}
+                onChange={e => setForm({ ...form, codigo2fa: e.target.value.replace(/\D/g, '') })}
+                onKeyDown={e => e.key === "Enter" && handleLogin()}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-3 text-white text-center text-xl tracking-[0.5em] focus:outline-none focus:border-blue-500 transition-colors"
+                placeholder="000000"
+                autoComplete="one-time-code"
+                disabled={cargando}
+                autoFocus
+              />
+              <p className="text-xs text-slate-400 mt-2 text-center">
+                Abre tu app autenticadora (ej. Google Authenticator) e ingresa el código.
+              </p>
+            </div>
+          )}
 
           {error && (
             <p className="text-red-400 text-sm text-center">

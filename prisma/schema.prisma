@@ -13,9 +13,11 @@ model Usuario {
   nombre    String
   usuario   String   @unique
   password  String
-  rol       String   @default("investigador")
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
+  rol          String   @default("investigador")
+  activo       Boolean  @default(true)
+  mfaEnabled   Boolean  @default(false)
+  mfaSecret    String?
+  createdAt    DateTime @default(now())
   legajos   Legajo[]
   fiscales      Fiscal[]
   comentarios   ComentarioLegajo[]

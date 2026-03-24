@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API S.A.P - Sistema de Análisis Policial",
+    "version": "1.0.0",
+    "description": "Referencia de la interfaz de programación y endpoints del sistema S.A.P. Esta documentación es de uso interno para la Policía de Investigaciones."
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Servidor Local / Entorno Actual"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "auth"
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Autenticación"],
+        "summary": "Efectuar inicio de Sesión",
+        "description": "Valida credenciales del investigador, implementando Rate Limiting y enrutamiento hacia la validación de 2FA si corresponde. Emite los tokens JWT y Refresh como Cookies httpOnly estandarizadas.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "usuario": { "type": "string", "example": "admin" },
+                  "password": { "type": "string", "example": "pass123" },
+                  "codigo2fa": { "type": "string", "description": "Código de la app autenticadora opcionalmente exigido." }
+                },
+                "required": ["usuario", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Autenticación exitosa." },
+          "400": { "description": "Payload inválido o Rate Limit excedido." },
+          "401": { "description": "Credenciales erróneas o Token MFA expirado." }
+        }
+      }
+    },
+    "/api/ping": {
+      "get": {
+        "tags": ["Sistema"],
+        "summary": "Healthcheck",
+        "description": "Comprobación del balanceador de cargas y estado del servidor de Next.js.",
+        "responses": {
+          "200": { "description": "Muestra estado de vida del servicio." }
+        }
+      }
+    },
+    "/api/ia/callback": {
+      "post": {
+        "tags": ["Inteligencia Artificial"],
+        "summary": "Webhook de Devolución IA",
+        "description": "Endpoint seguro utilizado por el clúster de Inteligencia Artificial para sincronizar vectores y relaciones topológicas en segundo plano.",
+        "security": [],
+        "responses": {
+          "200": { "description": "Actualizado correctamente." },
+          "401": { "description": "Llave secreta de servidor ausente." }
+        }
+      }
+    }
+  }
+}

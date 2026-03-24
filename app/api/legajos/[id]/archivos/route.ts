@@ -83,21 +83,15 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     })
 
     // Enviar al backend IA de forma asíncrona (no bloquea la respuesta al usuario)
-    console.log('🔍 esAnalizable:', esAnalizable, '| tipo:', file.type)
 
     if (esAnalizable) {
       const backendUrl = process.env.IA_BACKEND_URL
       const backendSecret = process.env.IA_BACKEND_SECRET
 
-      console.log('🔍 backendUrl:', backendUrl)
-      console.log('🔍 backendSecret:', backendSecret ? 'OK' : 'FALTA')
-
       const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
       const protocol = request.headers.get('x-forwarded-proto') || 'https'
       const dynamicWebhookUrl = host ? `${protocol}://${host}` : (process.env.SAP_WEBHOOK_URL || 'http://localhost:3000')
       
-      console.log('🔗 URL detectada para el Webhook de retorno:', dynamicWebhookUrl)
-
       if (backendUrl && backendSecret) {
         console.log('📤 Enviando al backend IA...')
         fetch(`${backendUrl}/analizar`, {
@@ -116,10 +110,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
           }),
         })
         .then(async (res) => {
-          console.log('📥 Respuesta backend IA:', res.status)
           if (res.ok) {
             const data = await res.json()
-            console.log('✅ Informe recibido:', data.informe?.substring(0, 100))
             await prisma.archivoLegajo.update({
               where: { id: archivo.id },
               data:  { analisis: data.informe }

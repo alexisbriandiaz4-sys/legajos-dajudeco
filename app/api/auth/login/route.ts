@@ -52,6 +52,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 const LoginSchema = z.object({
   usuario: z.string().min(1, 'Usuario requerido').max(50),
   password: z.string().min(1, 'Contraseña requerida').max(100),
+  codigo2fa: z.string().optional(),
 })
 
 export async function POST(request: Request) {
@@ -87,6 +88,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Usuario o contraseña incorrectos' }, { status: 401 })
     }
 
+    const { codigo2fa } = parsed.data;
+
+    // Validación MFA
+    if (user.mfaEnabled) {
+      if (!codigo2fa) {
+        return NextResponse.json({ require2FA: true, message: 'Ingrese el código de la aplicación autenticadora.' });
+      }
+
+      if (!user.mfaSecret) {
+        return NextResponse.json({ error: 'MFA configurado críticamente mal. Contactar Administrador.' }, { status: 500 });
+      }
+
+      // Usando require en runtime para evadir inestabilidades de Turbopack con paquetes CJS mixtos
+      const { authenticator } = require('otplib');
+      const isValid = authenticator.verify({ token: codigo2fa, secret: user.mfaSecret });
+
+      if (!isValid) {
+        return NextResponse.json({ error: 'Código 2FA incorrecto o expirado' }, { status: 401 });
+      }
+    }
+
     if (redis) {
       try {
         await redis.del(`ratelimit:login:${ip}`);
@@ -108,13 +130,18 @@ export async function POST(request: Request) {
     const refreshToken = c.randomBytes(32).toString('hex')
     const expiresIn7Days = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
-    await prisma.session.create({
-      data: {
-        sessionToken: refreshToken,
-        userId: user.id,
-        expires: expiresIn7Days
-      }
-    })
+    if (redis) {
+      const ttlSecs = 7 * 24 * 60 * 60; // 7 días en segundos
+      await redis.set(`session:${refreshToken}`, user.id, { ex: ttlSecs });
+    } else {
+      await prisma.session.create({
+        data: {
+          sessionToken: refreshToken,
+          userId: user.id,
+          expires: expiresIn7Days
+        }
+      })
+    }
 
     const res = NextResponse.json({ ok: true, nombre: user.nombre, rol: user.rol })
     

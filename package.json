@@ -9,7 +9,17 @@
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -24,13 +34,17 @@
     "lucide-react": "^0.577.0",
     "md-to-pdf": "^5.2.4",
     "next": "16.1.6",
+    "otplib": "^13.4.0",
     "pdf-lib": "^1.17.1",
     "pg": "^8.20.0",
     "prisma": "^5.22.0",
+    "process": "^0.11.10",
+    "qrcode": "^1.5.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-force-graph-2d": "^1.29.1",
     "sonner": "^2.0.7",
+    "swagger-ui-react": "^5.32.1",
     "unzipper": "^0.12.3",
     "xlsx": "^0.18.5",
     "zod": "^4.3.6"
@@ -44,14 +58,19 @@
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
     "@types/unzipper": "^0.10.11",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "husky": "^9.1.7",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
     "typescript": "^5"
