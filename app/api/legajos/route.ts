@@ -24,7 +24,10 @@ export async function GET(request: Request) {
     if (usuario.rol === 'admin') {
       if (filtroUsuarioId) where.usuarioId = filtroUsuarioId
     } else {
-      where.usuarioId = usuario.id
+      where.OR = [
+        { usuarioId: usuario.id },
+        { asignadoA: usuario.id }
+      ]
     }
 
     if (estado) where.estado = estado
@@ -97,6 +100,7 @@ export async function POST(request: Request) {
         estado:        body.estado,
         observaciones: body.observaciones || null,
         usuarioId:     usuario.id,
+        asignadoA:     body.asignadoA || null,
         victimas:     { create: body.victimas },
         dispositivos: { create: body.dispositivos },
       },

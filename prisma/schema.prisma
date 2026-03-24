@@ -46,6 +46,7 @@ model Legajo {
   visto         Boolean  @default(false)
   origenTipo    String?
   origenId      String?
+  asignadoA     String? // Referencia al ID del investigador asignado
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   usuarioId     String

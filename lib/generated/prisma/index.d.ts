@@ -4200,6 +4200,7 @@ export namespace Prisma {
     visto: boolean | null
     origenTipo: string | null
     origenId: string | null
+    asignadoA: string | null
     createdAt: Date | null
     updatedAt: Date | null
     usuarioId: string | null
@@ -4219,6 +4220,7 @@ export namespace Prisma {
     visto: boolean | null
     origenTipo: string | null
     origenId: string | null
+    asignadoA: string | null
     createdAt: Date | null
     updatedAt: Date | null
     usuarioId: string | null
@@ -4238,6 +4240,7 @@ export namespace Prisma {
     visto: number
     origenTipo: number
     origenId: number
+    asignadoA: number
     createdAt: number
     updatedAt: number
     usuarioId: number
@@ -4259,6 +4262,7 @@ export namespace Prisma {
     visto?: true
     origenTipo?: true
     origenId?: true
+    asignadoA?: true
     createdAt?: true
     updatedAt?: true
     usuarioId?: true
@@ -4278,6 +4282,7 @@ export namespace Prisma {
     visto?: true
     origenTipo?: true
     origenId?: true
+    asignadoA?: true
     createdAt?: true
     updatedAt?: true
     usuarioId?: true
@@ -4297,6 +4302,7 @@ export namespace Prisma {
     visto?: true
     origenTipo?: true
     origenId?: true
+    asignadoA?: true
     createdAt?: true
     updatedAt?: true
     usuarioId?: true
@@ -4389,6 +4395,7 @@ export namespace Prisma {
     visto: boolean
     origenTipo: string | null
     origenId: string | null
+    asignadoA: string | null
     createdAt: Date
     updatedAt: Date
     usuarioId: string
@@ -4425,6 +4432,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: boolean
     origenId?: boolean
+    asignadoA?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     usuarioId?: boolean
@@ -4452,6 +4460,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: boolean
     origenId?: boolean
+    asignadoA?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     usuarioId?: boolean
@@ -4472,6 +4481,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: boolean
     origenId?: boolean
+    asignadoA?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     usuarioId?: boolean
@@ -4516,6 +4526,7 @@ export namespace Prisma {
       visto: boolean
       origenTipo: string | null
       origenId: string | null
+      asignadoA: string | null
       createdAt: Date
       updatedAt: Date
       usuarioId: string
@@ -4932,6 +4943,7 @@ export namespace Prisma {
     readonly visto: FieldRef<"Legajo", 'Boolean'>
     readonly origenTipo: FieldRef<"Legajo", 'String'>
     readonly origenId: FieldRef<"Legajo", 'String'>
+    readonly asignadoA: FieldRef<"Legajo", 'String'>
     readonly createdAt: FieldRef<"Legajo", 'DateTime'>
     readonly updatedAt: FieldRef<"Legajo", 'DateTime'>
     readonly usuarioId: FieldRef<"Legajo", 'String'>
@@ -17688,6 +17700,7 @@ export namespace Prisma {
     visto: 'visto',
     origenTipo: 'origenTipo',
     origenId: 'origenId',
+    asignadoA: 'asignadoA',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     usuarioId: 'usuarioId'
@@ -18152,6 +18165,7 @@ export namespace Prisma {
     visto?: BoolFilter<"Legajo"> | boolean
     origenTipo?: StringNullableFilter<"Legajo"> | string | null
     origenId?: StringNullableFilter<"Legajo"> | string | null
+    asignadoA?: StringNullableFilter<"Legajo"> | string | null
     createdAt?: DateTimeFilter<"Legajo"> | Date | string
     updatedAt?: DateTimeFilter<"Legajo"> | Date | string
     usuarioId?: StringFilter<"Legajo"> | string
@@ -18178,6 +18192,7 @@ export namespace Prisma {
     visto?: SortOrder
     origenTipo?: SortOrderInput | SortOrder
     origenId?: SortOrderInput | SortOrder
+    asignadoA?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     usuarioId?: SortOrder
@@ -18207,6 +18222,7 @@ export namespace Prisma {
     visto?: BoolFilter<"Legajo"> | boolean
     origenTipo?: StringNullableFilter<"Legajo"> | string | null
     origenId?: StringNullableFilter<"Legajo"> | string | null
+    asignadoA?: StringNullableFilter<"Legajo"> | string | null
     createdAt?: DateTimeFilter<"Legajo"> | Date | string
     updatedAt?: DateTimeFilter<"Legajo"> | Date | string
     usuarioId?: StringFilter<"Legajo"> | string
@@ -18233,6 +18249,7 @@ export namespace Prisma {
     visto?: SortOrder
     origenTipo?: SortOrderInput | SortOrder
     origenId?: SortOrderInput | SortOrder
+    asignadoA?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     usuarioId?: SortOrder
@@ -18258,6 +18275,7 @@ export namespace Prisma {
     visto?: BoolWithAggregatesFilter<"Legajo"> | boolean
     origenTipo?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
     origenId?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
+    asignadoA?: StringNullableWithAggregatesFilter<"Legajo"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Legajo"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Legajo"> | Date | string
     usuarioId?: StringWithAggregatesFilter<"Legajo"> | string
@@ -19515,6 +19533,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -19540,6 +19559,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -19565,6 +19585,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -19590,6 +19611,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -19615,6 +19637,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -19634,6 +19657,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19652,6 +19676,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -21191,6 +21216,7 @@ export namespace Prisma {
     visto?: SortOrder
     origenTipo?: SortOrder
     origenId?: SortOrder
+    asignadoA?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     usuarioId?: SortOrder
@@ -21210,6 +21236,7 @@ export namespace Prisma {
     visto?: SortOrder
     origenTipo?: SortOrder
     origenId?: SortOrder
+    asignadoA?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     usuarioId?: SortOrder
@@ -21229,6 +21256,7 @@ export namespace Prisma {
     visto?: SortOrder
     origenTipo?: SortOrder
     origenId?: SortOrder
+    asignadoA?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     usuarioId?: SortOrder
@@ -22818,6 +22846,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     victimas?: VictimaCreateNestedManyWithoutLegajoInput
@@ -22842,6 +22871,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     victimas?: VictimaUncheckedCreateNestedManyWithoutLegajoInput
@@ -22985,6 +23015,7 @@ export namespace Prisma {
     visto?: BoolFilter<"Legajo"> | boolean
     origenTipo?: StringNullableFilter<"Legajo"> | string | null
     origenId?: StringNullableFilter<"Legajo"> | string | null
+    asignadoA?: StringNullableFilter<"Legajo"> | string | null
     createdAt?: DateTimeFilter<"Legajo"> | Date | string
     updatedAt?: DateTimeFilter<"Legajo"> | Date | string
     usuarioId?: StringFilter<"Legajo"> | string
@@ -23599,6 +23630,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -23623,6 +23655,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -23663,6 +23696,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -23687,6 +23721,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -23711,6 +23746,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -23735,6 +23771,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -23775,6 +23812,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -23799,6 +23837,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -23823,6 +23862,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -23847,6 +23887,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -23909,6 +23950,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -23933,6 +23975,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -24139,6 +24182,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -24163,6 +24207,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -24234,6 +24279,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -24258,6 +24304,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -24319,6 +24366,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -24343,6 +24391,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -24383,6 +24432,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -24407,6 +24457,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -24431,6 +24482,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuario: UsuarioCreateNestedOneWithoutLegajosInput
@@ -24455,6 +24507,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioId: string
@@ -24495,6 +24548,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuario?: UsuarioUpdateOneRequiredWithoutLegajosNestedInput
@@ -24519,6 +24573,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioId?: StringFieldUpdateOperationsInput | string
@@ -24543,6 +24598,7 @@ export namespace Prisma {
     visto?: boolean
     origenTipo?: string | null
     origenId?: string | null
+    asignadoA?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24591,6 +24647,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     victimas?: VictimaUpdateManyWithoutLegajoNestedInput
@@ -24615,6 +24672,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     victimas?: VictimaUncheckedUpdateManyWithoutLegajoNestedInput
@@ -24639,6 +24697,7 @@ export namespace Prisma {
     visto?: BoolFieldUpdateOperationsInput | boolean
     origenTipo?: NullableStringFieldUpdateOperationsInput | string | null
     origenId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

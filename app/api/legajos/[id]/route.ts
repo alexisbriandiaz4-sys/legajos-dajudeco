@@ -53,6 +53,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
         ...(body.observaciones !== undefined && { observaciones: body.observaciones || null }),
         ...(body.fiscal        !== undefined && { fiscal: body.fiscal || null }),
         ...(body.emailRespuesta !== undefined && { emailRespuesta: body.emailRespuesta || null }),
+        ...(body.asignadoA !== undefined && { asignadoA: body.asignadoA || null }),
+        ...(body.visto !== undefined && { visto: body.visto }),
       }
     })
 

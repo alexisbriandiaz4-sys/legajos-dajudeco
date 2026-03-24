@@ -18,12 +18,8 @@ export async function GET(request: Request) {
 
     const where: any = {}
 
-    // Investigador: ve solo los asignados a él o sin asignar
     if (usuario.rol !== 'admin') {
-      where.OR = [
-        { asignadoA: usuario.id },
-        { asignadoA: null },
-      ]
+      where.asignadoA = usuario.id;
     }
 
     if (ardid) where.ardid = { contains: ardid, mode: 'insensitive' }

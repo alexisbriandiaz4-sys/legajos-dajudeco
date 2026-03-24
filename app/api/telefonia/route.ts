@@ -19,14 +19,7 @@ export async function GET(request: Request) {
 
     const where: any = {}
 
-    // Investigador: ve solo los asignados a él o sin asignar
-    if (usuario.rol !== 'admin') {
-      where.OR = [
-        { asignadoA: usuario.id },
-        { asignadoA: null },
-      ]
-    }
-
+    // Todos pueden ver todo para búsqueda general
     if (anio) where.anio = parseInt(anio)
     if (causa) where.causa = { contains: causa, mode: 'insensitive' }
     if (desde || hasta) {

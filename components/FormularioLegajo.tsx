@@ -59,10 +59,13 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
   const [emailRespuesta, setEmailRespuesta] = useState("");
   const [victimas, setVictimas] = useState<Victima[]>([{ ...VICTIMA_VACIA }]);
   const [dispositivos, setDispositivos] = useState<Dispositivo[]>([{ ...DISPOSITIVO_VACIO }]);
+  const [asignadoA, setAsignadoA] = useState("");
+  const [usuarios, setUsuarios] = useState<any[]>([]);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    fetch("/api/usuarios").then(r => r.json()).then(data => setUsuarios(data.filter((u:any) => u.rol === 'investigador'))).catch(console.error);
     if (legajoEditar) {
       setNumero(legajoEditar.numero);
       setCaratula(legajoEditar.caratula);
@@ -75,6 +78,7 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
       setEmailRespuesta(legajoEditar.emailRespuesta ?? "");
       setVictimas(legajoEditar.victimas.length > 0 ? legajoEditar.victimas : [{ ...VICTIMA_VACIA }]);
       setDispositivos(legajoEditar.dispositivos.length > 0 ? legajoEditar.dispositivos : [{ ...DISPOSITIVO_VACIO }]);
+      setAsignadoA((legajoEditar as any).asignadoA ?? "");
     }
   }, [legajoEditar]);
 
@@ -115,6 +119,7 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
           observaciones: observaciones.trim(),
           fiscal: fiscal.trim(),
           emailRespuesta: emailRespuesta.trim(),
+          asignadoA: asignadoA || null,
           victimas: victimasLimpias,
           dispositivos: dispositivosLimpios,
         }),
@@ -203,6 +208,13 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
               <div className="md:col-span-2">
                 <label style={labelStyle} className="text-xs mb-1 block">Observaciones</label>
                 <textarea value={observaciones} onChange={e => setObservaciones(e.target.value)} style={bgTertiary} className={`${inputClass} resize-none`} rows={3} placeholder="Observaciones adicionales..." />
+              </div>
+              <div className="md:col-span-2">
+                <label style={labelStyle} className="text-xs mb-1 block">Asignar a Investigador</label>
+                <select value={asignadoA} onChange={e => setAsignadoA(e.target.value)} style={bgTertiary} className={inputClass}>
+                  <option value="">Sin asignar (Base General)</option>
+                  {usuarios.map(u => <option key={u.id} value={u.id}>{u.nombre}</option>)}
+                </select>
               </div>
             </div>
           </div>

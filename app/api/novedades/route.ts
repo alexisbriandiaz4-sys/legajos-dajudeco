@@ -12,16 +12,11 @@ export async function GET() {
       return NextResponse.json({ total: 0 })
     }
 
-    const [tel, est] = await Promise.all([
-      prisma.registroTelefonia.count({
-        where: { asignadoA: usuario.id, visto: false },
-      }),
-      prisma.registroEstafa.count({
-        where: { asignadoA: usuario.id, visto: false },
-      }),
-    ])
+    const total = await prisma.legajo.count({
+      where: { asignadoA: usuario.id, visto: false },
+    })
 
-    return NextResponse.json({ total: tel + est, telefonia: tel, estafas: est })
+    return NextResponse.json({ total, telefonia: 0, estafas: 0 })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Error' }, { status: 500 })

@@ -79,10 +79,10 @@ export default function Home() {
   }
 
   const navegacion: { id: Vista; label: string; icono: any; badge?: number }[] = [
-    { id: 'legajos',       label: 'Legajos',       icono: FolderOpen },
+    { id: 'legajos',       label: 'Legajos',       icono: FolderOpen, badge: novedades },
     { id: 'oficios',       label: 'Oficios',        icono: FileText },
     { id: 'alertas',       label: 'Alertas',        icono: Bell },
-    { id: 'telefonia',     label: 'Base General',   icono: Database, badge: novedades },
+    { id: 'telefonia',     label: 'Base General',   icono: Database },
     { id: 'estadisticas',  label: 'Estadísticas',   icono: BarChart3 },
     { id: 'configuracion', label: 'Configuración',  icono: Settings },
     ...(usuario?.rol === 'admin' ? [{ id: 'auditoria' as Vista, label: 'Auditoría', icono: Shield }] : []),

@@ -10,8 +10,10 @@ import { useAuth } from "@/lib/auth-context";
 import { cache, TTL, fetchConCache } from "@/lib/cache";
 import { motion, AnimatePresence } from "framer-motion";
 import { SkeletonLoader } from "./ui/SkeletonLoader";
+import ModalConfirmar from "./ui/ModalConfirmar";
 import ModuloGrafo from "./ModuloGrafo";
 import ModuloLineaTiempo from "./ModuloLineaTiempo";
+import TarjetaLegajo from "./legajos/TarjetaLegajo";
 
 interface Victima { id: string; nombre: string; dni?: string; telefono?: string; email?: string; }
 interface Dispositivo { id: string; tipo: string; marca?: string; modelo?: string; imei?: string; }
@@ -20,6 +22,7 @@ interface Legajo {
   id: string; numero: string; caratula: string; cuij?: string;
   delito: string; fechaHecho: string; estado: string; observaciones?: string;
   fiscal?: string; emailRespuesta?: string;
+  asignadoA?: string; visto?: boolean;
   victimas: Victima[]; dispositivos: Dispositivo[]; oficios: Oficio[];
 }
 interface PaginaResponse {
@@ -326,9 +329,19 @@ export default function ModuloLegajos() {
             }} />
         )}
         {confirmarBorrar && (
-          <ModalConfirmarBorrar legajo={confirmarBorrar} procesando={procesando}
+          <ModalConfirmar
+            titulo="Eliminar legajo"
+            mensaje={
+              <div className="space-y-2">
+                <p>¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{confirmarBorrar.numero}</span>?</p>
+                <p className="text-red-500">Se eliminarán también todas las víctimas, dispositivos y oficios asociados.</p>
+              </div>
+            }
+            textoConfirmar="Eliminar"
+            procesando={procesando}
             onCancelar={() => setConfirmarBorrar(null)}
-            onConfirmar={() => borrarLegajo(confirmarBorrar)} />
+            onConfirmar={() => borrarLegajo(confirmarBorrar)}
+          />
         )}
       </div>
     );
@@ -513,56 +526,28 @@ export default function ModuloLegajos() {
             }
           }}
         >
-          {datos.legajos.map(legajo => (
-            <motion.div 
-              variants={{
-                hidden: { opacity: 0, y: 15 },
-                visible: { opacity: 1, y: 0 }
-              }}
-              key={legajo.id}
-              style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)", opacity: legajo.estado === "Inactivo" ? 0.5 : 1 }}
-              className="rounded-xl glass-panel glass-panel-hover p-4 transition-all group cursor-pointer"
-            >
-              <div className="flex items-start justify-between">
-                <button className="flex-1 min-w-0 text-left outline-none" onClick={() => setLegajoSeleccionado(legajo)}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span style={{ color: "var(--text-primary)" }} className="text-sm font-bold tracking-wide">LEGAJO #{legajo.numero}</span>
-                    <span style={colorEstado(legajo.estado)} className="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border border-current">{legajo.estado}</span>
-                  </div>
-                  <p style={{ color: "var(--text-primary)" }} className="text-sm font-semibold truncate leading-relaxed">{legajo.caratula}</p>
-                  <p style={{ color: "var(--accent)" }} className="text-xs mt-0.5 font-medium">{legajo.delito}</p>
-                  
-                  <div className="flex items-center gap-4 mt-3 flex-wrap">
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
-                      <User size={13} className="opacity-70" /> {legajo.victimas.length} {legajo.victimas.length !== 1 ? "Víctimas" : "Víctima"}
-                    </span>
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
-                      <Smartphone size={13} className="opacity-70" /> {legajo.dispositivos.length} {legajo.dispositivos.length !== 1 ? "Dispositivos" : "Dispositivo"}
-                    </span>
-                    <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
-                      <Calendar size={13} className="opacity-70" /> {new Date(legajo.fechaHecho).toLocaleDateString("es-AR")}
-                    </span>
-                    {legajo.fiscal && (
-                      <span style={{ color: "var(--text-muted)" }} className="text-xs flex items-center gap-1.5 font-medium">
-                        <User size={13} className="opacity-70" /> {legajo.fiscal}
-                      </span>
-                    )}
-                  </div>
-                </button>
-                <div className="flex items-center gap-1.5 ml-2 opacity-50 space-x-1 group-hover:opacity-100 transition-opacity">
-                  {btnAccion(() => setLegajoEditar(legajo), <Pencil size={14} />, "Editar", "var(--text-muted)")}
-                  {btnAccion(
-                    () => cambiarEstado(legajo, legajo.estado === "Inactivo" ? "Activo" : "Inactivo"),
-                    <PowerOff size={14} />,
-                    legajo.estado === "Inactivo" ? "Activar" : "Desactivar",
-                    "var(--text-muted)"
-                  )}
-                  {btnAccion(() => setConfirmarBorrar(legajo), <Trash2 size={14} />, "Eliminar", "var(--text-muted)")}
-                  <ChevronRight size={18} style={{ color: "var(--text-secondary)" }} className="ml-2 group-hover:translate-x-1 group-hover:text-blue-500 transition-all font-bold" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          {datos.legajos.map(legajo => {
+            const esAjeno = esAdmin && legajo.asignadoA && legajo.asignadoA !== usuario?.id;
+            return (
+              <TarjetaLegajo
+                key={legajo.id}
+                legajo={legajo}
+                colorEstado={colorEstado}
+                btnAccion={btnAccion}
+                onSeleccionar={(l) => {
+                  setLegajoSeleccionado(l);
+                  if (!l.visto && l.asignadoA === usuario?.id) {
+                    fetch(`/api/legajos/${l.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ visto: true }) })
+                      .then(() => { l.visto = true; cache.invalidar('/api/novedades'); })
+                      .catch(console.error);
+                  }
+                }}
+                onEditar={esAjeno ? () => toast.error("Administrador: No puedes editar un legajo de la base individual de otro investigador.") : setLegajoEditar}
+                onCambiarEstado={esAjeno ? () => toast.error("Administrador: No puedes alterar legajos en la base de un investigador.") : (l) => cambiarEstado(l, l.estado === "Inactivo" ? "Activo" : "Inactivo")}
+                onBorrar={esAjeno ? () => toast.error("Administrador: No puedes eliminar el legajo de otro investigador.") : setConfirmarBorrar}
+              />
+            )
+          })}
         </motion.div>
       )}
 
@@ -611,42 +596,21 @@ export default function ModuloLegajos() {
           onGuardado={() => { setLegajoEditar(null); toast.success("Legajo actualizado correctamente"); cargarLegajos(page); }} />
       )}
       {confirmarBorrar && (
-        <ModalConfirmarBorrar legajo={confirmarBorrar} procesando={procesando}
-          onCancelar={() => setConfirmarBorrar(null)}
-          onConfirmar={() => borrarLegajo(confirmarBorrar)} />
+          <ModalConfirmar
+            titulo="Eliminar legajo"
+            mensaje={
+              <div className="space-y-2">
+                <p>¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{confirmarBorrar.numero}</span>?</p>
+                <p className="text-red-500">Se eliminarán también todas las víctimas, dispositivos y oficios asociados.</p>
+              </div>
+            }
+            textoConfirmar="Eliminar"
+            procesando={procesando}
+            onCancelar={() => setConfirmarBorrar(null)}
+            onConfirmar={() => borrarLegajo(confirmarBorrar)}
+          />
       )}
     </div>
   );
 }
-
-function ModalConfirmarBorrar({ legajo, procesando, onCancelar, onConfirmar }: {
-  legajo: Legajo; procesando: boolean; onCancelar: () => void; onConfirmar: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.6)" }}>
-      <div style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} className="rounded-xl p-6 max-w-sm w-full space-y-4">
-        <div className="flex items-center gap-3">
-          <div style={{ background: "rgba(239,68,68,0.15)" }} className="p-2 rounded-lg">
-            <AlertTriangle size={20} style={{ color: "var(--danger)" }} />
-          </div>
-          <div>
-            <h3 style={{ color: "var(--text-primary)" }} className="font-semibold">Eliminar legajo</h3>
-            <p style={{ color: "var(--text-muted)" }} className="text-xs">Esta acción no se puede deshacer</p>
-          </div>
-        </div>
-        <p style={{ color: "var(--text-secondary)" }} className="text-sm">
-          ¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{legajo.numero}</span>? Se eliminarán también todas las víctimas, dispositivos y oficios asociados.
-        </p>
-        <div className="flex gap-3">
-          <button onClick={onCancelar}
-            style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}
-            className="flex-1 py-2 rounded-lg text-sm hover:opacity-80 transition">Cancelar</button>
-          <button onClick={onConfirmar} disabled={procesando} style={{ background: "var(--danger)" }}
-            className="flex-1 py-2 rounded-lg text-sm text-white hover:opacity-80 transition disabled:opacity-50">
-            {procesando ? "Eliminando..." : "Eliminar"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+

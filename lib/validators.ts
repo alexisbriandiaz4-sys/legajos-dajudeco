@@ -27,9 +27,11 @@ export const LegajoSchema = z.object({
   fechaHecho:    z.string().min(1, 'La fecha es requerida'),
   estado:        z.enum(['Activo', 'Inactivo', 'Cerrado', 'En seguimiento']).default('Activo'),
   observaciones: z.string().max(2000).optional().or(z.literal('')),
-  fiscal:        z.string().max(200).optional().or(z.literal('')),
-  emailRespuesta:z.string().email('Email inválido').optional().or(z.literal('')),
-  victimas:      z.array(VictimaSchema).default([]),
+  fiscal         : z.string().max(200).optional().or(z.literal('')),
+  emailRespuesta : z.string().email('Email inválido').optional().or(z.literal('')),
+  asignadoA      : z.string().optional().or(z.literal('')),
+  visto          : z.boolean().optional().default(false),
+  victimas       : z.array(VictimaSchema).default([]),
   dispositivos:  z.array(DispositivoSchema).default([]),
 })
 
