@@ -17,11 +17,6 @@ const ThemeContext = createContext<ThemeContextType>({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [tema, setTemaState] = useState<Tema>("dark-blue");
 
-  useEffect(() => {
-    const guardado = localStorage.getItem("tema") as Tema;
-    if (guardado) aplicarTema(guardado);
-  }, []);
-
   function aplicarTema(t: Tema) {
     document.documentElement.classList.remove("theme-dark", "theme-light");
     if (t === "dark") document.documentElement.classList.add("theme-dark");
@@ -29,6 +24,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("tema", t);
     setTemaState(t);
   }
+
+  useEffect(() => {
+    const guardado = localStorage.getItem("tema") as Tema;
+    if (guardado) aplicarTema(guardado);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ tema, setTema: aplicarTema }}>

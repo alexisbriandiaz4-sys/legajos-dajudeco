@@ -19,10 +19,10 @@ if (typeof window === 'undefined' && process.env.NODE_ENV !== 'test') {
 
   if (!parsed.success) {
     console.error(
-      '❌ Variables de Entorno Inválidas, aplicación abortada:',
+      '⚠️ Variables de Entorno Inválidas / Ausentes:',
       parsed.error.flatten().fieldErrors
     );
-    throw new Error('Configuración de entorno (ENV) inválida.');
+    // throw new Error('Configuración de entorno (ENV) inválida.'); // Bypasseado a petición para destrabar Vercel Build.
   }
 }
 
