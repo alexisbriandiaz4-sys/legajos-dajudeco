@@ -3,33 +3,33 @@ import { z } from 'zod'
 // ── Victima ──
 export const VictimaSchema = z.object({
   nombre:   z.string().min(1, 'El nombre es requerido').max(100),
-  dni:      z.string().max(20).optional().or(z.literal('')),
-  telefono: z.string().max(30).optional().or(z.literal('')),
-  email:    z.string().email('Email inválido').optional().or(z.literal('')),
+  dni:      z.string().max(20).nullable().optional().or(z.literal('')),
+  telefono: z.string().max(30).nullable().optional().or(z.literal('')),
+  email:    z.string().email('Email inválido').nullable().optional().or(z.literal('')),
 })
 
 // ── Dispositivo ──
 export const DispositivoSchema = z.object({
   tipo:        z.string().max(50).default('Celular'),
-  marca:       z.string().max(50).optional().or(z.literal('')),
-  modelo:      z.string().max(50).optional().or(z.literal('')),
-  imei:        z.string().max(20).optional().or(z.literal('')),
-  color:       z.string().max(30).optional().or(z.literal('')),
-  numeroLinea: z.string().max(20).optional().or(z.literal('')),
+  marca:       z.string().max(50).nullable().optional().or(z.literal('')),
+  modelo:      z.string().max(50).nullable().optional().or(z.literal('')),
+  imei:        z.string().max(20).nullable().optional().or(z.literal('')),
+  color:       z.string().max(30).nullable().optional().or(z.literal('')),
+  numeroLinea: z.string().max(20).nullable().optional().or(z.literal('')),
 })
 
 // ── Legajo ──
 export const LegajoSchema = z.object({
   numero:        z.string().min(1, 'El número es requerido').max(50),
   caratula:      z.string().min(1, 'La carátula es requerida').max(500),
-  cuij:          z.string().max(50).optional().or(z.literal('')),
+  cuij:          z.string().max(50).nullable().optional().or(z.literal('')),
   delito:        z.string().min(1, 'El delito es requerido').max(200),
   fechaHecho:    z.string().min(1, 'La fecha es requerida'),
   estado:        z.enum(['Activo', 'Inactivo', 'Cerrado', 'En seguimiento']).default('Activo'),
-  observaciones: z.string().max(2000).optional().or(z.literal('')),
-  fiscal         : z.string().max(200).optional().or(z.literal('')),
-  emailRespuesta : z.string().email('Email inválido').optional().or(z.literal('')),
-  asignadoA      : z.string().optional().or(z.literal('')),
+  observaciones: z.string().max(2000).nullable().optional().or(z.literal('')),
+  fiscal         : z.string().max(200).nullable().optional().or(z.literal('')),
+  emailRespuesta : z.string().email('Email inválido').nullable().optional().or(z.literal('')),
+  asignadoA      : z.string().nullable().optional().or(z.literal('')),
   visto          : z.boolean().optional().default(false),
   victimas       : z.array(VictimaSchema).default([]),
   dispositivos:  z.array(DispositivoSchema).default([]),
@@ -41,30 +41,30 @@ export const OficioSchema = z.object({
   operadora:        z.string().min(1, 'La operadora es requerida').max(50),
   tipo:             z.string().min(1, 'El tipo es requerido').max(100),
   urgencia:         z.string().max(50).default('48 horas'),
-  numero:           z.string().max(50).optional().or(z.literal('')),
-  observaciones:    z.string().max(2000).optional().or(z.literal('')),
-  columnas:         z.string().optional().or(z.literal('')),
+  numero:           z.string().max(50).nullable().optional().or(z.literal('')),
+  observaciones:    z.string().max(2000).nullable().optional().or(z.literal('')),
+  columnas:         z.string().nullable().optional().or(z.literal('')),
   tipoConsulta:     z.enum(['imei', 'linea']).default('imei'),
-  numeroLinea:      z.string().max(30).optional().or(z.literal('')),
-  imeiSeleccionado: z.string().max(20).optional().or(z.literal('')),
-  fechaEnvio:       z.string().optional().or(z.literal('')),
+  numeroLinea:      z.string().max(30).nullable().optional().or(z.literal('')),
+  imeiSeleccionado: z.string().max(20).nullable().optional().or(z.literal('')),
+  fechaEnvio:       z.string().nullable().optional().or(z.literal('')),
   estado:           z.enum(['Pendiente', 'Enviado', 'Respondido', 'Vencido', 'Sin respuesta']).optional(),
-  fechaRespuesta:   z.string().optional().or(z.literal('')),
+  fechaRespuesta:   z.string().nullable().optional().or(z.literal('')),
 })
 
 // ── Fiscal ──
 export const FiscalSchema = z.object({
   nombre:          z.string().min(1, 'El nombre es requerido').max(100),
-  cargo:           z.string().max(100).optional().or(z.literal('')),
-  fiscalia:        z.string().max(100).optional().or(z.literal('')),
-  secretario:      z.string().max(100).optional().or(z.literal('')),
-  dniSecretario:   z.string().max(20).optional().or(z.literal('')),
-  dni:             z.string().max(20).optional().or(z.literal('')),
-  email:           z.string().email('Email inválido').optional().or(z.literal('')),
-  emailSecretario: z.string().email('Email inválido').optional().or(z.literal('')),
-  direccion:       z.string().max(200).optional().or(z.literal('')),
-  telefono:        z.string().max(30).optional().or(z.literal('')),
-  telefonoMovil:   z.string().max(30).optional().or(z.literal('')),
+  cargo:           z.string().max(100).nullable().optional().or(z.literal('')),
+  fiscalia:        z.string().max(100).nullable().optional().or(z.literal('')),
+  secretario:      z.string().max(100).nullable().optional().or(z.literal('')),
+  dniSecretario:   z.string().max(20).nullable().optional().or(z.literal('')),
+  dni:             z.string().max(20).nullable().optional().or(z.literal('')),
+  email:           z.string().email('Email inválido').nullable().optional().or(z.literal('')),
+  emailSecretario: z.string().email('Email inválido').nullable().optional().or(z.literal('')),
+  direccion:       z.string().max(200).nullable().optional().or(z.literal('')),
+  telefono:        z.string().max(30).nullable().optional().or(z.literal('')),
+  telefonoMovil:   z.string().max(30).nullable().optional().or(z.literal('')),
 })
 
 // ── Usuario ──
