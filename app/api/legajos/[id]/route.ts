@@ -10,7 +10,7 @@ export async function GET(_: Request, context: { params: Promise<{ id: string }>
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const where = usuario.rol === 'admin' ? { id } : { id, usuarioId: usuario.id }
+    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
     const legajo = await prisma.legajo.findFirst({
       where,
       include: { victimas: true, dispositivos: true, oficios: true }
@@ -37,7 +37,7 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     }
     const body = parsed.data
 
-    const where = usuario.rol === 'admin' ? { id } : { id, usuarioId: usuario.id }
+    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
     const legajoExistente = await prisma.legajo.findFirst({ where })
     if (!legajoExistente) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
 
@@ -98,7 +98,7 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const where = usuario.rol === 'admin' ? { id } : { id, usuarioId: usuario.id }
+    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
     const legajo = await prisma.legajo.findFirst({ where })
     if (!legajo) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
 

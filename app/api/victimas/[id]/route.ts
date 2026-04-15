@@ -10,11 +10,11 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const victima = await prisma.victima.findFirst({
-      where: { id, legajo: { usuarioId } }
+      where: { id, legajo: { OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } }
     })
     if (!victima) return NextResponse.json({ error: 'Víctima no encontrada' }, { status: 404 })
 
-    await prisma.victima.delete({ where: { id } })
+    await prisma.victima.deleteMany({ where: { id, legajo: { OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } } })
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(error)

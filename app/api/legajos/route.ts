@@ -26,7 +26,8 @@ export async function GET(request: Request) {
     } else {
       where.OR = [
         { usuarioId: usuario.id },
-        { asignadoA: usuario.id }
+        { asignadoA: usuario.id },
+        { asignadoA: null }
       ]
     }
 

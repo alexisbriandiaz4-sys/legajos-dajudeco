@@ -10,11 +10,11 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const dispositivo = await prisma.dispositivo.findFirst({
-      where: { id, legajo: { usuarioId } }
+      where: { id, legajo: { OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } }
     })
     if (!dispositivo) return NextResponse.json({ error: 'Dispositivo no encontrado' }, { status: 404 })
 
-    await prisma.dispositivo.delete({ where: { id } })
+    await prisma.dispositivo.deleteMany({ where: { id, legajo: { OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } } })
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(error)

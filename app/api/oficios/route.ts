@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     const estados  = searchParams.get('estados') ?? ''
 
     const esAdmin = usuario.rol === 'admin'
-    const where: any = esAdmin ? {} : { legajo: { usuarioId } }
+    const where: any = esAdmin ? {} : { legajo: { OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } }
     if (estado) where.estado = estado
     if (estados) where.estado = { in: estados.split(',') }
     if (busqueda) {
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     }
     const body = parsed.data
 
-    const legajo = await prisma.legajo.findFirst({ where: { id: body.legajoId, usuarioId } })
+    const legajo = await prisma.legajo.findFirst({ where: { id: body.legajoId, OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } })
     if (!legajo) return NextResponse.json({ error: 'Legajo no encontrado' }, { status: 404 })
 
     const oficio = await prisma.oficio.create({

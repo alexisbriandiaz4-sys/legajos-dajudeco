@@ -8,8 +8,8 @@ export async function GET() {
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const esAdmin = usuario.rol === 'admin'
-    const whereBase = esAdmin ? {} : { usuarioId: usuario.id }
-    const whereOficio = esAdmin ? {} : { legajo: { usuarioId: usuario.id } }
+    const whereBase = esAdmin ? {} : { OR: [ { usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null } ] }
+    const whereOficio = esAdmin ? {} : { legajo: { OR: [ { usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null } ] } }
 
     const [
       totalLegajos,

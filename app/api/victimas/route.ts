@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const parsed = VictimaSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
 
-    const legajo = await prisma.legajo.findFirst({ where: { id: parsed.data.legajoId, usuarioId } })
+    const legajo = await prisma.legajo.findFirst({ where: { id: parsed.data.legajoId, OR: [{ usuarioId }, { asignadoA: usuarioId }, { asignadoA: null }] } })
     if (!legajo) return NextResponse.json({ error: 'Legajo no encontrado' }, { status: 404 })
 
     const victima = await prisma.victima.create({ data: parsed.data })

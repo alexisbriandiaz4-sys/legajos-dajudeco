@@ -11,7 +11,7 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const esAdmin = usuario.rol === 'admin'
-    const where = esAdmin ? { id } : { id, legajo: { usuarioId: usuario.id } }
+    const where = esAdmin ? { id } : { id, legajo: { OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] } }
     const oficio = await prisma.oficio.findFirst({
       where
     })
@@ -54,7 +54,7 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
     const esAdmin = usuario.rol === 'admin'
-    const where = esAdmin ? { id } : { id, legajo: { usuarioId: usuario.id } }
+    const where = esAdmin ? { id } : { id, legajo: { OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] } }
     const oficio = await prisma.oficio.findFirst({
       where
     })

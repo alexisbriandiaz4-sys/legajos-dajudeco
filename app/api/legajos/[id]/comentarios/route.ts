@@ -17,6 +17,13 @@ export async function GET(
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
+    if (usuario.rol !== 'admin') {
+      const legajo = await prisma.legajo.findFirst({
+        where: { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+      })
+      if (!legajo) return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 })
+    }
+
     const comentarios = await prisma.comentarioLegajo.findMany({
       where: { legajoId: id },
       orderBy: { createdAt: 'desc' },
@@ -40,6 +47,13 @@ export async function POST(
     const { id } = await params
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    if (usuario.rol !== 'admin') {
+      const legajo = await prisma.legajo.findFirst({
+        where: { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+      })
+      if (!legajo) return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 })
+    }
 
     const body = await request.json()
     const parsed = ComentarioSchema.safeParse(body)

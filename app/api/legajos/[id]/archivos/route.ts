@@ -13,8 +13,16 @@ cloudinary.config({
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const { getUsuario } = await import('@/lib/server-auth')
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    if (usuario.rol !== 'admin') {
+      const legajo = await prisma.legajo.findFirst({
+        where: { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+      })
+      if (!legajo) return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 })
+    }
 
     const archivos = await prisma.archivoLegajo.findMany({
       where: { legajoId: id },
@@ -30,8 +38,16 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const usuarioId = await getUsuarioId()
-    if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+    const { getUsuario } = await import('@/lib/server-auth')
+    const usuario = await getUsuario()
+    if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
+
+    if (usuario.rol !== 'admin') {
+      const legajo = await prisma.legajo.findFirst({
+        where: { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+      })
+      if (!legajo) return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 })
+    }
 
     const formData = await request.formData()
     const file = formData.get('file') as File
