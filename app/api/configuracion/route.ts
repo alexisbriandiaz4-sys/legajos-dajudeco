@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getUsuarioId } from "@/lib/server-auth";
 import { z } from "zod";
+export const dynamic = 'force-dynamic';
 
 const ConfiguracionSchema = z.object({
   emailRespuesta:    z.string().email('Email inválido').optional().or(z.literal('')),

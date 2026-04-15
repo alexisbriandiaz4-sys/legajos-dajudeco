@@ -69,11 +69,9 @@ export default function TabTelefonia({ esAdmin }: { esAdmin: boolean }) {
               <input type="file" accept=".xlsx,.xls" className="hidden" onChange={handleImportar} disabled={importando} />
             </label>
           )}
-          {esAdmin && (
             <button onClick={() => setMostrarFormulario(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-[var(--text-primary)] rounded-lg text-sm font-medium transition-colors">
               <Plus className="w-4 h-4" /> Nuevo registro
             </button>
-          )}
         </div>
       </div>
 

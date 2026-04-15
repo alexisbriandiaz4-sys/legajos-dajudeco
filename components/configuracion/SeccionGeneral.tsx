@@ -16,7 +16,7 @@ export default function SeccionGeneral() {
   const [guardando, setGuardando] = useState(false);
 
   useEffect(() => {
-    fetch("/api/configuracion")
+    fetch("/api/configuracion", { headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }, cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         setEmail(d.emailRespuesta || "");
