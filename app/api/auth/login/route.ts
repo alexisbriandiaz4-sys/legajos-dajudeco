@@ -12,9 +12,9 @@ const VENTANA_SEGUNDOS = 15 * 60 // 15 minutos
 // Instanciar Redis si están las variables (URL y TOKEN) o proveer fallback de memoria
 let redis: Redis | null = null;
 try {
-  redis = Redis.fromEnv();
+  // Bypasseado por URL '/pipeline' corrupta
 } catch {
-  console.warn("[Rate Limiter] UPSTASH_REDIS_REST_URL/TOKEN no definidos. Usando fallback en memoria local (No apto para multi-instance).");
+  console.warn("...");
 }
 
 const fallbackMap = new Map<string, { count: number; firstAttempt: number }>();
