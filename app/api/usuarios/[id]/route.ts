@@ -9,7 +9,7 @@ import { logger } from '@/lib/logger'
 const UsuarioUpdateSchema = z.object({
   nombre:   z.string().min(1).max(100).optional(),
   usuario:  z.string().min(3).max(50).optional(),
-  password: z.string().min(6).max(100).optional(),
+  password: z.string().min(5).max(100).optional(),
   rol:      z.enum(['admin', 'investigador']).optional(),
   activo:   z.boolean().optional(),
 })

@@ -22,8 +22,8 @@ async function main() {
     process.exit(1)
   }
 
-  if (adminPassword.length < 8) {
-    console.error('❌ Error: La contraseña debe tener al menos 8 caracteres')
+  if (adminPassword.length < 5) {
+    console.error('❌ Error: La contraseña debe tener al menos 5 caracteres')
     process.exit(1)
   }
 

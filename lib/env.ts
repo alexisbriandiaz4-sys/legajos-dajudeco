@@ -26,4 +26,4 @@ if (typeof window === 'undefined' && process.env.NODE_ENV !== 'test') {
   }
 }
 
-export const env = envSchema.parse(process.env);
+export const env = (process.env as unknown) as z.infer<typeof envSchema>;
