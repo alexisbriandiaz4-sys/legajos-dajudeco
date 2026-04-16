@@ -83,6 +83,26 @@ export async function POST(request: Request) {
       }
     })
 
+    // Si se asignó a un investigador, crear también un Legajo en su pestaña
+    if (body.asignadoA) {
+      await prisma.legajo.create({
+        data: {
+          numero:        `TEL-${registro.id.slice(-8).toUpperCase()}`,
+          caratula:      body.causa || body.victima || 'Sin carátula',
+          cuij:          body.cuij       || null,
+          delito:        body.causa      || 'Telefonía',
+          fechaHecho:    body.fechaHecho ? new Date(body.fechaHecho) : new Date(),
+          estado:        body.estadoLegajo || 'Activo',
+          observaciones: body.observaciones || null,
+          fiscal:        body.fiscal     || null,
+          usuarioId:     usuario.id,
+          asignadoA:     body.asignadoA,
+          origenTipo:    'telefonia',
+          origenId:      registro.id,
+        }
+      })
+    }
+
     return NextResponse.json(registro)
   } catch (error) {
     console.error(error)
