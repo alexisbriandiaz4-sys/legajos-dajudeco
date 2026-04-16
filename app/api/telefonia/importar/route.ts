@@ -47,22 +47,38 @@ export async function POST(request: Request) {
     const usuarioId = await getUsuarioId()
     if (!usuarioId) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const body = await request.json()
+    // Parsear el body con timeout para archivos grandes
+    const body = await Promise.race([
+      request.json(),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout al procesar el archivo')), 30000)
+      )
+    ]) as any
+
     const { registros } = body
 
     if (!Array.isArray(registros) || registros.length === 0) {
       return NextResponse.json({ error: 'No hay registros para importar' }, { status: 400 })
     }
 
-    await prisma.registroTelefonia.deleteMany({})
+    // Validar tamaño máximo (máximo 10,000 registros)
+    if (registros.length > 10000) {
+      return NextResponse.json({ 
+        error: 'El archivo es demasiado grande. Máximo permitido: 10,000 registros', 
+        status: 400 
+      })
+    }
 
+    // Eliminar registros existentes con transacción
+    await prisma.$transaction(async (tx) => {
+      await tx.registroTelefonia.deleteMany({})
+    })
+
+    // Procesamiento por lotes optimizado
     const data = registros
-      // Saltar fila 1 (encabezados) y fila 2 (basura con FFFF...)
-      // El frontend ya manda solo las filas de datos, pero filtramos igual por si acaso
       .filter((r: any) => {
         const anio = parseIntVal(r[0])
         const victima = parseString(r[8])
-        // Descartar filas sin año válido o con datos basura (FFFF...)
         if (!anio || anio < 2000 || anio > 2100) return false
         if (victima && victima.startsWith('FFFF')) return false
         return true
@@ -98,17 +114,44 @@ export async function POST(request: Request) {
         procedimientos: parseString(r[27]),
       }))
 
-    const LOTE = 500
+    // Lote más pequeño para mejor rendimiento
+    const LOTE = 200
     let insertados = 0
+    
+    // Procesamiento con transacciones por lote
     for (let i = 0; i < data.length; i += LOTE) {
       const lote = data.slice(i, i + LOTE)
-      await prisma.registroTelefonia.createMany({ data: lote })
+      
+      await prisma.$transaction(async (tx) => {
+        await tx.registroTelefonia.createMany({ 
+          data: lote,
+          skipDuplicates: true // Ignorar duplicados si los hay
+        })
+      })
+      
       insertados += lote.length
+      
+      // Pequeña pausa para no sobrecargar la base de datos
+      if (i + LOTE < data.length) {
+        await new Promise(resolve => setTimeout(resolve, 50))
+      }
     }
 
-    return NextResponse.json({ ok: true, insertados })
+    return NextResponse.json({ 
+      ok: true, 
+      insertados,
+      total: data.length,
+      message: `Se importaron ${insertados} registros exitosamente`
+    })
   } catch (error) {
-    console.error(error)
+    console.error('Error en importación:', error)
+    
+    if (error instanceof Error && error.message === 'Timeout al procesar el archivo') {
+      return NextResponse.json({ 
+        error: 'El archivo es demasiado grande o el servidor tardó demasiado en responder. Intente con un archivo más pequeño.' 
+      }, { status: 408 })
+    }
+    
     const { message, status } = handlePrismaError(error)
     return NextResponse.json({ error: message }, { status })
   }

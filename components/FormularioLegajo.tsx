@@ -90,14 +90,44 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
     setDispositivos(prev => prev.map((d, idx) => idx === i ? { ...d, [campo]: valor } : d));
   }
 
+  function validarVictima(victima: Victima): boolean {
+    if (!victima.nombre.trim()) return false;
+    if (victima.dni && !/^\d{7,8}$/.test(victima.dni.trim())) return false;
+    if (victima.telefono && !/^\d{6,15}$/.test(victima.telefono.replace(/\D/g, ''))) return false;
+    if (victima.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(victima.email.trim())) return false;
+    return true;
+  }
+
+  function validarDispositivo(dispositivo: Dispositivo): boolean {
+    if (!dispositivo.tipo.trim()) return false;
+    if (dispositivo.imei && !/^\d{14,15}$/.test(dispositivo.imei.replace(/\D/g, ''))) return false;
+    if (dispositivo.numeroLinea && !/^\d{6,15}$/.test(dispositivo.numeroLinea.replace(/\D/g, ''))) return false;
+    return true;
+  }
+
   async function guardar() {
     if (!numero.trim()) { setError("El número de legajo es requerido"); return; }
     if (!caratula.trim()) { setError("La carátula es requerida"); return; }
     if (!delito.trim()) { setError("El delito es requerido"); return; }
     if (!fechaHecho) { setError("La fecha del hecho es requerida"); return; }
 
-    const victimasLimpias = victimas.filter(v => v.nombre.trim());
-    const dispositivosLimpios = dispositivos.filter(d => d.marca?.trim() || d.imei?.trim() || d.modelo?.trim());
+    // Validar víctimas
+    const victimasValidas = victimas.filter(v => v.nombre.trim());
+    for (let i = 0; i < victimasValidas.length; i++) {
+      if (!validarVictima(victimasValidas[i])) {
+        setError(`Datos inválidos en víctima ${i + 1}. Verifique DNI (7-8 dígitos), teléfono (6-15 dígitos) y email.`);
+        return;
+      }
+    }
+
+    // Validar dispositivos
+    const dispositivosValidos = dispositivos.filter(d => d.tipo.trim() && (d.marca?.trim() || d.imei?.trim() || d.modelo?.trim()));
+    for (let i = 0; i < dispositivosValidos.length; i++) {
+      if (!validarDispositivo(dispositivosValidos[i])) {
+        setError(`Datos inválidos en dispositivo ${i + 1}. Verifique IMEI (14-15 dígitos) y número de línea (6-15 dígitos).`);
+        return;
+      }
+    }
 
     setGuardando(true);
     setError("");
@@ -120,8 +150,8 @@ export default function FormularioLegajo({ onCerrar, onGuardado, legajoEditar }:
           fiscal: fiscal.trim(),
           emailRespuesta: emailRespuesta.trim(),
           asignadoA: asignadoA || null,
-          victimas: victimasLimpias,
-          dispositivos: dispositivosLimpios,
+          victimas: victimasValidas,
+          dispositivos: dispositivosValidos,
         }),
       });
 

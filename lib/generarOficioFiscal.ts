@@ -233,14 +233,24 @@ async function generarDocumento(oficio: Oficio, operadora: string, emailRespuest
 }
 
 function descargar(blob: Blob, nombre: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = nombre;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  try {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nombre;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    
+    // Esperar a que el navegador inicie la descarga
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  } catch (error) {
+    console.error('Error al descargar el documento:', error);
+    throw new Error('No se pudo descargar el documento');
+  }
 }
 
 function delay(ms: number) {

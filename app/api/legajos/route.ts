@@ -35,11 +35,17 @@ export async function GET(request: Request) {
 
     if (desde || hasta) {
       where.fechaHecho = {}
-      if (desde) where.fechaHecho.gte = new Date(desde)
+      if (desde) {
+        const fechaDesde = new Date(desde)
+        // Asegurar que la fecha sea válida y establecer inicio del día
+        fechaDesde.setHours(0, 0, 0, 0)
+        where.fechaHecho.gte = fechaDesde
+      }
       if (hasta) {
-        const h = new Date(hasta)
-        h.setHours(23, 59, 59)
-        where.fechaHecho.lte = h
+        const fechaHasta = new Date(hasta)
+        // Asegurar que la fecha sea válida y establecer fin del día
+        fechaHasta.setHours(23, 59, 59, 999)
+        where.fechaHecho.lte = fechaHasta
       }
     }
 

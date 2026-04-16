@@ -22,7 +22,14 @@ const WebhookPayloadSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const rawData = await req.json();
+    // Timeout para evitar que la solicitud se quede colgada
+    const rawData = await Promise.race([
+      req.json(),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout en webhook')), 15000)
+      )
+    ]) as any;
+    
     const apiKey = req.headers.get('x-api-key');
     
     // Verificación de Autenticidad Estricta
@@ -32,6 +39,7 @@ export async function POST(req: Request) {
     }
 
     if (!apiKey || apiKey !== process.env.API_SECRET) {
+      console.warn(`[Webhook IA] Intento de acceso no autorizado con API key: ${apiKey?.substring(0, 10)}...`);
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
@@ -46,6 +54,20 @@ export async function POST(req: Request) {
 
     if (!data.ok) {
        console.error(`[Webhook IA] Análisis falló para legajo ${data.legajoId}: ${data.error}`);
+       
+       // Actualizar el estado del archivo a error
+       if (data.archivoId) {
+         await prisma.archivoLegajo.update({
+           where: { id: data.archivoId },
+           data: { 
+             analisis: `ERROR: ${data.error || 'Error desconocido en el análisis'}`,
+             estado: 'ERROR'
+           }
+         }).catch(err => {
+           console.error('[Webhook IA] Error al actualizar estado de error:', err);
+         });
+       }
+       
        return NextResponse.json({ ok: true });
     }
 

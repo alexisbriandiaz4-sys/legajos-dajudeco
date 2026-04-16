@@ -25,10 +25,23 @@ export default function Home() {
   const [vista, setVista] = useState<Vista>('legajos');
   const [novedades, setNovedades] = useState(0);
   const [sidebarAbierto, setSidebarAbierto] = useState(true);
+  const [esMovil, setEsMovil] = useState(false);
 
   useEffect(() => {
     const guardado = localStorage.getItem('sidebar-abierto');
     if (guardado !== null) setSidebarAbierto(guardado === 'true');
+    
+    // Detectar si es móvil
+    const checkMobile = () => {
+      setEsMovil(window.innerWidth < 768);
+      if (window.innerWidth < 768) {
+        setSidebarAbierto(false); // En móvil siempre cerrado por defecto
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const toggleSidebar = () => {
