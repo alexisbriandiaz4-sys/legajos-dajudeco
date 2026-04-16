@@ -20,14 +20,24 @@ export async function GET(request: Request) {
     const where: any = {}
 
     // Si es admin puede ver todos o filtrar por usuarioId específico
-    // Si es investigador solo ve los suyos
+    // Pero NO ve los legajos sin asignar (Base General) en su vista personal
     if (usuario.rol === 'admin') {
-      if (filtroUsuarioId) where.usuarioId = filtroUsuarioId
+      if (filtroUsuarioId) {
+        where.usuarioId = filtroUsuarioId
+      } else {
+        // Admin ve todos los legajos EXCEPTO los no asignados (Base General)
+        // Ve: los que él creó + los que están asignados a otros
+        where.OR = [
+          { usuarioId: usuario.id }, // Legajos que él mismo creó
+          { asignadoA: { not: null } } // Legajos asignados a otros
+        ]
+      }
     } else {
+      // Investigador solo ve sus legajos asignados y los de Base General
       where.OR = [
-        { usuarioId: usuario.id },
-        { asignadoA: usuario.id },
-        { asignadoA: null }
+        { usuarioId: usuario.id }, // Legajos que él creó
+        { asignadoA: usuario.id }, // Legajos asignados a él
+        { asignadoA: null } // Base General
       ]
     }
 
@@ -113,6 +123,20 @@ export async function POST(request: Request) {
       },
       include: { victimas: true, dispositivos: true, oficios: true }
     })
+
+    // Crear notificación si se asignó a un investigador
+    if (body.asignadoA && body.asignadoA !== usuario.id) {
+      await prisma.notificacion.create({
+        data: {
+          usuarioId: body.asignadoA,
+          legajoId: legajo.id,
+          tipo: 'ASIGNACION',
+          mensaje: `Se te ha asignado el legajo ${body.numero} - ${body.caratula}`,
+          leida: false
+        }
+      })
+    }
+
     return NextResponse.json(legajo)
   } catch (error) {
     console.error(error)

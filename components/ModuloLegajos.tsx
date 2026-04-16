@@ -193,6 +193,21 @@ export default function ModuloLegajos() {
 
   // ── Vista detalle ──
   if (legajoSeleccionado) {
+    // Marcar notificaciones como leídas cuando se abre el legajo
+    useEffect(() => {
+      const marcarNotificacionesLeidas = async () => {
+        try {
+          await fetch(`/api/legajos/${legajoSeleccionado.id}/notificaciones`, {
+            method: 'PUT'
+          });
+        } catch (error) {
+          console.error('Error al marcar notificaciones como leídas:', error);
+        }
+      };
+      
+      marcarNotificacionesLeidas();
+    }, [legajoSeleccionado.id]);
+
     return (
       <div>
         <button onClick={() => setLegajoSeleccionado(null)}
@@ -613,4 +628,4 @@ export default function ModuloLegajos() {
     </div>
   );
 }
-
+

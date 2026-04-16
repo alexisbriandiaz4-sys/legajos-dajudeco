@@ -14,10 +14,10 @@ export default function TabGeneral({ esAdmin }: { esAdmin: boolean }) {
     filtroHasta, setFiltroHasta, recargar, limpiarFiltros, hayFiltrosActivos
   } = useFiltrosBase({});
 
-  // TabGeneral may have a different response type since it mixes Telefonia and Estafas
+  // TabGeneral muestra los legajos sin asignar (Base General)
   const {
     datos, cargando, detalle, setDetalle, cargar
-  } = useDatosBase<RegistroGeneral>("/api/general", LIMIT);
+  } = useDatosBase<RegistroGeneral>("/api/legajos?asignadoA=null", LIMIT);
 
   const usuarios = useUsuarios();
 
@@ -81,6 +81,29 @@ export default function TabGeneral({ esAdmin }: { esAdmin: boolean }) {
                       }} className="p-1 hover:bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:text-blue-400 rounded transition-colors" title="Ver detalles">
                         <Eye className="w-4 h-4" />
                       </button>
+                      {esAdmin && (
+                        <button onClick={async () => {
+                          if (confirm(`¿Estás seguro de que quieres eliminar este registro de ${r.tipo === 'telefonia' ? 'telefonía' : 'estafa'}?`)) {
+                            try {
+                              const res = await fetch(`/api/${r.tipo === 'telefonia' ? 'telefonia' : 'estafas'}/${r.id}`, {
+                                method: 'DELETE'
+                              });
+                              if(res.ok) {
+                                toast.success(`Registro eliminado exitosamente`);
+                                recargar();
+                              } else {
+                                toast.error("Error al eliminar registro");
+                              }
+                            } catch(e) {
+                              toast.error("Error de conexión");
+                            }
+                          }
+                        }} className="ml-2 p-1 hover:bg-red-500 text-red-600 rounded transition-colors" title="Eliminar">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 00-2.828 0L7.05 18.628a5 5 0 00-7.078 2.828L5.172 4.828a5 5 0 00-7.078 2.828l-6.928 6.928z" />
+                          </svg>
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
