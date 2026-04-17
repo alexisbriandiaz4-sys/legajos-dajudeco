@@ -19,25 +19,21 @@ export async function GET(request: Request) {
 
     const where: any = {}
 
-    // Si es admin puede ver todos o filtrar por usuarioId específico
-    // Pero NO ve los legajos sin asignar (Base General) en su vista personal
     if (usuario.rol === 'admin') {
       if (filtroUsuarioId) {
+        // Tab de un investigador específico: todos sus legajos
         where.usuarioId = filtroUsuarioId
       } else {
-        // Admin ve todos los legajos EXCEPTO los no asignados (Base General)
-        // Ve: los que él creó + los que están asignados a otros
-        where.OR = [
-          { usuarioId: usuario.id }, // Legajos que él mismo creó
-          { asignadoA: { not: null } } // Legajos asignados a otros
-        ]
+        // Tab "Todos": el Admin ve los legajos que tienen asignación
+        // (los que cargó sin asignar van a Base General, no aparecen acá)
+        where.asignadoA = { not: null }
       }
     } else {
-      // Investigador solo ve sus legajos asignados y los de Base General
+      // Investigador: ve los que él creó, los asignados a él, y los de Base General (sin asignar)
       where.OR = [
-        { usuarioId: usuario.id }, // Legajos que él creó
-        { asignadoA: usuario.id }, // Legajos asignados a él
-        { asignadoA: null } // Base General
+        { usuarioId: usuario.id },
+        { asignadoA: usuario.id },
+        { asignadoA: null },
       ]
     }
 
@@ -47,13 +43,11 @@ export async function GET(request: Request) {
       where.fechaHecho = {}
       if (desde) {
         const fechaDesde = new Date(desde)
-        // Asegurar que la fecha sea válida y establecer inicio del día
         fechaDesde.setHours(0, 0, 0, 0)
         where.fechaHecho.gte = fechaDesde
       }
       if (hasta) {
         const fechaHasta = new Date(hasta)
-        // Asegurar que la fecha sea válida y establecer fin del día
         fechaHasta.setHours(23, 59, 59, 999)
         where.fechaHecho.lte = fechaHasta
       }
@@ -111,28 +105,30 @@ export async function POST(request: Request) {
       data: {
         numero:        body.numero,
         caratula:      body.caratula,
-        cuij:          body.cuij || null,
+        cuij:          body.cuij          || null,
         delito:        body.delito,
         fechaHecho:    new Date(body.fechaHecho),
         estado:        body.estado,
         observaciones: body.observaciones || null,
+        fiscal:        body.fiscal        || null,
+        emailRespuesta: body.emailRespuesta || null,
         usuarioId:     usuario.id,
-        asignadoA:     body.asignadoA || null,
+        asignadoA:     body.asignadoA     || null,
         victimas:     { create: body.victimas },
         dispositivos: { create: body.dispositivos },
       },
       include: { victimas: true, dispositivos: true, oficios: true }
     })
 
-    // Crear notificación si se asignó a un investigador
+    // Notificación al investigador asignado
     if (body.asignadoA && body.asignadoA !== usuario.id) {
       await prisma.notificacion.create({
         data: {
           usuarioId: body.asignadoA,
-          legajoId: legajo.id,
-          tipo: 'ASIGNACION',
-          mensaje: `Se te ha asignado el legajo ${body.numero} - ${body.caratula}`,
-          leida: false
+          legajoId:  legajo.id,
+          tipo:      'ASIGNACION',
+          mensaje:   `Se te ha asignado el legajo ${body.numero} - ${body.caratula}`,
+          leida:     false,
         }
       })
     }
