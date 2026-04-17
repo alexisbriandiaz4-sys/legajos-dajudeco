@@ -1,8 +1,8 @@
 "use client";
-import { ChevronLeft, ChevronRight, Eye, Trash2, X } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Eye, Trash2, X, Pencil } from 'lucide-react';
 import { DATOS_INICIALES, UsuarioSimple, RegistroTelefonia, RegistroEstafa, formatFecha } from './types';
-
-
+import { FormularioEstafa } from './Formularios';
 
 export function TablaConPaginacion({ cargando, datos, page, setPage, columnas, renderFila, onVer, onEliminar, mensajeVacio, esAdmin, usuarios }: {
   cargando: boolean; datos: typeof DATOS_INICIALES; page: number; setPage: (fn: (p: number) => number) => void;
@@ -52,8 +52,8 @@ export function TablaConPaginacion({ cargando, datos, page, setPage, columnas, r
         <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--border)]">
           <span className="text-[var(--text-muted)] text-sm">Página {datos.page} de {datos.totalPages} — {datos.total.toLocaleString()} registros</span>
           <div className="flex gap-2">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] disabled:opacity-40 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-            <button onClick={() => setPage(p => Math.min(datos.totalPages, p + 1))} disabled={page === datos.totalPages} className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] disabled:opacity-40 transition-colors"><ChevronRight className="w-4 h-4" /></button>
+            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] disabled:opacity-40 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+            <button onClick={() => setPage(p => Math.min(datos.totalPages, p + 1))} disabled={page === datos.totalPages} className="p-2 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] disabled:opacity-40 transition-colors"><ChevronRight className="w-4 h-4" /></button>
           </div>
         </div>
       )}
@@ -75,7 +75,7 @@ export function ModalEliminar({ onCancelar, onConfirmar }: { onCancelar: () => v
           </div>
         </div>
         <div className="flex gap-3">
-          <button onClick={onCancelar} className="flex-1 px-4 py-2 bg-[var(--bg-tertiary)] text-[var(--text-primary)] rounded-lg text-sm hover:bg-[var(--bg-tertiary)] transition-colors">Cancelar</button>
+          <button onClick={onCancelar} className="flex-1 px-4 py-2 bg-[var(--bg-tertiary)] text-[var(--text-primary)] rounded-lg text-sm hover:opacity-80 transition-colors">Cancelar</button>
           <button onClick={onConfirmar} className="flex-1 px-4 py-2 bg-red-600 text-[var(--text-primary)] rounded-lg text-sm hover:bg-red-700 transition-colors">Eliminar</button>
         </div>
       </div>
@@ -119,8 +119,32 @@ export function ModalDetalleTelefonia({ registro: r, onCerrar, usuarios }: { reg
   );
 }
 
-export function ModalDetalleEstafa({ registro: r, onCerrar, usuarios }: { registro: RegistroEstafa; onCerrar: () => void; usuarios: UsuarioSimple[] }) {
+export function ModalDetalleEstafa({ registro: r, onCerrar, usuarios, esAdmin, onGuardado }: {
+  registro: RegistroEstafa;
+  onCerrar: () => void;
+  usuarios: UsuarioSimple[];
+  esAdmin?: boolean;
+  onGuardado?: () => void;
+}) {
+  const [editando, setEditando] = useState(false);
   const nombreAsignado = r.asignadoA ? (usuarios.find(u => u.id === r.asignadoA)?.nombre ?? "—") : "Sin asignar";
+
+  if (editando) {
+    return (
+      <FormularioEstafa
+        usuarios={usuarios}
+        registroEditar={r}
+        esEdicion={true}
+        onCerrar={() => setEditando(false)}
+        onGuardado={() => {
+          setEditando(false);
+          onGuardado?.();
+          onCerrar();
+        }}
+      />
+    );
+  }
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
       <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)] w-full max-w-3xl max-h-[90vh] overflow-y-auto">
@@ -129,32 +153,59 @@ export function ModalDetalleEstafa({ registro: r, onCerrar, usuarios }: { regist
             <h2 className="text-lg font-bold text-[var(--text-primary)]">Legajo {r.nroLegajo ?? "—"} — Estafa</h2>
             <p className="text-[var(--text-muted)] text-sm">{r.victima ?? "Sin víctima"} · Asignado a: {nombreAsignado}</p>
           </div>
-          <button onClick={onCerrar} className="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"><X className="w-5 h-5" /></button>
+          <div className="flex items-center gap-2">
+            {esAdmin && (
+              <button onClick={() => setEditando(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm transition-colors">
+                <Pencil className="w-3.5 h-3.5" /> Editar
+              </button>
+            )}
+            <button onClick={onCerrar} className="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"><X className="w-5 h-5" /></button>
+          </div>
         </div>
         <div className="p-6 grid grid-cols-2 gap-4">
           {([
-            ["N° Legajo", r.nroLegajo], ["CUIJ", r.cuij],
-            ["Fecha Hecho", formatFecha(r.fechaHecho)], ["Fecha Denuncia", formatFecha(r.fechaDenuncia)],
-            ["Dependencia", r.dependencia], ["Recibido", r.recibido],
-            ["Víctima", r.victima], ["Teléfono Víctima", r.telefonoVictima],
-            ["Carátula", r.caratula], ["Fiscal", r.fiscal],
-            ["Ardid / Modalidad", r.ardid], ["Seudónimo", r.seudonimo],
-            ["Tel. Referencia", r.telefonoReferencia], ["Nombre Referencia", r.nombreReferencia],
-            ["IMEI", r.imei], ["Otros Teléfonos / IMEI", r.otrosTelefonos],
-            ["Estado Legajo", r.estadoLegajo],
+            ["N° Interno",       r.nroInterno],
+            ["N° Legajo",        r.nroLegajo],
+            ["CUIJ",             r.cuij],
+            ["Fecha Hecho",      formatFecha(r.fechaHecho)],
+            ["Fecha Denuncia",   formatFecha(r.fechaDenuncia)],
+            ["Dependencia",      r.dependencia],
+            ["Recibido",         r.recibido],
+            ["Víctima",          r.victima],
+            ["Teléfono Víctima", r.telefonoVictima],
+            ["Carátula",         r.caratula],
+            ["Fiscal",           r.fiscal],
+            ["Ardid / Modalidad",r.ardid],
+            ["Seudónimo",        r.seudonimo],
+            ["Tel. Referencia",  r.telefonoReferencia],
+            ["Nombre Referencia",r.nombreReferencia],
+            ["IMEI",             r.imei],
+            ["Otros Teléfonos",  r.otrosTelefonos],
+            ["Estado Legajo",    r.estadoLegajo],
           ] as [string, any][]).map(([label, value]) => (
             <div key={label} className="space-y-1">
               <p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">{label}</p>
               <p className="text-[var(--text-primary)] text-sm break-all">{value ? String(value) : "—"}</p>
             </div>
           ))}
-          {r.cbu && <div className="col-span-2 space-y-1"><p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">CBU / Cuenta</p><p className="text-[var(--text-primary)] text-sm break-all">{r.cbu}</p></div>}
+
+          {/* CBU Víctima */}
+          <div className="space-y-1">
+            <p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">CBU / Cuenta Víctima</p>
+            <p className="text-[var(--text-primary)] text-sm break-all font-mono">{r.cbu ?? "—"}</p>
+          </div>
+
+          {/* CBU Imputado */}
+          <div className="space-y-1">
+            <p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">CBU / Cuenta Imputado</p>
+            <p className="text-[var(--text-primary)] text-sm break-all font-mono">{r.otrosCbu ?? "—"}</p>
+          </div>
+
           {r.titulares && <div className="col-span-2 space-y-1"><p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">Titulares</p><p className="text-[var(--text-primary)] text-sm">{r.titulares}</p></div>}
-          {r.otrosCbu && <div className="col-span-2 space-y-1"><p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">Otros CBU</p><p className="text-[var(--text-primary)] text-sm">{r.otrosCbu}</p></div>}
           {r.complementos && <div className="col-span-2 space-y-1"><p className="text-[var(--text-muted)] text-xs uppercase tracking-wide">Complementos</p><p className="text-[var(--text-primary)] text-sm">{r.complementos}</p></div>}
         </div>
       </div>
     </div>
   );
 }
-
