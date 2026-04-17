@@ -10,7 +10,10 @@ export async function GET(_: Request, context: { params: Promise<{ id: string }>
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+    const where = usuario.rol === 'admin'
+      ? { id }
+      : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+
     const legajo = await prisma.legajo.findFirst({
       where,
       include: { victimas: true, dispositivos: true, oficios: true }
@@ -37,9 +40,18 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     }
     const body = parsed.data
 
-    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+    const where = usuario.rol === 'admin'
+      ? { id }
+      : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+
     const legajoExistente = await prisma.legajo.findFirst({ where })
     if (!legajoExistente) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
+
+    // Fix timezone: parsear fecha como local (sin Z) para evitar desfase UTC
+    const parsarFechaLocal = (fechaStr: string): Date => {
+      const [y, m, d] = fechaStr.split('T')[0].split('-').map(Number)
+      return new Date(y, m - 1, d, 12, 0, 0)
+    }
 
     await prisma.legajo.update({
       where: { id },
@@ -48,13 +60,13 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
         ...(body.caratula      !== undefined && { caratula: body.caratula }),
         ...(body.cuij          !== undefined && { cuij: body.cuij || null }),
         ...(body.delito        !== undefined && { delito: body.delito }),
-        ...(body.fechaHecho    !== undefined && { fechaHecho: new Date(body.fechaHecho) }),
+        ...(body.fechaHecho    !== undefined && { fechaHecho: parsarFechaLocal(body.fechaHecho) }),
         ...(body.estado        !== undefined && { estado: body.estado }),
         ...(body.observaciones !== undefined && { observaciones: body.observaciones || null }),
         ...(body.fiscal        !== undefined && { fiscal: body.fiscal || null }),
         ...(body.emailRespuesta !== undefined && { emailRespuesta: body.emailRespuesta || null }),
-        ...(body.asignadoA !== undefined && { asignadoA: body.asignadoA || null }),
-        ...(body.visto !== undefined && { visto: body.visto }),
+        ...(body.asignadoA     !== undefined && { asignadoA: body.asignadoA || null }),
+        ...(body.visto         !== undefined && { visto: body.visto }),
       }
     })
 
@@ -98,11 +110,13 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
     const usuario = await getUsuario()
     if (!usuario) return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
 
-    const where = usuario.rol === 'admin' ? { id } : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+    const where = usuario.rol === 'admin'
+      ? { id }
+      : { id, OR: [{ usuarioId: usuario.id }, { asignadoA: usuario.id }, { asignadoA: null }] }
+
     const legajo = await prisma.legajo.findFirst({ where })
     if (!legajo) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
 
-    // onDelete: Cascade en el schema elimina todos los registros relacionados
     await prisma.legajo.delete({ where: { id } })
     logger.audit('LEGAJO_ELIMINADO', usuario.id, `legajo:${id}`, { numero: legajo.numero })
     return NextResponse.json({ ok: true })
