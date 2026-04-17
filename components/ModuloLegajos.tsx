@@ -55,11 +55,9 @@ export default function ModuloLegajos() {
   const [confirmarBorrar, setConfirmarBorrar] = useState<Legajo | null>(null);
   const [procesando, setProcesando] = useState(false);
 
-  // Estado para pestañas de admin
   const [usuarios, setUsuarios] = useState<UsuarioTab[]>([]);
   const [tabActiva, setTabActiva] = useState<string>("todos");
 
-  // Cargar lista de usuarios si es admin
   useEffect(() => {
     if (!esAdmin) return;
     fetchConCache('/api/usuarios', TTL.USUARIOS)
@@ -97,14 +95,11 @@ export default function ModuloLegajos() {
     return () => clearTimeout(t);
   }, [busquedaInput]);
 
-  // ✅ CORRECCIÓN: useEffect fuera del condicional
   useEffect(() => {
     if (!legajoSeleccionado) return;
     const marcarNotificacionesLeidas = async () => {
       try {
-        await fetch(`/api/legajos/${legajoSeleccionado.id}/notificaciones`, {
-          method: 'PUT'
-        });
+        await fetch(`/api/legajos/${legajoSeleccionado.id}/notificaciones`, { method: 'PUT' });
       } catch (error) {
         console.error('Error al marcar notificaciones como leídas:', error);
       }
@@ -112,7 +107,6 @@ export default function ModuloLegajos() {
     marcarNotificacionesLeidas();
   }, [legajoSeleccionado?.id]);
 
-  // Al cambiar tab resetear página y filtros
   function cambiarTab(tabId: string) {
     setTabActiva(tabId);
     setPage(1);
@@ -201,7 +195,6 @@ export default function ModuloLegajos() {
   const inputStyle = { background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-primary)" };
   const inputClass = "w-full rounded-lg px-3 py-2 text-sm outline-none";
 
-  // Nombre de la tab activa para el título
   const nombreTabActiva = tabActiva === 'todos'
     ? 'Todos los legajos'
     : usuarios.find(u => u.id === tabActiva)?.nombre ?? 'Legajos';
@@ -328,8 +321,8 @@ export default function ModuloLegajos() {
           </div>
 
           <div>
-             <ModuloGrafo legajoId={legajoSeleccionado.id} />
-             <ModuloLineaTiempo legajoId={legajoSeleccionado.id} fechaHechoBase={legajoSeleccionado.fechaHecho} />
+            <ModuloGrafo legajoId={legajoSeleccionado.id} />
+            <ModuloLineaTiempo legajoId={legajoSeleccionado.id} fechaHechoBase={legajoSeleccionado.fechaHecho} />
           </div>
         </div>
 
@@ -337,6 +330,7 @@ export default function ModuloLegajos() {
           <FormularioLegajo legajoEditar={legajoEditar} onCerrar={() => setLegajoEditar(null)}
             onGuardado={async () => {
               setLegajoEditar(null);
+              cache.invalidarPrefijo('/api/legajos');
               toast.success("Legajo actualizado correctamente");
               await cargarLegajos(page);
               const res = await fetch(`/api/legajos/${legajoSeleccionado.id}`);
@@ -529,40 +523,38 @@ export default function ModuloLegajos() {
           )}
         </div>
       ) : (
-        <motion.div 
+        <motion.div
           className="space-y-3 mt-4"
           initial="hidden"
           animate="visible"
           variants={{
             hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: { staggerChildren: 0.05 }
-            }
+            visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
           }}
         >
-          {datos.legajos.map(legajo => {
-            const esAjeno = esAdmin && legajo.asignadoA && legajo.asignadoA !== usuario?.id;
-            return (
-              <TarjetaLegajo
-                key={legajo.id}
-                legajo={legajo}
-                colorEstado={colorEstado}
-                btnAccion={btnAccion}
-                onSeleccionar={(l) => {
-                  setLegajoSeleccionado(l);
-                  if (!l.visto && l.asignadoA === usuario?.id) {
-                    fetch(`/api/legajos/${l.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ visto: true }) })
-                      .then(() => { l.visto = true; cache.invalidar('/api/novedades'); })
-                      .catch(console.error);
-                  }
-                }}
-                onEditar={esAjeno ? () => toast.error("Administrador: No puedes editar un legajo de la base individual de otro investigador.") : setLegajoEditar}
-                onCambiarEstado={esAjeno ? () => toast.error("Administrador: No puedes alterar legajos en la base de un investigador.") : (l) => cambiarEstado(l, l.estado === "Inactivo" ? "Activo" : "Inactivo")}
-                onBorrar={esAjeno ? () => toast.error("Administrador: No puedes eliminar el legajo de otro investigador.") : setConfirmarBorrar}
-              />
-            )
-          })}
+          {datos.legajos.map(legajo => (
+            <TarjetaLegajo
+              key={legajo.id}
+              legajo={legajo}
+              colorEstado={colorEstado}
+              btnAccion={btnAccion}
+              onSeleccionar={(l) => {
+                setLegajoSeleccionado(l);
+                if (!l.visto && l.asignadoA === usuario?.id) {
+                  fetch(`/api/legajos/${l.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ visto: true })
+                  })
+                    .then(() => { l.visto = true; cache.invalidar('/api/novedades'); })
+                    .catch(console.error);
+                }
+              }}
+              onEditar={setLegajoEditar}
+              onCambiarEstado={(l) => cambiarEstado(l, l.estado === "Inactivo" ? "Activo" : "Inactivo")}
+              onBorrar={setConfirmarBorrar}
+            />
+          ))}
         </motion.div>
       )}
 
@@ -603,27 +595,42 @@ export default function ModuloLegajos() {
       )}
 
       {mostrarFormulario && (
-        <FormularioLegajo onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => { setMostrarFormulario(false); toast.success("Legajo creado correctamente"); cargarLegajos(1); setPage(1); }} />
+        <FormularioLegajo
+          onCerrar={() => setMostrarFormulario(false)}
+          onGuardado={() => {
+            setMostrarFormulario(false);
+            cache.invalidarPrefijo('/api/legajos');
+            cache.invalidarPrefijo('/api/estadisticas');
+            toast.success("Legajo creado correctamente");
+            cargarLegajos(1);
+            setPage(1);
+          }}
+        />
       )}
       {legajoEditar && (
         <FormularioLegajo legajoEditar={legajoEditar} onCerrar={() => setLegajoEditar(null)}
-          onGuardado={() => { setLegajoEditar(null); toast.success("Legajo actualizado correctamente"); cargarLegajos(page); }} />
+          onGuardado={() => {
+            setLegajoEditar(null);
+            cache.invalidarPrefijo('/api/legajos');
+            toast.success("Legajo actualizado correctamente");
+            cargarLegajos(page);
+          }}
+        />
       )}
       {confirmarBorrar && (
-          <ModalConfirmar
-            titulo="Eliminar legajo"
-            mensaje={
-              <div className="space-y-2">
-                <p>¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{confirmarBorrar.numero}</span>?</p>
-                <p className="text-red-500">Se eliminarán también todas las víctimas, dispositivos y oficios asociados.</p>
-              </div>
-            }
-            textoConfirmar="Eliminar"
-            procesando={procesando}
-            onCancelar={() => setConfirmarBorrar(null)}
-            onConfirmar={() => borrarLegajo(confirmarBorrar)}
-          />
+        <ModalConfirmar
+          titulo="Eliminar legajo"
+          mensaje={
+            <div className="space-y-2">
+              <p>¿Estás seguro que querés eliminar el legajo <span style={{ color: "var(--text-primary)" }} className="font-semibold">#{confirmarBorrar.numero}</span>?</p>
+              <p className="text-red-500">Se eliminarán también todas las víctimas, dispositivos y oficios asociados.</p>
+            </div>
+          }
+          textoConfirmar="Eliminar"
+          procesando={procesando}
+          onCancelar={() => setConfirmarBorrar(null)}
+          onConfirmar={() => borrarLegajo(confirmarBorrar)}
+        />
       )}
     </div>
   );
