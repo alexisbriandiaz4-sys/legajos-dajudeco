@@ -60,6 +60,7 @@ model Legajo {
   archivos      ArchivoLegajo[]
   comentarios   ComentarioLegajo[]
   conexiones    RedConexiones[]
+  notificaciones Notificacion[]
 
   @@index([usuarioId])
   @@index([estado])
