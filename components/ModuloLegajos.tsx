@@ -97,6 +97,21 @@ export default function ModuloLegajos() {
     return () => clearTimeout(t);
   }, [busquedaInput]);
 
+  // ✅ CORRECCIÓN: useEffect fuera del condicional
+  useEffect(() => {
+    if (!legajoSeleccionado) return;
+    const marcarNotificacionesLeidas = async () => {
+      try {
+        await fetch(`/api/legajos/${legajoSeleccionado.id}/notificaciones`, {
+          method: 'PUT'
+        });
+      } catch (error) {
+        console.error('Error al marcar notificaciones como leídas:', error);
+      }
+    };
+    marcarNotificacionesLeidas();
+  }, [legajoSeleccionado?.id]);
+
   // Al cambiar tab resetear página y filtros
   function cambiarTab(tabId: string) {
     setTabActiva(tabId);
@@ -193,21 +208,6 @@ export default function ModuloLegajos() {
 
   // ── Vista detalle ──
   if (legajoSeleccionado) {
-    // Marcar notificaciones como leídas cuando se abre el legajo
-    useEffect(() => {
-      const marcarNotificacionesLeidas = async () => {
-        try {
-          await fetch(`/api/legajos/${legajoSeleccionado.id}/notificaciones`, {
-            method: 'PUT'
-          });
-        } catch (error) {
-          console.error('Error al marcar notificaciones como leídas:', error);
-        }
-      };
-      
-      marcarNotificacionesLeidas();
-    }, [legajoSeleccionado.id]);
-
     return (
       <div>
         <button onClick={() => setLegajoSeleccionado(null)}
@@ -628,4 +628,3 @@ export default function ModuloLegajos() {
     </div>
   );
 }
-
