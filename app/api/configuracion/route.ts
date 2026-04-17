@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { getUsuarioId } from "@/lib/server-auth";
+import { getUsuario } from "@/lib/server-auth";
 import { z } from "zod";
 export const dynamic = 'force-dynamic';
 
@@ -12,8 +12,9 @@ const ConfiguracionSchema = z.object({
 })
 
 export async function GET() {
-  const usuarioId = await getUsuarioId();
-  if (!usuarioId) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  const usuario = await getUsuario();
+  if (!usuario) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  if (usuario.rol !== 'admin') return NextResponse.json({ error: "Sin permisos" }, { status: 403 });
 
   let config = await prisma.configuracion.findUnique({ where: { id: "global" } });
   if (!config) {
@@ -25,15 +26,9 @@ export async function GET() {
 }
 
 export async function PUT(req: Request) {
-  const usuarioId = await getUsuarioId();
-  if (!usuarioId) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
-
-  // Importar y usar getUsuario para verificar el rol
-  const { getUsuario } = await import("@/lib/server-auth");
   const usuario = await getUsuario();
-  if (!usuario || usuario.rol !== "admin") {
-    return NextResponse.json({ error: "No autorizado. Se requiere rol de administrador." }, { status: 403 });
-  }
+  if (!usuario) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  if (usuario.rol !== 'admin') return NextResponse.json({ error: "No autorizado. Se requiere rol de administrador." }, { status: 403 });
 
   const body = await req.json();
   const parsed = ConfiguracionSchema.safeParse(body);
