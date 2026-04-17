@@ -26,8 +26,8 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
 
   const usuarios = useUsuarios();
 
-  useEffect(() => { 
-    cargar(page, { q: busqueda, ardid: filtrosAdicionales.ardid, desde: filtroDesde, hasta: filtroHasta }); 
+  useEffect(() => {
+    cargar(page, { q: busqueda, ardid: filtrosAdicionales.ardid, desde: filtroDesde, hasta: filtroHasta });
   }, [page, recargar, cargar, busqueda, filtrosAdicionales.ardid, filtroDesde, filtroHasta]);
 
   const handleImportar = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,9 +69,9 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
               <input type="file" accept=".xlsx,.xls" className="hidden" onChange={handleImportar} disabled={importando} />
             </label>
           )}
-            <button onClick={() => setMostrarFormulario(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-[var(--text-primary)] rounded-lg text-sm font-medium transition-colors">
-              <Plus className="w-4 h-4" /> Nuevo registro
-            </button>
+          <button onClick={() => setMostrarFormulario(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-[var(--text-primary)] rounded-lg text-sm font-medium transition-colors">
+            <Plus className="w-4 h-4" /> Nuevo registro
+          </button>
         </div>
       </div>
 
@@ -82,13 +82,14 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
         limpiarFiltros={limpiarFiltros} hayFiltrosActivos={hayFiltrosActivos}
         placeholderBusqueda="Buscar por víctima, CBU, ardid, legajo, IMEI..."
       >
-        <input type="text" placeholder="Filtrar por ardid/modalidad..." value={filtrosAdicionales.ardid} onChange={e => setFiltrosAdicionales(prev => ({...prev, ardid: e.target.value}))}
+        <input type="text" placeholder="Filtrar por ardid/modalidad..." value={filtrosAdicionales.ardid}
+          onChange={e => setFiltrosAdicionales(prev => ({ ...prev, ardid: e.target.value }))}
           className="px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500" />
       </FiltrosBase>
 
       <TablaConPaginacion
         cargando={cargando} datos={datos} page={page} setPage={setPage} esAdmin={esAdmin} usuarios={usuarios}
-        columnas={["N° Legajo", "Recibido", "Víctima", "Carátula", "Ardid / Modalidad", "CBU / Cuenta", "Fecha Hecho", "Fiscal", "Estado", ...(esAdmin ? ["Asignado a"] : [])]}
+        columnas={["N° Legajo", "Recibido", "Víctima", "Carátula", "Ardid / Modalidad", "CBU Víctima", "Fecha Hecho", "Fiscal", "Estado", ...(esAdmin ? ["Asignado a"] : [])]}
         renderFila={(r: RegistroEstafa) => (
           <>
             <td className="px-4 py-3 text-blue-400 font-medium whitespace-nowrap">{r.nroLegajo ?? "—"}</td>
@@ -112,12 +113,30 @@ export default function TabEstafas({ esAdmin }: { esAdmin: boolean }) {
         mensajeVacio="No hay registros. Importá un Excel para comenzar."
       />
 
-      {detalle && <ModalDetalleEstafa registro={detalle} onCerrar={() => setDetalle(null)} usuarios={usuarios} />}
+      {detalle && (
+        <ModalDetalleEstafa
+          registro={detalle}
+          onCerrar={() => setDetalle(null)}
+          usuarios={usuarios}
+          esAdmin={esAdmin}
+          onGuardado={() => {
+            cache.invalidarPrefijo('/api/estafas');
+            setDetalle(null);
+            setRecargar(r => r + 1);
+          }}
+        />
+      )}
       {eliminar && <ModalEliminar onCancelar={() => setEliminar(null)} onConfirmar={() => confirmarEliminar(() => setRecargar(r => r + 1))} />}
       {mostrarFormulario && (
-        <FormularioEstafa usuarios={usuarios}
+        <FormularioEstafa
+          usuarios={usuarios}
           onCerrar={() => setMostrarFormulario(false)}
-          onGuardado={() => { setMostrarFormulario(false); setPage(1); setRecargar(r => r + 1); }}
+          onGuardado={() => {
+            setMostrarFormulario(false);
+            cache.invalidarPrefijo('/api/estafas');
+            setPage(1);
+            setRecargar(r => r + 1);
+          }}
         />
       )}
     </div>
